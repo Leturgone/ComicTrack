@@ -37,7 +37,7 @@ fun BottomNavigationBar(navController: NavHostController){
             icon = Icons.Rounded.AddCircle
         ),
         BottomNavigation(
-            route = "libary" ,
+            route = "library" ,
             icon = Icons.Rounded.Create
         ),
     )

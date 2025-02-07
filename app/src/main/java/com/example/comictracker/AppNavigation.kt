@@ -7,7 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-
+import com.example.comictracker.homeScreen.HomeScreen
 
 
 @Composable
@@ -18,8 +18,8 @@ fun AppNavigation(innerPadding: PaddingValues, navController: NavHostController)
         startDestination = "home",
         modifier = Modifier.padding(innerPadding)
     ) {
-        composable("home"){}
+        composable("home"){ HomeScreen()}
         composable("search"){}
-        composable("libary"){}
+        composable("library"){}
     }
 }
