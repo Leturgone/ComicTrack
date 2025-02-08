@@ -37,6 +37,14 @@ private val LightColorScheme = lightColorScheme(
     */
 )
 
+
+
+private val ComicTrackerDarkTheme = darkColorScheme(
+    primary = LightGreen,
+    background = SoftBlack,
+    secondaryContainer = LightSoftBlack
+)
+
 @Composable
 fun ComicTrackerTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
@@ -63,7 +71,7 @@ fun ComicTrackerTheme(
     }
 
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = ComicTrackerDarkTheme,
         typography = Typography,
         content = content
     )
