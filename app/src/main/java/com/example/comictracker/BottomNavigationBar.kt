@@ -5,9 +5,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.LibraryBooks
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.material.icons.rounded.BarChart
 import androidx.compose.material.icons.rounded.Create
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.LibraryBooks
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -30,15 +34,15 @@ fun BottomNavigationBar(navController: NavHostController){
     val items = listOf(
         BottomNavigation(
             route = "home",
-            icon = Icons.Rounded.BarChart
+            icon = Icons.Rounded.Home
         ),
         BottomNavigation(
             route = "search",
-            icon = Icons.Rounded.AddCircle
+            icon = Icons.Rounded.Search
         ),
         BottomNavigation(
             route = "library" ,
-            icon = Icons.Rounded.Create
+            icon = Icons.AutoMirrored.Rounded.LibraryBooks
         ),
     )
     Column {
