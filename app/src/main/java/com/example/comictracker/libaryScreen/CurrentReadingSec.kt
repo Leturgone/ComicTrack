@@ -51,7 +51,6 @@ fun CurrentReadingSec(){
                                 .width(145.dp)
                                 .height(200.dp))
                     }
-                    Text(text = "Date")
                 }
 
             }
