@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.comictracker.homeScreen.HomeScreen
+import com.example.comictracker.libaryScreen.LibraryScreen
 import com.example.comictracker.searchScreen.SearchScreen
 
 
@@ -21,6 +22,6 @@ fun AppNavigation(innerPadding: PaddingValues, navController: NavHostController)
     ) {
         composable("home"){ HomeScreen()}
         composable("search"){ SearchScreen()}
-        composable("library"){}
+        composable("library"){ LibraryScreen()}
     }
 }
