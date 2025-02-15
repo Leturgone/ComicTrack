@@ -40,7 +40,7 @@ fun RelatedSec(){
                 color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(end = 15.dp, bottom = 12.dp))
         }
         LazyRow{
-            items(8){
+            items(connectedComicList.size){
                 val currentComicCover  = connectedComicList[it]
                 var lastPaddingEnd = 0.dp
                 if (it == connectedComicList.size - 1){
