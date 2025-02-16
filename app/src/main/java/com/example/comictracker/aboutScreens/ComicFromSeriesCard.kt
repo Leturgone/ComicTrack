@@ -70,7 +70,10 @@ fun ComicFromSeriesCard(){
                     modifier = Modifier
                         .padding(start = 80.dp)
                         .clickable {
-                            checkedIconColor = Color.Green
+                            when(checkedIconColor){
+                                Color.Gray -> checkedIconColor = Color.Green
+                                Color.Green -> checkedIconColor = Color.Gray
+                            }
                         })
             }
 
