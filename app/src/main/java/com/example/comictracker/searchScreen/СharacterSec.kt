@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -41,12 +42,12 @@ fun CharacterSec(){
         }
         Column(modifier = Modifier.padding(top = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Row {
-                CharacterCard(imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/c/90/54edf8eb8f102.jpg", characterName = "Character 1")
-                CharacterCard(imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/c/90/54edf8eb8f102.jpg", characterName = "Character 2")
+                CharacterCard(imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/c/90/54edf8eb8f102.jpg", characterName = "Character 1",190,100)
+                CharacterCard(imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/c/90/54edf8eb8f102.jpg", characterName = "Character 2",190,100)
             }
             Row {
-                CharacterCard(imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/c/90/54edf8eb8f102.jpg", characterName = "Character 3")
-                CharacterCard(imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/c/90/54edf8eb8f102.jpg", characterName = "Character 4")
+                CharacterCard(imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/c/90/54edf8eb8f102.jpg", characterName = "Character 3",190,100)
+                CharacterCard(imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/c/90/54edf8eb8f102.jpg", characterName = "Character 4",190,100)
             }
 
         }
@@ -56,17 +57,19 @@ fun CharacterSec(){
 }
 
 @Composable
-fun CharacterCard(imageUrl: String, characterName: String) {
-    Card(modifier = Modifier.padding(8.dp).size(190.dp)) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center, modifier = Modifier.fillMaxSize().padding(8.dp)) {
+fun CharacterCard(imageUrl: String, characterName: String,cardSize :Int,imageSize:Int) {
+    Card(modifier = Modifier.padding(8.dp).size(cardSize.dp)) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center,
+            modifier = Modifier.fillMaxSize().padding(8.dp)) {
             AsyncImage(
                 model = imageUrl,
                 contentDescription = "character",
                 modifier = Modifier
-                    .size(100.dp)
+                    .size(imageSize.dp)
                     .clip(CircleShape)
             )
-            Text(text = characterName)
+            Text(text = characterName,fontSize = 12.sp,
+                textAlign = TextAlign.Center)
         }
     }
 }
