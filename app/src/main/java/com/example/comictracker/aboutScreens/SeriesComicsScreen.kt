@@ -12,6 +12,7 @@ fun SeriesScreen(){
         AboutSeriesSec()
         UsersMarkSec()
         NextComicSec()
+        AboutCreatorsAndCharactersSec()
         RelatedSec()
     }
 
