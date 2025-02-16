@@ -28,13 +28,14 @@ fun AboutSeriesSec(){
         Row(Modifier.fillMaxWidth()){
             Column {
                 Text(
-                    text = "Series tittle",
+                    text = "Spider-Man Noir",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color.White
+                    color = Color.White,
+                    modifier = Modifier.width(200.dp)
                 )
 
-                Spacer(modifier = Modifier.height(8.dp))
+                Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
                     text = "WRITER",
@@ -77,7 +78,7 @@ fun AboutSeriesSec(){
                 .width(127.dp)
                 .height(200.dp)) {
                 Box(modifier = Modifier.fillMaxSize(),contentAlignment = Alignment.TopEnd){
-                    AsyncImage(model = "http://i.annihil.us/u/prod/marvel/i/mg/d/50/679ba099d9ebe.jpg"
+                    AsyncImage(model = "http://i.annihil.us/u/prod/marvel/i/mg/5/e0/5bc77a942112a.jpg"
                         , contentDescription = "  current cover",modifier = Modifier
                             .width(145.dp)
                             .height(200.dp))
@@ -85,5 +86,6 @@ fun AboutSeriesSec(){
 
             }
         }
+        Spacer(modifier = Modifier.height(20.dp))
     }
 }
