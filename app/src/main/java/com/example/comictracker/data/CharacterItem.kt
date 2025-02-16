@@ -1,4 +1,7 @@
 package com.example.comictracker.data
 
-class CharacterItem {
-}
+data class CharacterItem(
+    val name: String,
+    val desc: String,
+    val image:String
+)
