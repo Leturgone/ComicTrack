@@ -1,4 +1,4 @@
-package com.example.comictracker.aboutScreens
+package com.example.comictracker.aboutScreens.aboutSeries
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import com.example.comictracker.aboutScreens.ExpandableText
 
 @Preview
 @Composable

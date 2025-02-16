@@ -1,10 +1,12 @@
-package com.example.comictracker.aboutScreens
+package com.example.comictracker.aboutScreens.aboutSeries
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import com.example.comictracker.aboutScreens.AboutCreatorsAndCharactersSec
+import com.example.comictracker.aboutScreens.UsersMarkSec
 
 @Composable
 fun SeriesScreen(){

@@ -1,4 +1,4 @@
-package com.example.comictracker.aboutScreens
+package com.example.comictracker.aboutScreens.aboutSeries
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
