@@ -1,4 +1,4 @@
-package com.example.comictracker.aboutScreens
+package com.example.comictracker.aboutScreens.aboutComic
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,19 +16,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import com.example.comictracker.aboutScreens.ExpandableText
 
-@Preview
 @Composable
-fun AboutSeriesSec(){
+fun AboutComicSec(){
     Column {
         Row(Modifier.fillMaxWidth()){
             Column {
                 Text(
-                    text = "Spider-Man Noir",
+                    text = "Spider-Man Noir #1",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
@@ -78,7 +77,7 @@ fun AboutSeriesSec(){
                 .width(127.dp)
                 .height(200.dp)) {
                 Box(modifier = Modifier.fillMaxSize(),contentAlignment = Alignment.TopEnd){
-                    AsyncImage(model = "http://i.annihil.us/u/prod/marvel/i/mg/5/e0/5bc77a942112a.jpg"
+                    AsyncImage(model = "http://i.annihil.us/u/prod/marvel/i/mg/b/f0/4bb5fbe177b30.jpg"
                         , contentDescription = "  current cover",modifier = Modifier
                             .width(145.dp)
                             .height(200.dp))

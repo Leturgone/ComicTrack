@@ -1,6 +1,7 @@
-package com.example.comictracker.aboutScreens
+package com.example.comictracker.aboutScreens.aboutComic
 
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -11,6 +12,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -20,24 +25,37 @@ import androidx.compose.ui.unit.sp
 
 @Preview
 @Composable
-fun UsersMarkSec() {
-    Card(Modifier.fillMaxWidth().padding(16.dp),
+fun UsersComicMarkSec(){
+    var mark by remember {
+        mutableStateOf("Mark read")
+    }
+    Card(
+        Modifier
+            .fillMaxWidth()
+            .padding(16.dp),
         colors = CardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
             contentColor = Color.Gray,
             disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
             disabledContentColor = Color.Gray
-        )) {
-        Row(modifier = Modifier.padding(10.dp)) {
+        )
+    ) {
+        Box(Modifier.padding(10.dp).clickable {
+            when(mark){
+                "Mark read" -> mark = "Mark unread"
+                "Mark unread" -> mark = "Mark read"
+            }
+        }) {
             Text(
-                text = "Currently reading ",
+                text = mark,
                 fontSize = 17.sp,
                 color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.Normal,
             )
             Icon(imageVector = Icons.Filled.NavigateNext,
                 contentDescription = "NextIcon",
-                Modifier.padding(start = 200.dp))
+                Modifier.padding(start = 310.dp))
         }
+
     }
 }
