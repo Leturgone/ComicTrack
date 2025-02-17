@@ -1,6 +1,6 @@
-package com.example.comictracker.aboutScreens
+package com.example.comictracker.aboutScreens.aboutSeries
 
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 
 @Preview
 @Composable
-fun UsersMarkSec() {
+fun UsersSeriesMarkSec() {
     Card(Modifier.fillMaxWidth().padding(16.dp),
         colors = CardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
@@ -28,16 +28,16 @@ fun UsersMarkSec() {
             disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
             disabledContentColor = Color.Gray
         )) {
-        Row(modifier = Modifier.padding(10.dp)) {
+        Box(Modifier.padding(10.dp)) {
             Text(
-                text = "Currently reading ",
+                text = "Currently read ",
                 fontSize = 17.sp,
                 color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.Normal,
             )
             Icon(imageVector = Icons.Filled.NavigateNext,
                 contentDescription = "NextIcon",
-                Modifier.padding(start = 200.dp))
+                Modifier.padding(start = 310.dp))
         }
     }
 }
