@@ -1,17 +1,15 @@
 package com.example.comictracker.aboutScreens.aboutCharacter
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import androidx.navigation.NavHostController
 import com.example.comictracker.AllComicScreen
 
 
 @Composable
-fun AboutCharacterScreen(){
+fun CharacterScreen(navController: NavHostController){
     Column() {
         CharacterSec()
-        AllComicScreen()
+        AllComicScreen(navController)
     }
 }

@@ -16,11 +16,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.comictracker.ui.theme.LightGreen
 
-@Preview
 @Composable
-fun MicroSectionsSec(){
+fun MicroSectionsSec(navController: NavHostController){
     val stats = listOf(
         "Comics" to "1000 / 24 this year",
         "Series" to "30 / 10 this year",

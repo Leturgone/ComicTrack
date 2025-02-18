@@ -6,16 +6,16 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
 import com.example.comictracker.aboutScreens.AboutCreatorsAndCharactersSec
-@Preview
 @Composable
-fun SeriesScreen(){
+fun SeriesScreen(navController: NavHostController){
     Column(Modifier.verticalScroll(rememberScrollState())){
         AboutSeriesSec()
         UsersSeriesMarkSec()
-        NextComicSec()
-        AboutCreatorsAndCharactersSec()
-        RelatedSec()
+        NextComicSec(navController)
+        AboutCreatorsAndCharactersSec(navController)
+        RelatedSec(navController)
     }
 
 }

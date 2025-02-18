@@ -17,12 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.comictracker.data.ComicCover
 
 
 @Composable
-fun RelatedSec(){
+fun RelatedSec(navController: NavHostController){
     var connectedComicList: List<ComicCover> = listOf(
         ComicCover("Spider-Man Noir","http://i.annihil.us/u/prod/marvel/i/mg/5/e0/5bc77a942112a.jpg",null),
         ComicCover("Spider-Man Noir","http://i.annihil.us/u/prod/marvel/i/mg/5/e0/5bc77a942112a.jpg",null),

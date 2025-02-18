@@ -11,11 +11,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.example.comictracker.data.ComicCover
-@Preview
-@Composable
 
-fun AllComicSeriesSec(){
+@Composable
+fun AllComicSeriesSec(navController: NavHostController){
     val comics = listOf(
         ComicCover("Spider-Man Noir #1","http://i.annihil.us/u/prod/marvel/i/mg/5/e0/5bc77a942112a.jpg",null),
         ComicCover("Spider-Man Noir #2","http://i.annihil.us/u/prod/marvel/i/mg/5/e0/5bc77a942112a.jpg",null),
@@ -34,7 +34,7 @@ fun AllComicSeriesSec(){
             modifier = Modifier.padding(16.dp))
         LazyColumn{
             items(comics.size){
-                ComicFromSeriesCard()
+                ComicFromSeriesCard(navController)
             }
         }
     }

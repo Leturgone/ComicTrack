@@ -6,12 +6,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 
 @Composable
-fun HomeScreen(){
+fun HomeScreen(navController: NavHostController){
     Column {
-        NewComicListSec()
+        NewComicListSec(navController)
         Spacer(modifier = Modifier.height(12.dp))
-        CurrentReadComicListSec()
+        CurrentReadComicListSec(navController)
     }
 }

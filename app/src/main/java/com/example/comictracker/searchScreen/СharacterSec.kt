@@ -1,5 +1,6 @@
 package com.example.comictracker.searchScreen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -25,11 +26,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 
-@Preview
 @Composable
-fun CharacterSec(){
+fun CharacterSec(navController: NavHostController){
     Column {
         Text(text = "Characters",
             fontSize = 24.sp,
@@ -42,12 +43,24 @@ fun CharacterSec(){
         }
         Column(modifier = Modifier.padding(top = 8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
             Row {
-                CharacterCard(imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/c/90/54edf8eb8f102.jpg", characterName = "Character 1",190,100)
-                CharacterCard(imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/c/90/54edf8eb8f102.jpg", characterName = "Character 2",190,100)
+                CharacterCard(imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/c/90/54edf8eb8f102.jpg",
+                    characterName = "Character 1",190,100){
+                    navController.navigate("character")
+                }
+                CharacterCard(imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/c/90/54edf8eb8f102.jpg",
+                    characterName = "Character 2",190,100){
+                    navController.navigate("character")
+                }
             }
             Row {
-                CharacterCard(imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/c/90/54edf8eb8f102.jpg", characterName = "Character 3",190,100)
-                CharacterCard(imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/c/90/54edf8eb8f102.jpg", characterName = "Character 4",190,100)
+                CharacterCard(imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/c/90/54edf8eb8f102.jpg",
+                    characterName = "Character 3",190,100){
+                    navController.navigate("character")
+                }
+                CharacterCard(imageUrl = "http://i.annihil.us/u/prod/marvel/i/mg/c/90/54edf8eb8f102.jpg",
+                    characterName = "Character 4",190,100){
+                    navController.navigate("character")
+                }
             }
 
         }
@@ -57,8 +70,8 @@ fun CharacterSec(){
 }
 
 @Composable
-fun CharacterCard(imageUrl: String, characterName: String,cardSize :Int,imageSize:Int) {
-    Card(modifier = Modifier.padding(8.dp).size(cardSize.dp)) {
+fun CharacterCard(imageUrl: String, characterName: String,cardSize :Int,imageSize:Int, clickFun:() -> Unit) {
+    Card(modifier = Modifier.padding(8.dp).size(cardSize.dp).clickable(onClick = clickFun)) {
         Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxSize().padding(8.dp)) {
             AsyncImage(

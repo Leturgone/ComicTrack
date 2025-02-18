@@ -7,8 +7,13 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.comictracker.aboutScreens.aboutCharacter.CharacterScreen
+import com.example.comictracker.aboutScreens.aboutComic.ComicScreen
+import com.example.comictracker.aboutScreens.aboutSeries.AllComicSeriesSec
+import com.example.comictracker.aboutScreens.aboutSeries.SeriesScreen
 import com.example.comictracker.homeScreen.HomeScreen
 import com.example.comictracker.libaryScreen.LibraryScreen
+import com.example.comictracker.searchScreen.SearchResultScreen
 import com.example.comictracker.searchScreen.SearchScreen
 
 
@@ -20,8 +25,15 @@ fun AppNavigation(innerPadding: PaddingValues, navController: NavHostController)
         startDestination = "home",
         modifier = Modifier.padding(innerPadding)
     ) {
-        composable("home"){ HomeScreen()}
-        composable("search"){ SearchScreen()}
-        composable("library"){ LibraryScreen()}
+        composable("home"){ HomeScreen(navController)}
+        composable("search"){ SearchScreen(navController)}
+        composable("library"){ LibraryScreen(navController)}
+        composable("search_result") { SearchResultScreen() }
+
+        composable("comic") { ComicScreen(navController)}
+        composable("series") { SeriesScreen(navController)  }
+        composable("character") { CharacterScreen(navController) }
+        composable("comics_from_series"){ AllComicSeriesSec(navController = navController)}
+        composable("all_cs") { AllComicScreen(navController = navController) }
     }
 }

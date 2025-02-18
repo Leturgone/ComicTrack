@@ -1,5 +1,6 @@
 package com.example.comictracker.libaryScreen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,11 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.comictracker.data.ComicCover
 
 @Composable
-fun CurrentReadingSec(){
+fun CurrentReadingSec(navController: NavHostController){
     var currentReadingComicList: List<ComicCover> = listOf()
 
     Column {
@@ -42,7 +44,10 @@ fun CurrentReadingSec(){
 //                    lastPaddingEnd = 16.dp
 //                }
                 Column(modifier = Modifier
-                    .padding(start = 16.dp, end = lastPaddingEnd)) {
+                    .padding(start = 16.dp, end = lastPaddingEnd).clickable {
+                        navController.popBackStack()
+                        navController.navigate("series")
+                    }) {
                     Card(modifier = Modifier
                         .width(127.dp)
                         .height(200.dp)) {

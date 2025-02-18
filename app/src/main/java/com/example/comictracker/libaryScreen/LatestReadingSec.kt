@@ -16,11 +16,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.comictracker.data.ComicCover
 
 @Composable
-fun LatestReadingSec(){
+fun LatestReadingSec(navController: NavHostController){
     var latestReadingComicList: List<ComicCover> = listOf()
 
     Column {

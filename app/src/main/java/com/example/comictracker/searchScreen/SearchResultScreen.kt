@@ -40,7 +40,6 @@ fun SearchResultScreen(){
         
         LazyColumn{
             items(searchRes.size){
-
                 val comic = searchRes[it]
                 ComicCard(comic)
 

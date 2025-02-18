@@ -13,10 +13,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 
-@Preview
 @Composable
-fun LibraryScreen(){
+fun LibraryScreen(navController: NavHostController){
     Column {
         Text(text = "My Library",
             fontSize = 24.sp,
@@ -24,10 +24,10 @@ fun LibraryScreen(){
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(16.dp))
         Column(Modifier.verticalScroll(rememberScrollState())) {
-            MicroSectionsSec()
-            FavoriteSec()
-            CurrentReadingSec()
-            LatestReadingSec()
+            MicroSectionsSec(navController)
+            FavoriteSec(navController)
+            CurrentReadingSec(navController)
+            LatestReadingSec(navController)
             Spacer(modifier = Modifier.padding(bottom = 40.dp))
         }
 

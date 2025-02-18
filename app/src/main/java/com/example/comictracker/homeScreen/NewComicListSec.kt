@@ -17,13 +17,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.comictracker.data.ComicCover
 
 
-@Preview
+
 @Composable
-fun NewComicListSec(){
+fun NewComicListSec(navController: NavHostController){
     var newComicList: List<ComicCover> = listOf()
 
     Column {
