@@ -1,5 +1,6 @@
 package com.example.comictracker.searchScreen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -16,12 +17,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.comictracker.data.ComicCover
 
 
 @Composable
-fun DiscoverSec(){
+fun DiscoverSec(navController: NavHostController){
     var discoverComicList: List<ComicCover> = listOf()
 
     Column {
@@ -33,7 +35,8 @@ fun DiscoverSec(){
 
         Box(modifier = Modifier.fillMaxWidth(),contentAlignment = Alignment.TopEnd){
             Text(text = "See all",
-                color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(end = 15.dp, bottom = 12.dp))
+                color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(end = 15.dp, bottom = 12.dp)
+                    .clickable { navController.navigate("all_cs") })
         }
         LazyRow{
             items(8){
@@ -43,7 +46,8 @@ fun DiscoverSec(){
 //                    lastPaddingEnd = 16.dp
 //                }
                 Column(modifier = Modifier
-                    .padding(start = 16.dp, end = lastPaddingEnd)) {
+                    .padding(start = 16.dp, end = lastPaddingEnd)
+                    .clickable {navController.navigate("series")  }) {
                     Card(modifier = Modifier
                         .width(127.dp)
                         .height(200.dp)) {
