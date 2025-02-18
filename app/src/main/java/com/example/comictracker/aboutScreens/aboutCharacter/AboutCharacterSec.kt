@@ -10,7 +10,7 @@ import com.example.comictracker.AllComicScreen
 
 @Composable
 fun AboutCharacterScreen(){
-    Column(Modifier.verticalScroll(rememberScrollState())) {
+    Column() {
         CharacterSec()
         AllComicScreen()
     }
