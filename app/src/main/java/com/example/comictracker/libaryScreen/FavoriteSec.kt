@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
+import com.example.comictracker.SeriesListCard
 import com.example.comictracker.data.ComicCover
 
 @Composable
@@ -35,22 +36,14 @@ fun FavoriteSec(navController: NavHostController){
         LazyRow{
             items(8){
                 //val favoriteComicCover  = currentReadingComicList[it]
-                var lastPaddingEnd = 0.dp
+                var lastPaddingEnd = 0
 //                if (it == currentReadingComicList.size - 1){
 //                    lastPaddingEnd = 16.dp
 //                }
-                Column(modifier = Modifier
-                    .padding(start = 16.dp, end = lastPaddingEnd).clickable {
-                        navController.navigate("")
-                    }) {
-                    Card(modifier = Modifier
-                        .width(127.dp)
-                        .height(200.dp)) {
-                        AsyncImage(model = "http://i.annihil.us/u/prod/marvel/i/mg/9/c0/59dfdd3078b52.jpg"
-                            , contentDescription = "  current cover",modifier = Modifier
-                                .width(145.dp)
-                                .height(200.dp))
-                    }
+                SeriesListCard(image = "http://i.annihil.us/u/prod/marvel/i/mg/9/c0/59dfdd3078b52.jpg",
+                    lastPaddingEnd =lastPaddingEnd ) {
+                    navController.navigate("series")
+
                 }
 
             }
