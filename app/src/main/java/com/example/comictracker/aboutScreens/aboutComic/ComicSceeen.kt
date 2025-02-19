@@ -11,7 +11,7 @@ import com.example.comictracker.aboutScreens.AboutCreatorsAndCharactersSec
 @Composable
 fun  ComicScreen(navController: NavHostController){
     Column(Modifier.verticalScroll(rememberScrollState())) {
-        AboutComicSec()
+        AboutComicSec(navController)
         UsersComicMarkSec()
         AboutCreatorsAndCharactersSec(navController)
     }
