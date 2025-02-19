@@ -11,11 +11,11 @@ import androidx.navigation.NavHostController
 @Composable
 fun SearchScreen(navController: NavHostController){
     Column {
-        SearchSec()
+        SearchSec(navController)
         Column(Modifier.verticalScroll(rememberScrollState())) {
-            MayLikeSec()
-            DiscoverSec()
-            CharacterSec()
+            MayLikeSec(navController)
+            DiscoverSec(navController)
+            CharacterSec(navController)
         }
     }
 
