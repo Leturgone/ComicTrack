@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
+import com.example.comictracker.SeriesListCard
 import com.example.comictracker.data.ComicCover
 
 @Composable
@@ -34,30 +35,21 @@ fun MayLikeSec(navController: NavHostController){
 
         Box(modifier = Modifier.fillMaxWidth(),contentAlignment = Alignment.TopEnd){
             Text(text = "See all",
-                color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(end = 15.dp, bottom = 12.dp)
-                    .clickable {navController.navigate("all_cs")})
+                color = MaterialTheme.colorScheme.primary, modifier = Modifier
+                    .padding(end = 15.dp, bottom = 12.dp)
+                    .clickable { navController.navigate("all_cs") })
         }
         LazyRow{
             items(8){
                 //val newComicCover  = mayLikeComicList[it]
-                var lastPaddingEnd = 0.dp
+                var lastPaddingEnd = 0
 //                if (it == mayLikeComicList.size - 1){
 //                    lastPaddingEnd = 16.dp
 //                }
-                Column(modifier = Modifier
-                    .padding(start = 16.dp, end = lastPaddingEnd)
-                    .clickable { navController.navigate("series") }) {
-                    Card(modifier = Modifier
-                        .width(127.dp)
-                        .height(200.dp)) {
-                        AsyncImage(model = "http://i.annihil.us/u/prod/marvel/i/mg/9/c0/59dfdd3078b52.jpg"
-                            , contentDescription = "  current cover",modifier = Modifier
-                                .width(145.dp)
-                                .height(200.dp))
-                    }
-                    Text(text = "Date")
+                SeriesListCard(image ="http://i.annihil.us/u/prod/marvel/i/mg/9/c0/59dfdd3078b52.jpg" ,
+                    lastPaddingEnd = lastPaddingEnd,date = "Date") {
+                    navController.navigate("series")
                 }
-
             }
         }
     }
