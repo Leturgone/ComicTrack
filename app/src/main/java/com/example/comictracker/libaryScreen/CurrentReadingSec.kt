@@ -4,11 +4,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,8 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import coil3.compose.AsyncImage
-import com.example.comictracker.SeriesListCard
+import com.example.comictracker.SeriesComicListCard
 import com.example.comictracker.data.ComicCover
 
 @Composable
@@ -47,7 +43,7 @@ fun CurrentReadingSec(navController: NavHostController){
 //                if (it == currentReadingComicList.size - 1){
 //                    lastPaddingEnd = 16.dp
 //                }
-                SeriesListCard(image = "http://i.annihil.us/u/prod/marvel/i/mg/9/c0/59dfdd3078b52.jpg",
+                SeriesComicListCard(image = "http://i.annihil.us/u/prod/marvel/i/mg/9/c0/59dfdd3078b52.jpg",
                     lastPaddingEnd =lastPaddingEnd ) {
                     navController.navigate("series")
 
