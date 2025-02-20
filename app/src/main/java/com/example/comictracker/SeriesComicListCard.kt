@@ -14,14 +14,15 @@ import coil3.compose.AsyncImage
 
 
 @Composable
-fun SeriesComicListCard(image: String, lastPaddingEnd:Int, date:String? = null, clickFun:() -> Unit){
+fun SeriesComicListCard(title: String,
+    image: String, lastPaddingEnd:Int, date:String? = null, clickFun:() -> Unit){
     Column(modifier = Modifier
         .padding(start = 16.dp, end = lastPaddingEnd.dp).clickable(onClick = clickFun)) {
         Card(modifier = Modifier
             .width(127.dp)
             .height(200.dp)) {
             AsyncImage(model = image
-                , contentDescription = "  current cover",modifier = Modifier
+                , contentDescription = "${title}  current cover",modifier = Modifier
                     .width(145.dp)
                     .height(200.dp))
         }

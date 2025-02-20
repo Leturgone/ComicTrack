@@ -42,7 +42,7 @@ import com.example.comictracker.data.ComicCover
 //                if (it == currentComicList.size - 1){
 //                    lastPaddingEnd = 16.dp
 //                }
-                 SeriesComicListCard(image = "http://i.annihil.us/u/prod/marvel/i/mg/d/50/679ba099d9ebe.jpg",
+                 SeriesComicListCard(title = "title", image = "http://i.annihil.us/u/prod/marvel/i/mg/d/50/679ba099d9ebe.jpg",
                      lastPaddingEnd = lastPaddingEnd) {
                      navController.navigate("comic")
                  }

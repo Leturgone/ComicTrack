@@ -45,7 +45,7 @@ fun NewComicListSec(navController: NavHostController){
 //                if (it == newComicList.size - 1){
 //                    lastPaddingEnd = 16.dp
 //                }
-                SeriesComicListCard(
+                SeriesComicListCard(title = "comic title",
                     image = "http://i.annihil.us/u/prod/marvel/i/mg/a/70/673f17fc798fa.jpg",
                     lastPaddingEnd =lastPaddingEnd,date = "Date" ) {
                     navController.navigate("comic")
