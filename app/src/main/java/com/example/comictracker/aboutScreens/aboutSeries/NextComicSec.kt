@@ -28,7 +28,7 @@ fun NextComicSec(navController: NavHostController){
         Box(modifier = Modifier.fillMaxWidth(),contentAlignment = Alignment.TopEnd){
             Text(text = "See all",
                 color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(end = 15.dp, bottom = 12.dp)
-                    .clickable { navController.navigate("")})
+                    .clickable { navController.navigate("comics_from_series")})
         }
         ComicFromSeriesCard(navController)
     }
