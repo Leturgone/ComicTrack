@@ -68,7 +68,7 @@ fun ComicFromSeriesCard(navController: NavHostController){
                     contentDescription = "ReadIcon",
                     tint = checkedIconColor,
                     modifier = Modifier
-                        .padding(start = 80.dp)
+                        .padding(start = 40.dp)
                         .clickable {
                             when(checkedIconColor){
                                 Color.Gray -> checkedIconColor = Color.Green
