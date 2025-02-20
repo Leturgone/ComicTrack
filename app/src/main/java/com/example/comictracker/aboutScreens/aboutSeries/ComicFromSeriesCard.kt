@@ -25,16 +25,16 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 
-@Preview
 @Composable
-fun ComicFromSeriesCard(){
+fun ComicFromSeriesCard(navController: NavHostController){
     var checkedIconColor by remember { mutableStateOf(Color.Gray) }
     Card(
         Modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(16.dp).clickable { navController.navigate("comic") },
         colors = CardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
             contentColor = Color.Gray,
@@ -68,7 +68,7 @@ fun ComicFromSeriesCard(){
                     contentDescription = "ReadIcon",
                     tint = checkedIconColor,
                     modifier = Modifier
-                        .padding(start = 80.dp)
+                        .padding(start = 40.dp)
                         .clickable {
                             when(checkedIconColor){
                                 Color.Gray -> checkedIconColor = Color.Green

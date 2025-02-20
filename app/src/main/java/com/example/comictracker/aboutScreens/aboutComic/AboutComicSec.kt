@@ -1,5 +1,6 @@
 package com.example.comictracker.aboutScreens.aboutComic
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -18,11 +19,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.comictracker.aboutScreens.ExpandableText
 
 @Composable
-fun AboutComicSec(){
+fun AboutComicSec(navController: NavHostController){
     Column {
         Row(Modifier.fillMaxWidth()){
             Column {
@@ -34,6 +36,21 @@ fun AboutComicSec(){
                     modifier = Modifier.width(200.dp)
                 )
 
+
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    text = "SERIES",
+                    fontSize = 12.sp,
+                    color = Color.Gray
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Spider-Man Noir",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.White,
+                    modifier = Modifier.width(200.dp).clickable { navController.navigate("series") }
+                )
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(

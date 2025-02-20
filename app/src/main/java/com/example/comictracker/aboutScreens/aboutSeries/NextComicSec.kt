@@ -1,5 +1,6 @@
 package com.example.comictracker.aboutScreens.aboutSeries
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,10 +14,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 
-@Preview
 @Composable
-fun NextComicSec(){
+fun NextComicSec(navController: NavHostController){
     Column {
         Text(text = "Continue reading",
             fontSize = 24.sp,
@@ -26,9 +27,10 @@ fun NextComicSec(){
 
         Box(modifier = Modifier.fillMaxWidth(),contentAlignment = Alignment.TopEnd){
             Text(text = "See all",
-                color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(end = 15.dp, bottom = 12.dp))
+                color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(end = 15.dp, bottom = 12.dp)
+                    .clickable { navController.navigate("comics_from_series")})
         }
-        ComicFromSeriesCard()
+        ComicFromSeriesCard(navController)
     }
 
 }

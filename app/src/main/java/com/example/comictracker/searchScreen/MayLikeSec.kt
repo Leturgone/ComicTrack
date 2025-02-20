@@ -1,13 +1,11 @@
 package com.example.comictracker.searchScreen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,11 +14,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil3.compose.AsyncImage
+import androidx.navigation.NavHostController
+import com.example.comictracker.SeriesComicListCard
 import com.example.comictracker.data.ComicCover
 
 @Composable
-fun MayLikeSec(){
+fun MayLikeSec(navController: NavHostController){
     var mayLikeComicList: List<ComicCover> = listOf()
 
     Column {
@@ -32,28 +31,23 @@ fun MayLikeSec(){
 
         Box(modifier = Modifier.fillMaxWidth(),contentAlignment = Alignment.TopEnd){
             Text(text = "See all",
-                color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(end = 15.dp, bottom = 12.dp))
+                color = MaterialTheme.colorScheme.primary, modifier = Modifier
+                    .padding(end = 15.dp, bottom = 12.dp)
+                    .clickable { navController.navigate("all_cs") })
         }
         LazyRow{
             items(8){
                 //val newComicCover  = mayLikeComicList[it]
-                var lastPaddingEnd = 0.dp
+                var lastPaddingEnd = 0
 //                if (it == mayLikeComicList.size - 1){
 //                    lastPaddingEnd = 16.dp
 //                }
-                Column(modifier = Modifier
-                    .padding(start = 16.dp, end = lastPaddingEnd)) {
-                    Card(modifier = Modifier
-                        .width(127.dp)
-                        .height(200.dp)) {
-                        AsyncImage(model = "http://i.annihil.us/u/prod/marvel/i/mg/9/c0/59dfdd3078b52.jpg"
-                            , contentDescription = "  current cover",modifier = Modifier
-                                .width(145.dp)
-                                .height(200.dp))
-                    }
-                    Text(text = "Date")
+                SeriesComicListCard(
+                    title = "comic title",
+                    image ="http://i.annihil.us/u/prod/marvel/i/mg/9/c0/59dfdd3078b52.jpg" ,
+                    lastPaddingEnd = lastPaddingEnd,date = "Date") {
+                    navController.navigate("series")
                 }
-
             }
         }
     }

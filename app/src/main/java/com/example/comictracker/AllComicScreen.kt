@@ -1,5 +1,6 @@
 package com.example.comictracker
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.aspectRatio
@@ -18,12 +19,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.comictracker.data.ComicCover
 
-@Preview
 @Composable
-fun AllComicScreen(){
+fun AllComicScreen(navController: NavHostController){
     val comics = listOf(
         ComicCover("Spider -Man","http://i.annihil.us/u/prod/marvel/i/mg/c/e0/4bc4947ea8f4d.jpg","13.02.2025"),
         ComicCover("Spider -Man","http://i.annihil.us/u/prod/marvel/i/mg/c/e0/4bc4947ea8f4d.jpg","13.02.2025"),
@@ -45,7 +46,12 @@ fun AllComicScreen(){
             items(comics.size){
                 val comic = comics[it]
                 Column(modifier = Modifier
-                    .padding(start = 16.dp)) {
+                    .padding(start = 16.dp).clickable {
+
+                        navController.popBackStack()
+                        navController.navigate("series")
+
+                    }) {
                     Card(modifier = Modifier.aspectRatio(0.7f)) {
                         AsyncImage(model = comic.imageUrl
                             , contentDescription = "${comic.title}  current cover",

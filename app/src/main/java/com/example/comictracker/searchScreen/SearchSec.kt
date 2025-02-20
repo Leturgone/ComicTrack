@@ -24,11 +24,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 
-@Preview
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SearchSec(){
+fun SearchSec(navController: NavHostController){
     val textFieldState = rememberTextFieldState()
 
     var expanded by rememberSaveable { mutableStateOf(false)}
@@ -49,12 +49,16 @@ fun SearchSec(){
                     leadingIcon = { Icon(Icons.Default.Search,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.clickable {  }
+                        modifier = Modifier.clickable {
+                            navController.navigate("search_result")
+                        }
                         ) },
                     trailingIcon = { Icon(Icons.Filled.Cancel,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.clickable {  }
+                        modifier = Modifier.clickable {
+                            expanded = false
+                        }
                         ) }
                 )},
                 expanded = expanded,

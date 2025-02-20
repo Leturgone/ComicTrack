@@ -1,5 +1,6 @@
 package com.example.comictracker.libaryScreen
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,15 +17,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.comictracker.ui.theme.LightGreen
 
-@Preview
 @Composable
-fun MicroSectionsSec(){
+fun MicroSectionsSec(navController: NavHostController){
     val stats = listOf(
         "Comics" to "1000 / 24 this year",
         "Series" to "30 / 10 this year",
-        "Diary" to "10",
         "Readlist" to "392",
     )
     Column(
@@ -35,7 +35,10 @@ fun MicroSectionsSec(){
     ) {
         stats.forEach { (label, value) ->
             Row(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+                modifier = Modifier.
+                fillMaxWidth().padding(bottom = 8.dp).clickable {
+                    navController.navigate("all_cs")
+                },
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(

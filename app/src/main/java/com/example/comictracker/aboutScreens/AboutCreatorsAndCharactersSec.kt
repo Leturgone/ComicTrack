@@ -20,14 +20,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.comictracker.data.CharacterItem
 import com.example.comictracker.data.CreatorsMember
 import com.example.comictracker.searchScreen.CharacterCard
 
-@Preview
 @Composable
-fun AboutCreatorsAndCharactersSec(){
+fun AboutCreatorsAndCharactersSec(navController: NavHostController){
     val creators = listOf(
         CreatorsMember("David Hine","writer",
             "http://i.annihil.us/u/prod/marvel/i/mg/9/10/4bad769d90b00.jpg"),
@@ -82,7 +82,9 @@ fun AboutCreatorsAndCharactersSec(){
         LazyRow{
             items(characters.size){
                 val character  = characters[it]
-                CharacterCard(imageUrl = character.image, characterName = character.name , cardSize = 120, imageSize =50 )
+                CharacterCard(imageUrl = character.image, characterName = character.name , cardSize = 120, imageSize =50) {
+                    navController.navigate("character")
+                }
             }
         }
     }
