@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.Bookmark
-import androidx.compose.material.icons.filled.BookmarkAdd
 import androidx.compose.material.icons.filled.BookmarkAdded
 import androidx.compose.material.icons.filled.BookmarkRemove
 import androidx.compose.material.icons.filled.NavigateNext
@@ -40,7 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.comictracker.data.MarkCategory
+import com.example.comictracker.ui.components.MarkCategory
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)

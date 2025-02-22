@@ -21,7 +21,7 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.comictracker.data.BottomNavigation
+import com.example.comictracker.ui.components.BottomNavigation
 import com.example.comictracker.ui.theme.LightGreen
 
 @Composable

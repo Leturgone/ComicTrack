@@ -1,4 +1,4 @@
-package com.example.comictracker.data
+package com.example.comictracker.ui.components
 
 import androidx.compose.ui.graphics.vector.ImageVector
 
