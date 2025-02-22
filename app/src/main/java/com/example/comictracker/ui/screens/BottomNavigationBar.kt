@@ -1,4 +1,4 @@
-package com.example.comictracker
+package com.example.comictracker.ui.screens
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -6,11 +6,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.LibraryBooks
-import androidx.compose.material.icons.rounded.AddCircle
-import androidx.compose.material.icons.rounded.BarChart
-import androidx.compose.material.icons.rounded.Create
 import androidx.compose.material.icons.rounded.Home
-import androidx.compose.material.icons.rounded.LibraryBooks
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon

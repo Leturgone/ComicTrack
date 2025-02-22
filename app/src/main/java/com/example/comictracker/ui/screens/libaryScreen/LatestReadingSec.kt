@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.comictracker.SeriesComicListCard
+import com.example.comictracker.ui.screens.SeriesComicListCard
 import com.example.comictracker.data.ComicCover
 
 @Composable
@@ -46,7 +46,7 @@ fun LatestReadingSec(navController: NavHostController){
                 SeriesComicListCard(title = "comic title",
                     image = "http://i.annihil.us/u/prod/marvel/i/mg/9/c0/59dfdd3078b52.jpg",
                     lastPaddingEnd =lastPaddingEnd, date = "Date" ) {
-                    navController.navigate("series")
+                    navController.navigate("comic")
 
                 }
 

@@ -17,6 +17,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.core.view.WindowCompat
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.comictracker.ui.screens.AppNavigation
+import com.example.comictracker.ui.screens.BottomNavigationBar
 import com.example.comictracker.ui.theme.ComicTrackerTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 

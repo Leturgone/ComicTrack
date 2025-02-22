@@ -1,4 +1,4 @@
-package com.example.comictracker
+package com.example.comictracker.ui.screens
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.comictracker.ui.screens.AllComicScreen
 import com.example.comictracker.ui.screens.aboutScreens.aboutCharacter.CharacterScreen
 import com.example.comictracker.ui.screens.aboutScreens.aboutComic.ComicScreen
 import com.example.comictracker.ui.screens.aboutScreens.aboutSeries.AllComicSeriesSec

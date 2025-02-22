@@ -3,7 +3,7 @@ package com.example.comictracker.ui.screens.aboutScreens.aboutCharacter
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
-import com.example.comictracker.AllComicScreen
+import com.example.comictracker.ui.screens.AllComicScreen
 
 
 @Composable

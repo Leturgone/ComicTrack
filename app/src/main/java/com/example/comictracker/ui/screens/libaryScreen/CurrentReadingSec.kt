@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.comictracker.SeriesComicListCard
+import com.example.comictracker.ui.screens.SeriesComicListCard
 import com.example.comictracker.data.ComicCover
 
 @Composable
