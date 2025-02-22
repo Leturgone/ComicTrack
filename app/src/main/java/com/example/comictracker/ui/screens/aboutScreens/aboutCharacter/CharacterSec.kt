@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.comictracker.ui.screens.aboutScreens.ExpandableText
-import com.example.comictracker.data.CharacterItem
+import com.example.comictracker.data.model.CharacterItem
 
 @Preview
 @Composable

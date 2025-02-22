@@ -1,4 +1,4 @@
-package com.example.comictracker.data
+package com.example.comictracker.data.model
 
 data class CharacterItem(
     val name: String,

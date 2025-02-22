@@ -20,8 +20,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
-import com.example.comictracker.data.CharacterItem
-import com.example.comictracker.data.CreatorsMember
+import com.example.comictracker.data.model.CharacterItem
+import com.example.comictracker.data.model.CreatorsMember
 import com.example.comictracker.ui.screens.searchScreen.CharacterCard
 
 @Composable
