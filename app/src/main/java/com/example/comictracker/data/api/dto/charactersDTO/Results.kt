@@ -1,10 +1,6 @@
 package com.example.comictracker.data.api.dto.charactersDTO
 
-import com.example.comictracker.data.api.dto.seriesDTO.Comics
-import com.example.comictracker.data.api.dto.seriesDTO.Events
-import com.example.comictracker.data.api.dto.seriesDTO.Stories
-import com.example.comictracker.data.api.dto.seriesDTO.Thumbnail
-import com.example.comictracker.data.api.dto.seriesDTO.Urls
+
 import com.google.gson.annotations.SerializedName
 
 

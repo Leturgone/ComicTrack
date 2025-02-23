@@ -1,6 +1,5 @@
 package com.example.comictracker.data.api.dto.charactersDTO
 
-import com.example.comictracker.data.api.dto.seriesDTO.Results
 import com.google.gson.annotations.SerializedName
 
 

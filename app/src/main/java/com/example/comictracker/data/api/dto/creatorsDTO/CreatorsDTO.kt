@@ -1,10 +1,9 @@
-package com.example.comictracker.data.api.dto.comicsDTO
+package com.example.comictracker.data.api.dto.creatorsDTO
 
-import com.example.comictracker.data.api.dto.seriesDTO.Data
 import com.google.gson.annotations.SerializedName
 
 
-data class MarvelResponce (
+data class CreatorsDTO (
 
     @SerializedName("code"            ) var code            : String? = null,
     @SerializedName("status"          ) var status          : String? = null,
