@@ -1,0 +1,25 @@
+package com.example.comictracker.data.api.dto.charactersDTO
+
+import com.example.comictracker.data.api.dto.seriesDTO.Comics
+import com.example.comictracker.data.api.dto.seriesDTO.Events
+import com.example.comictracker.data.api.dto.seriesDTO.Stories
+import com.example.comictracker.data.api.dto.seriesDTO.Thumbnail
+import com.example.comictracker.data.api.dto.seriesDTO.Urls
+import com.google.gson.annotations.SerializedName
+
+
+data class Results (
+
+    @SerializedName("id"          ) var id          : String?         = null,
+    @SerializedName("name"        ) var name        : String?         = null,
+    @SerializedName("description" ) var description : String?         = null,
+    @SerializedName("modified"    ) var modified    : String?         = null,
+    @SerializedName("resourceURI" ) var resourceURI : String?         = null,
+    @SerializedName("urls"        ) var urls        : ArrayList<Urls> = arrayListOf(),
+    @SerializedName("thumbnail"   ) var thumbnail   : Thumbnail?      = Thumbnail(),
+    @SerializedName("comics"      ) var comics      : Comics?         = Comics(),
+    @SerializedName("stories"     ) var stories     : Stories?        = Stories(),
+    @SerializedName("events"      ) var events      : Events?         = Events(),
+    @SerializedName("series"      ) var series      : Series?         = Series()
+
+)

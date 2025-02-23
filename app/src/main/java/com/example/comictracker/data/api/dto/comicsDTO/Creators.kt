@@ -1,10 +1,10 @@
-package com.example.comictracker.data.api.dto
+package com.example.comictracker.data.api.dto.comicsDTO
 
 import com.example.comictracker.data.api.dto.seriesDTO.Items
 import com.google.gson.annotations.SerializedName
 
 
-data class Stories (
+data class Creators (
 
   @SerializedName("available"     ) var available     : String?          = null,
   @SerializedName("returned"      ) var returned      : String?          = null,
