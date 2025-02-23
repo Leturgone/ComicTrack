@@ -1,5 +1,7 @@
 package com.example.comictracker.data.api.dto.creatorsDTO
 
+import com.example.comictracker.data.api.dto.Thumbnail
+import com.example.comictracker.data.api.dto.Urls
 import com.google.gson.annotations.SerializedName
 
 

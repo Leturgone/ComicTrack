@@ -4,7 +4,7 @@ package com.example.comictracker.data.api.dto.comicsDTO
 import com.google.gson.annotations.SerializedName
 
 
-data class ComicDTO (
+data class ComicsDTO (
 
     @SerializedName("code"            ) var code            : String? = null,
     @SerializedName("status"          ) var status          : String? = null,
