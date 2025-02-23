@@ -1,27 +1,23 @@
 package com.example.comictracker.data.api
 
+import retrofit2.http.GET
 interface MarvelComicApi {
 
+    suspend fun getSeriesLastReleasesById()
+    suspend fun getSeriesByCharacterId()
+    suspend fun getAllSeries()
+    suspend fun getAllCharacters()
+    suspend fun getSeriesByTitle()
 
-    fun getSeries()
+    suspend fun getSeriesById()
+    suspend fun getSeriesCreators()
+    suspend fun getSeriesCharacters()
+    suspend fun getConnectedSeries()
+    suspend fun getComicsFromSeries()
 
-    fun getComic()
+    suspend fun getComicById()
+    suspend fun getComicCreators()
+    suspend fun getComicCharacters()
 
-    fun getCharacter()
 
-    fun getComicListFromSeries()
-
-    fun getSeriesByCharacter()
-
-    fun getNewReleases()
-
-    fun getNewSeries()
-
-    fun getAllCharacters()
-
-    fun getComicsWithCharacter()
-
-    fun getConnectedComics()
-
-    fun searchSeries()
 }
