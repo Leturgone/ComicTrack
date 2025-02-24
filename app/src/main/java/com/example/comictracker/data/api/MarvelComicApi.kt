@@ -24,7 +24,7 @@ interface MarvelComicApi {
     ):SeriesDTO
 
     @GET("/v1/public/characters/{characterId}/series")
-    suspend fun getSeriesByCharacterId(
+    suspend fun getCharacterSeries(
         @Query("characterId")characterId: Int,
         @Query("contains")contains:String = "comic",
         @Query("orderBy")orderBy:String = "startYear",
@@ -33,8 +33,7 @@ interface MarvelComicApi {
         @Query("apikey")apikey:String=API_KEY,
         @Query("ts")ts:String=timeStamp,
         @Query("hash")hash:String=hash()
-    )
-    :SeriesDTO
+    ):SeriesDTO
 
     @GET("/v1/public/series")
     suspend fun getAllSeries(
