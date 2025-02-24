@@ -7,7 +7,7 @@ import com.example.comictracker.domain.model.SeriesModel
 
 interface RemoteComicRepository {
 
-    suspend fun getSeriesLastReleasesById(id: Int): List<SeriesModel>
+    suspend fun getSeriesLastReleasesById(id: Int): List<ComicModel>
 
     suspend fun getCharacterSeries(characterId: Int): List<SeriesModel>
 
