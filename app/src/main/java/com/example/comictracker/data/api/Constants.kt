@@ -4,13 +4,11 @@ import java.math.BigInteger
 import java.security.MessageDigest
 import java.sql.Timestamp
 
-const val API_KEY = ""
 
-const val PRIVATE_KEY = ""
 
 val timeStamp = Timestamp(System.currentTimeMillis()).time.toString()
 
-const val limit = 20
+
 
 fun hash(): String{
     val input = "$timeStamp$PRIVATE_KEY$API_KEY"
