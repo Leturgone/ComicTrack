@@ -1,13 +1,14 @@
 package com.example.comictracker.domain.model
 
 data class SeriesModel(
-    val id: Int,
+    val seriesId: Int,
     val title:String,
     val date:String,
     val desc:String,
-    val comics: List<ComicModel>,
-    val creators: List<CreatorModel>,
-    val characters: List<CharacterModel>,
-    val connectedSeries: List<SeriesModel>,
+    val image:String,
+    val comics: List<Int>,
+    val creators: List<Int>,
+    val characters: List<Int>,
+    val connectedSeries: List<Int?>,
     val readMark:String
 )
