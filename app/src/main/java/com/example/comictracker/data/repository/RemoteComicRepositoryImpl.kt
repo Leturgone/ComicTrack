@@ -22,19 +22,19 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
             title = this.title!!,
             date = "${this.startYear} - ${this.endYear}",
             desc = this.description!!,
-            image = "${this.urls[0].url}${this.urls[0].type}",
-            comics = this.comics!!.items.map {
-                it.resourceURI!!.toInt()
+            image = "${this.urls[0].url}.${this.urls[0].type}",
+            comics = this.comics!!.items.mapNotNull {
+                it.resourceURI?.substringAfter("comics/")?.toIntOrNull()
             },
-            creators = this.creators!!.items.map {
-                it.resourceURI!!.toInt()
+            creators = this.creators!!.items.mapNotNull {
+                it.resourceURI?.substringAfter("creators/")?.toIntOrNull()
             },
-            characters = this.characters!!.items.map {
-                it.resourceURI!!.toInt()
+            characters = this.characters!!.items.mapNotNull {
+                it.resourceURI?.substringAfter("characters/")?.toIntOrNull()
             },
             connectedSeries = listOf(
-                this.next?.resourceURI?.toInt(),
-                this.previous?.resourceURI?.toInt()),
+                this.next?.resourceURI?.substringAfter("series/")?.toIntOrNull(),
+                this.previous?.resourceURI?.substringAfter("series/")?.toIntOrNull(),),
             readMark = ""
         )
     }
