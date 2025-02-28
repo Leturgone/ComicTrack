@@ -95,48 +95,78 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
 
     override suspend fun getCharacterSeries(characterId: Int): List<SeriesModel> {
         val characterSeries = mutableListOf<SeriesModel>()
-        api.getCharacterSeries(characterId).data?.results?.forEach { result ->
-            characterSeries.add(
-                result.toModel()
-            )
+        api.getCharacterSeries(characterId).data?.results?.forEach {
+            result -> characterSeries.add(result.toModel())
         }
         return characterSeries
     }
 
     override suspend fun getAllSeries(): List<SeriesModel> {
-        TODO("Not yet implemented")
+        val allSeries = mutableListOf<SeriesModel>()
+        api.getAllSeries().data?.results?.forEach {
+            result -> allSeries.add(result.toModel())
+        }
+        return allSeries
     }
 
     override suspend fun getAllCharacters(): List<CharacterModel> {
-        TODO("Not yet implemented")
+        val allCharacters = mutableListOf<CharacterModel>()
+        api.getAllCharacters().data?.results?.forEach {
+            result -> allCharacters.add(result.toModel())
+        }
+        return  allCharacters
     }
 
     override suspend fun getSeriesByTitle(title: String): List<SeriesModel> {
-        TODO("Not yet implemented")
+        val series = mutableListOf<SeriesModel>()
+        api.getSeriesByTitle(title).data?.results?.forEach {
+            results ->   series.add(results.toModel())
+        }
+        return series
     }
 
     override suspend fun getSeriesById(id: String): SeriesModel {
-        TODO("Not yet implemented")
+        return api.getSeriesById(id).data!!.results[0].toModel()
     }
 
     override suspend fun getSeriesCreators(seriesId: Int): List<CreatorModel> {
-        TODO("Not yet implemented")
+        val creators = mutableListOf<CreatorModel>()
+        api.getSeriesById(seriesId.toString()).data!!.results[0]
+            .toModel().creators.forEach { creator ->
+                creators.add(api.getCreatorById(creator.first.toString())
+                    .data!!.results[0].toModel(creator.second))
+            }
+        return creators
     }
 
     override suspend fun getComicsFromSeries(seriesId: Int): List<ComicModel> {
-        TODO("Not yet implemented")
+        val comics = mutableListOf<ComicModel>()
+        api.getComicsFromSeries(seriesId.toString()).data!!.results.forEach {
+            result ->  comics.add(result.toModel())
+        }
+        return comics
     }
 
     override suspend fun getComicById(comicId: Int): ComicModel {
-        TODO("Not yet implemented")
+        return api.getComicById(comicId.toString()).data!!.results[0].toModel()
     }
 
     override suspend fun getComicCreators(comicId: Int): List<CreatorModel> {
-        TODO("Not yet implemented")
+        val creators = mutableListOf<CreatorModel>()
+        api.getComicById(comicId.toString()).data!!.results[0]
+            .toModel().creators.forEach { creator ->
+                creators.add(api.getCreatorById(creator.first.toString())
+                    .data!!.results[0].toModel(creator.second))
+            }
+        return creators
     }
 
     override suspend fun getComicCharacters(comicId: Int): List<CharacterModel> {
-        TODO("Not yet implemented")
+        val characters = mutableListOf<CharacterModel>()
+        api.getComicCharacters(comicId.toString()).data!!.results.forEach {result ->
+            characters.add(result.toModel())
+        }
+        return characters
     }
 
 }
