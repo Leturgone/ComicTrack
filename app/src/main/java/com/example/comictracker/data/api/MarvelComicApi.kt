@@ -120,7 +120,7 @@ interface MarvelComicApi {
         @Query("ts")ts:String=timeStamp,
         @Query("hash")hash:String=hash()
     ):CreatorsDTO
-
+    @GET("/v1/public/comics/{comicId}/characters")
     suspend fun getComicCharacters(
         @Query("comicId")comicId:String,
         @Query("limit")limit:String = "20",
@@ -128,6 +128,23 @@ interface MarvelComicApi {
         @Query("ts")ts:String=timeStamp,
         @Query("hash")hash:String=hash()
     ):CharactersDTO
+
+
+    @GET("/v1/public/characters/{characterId}")
+    suspend fun getCharacterById(
+        @Query("characterId")characterId:String,
+        @Query("apikey")apikey:String=API_KEY,
+        @Query("ts")ts:String=timeStamp,
+        @Query("hash")hash:String=hash()
+    ):CharactersDTO
+
+    @GET("/v1/public/creators/{creatorId}")
+    suspend fun getCreatorById(
+        @Query("characterId")characterId:String,
+        @Query("apikey")apikey:String=API_KEY,
+        @Query("ts")ts:String=timeStamp,
+        @Query("hash")hash:String=hash()
+    ):CreatorsDTO
 
 
 }
