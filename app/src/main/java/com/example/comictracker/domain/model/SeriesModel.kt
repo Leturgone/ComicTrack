@@ -7,7 +7,7 @@ data class SeriesModel(
     val desc:String,
     val image:String,
     val comics: List<Int>,
-    val creators: List<Int>,
+    val creators: List<Pair<Int, String>>,
     val characters: List<Int>,
     val connectedSeries: List<Int?>,
     val readMark:String

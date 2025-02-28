@@ -8,7 +8,7 @@ data class ComicModel(
     val seriesId:Int,
     val seriesTitle:String,
     val date: String,
-    val creators: List<Int>,
+    val creators: List<Pair<Int,String>>,
     val characters: List<Int>,
     val readMark:String
 )
