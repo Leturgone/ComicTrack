@@ -22,12 +22,14 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
             title = this.title!!,
             date = "${this.startYear} - ${this.endYear}",
             desc = this.description!!,
-            image = "${this.urls[0].url}.${this.urls[0].type}",
+            image = "${this.thumbnail?.path}.${this.thumbnail?.path}",
             comics = this.comics!!.items.mapNotNull {
                 it.resourceURI?.substringAfter("comics/")?.toIntOrNull()
             },
-            creators = this.creators!!.items.mapNotNull {
-                it.resourceURI?.substringAfter("creators/")?.toIntOrNull()
+            creators = this.creators!!.items.map {
+                Pair(
+                    it.resourceURI!!.substringAfter("creators/").toInt(),
+                    it.role!!)
             },
             characters = this.characters!!.items.mapNotNull {
                 it.resourceURI?.substringAfter("characters/")?.toIntOrNull()
@@ -44,26 +46,28 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
             comicId = this.id.toInt(),
             title =  this.title,
             number =  this.issueNumber,
-            image = "${this.urls[0].url}${this.urls[0].type}",
-            seriesId =this.series!!.resourceURI!!.toInt(),
+            image = "${this.images[0].path}${this.images[0].extension}",
+            seriesId = this.series!!.resourceURI!!.substringAfter("series/").toInt(),
             seriesTitle = this.series!!.name!!,
             date = this.dates[0].date.toString(),
             creators = this.creators!!.items.map {
-                it.resourceURI!!.toInt()
+                Pair(
+                    it.resourceURI!!.substringAfter("creators/").toInt(),
+                    it.role!!)
             },
-            characters = this.characters!!.items.map {
-                it.resourceURI!!.toInt()
+            characters = this.characters!!.items.mapNotNull {
+                it.resourceURI?.substringAfter("characters/")?.toIntOrNull()
             },
             readMark = ""
         )
     }
 
-    private fun creatorsResult.toModel():CreatorModel{
+    private fun creatorsResult.toModel(role:String):CreatorModel{
         return CreatorModel(
             creatorId = this.id!!.toInt(),
             name = this.fullName!!,
-            image = "${this.urls[0].url}${this.urls[0].type}",
-            role = this.suffix!!
+            image = "${this.thumbnail?.path}${this.thumbnail?.extension}",
+            role = role
         )
     }
 
@@ -71,10 +75,10 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
         return CharacterModel(
             characterId = this.id.toInt(),
             name = this.name,
-            image = "${this.urls[0].url}${this.urls[0].type}",
+            image = "${this.thumbnail.path}${this.thumbnail.extension}",
             desc = this.description,
-            series = this.series.items.map {
-                it.resourceURI!!.toInt()
+            series = this.series.items.mapNotNull {
+                it.resourceURI?.substringAfter("series/")?.toIntOrNull()
             }
         )
     }
