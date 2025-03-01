@@ -1,8 +1,10 @@
 package com.example.comictracker.ui.screens.aboutScreens.aboutSeries
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -19,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -34,7 +37,8 @@ fun ComicFromSeriesCard(navController: NavHostController){
     Card(
         Modifier
             .fillMaxWidth()
-            .padding(16.dp).clickable { navController.navigate("comic") },
+            .padding(16.dp)
+            .clickable { navController.navigate("comic") },
         colors = CardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
             contentColor = Color.Gray,
@@ -42,41 +46,49 @@ fun ComicFromSeriesCard(navController: NavHostController){
             disabledContentColor = Color.Gray
         )
     ) {
-        Row(modifier = Modifier.padding(10.dp)) {
-            AsyncImage(model = "http://i.annihil.us/u/prod/marvel/i/mg/5/e0/5bc77a942112a.jpg",
-                contentDescription = "current cover",modifier = Modifier
-                    .width(80.dp)
-                    .height(100.dp))
-            Column {
-                Text(
-                    text = "Number of comic ",
-                    fontSize = 17.sp,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    fontWeight = FontWeight.Normal,
-                    modifier = Modifier.padding(start = 10.dp, bottom = 10.dp)
-                )
-                Text(
-                    text = "Date ",
-                    fontSize = 17.sp,
-                    color = MaterialTheme.colorScheme.onBackground,
-                    fontWeight = FontWeight.Normal,
-                    modifier = Modifier.padding(start = 10.dp, bottom = 10.dp)
-                )
-            }
-            Column {
-                Icon(imageVector = Icons.Filled.Check,
-                    contentDescription = "ReadIcon",
-                    tint = checkedIconColor,
-                    modifier = Modifier
-                        .padding(start = 40.dp)
-                        .clickable {
-                            when(checkedIconColor){
-                                Color.Gray -> checkedIconColor = Color.Green
-                                Color.Green -> checkedIconColor = Color.Gray
-                            }
-                        })
-            }
+        Box() {
+            Box(modifier = Modifier.fillMaxWidth().padding(10.dp), contentAlignment = Alignment.TopStart) {
+                Row() {
+                    AsyncImage(
+                        model = "http://i.annihil.us/u/prod/marvel/i/mg/5/e0/5bc77a942112a.jpg",
+                        contentDescription = "current cover", modifier = Modifier
+                            .width(80.dp)
+                            .height(100.dp)
+                    )
+                    Column {
+                        Text(
+                            text = "Number of comic ",
+                            fontSize = 17.sp,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            fontWeight = FontWeight.Normal,
+                            modifier = Modifier.padding(start = 10.dp, bottom = 10.dp)
+                        )
+                        Text(
+                            text = "Date ",
+                            fontSize = 17.sp,
+                            color = MaterialTheme.colorScheme.onBackground,
+                            fontWeight = FontWeight.Normal,
+                            modifier = Modifier.padding(start = 10.dp, bottom = 10.dp)
+                        )
+                    }
 
+                }
+            }
+            Box(modifier = Modifier.fillMaxWidth().padding(10.dp), contentAlignment = Alignment.TopEnd){
+                Column {
+                    Icon(imageVector = Icons.Filled.Check,
+                        contentDescription = "ReadIcon",
+                        tint = checkedIconColor,
+                        modifier = Modifier
+                            .padding(start = 40.dp)
+                            .clickable {
+                                when (checkedIconColor) {
+                                    Color.Gray -> checkedIconColor = Color.Green
+                                    Color.Green -> checkedIconColor = Color.Gray
+                                }
+                            })
+                }
+            }
         }
     }
 }
