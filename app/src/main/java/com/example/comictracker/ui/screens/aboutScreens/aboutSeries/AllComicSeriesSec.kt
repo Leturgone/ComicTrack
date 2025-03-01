@@ -25,7 +25,6 @@ fun AllComicSeriesSec(navController: NavHostController){
         ComicCover("Spider-Man Noir #7","http://i.annihil.us/u/prod/marvel/i/mg/5/e0/5bc77a942112a.jpg",null)
     )
     Column {
-        AboutSeriesSec()
         Text(text = "All Comics ",
             fontSize = 24.sp,
             color = MaterialTheme.colorScheme.onBackground,
