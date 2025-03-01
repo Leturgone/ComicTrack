@@ -101,10 +101,10 @@ fun UsersSeriesMarkSec() {
                     textAlign = TextAlign.Center,
                     modifier = Modifier.width(200.dp)
                 )
-                LazyRow(Modifier.padding(10.dp), userScrollEnabled = false){
+                LazyRow(Modifier.fillMaxWidth(), userScrollEnabled = true, horizontalArrangement = Arrangement.SpaceAround){
                     items(markCategories.size){
                         val markCategory = markCategories[it]
-                        Column(Modifier.size(width = 100.dp, height = 180.dp).clickable {
+                        Column(Modifier.weight(1f).clickable {
                             mark = markCategory.title
                             scope.launch { sheetState.hide() }.invokeOnCompletion {
                                 if (!sheetState.isVisible) {
@@ -114,12 +114,12 @@ fun UsersSeriesMarkSec() {
                         }, horizontalAlignment = Alignment.CenterHorizontally) {
                             Icon(imageVector = markCategory.icon,
                                 contentDescription ="${markCategory.title} icon",
-                                modifier = Modifier.size(50.dp),
+                                modifier = Modifier.size(40.dp),
                                 tint = MaterialTheme.colorScheme.primary)
                             Text(
                                 text = markCategory.title,
-                                fontSize = 20.sp,
-                                modifier = Modifier.size(100.dp).padding(top = 10.dp),
+                                fontSize =10.sp,
+                                modifier = Modifier.width(50.dp),
                                 color = Color.White,
                                 textAlign = TextAlign.Center,
                             )
