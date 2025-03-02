@@ -30,9 +30,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
+import com.example.comictracker.domain.model.ComicModel
 
 @Composable
-fun ComicFromSeriesCard(navController: NavHostController){
+fun ComicFromSeriesCard(comic:ComicModel,navController: NavHostController){
     var checkedIconColor by remember { mutableStateOf(Color.Gray) }
     Card(
         Modifier
@@ -50,21 +51,21 @@ fun ComicFromSeriesCard(navController: NavHostController){
             Box(modifier = Modifier.fillMaxWidth().padding(10.dp), contentAlignment = Alignment.TopStart) {
                 Row() {
                     AsyncImage(
-                        model = "http://i.annihil.us/u/prod/marvel/i/mg/5/e0/5bc77a942112a.jpg",
+                        model = comic.image,
                         contentDescription = "current cover", modifier = Modifier
                             .width(80.dp)
                             .height(100.dp)
                     )
                     Column {
                         Text(
-                            text = "Number of comic ",
+                            text = "#${comic.number}",
                             fontSize = 17.sp,
                             color = MaterialTheme.colorScheme.onBackground,
                             fontWeight = FontWeight.Normal,
                             modifier = Modifier.padding(start = 10.dp, bottom = 10.dp)
                         )
                         Text(
-                            text = "Date ",
+                            text = comic.date,
                             fontSize = 17.sp,
                             color = MaterialTheme.colorScheme.onBackground,
                             fontWeight = FontWeight.Normal,
