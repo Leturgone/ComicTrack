@@ -39,7 +39,7 @@ fun ComicFromSeriesCard(comic:ComicModel,navController: NavHostController){
         Modifier
             .fillMaxWidth()
             .padding(16.dp)
-            .clickable { navController.navigate("comic") },
+            .clickable { navController.navigate("comic/${comic.comicId}") },
         colors = CardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
             contentColor = Color.Gray,
