@@ -20,16 +20,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
+import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.ui.screens.aboutScreens.ExpandableText
 
-@Preview
 @Composable
-fun AboutSeriesSec(){
+fun AboutSeriesSec(series: SeriesModel){
     Column {
         Row(Modifier.fillMaxWidth()){
             Column {
                 Text(
-                    text = "Spider-Man Noir",
+                    text = series.title?:"No title",
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
@@ -38,17 +38,6 @@ fun AboutSeriesSec(){
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Text(
-                    text = "WRITER",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Julius Onah",
-                    fontSize = 16.sp,
-                    color = Color.White
-                )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "DATE",
@@ -57,7 +46,7 @@ fun AboutSeriesSec(){
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Date",
+                    text = series.date?:"Date not date",
                     fontSize = 14.sp,
                     color = Color.White
                 )
@@ -70,7 +59,7 @@ fun AboutSeriesSec(){
                     color = Color.Gray
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                ExpandableText(text = "After meeting with newly elected U.S. President Thaddeus Ross, Sam finds himself in the middle of an international incident. He must discover the rea")
+                ExpandableText(text = series.desc?:"No description")
 
             }
 
@@ -79,8 +68,8 @@ fun AboutSeriesSec(){
                 .width(127.dp)
                 .height(200.dp)) {
                 Box(modifier = Modifier.fillMaxSize(),contentAlignment = Alignment.TopEnd){
-                    AsyncImage(model = "http://i.annihil.us/u/prod/marvel/i/mg/5/e0/5bc77a942112a.jpg"
-                        , contentDescription = "  current cover",modifier = Modifier
+                    AsyncImage(model = series.image
+                        , contentDescription = " ${series.title} current cover",modifier = Modifier
                             .width(145.dp)
                             .height(200.dp))
                 }
