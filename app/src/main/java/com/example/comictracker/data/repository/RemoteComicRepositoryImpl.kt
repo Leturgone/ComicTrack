@@ -1,5 +1,6 @@
 package com.example.comictracker.data.repository
 
+import android.util.Log
 import com.example.comictracker.data.api.MarvelComicApi
 import com.example.comictracker.data.api.dto.seriesDTO.Results as seriesResult
 import com.example.comictracker.data.api.dto.comicsDTO.Results as comicsResult
@@ -21,8 +22,8 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
             seriesId = this.id!!.toInt(),
             title = this.title!!,
             date = "${this.startYear} - ${this.endYear}",
-            desc = this.description!!,
-            image = "${this.thumbnail?.path}.${this.thumbnail?.path}",
+            desc = this.description,
+            image = "${this.thumbnail?.path}.${this.thumbnail?.extension}",
             comics = this.comics!!.items.mapNotNull {
                 it.resourceURI?.substringAfter("comics/")?.toIntOrNull()
             },
@@ -46,7 +47,7 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
             comicId = this.id.toInt(),
             title =  this.title,
             number =  this.issueNumber,
-            image = "${this.images[0].path}${this.images[0].extension}",
+            image = "${this.images[0].path}.${this.images[0].extension}",
             seriesId = this.series!!.resourceURI!!.substringAfter("series/").toInt(),
             seriesTitle = this.series!!.name!!,
             date = this.dates[0].date.toString(),
@@ -66,7 +67,7 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
         return CreatorModel(
             creatorId = this.id!!.toInt(),
             name = this.fullName!!,
-            image = "${this.thumbnail?.path}${this.thumbnail?.extension}",
+            image = "${this.thumbnail?.path}.${this.thumbnail?.extension}",
             role = role
         )
     }
@@ -75,7 +76,7 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
         return CharacterModel(
             characterId = this.id.toInt(),
             name = this.name,
-            image = "${this.thumbnail.path}${this.thumbnail.extension}",
+            image = "${this.thumbnail.path}.${this.thumbnail.extension}",
             desc = this.description,
             series = this.series.items.mapNotNull {
                 it.resourceURI?.substringAfter("series/")?.toIntOrNull()
@@ -95,9 +96,13 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
 
     override suspend fun getCharacterSeries(characterId: Int): List<SeriesModel> {
         val characterSeries = mutableListOf<SeriesModel>()
-        api.getCharacterSeries(characterId).data?.results?.forEach {
+        Log.i("Repository","Start get Character sereies")
+
+        val res = api.getCharacterSeries(characterId.toString()).data!!.results
+        res.forEach {
             result -> characterSeries.add(result.toModel())
         }
+        Log.i("Repository","gоt Character sereies: $characterSeries")
         return characterSeries
     }
 
@@ -126,17 +131,46 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
     }
 
     override suspend fun getSeriesById(id: String): SeriesModel {
-        return api.getSeriesById(id).data!!.results[0].toModel()
+        Log.i("Repository","Start get sereies")
+        val result = api.getSeriesById(id).data!!.results[0]
+        Log.i("Repository","Series got")
+        val convertesRes = result.toModel()
+        Log.i("Repository","Coverted $convertesRes")
+        return convertesRes
     }
 
-    override suspend fun getSeriesCreators(seriesId: Int): List<CreatorModel> {
+    //Два вызова
+    override suspend fun getSeriesCreators(creatorsRoles: List<Pair<Int, String>>): List<CreatorModel> {
         val creators = mutableListOf<CreatorModel>()
-        api.getSeriesById(seriesId.toString()).data!!.results[0]
-            .toModel().creators.forEach { creator ->
+        Log.i("Repository","Start get sereies creators")
+        creatorsRoles.forEach { creator ->
                 creators.add(api.getCreatorById(creator.first.toString())
                     .data!!.results[0].toModel(creator.second))
             }
+        Log.i("Repository","creators got $creators")
         return creators
+    }
+
+    override suspend fun getSeriesCharacters(seriesId: Int): List<CharacterModel> {
+        val characters = mutableListOf<CharacterModel>()
+        Log.i("Repository","Start get sereies characters")
+        api.getSeriesCharacters(seriesId.toString()).data!!
+            .results.forEach {result ->
+            characters.add(result.toModel())
+        }
+        Log.i("Repository","got sereies characters $characters")
+        return characters
+    }
+
+    //Два вызова
+    override suspend fun getConnectedSeries(connectedSeriesId: List<Int?>): List<SeriesModel> {
+        val series = mutableListOf<SeriesModel>()
+        Log.i("Repository","Start get connected sereies ")
+        connectedSeriesId.filterNotNull().forEach {
+            series.add(api.getSeriesById(it.toString()).data!!.results[0].toModel())
+        }
+        Log.i("Repository","Start get connected got ")
+        return series
     }
 
     override suspend fun getComicsFromSeries(seriesId: Int): List<ComicModel> {
@@ -148,13 +182,26 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
     }
 
     override suspend fun getComicById(comicId: Int): ComicModel {
-        return api.getComicById(comicId.toString()).data!!.results[0].toModel()
+        Log.i("Repository","Start get comic ")
+        val result = api.getComicById(comicId.toString()).data!!.results[0]
+        Log.i("Repository","got comic ")
+        val convertedRes = result.toModel()
+        Log.i("Repository","Converted $convertedRes ")
+        return convertedRes
+    }
+    override suspend fun getCharacterById(characterId: Int): CharacterModel {
+        Log.i("Repository","Start get character ")
+        val result = api.getCharacterById(characterId.toString()).data!!.results[0]
+        Log.i("Repository","got character ")
+        val convertedRes = result.toModel()
+        Log.i("Repository","Converted $convertedRes ")
+        return convertedRes
     }
 
-    override suspend fun getComicCreators(comicId: Int): List<CreatorModel> {
+    //Два вызова
+    override suspend fun getComicCreators(creatorsRoles: List<Pair<Int, String>>): List<CreatorModel> {
         val creators = mutableListOf<CreatorModel>()
-        api.getComicById(comicId.toString()).data!!.results[0]
-            .toModel().creators.forEach { creator ->
+        creatorsRoles.forEach { creator ->
                 creators.add(api.getCreatorById(creator.first.toString())
                     .data!!.results[0].toModel(creator.second))
             }
