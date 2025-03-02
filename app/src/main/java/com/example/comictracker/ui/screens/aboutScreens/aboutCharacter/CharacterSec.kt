@@ -20,13 +20,11 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.comictracker.ui.screens.aboutScreens.ExpandableText
 import com.example.comictracker.data.model.CharacterItem
+import com.example.comictracker.domain.model.CharacterModel
 
-@Preview
+
 @Composable
-fun CharacterSec(){
-    val character = CharacterItem("Spider-Man (Peter Parker)",
-        "Bitten by a radioactive spider, high school student Peter Parker gained the speed, strength and powers of a spider. Adopting the name Spider-Man, Peter hoped to start a career using his new abilities. Taught that with great power comes great responsibility, Spidey has vowed to use his powers to help people.",
-        "http://i.annihil.us/u/prod/marvel/i/mg/3/50/526548a343e4b.jpg")
+fun CharacterSec(character: CharacterModel) {
     Row{
         Column{
             Text(
