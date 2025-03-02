@@ -21,7 +21,9 @@ import com.example.comictracker.ui.screens.AppNavigation
 import com.example.comictracker.ui.screens.BottomNavigationBar
 import com.example.comictracker.ui.theme.ComicTrackerTheme
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
