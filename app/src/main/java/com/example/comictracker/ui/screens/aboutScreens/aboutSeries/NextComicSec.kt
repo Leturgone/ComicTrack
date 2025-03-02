@@ -15,9 +15,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import com.example.comictracker.domain.model.ComicModel
 
 @Composable
-fun NextComicSec(navController: NavHostController){
+fun NextComicSec(comicList:List<ComicModel>,navController: NavHostController){
     Column {
         Text(text = "Continue reading",
             fontSize = 24.sp,
@@ -28,9 +29,11 @@ fun NextComicSec(navController: NavHostController){
         Box(modifier = Modifier.fillMaxWidth(),contentAlignment = Alignment.TopEnd){
             Text(text = "See all",
                 color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(end = 15.dp, bottom = 12.dp)
-                    .clickable { navController.navigate("comics_from_series")})
+                    .clickable {
+                        navController.navigate("comics_from_series/${comicList[0].seriesId}")
+                    })
         }
-        ComicFromSeriesCard(navController)
+        ComicFromSeriesCard(comicList[0],navController)
     }
 
 }

@@ -20,8 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
-import com.example.comictracker.data.model.CharacterItem
-import com.example.comictracker.data.model.CreatorsMember
 import com.example.comictracker.domain.model.CharacterModel
 import com.example.comictracker.domain.model.CreatorModel
 import com.example.comictracker.ui.screens.searchScreen.CharacterCard
@@ -74,7 +72,8 @@ fun AboutCreatorsAndCharactersSec(creators: List<CreatorModel>,
             items(characters.size){
                 val character  = characters[it]
                 CharacterCard(imageUrl = character.image, characterName = character.name , cardSize = 120, imageSize =50) {
-                    navController.navigate("character")
+                    navController.
+                    navigate("character/${character.characterId}")
                 }
             }
         }
