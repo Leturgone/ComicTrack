@@ -43,9 +43,8 @@ import com.example.comictracker.ui.components.MarkCategory
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Preview
 @Composable
-fun UsersSeriesMarkSec() {
+fun UsersSeriesMarkSec(seriesId: Int) {
     val markCategories = listOf(
         MarkCategory(Icons.Filled.AccessTime,"Will be read"),
         MarkCategory(Icons.Filled.BookmarkAdded,"Read"),
