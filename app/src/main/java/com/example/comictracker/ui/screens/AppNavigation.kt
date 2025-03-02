@@ -7,7 +7,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.comictracker.ui.screens.AllComicScreen
 import com.example.comictracker.ui.screens.aboutScreens.aboutCharacter.CharacterScreen
 import com.example.comictracker.ui.screens.aboutScreens.aboutComic.ComicScreen
 import com.example.comictracker.ui.screens.aboutScreens.aboutSeries.AllComicSeriesSec
@@ -33,10 +32,22 @@ fun AppNavigation(innerPadding: PaddingValues, navController: NavHostController)
         composable("search_result") { SearchResultScreen(navController) }
         composable("all_characters"){ AllCharactersScreen(navController) }
 
-        composable("comic") { ComicScreen(navController) }
-        composable("series") { SeriesScreen(navController)  }
-        composable("character") { CharacterScreen(navController) }
-        composable("comics_from_series"){ AllComicSeriesSec(navController) }
+        composable("comic/{comicId}") {
+            val comicId = it.arguments!!.getString("comicId")
+            ComicScreen(comicId!!.toInt(),navController) }
+
+        composable("series/{seriesId}") {
+            val seriesId = it.arguments?.getString("seriesId")
+            SeriesScreen(seriesId!!.toInt(),navController)  }
+
+        composable("character/{characterId}") {
+            val characterId = it.arguments!!.getString("characterId")
+            CharacterScreen(characterId!!.toInt(),navController) }
+
+        composable("comics_from_series/{seriesId}"){
+            val seriesId = it.arguments!!.getString("seriesId")
+            AllComicSeriesSec(seriesId!!.toInt(), navController = navController) }
+
         composable("all_cs") { AllComicScreen(navController) }
     }
 }
