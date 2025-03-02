@@ -6,7 +6,7 @@ import java.sql.Timestamp
 
 
 
-val timeStamp = Timestamp(System.currentTimeMillis()).time.toString()
+val timeStamp = Timestamp(System.currentTimeMillis()).toString()
 
 
 
