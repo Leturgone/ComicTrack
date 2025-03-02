@@ -1,6 +1,8 @@
 package com.example.comictracker.di
 
 import com.example.comictracker.data.api.MarvelComicApi
+import com.example.comictracker.data.repository.RemoteComicRepositoryImpl
+import com.example.comictracker.domain.repository.RemoteComicRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,6 +22,11 @@ class AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(MarvelComicApi::class.java)
+    }
+    @Provides
+    @Singleton
+    fun provideRemoteRepository(api: MarvelComicApi):RemoteComicRepository{
+        return RemoteComicRepositoryImpl(api)
     }
 
 }
