@@ -5,6 +5,7 @@ import com.example.comictracker.data.api.dto.comicsDTO.ComicsDTO
 import com.example.comictracker.data.api.dto.creatorsDTO.CreatorsDTO
 import com.example.comictracker.data.api.dto.seriesDTO.SeriesDTO
 import retrofit2.http.GET
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface MarvelComicApi {
@@ -25,7 +26,7 @@ interface MarvelComicApi {
 
     @GET("/v1/public/characters/{characterId}/series")
     suspend fun getCharacterSeries(
-        @Query("characterId")characterId: Int,
+        @Path("characterId")characterId:String,
         @Query("contains")contains:String = "comic",
         @Query("orderBy")orderBy:String = "startYear",
         @Query("limit")limit:String = "80",
@@ -66,7 +67,7 @@ interface MarvelComicApi {
 
     @GET("/v1/public/series/{seriesId}")
     suspend fun getSeriesById(
-        @Query("seriesId")seriesId:String,
+        @Path("seriesId")seriesId:String,
         @Query("apikey")apikey:String=API_KEY,
         @Query("ts")ts:String=timeStamp,
         @Query("hash")hash:String=hash()
@@ -75,7 +76,7 @@ interface MarvelComicApi {
 
     @GET("/v1/public/series/{seriesId}/creators")
     suspend fun getSeriesCreators(
-        @Query("seriesId")seriesId:String,
+        @Path("seriesId")seriesId:String,
         @Query("limit")limit:String = "20",
         @Query("apikey")apikey:String=API_KEY,
         @Query("ts")ts:String=timeStamp,
@@ -84,7 +85,7 @@ interface MarvelComicApi {
 
     @GET("/v1/public/series/{seriesId}/characters")
     suspend fun getSeriesCharacters(
-        @Query("seriesId")seriesId:String,
+        @Path("seriesId")seriesId:String,
         @Query("limit")limit:String = "20",
         @Query("apikey")apikey:String=API_KEY,
         @Query("ts")ts:String=timeStamp,
@@ -93,7 +94,7 @@ interface MarvelComicApi {
 
     @GET("/v1/public/series/{seriesId}/comics")
     suspend fun getComicsFromSeries(
-        @Query("seriesId")seriesId:String,
+        @Path("seriesId")seriesId:String,
         @Query("format")format:String = "comic",
         @Query("formatType")formatType:String = "comic",
         @Query("noVariants")noVariants:String = "true",
@@ -107,14 +108,14 @@ interface MarvelComicApi {
 
     @GET("/v1/public/comics/{comicId}")
     suspend fun getComicById(
-        @Query("comicId")comicId:String,
+        @Path("comicId")comicId:String,
         @Query("apikey")apikey:String=API_KEY,
         @Query("ts")ts:String=timeStamp,
         @Query("hash")hash:String=hash()
     ):ComicsDTO
     @GET("/v1/public/comics/{comicId}/creators")
     suspend fun getComicCreators(
-        @Query("comicId")comicId:String,
+        @Path("comicId")comicId:String,
         @Query("limit")limit:String = "20",
         @Query("apikey")apikey:String=API_KEY,
         @Query("ts")ts:String=timeStamp,
@@ -122,7 +123,7 @@ interface MarvelComicApi {
     ):CreatorsDTO
     @GET("/v1/public/comics/{comicId}/characters")
     suspend fun getComicCharacters(
-        @Query("comicId")comicId:String,
+        @Path("comicId")comicId:String,
         @Query("limit")limit:String = "20",
         @Query("apikey")apikey:String=API_KEY,
         @Query("ts")ts:String=timeStamp,
@@ -132,7 +133,7 @@ interface MarvelComicApi {
 
     @GET("/v1/public/characters/{characterId}")
     suspend fun getCharacterById(
-        @Query("characterId")characterId:String,
+        @Path("characterId")characterId:String,
         @Query("apikey")apikey:String=API_KEY,
         @Query("ts")ts:String=timeStamp,
         @Query("hash")hash:String=hash()
@@ -140,7 +141,7 @@ interface MarvelComicApi {
 
     @GET("/v1/public/creators/{creatorId}")
     suspend fun getCreatorById(
-        @Query("characterId")characterId:String,
+        @Path("creatorId")characterId:String,
         @Query("apikey")apikey:String=API_KEY,
         @Query("ts")ts:String=timeStamp,
         @Query("hash")hash:String=hash()
