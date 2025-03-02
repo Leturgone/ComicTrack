@@ -20,19 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
-import com.example.comictracker.data.model.ComicCover
+import com.example.comictracker.domain.model.SeriesModel
 
 @Composable
-fun AllComicScreen(navController: NavHostController){
-    val comics = listOf(
-        ComicCover("Spider -Man","http://i.annihil.us/u/prod/marvel/i/mg/c/e0/4bc4947ea8f4d.jpg","13.02.2025"),
-        ComicCover("Spider -Man","http://i.annihil.us/u/prod/marvel/i/mg/c/e0/4bc4947ea8f4d.jpg","13.02.2025"),
-        ComicCover("Spider -Man","http://i.annihil.us/u/prod/marvel/i/mg/c/e0/4bc4947ea8f4d.jpg","13.02.2025"),
-        ComicCover("Spider -Man","http://i.annihil.us/u/prod/marvel/i/mg/c/e0/4bc4947ea8f4d.jpg","13.02.2025"),
-        ComicCover("Spider -Man","http://i.annihil.us/u/prod/marvel/i/mg/c/e0/4bc4947ea8f4d.jpg","13.02.2025"),
-        ComicCover("Spider -Man","http://i.annihil.us/u/prod/marvel/i/mg/c/e0/4bc4947ea8f4d.jpg","13.02.2025"),
-        ComicCover("Spider -Man","http://i.annihil.us/u/prod/marvel/i/mg/c/e0/4bc4947ea8f4d.jpg",null)
-    )
+fun AllComicScreen(seriesList: List<SeriesModel>, navController: NavHostController){
+
     Column {
         Text(text = "All",
             fontSize = 24.sp,
@@ -42,8 +34,8 @@ fun AllComicScreen(navController: NavHostController){
 
         LazyVerticalGrid(columns = GridCells.Fixed(3), contentPadding = PaddingValues(16.dp),
             modifier = Modifier.fillMaxSize() ){
-            items(comics.size){
-                val comic = comics[it]
+            items(seriesList.size){
+                val series = seriesList[it]
                 Column(modifier = Modifier
                     .padding(start = 16.dp).clickable {
 
@@ -52,13 +44,12 @@ fun AllComicScreen(navController: NavHostController){
 
                     }) {
                     Card(modifier = Modifier.aspectRatio(0.7f)) {
-                        AsyncImage(model = comic.imageUrl
-                            , contentDescription = "${comic.title}  current cover",
+                        AsyncImage(model = series.image
+                            , contentDescription = "${series.title}  current cover",
                             contentScale = ContentScale.Crop,
                             modifier = Modifier
                                 .fillMaxWidth())
                     }
-                    comic.date?.let { data -> Text(text = data) }
                 }
             }
         }
