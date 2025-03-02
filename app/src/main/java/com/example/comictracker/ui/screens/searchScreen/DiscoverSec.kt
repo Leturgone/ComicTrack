@@ -47,7 +47,7 @@ fun DiscoverSec(navController: NavHostController){
                     title = "comic title",
                     image = "http://i.annihil.us/u/prod/marvel/i/mg/9/c0/59dfdd3078b52.jpg",
                     lastPaddingEnd = lastPaddingEnd) {
-                    navController.navigate("series")
+                    navController.navigate("series/6343")
                 }
 
             }
