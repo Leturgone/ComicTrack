@@ -22,22 +22,15 @@ import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.comictracker.data.model.CharacterItem
 import com.example.comictracker.data.model.CreatorsMember
+import com.example.comictracker.domain.model.CharacterModel
+import com.example.comictracker.domain.model.CreatorModel
 import com.example.comictracker.ui.screens.searchScreen.CharacterCard
 
 @Composable
-fun AboutCreatorsAndCharactersSec(navController: NavHostController){
-    val creators = listOf(
-        CreatorsMember("David Hine","writer",
-            "http://i.annihil.us/u/prod/marvel/i/mg/9/10/4bad769d90b00.jpg"),
-        CreatorsMember("Dennis Calero","colorist",
-            "http://i.annihil.us/u/prod/marvel/i/mg/d/20/4bc5d5fe9786a.jpg"),
+fun AboutCreatorsAndCharactersSec(creators: List<CreatorModel>,
+                                  characters: List<CharacterModel>,
+                                  navController: NavHostController){
 
-    )
-    val characters = listOf(
-        CharacterItem("Spider-Man (Peter Parker)",
-            "Bitten by a radioactive spider, high school student Peter Parker gained the speed, strength and powers of a spider. Adopting the name Spider-Man, Peter hoped to start a career using his new abilities. Taught that with great power comes great responsibility, Spidey has vowed to use his powers to help people.",
-            "http://i.annihil.us/u/prod/marvel/i/mg/3/50/526548a343e4b.jpg")
-    )
     Column(Modifier.fillMaxWidth()) {
 
         Text(text = "Creators",
@@ -63,7 +56,7 @@ fun AboutCreatorsAndCharactersSec(navController: NavHostController){
                         )
                         Text(text = creator.name,
                             fontSize = 12.sp,)
-                        Text(text = creator.category,
+                        Text(text = creator.role,
                             fontSize = 10.sp,)
                     }
                 }
