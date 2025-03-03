@@ -40,7 +40,7 @@ fun AllComicScreen(seriesList: List<SeriesModel>, navController: NavHostControll
                     .padding(start = 16.dp).clickable {
 
                         navController.popBackStack()
-                        navController.navigate("series")
+                        navController.navigate("series/${series.seriesId}")
 
                     }) {
                     Card(modifier = Modifier.aspectRatio(0.7f)) {
