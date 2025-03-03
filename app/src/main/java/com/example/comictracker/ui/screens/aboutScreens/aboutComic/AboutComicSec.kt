@@ -21,21 +21,21 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
+import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.ui.screens.aboutScreens.ExpandableText
 
 @Composable
-fun AboutComicSec(navController: NavHostController){
+fun AboutComicSec(comic:ComicModel,navController: NavHostController){
     Column {
         Row(Modifier.fillMaxWidth()){
             Column {
                 Text(
-                    text = "Spider-Man Noir #1",
+                    text = comic.title,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
                     modifier = Modifier.width(200.dp)
                 )
-
 
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
@@ -45,26 +45,15 @@ fun AboutComicSec(navController: NavHostController){
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Spider-Man Noir",
+                    text = comic.seriesTitle,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
-                    modifier = Modifier.width(200.dp).clickable { navController.navigate("series") }
+                    modifier = Modifier.width(200.dp).clickable {
+                        navController.navigate("series/${comic.seriesId}") }
                 )
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Text(
-                    text = "WRITER",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Julius Onah",
-                    fontSize = 16.sp,
-                    color = Color.White
-                )
-                Spacer(modifier = Modifier.height(8.dp))
                 Text(
                     text = "DATE",
                     fontSize = 12.sp,
@@ -72,20 +61,12 @@ fun AboutComicSec(navController: NavHostController){
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Date",
+                    text = comic.date,
                     fontSize = 14.sp,
                     color = Color.White
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
-
-                Text(
-                    text = "DESCRIPTION",
-                    fontSize = 12.sp,
-                    color = Color.Gray
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                ExpandableText(text = "After meeting with newly elected U.S. President Thaddeus Ross, Sam finds himself in the middle of an international incident. He must discover the rea")
 
             }
 
@@ -94,8 +75,8 @@ fun AboutComicSec(navController: NavHostController){
                 .width(127.dp)
                 .height(200.dp)) {
                 Box(modifier = Modifier.fillMaxSize(),contentAlignment = Alignment.TopEnd){
-                    AsyncImage(model = "http://i.annihil.us/u/prod/marvel/i/mg/b/f0/4bb5fbe177b30.jpg"
-                        , contentDescription = "  current cover",modifier = Modifier
+                    AsyncImage(model = comic.image
+                        , contentDescription = "${comic.comicId}  current cover",modifier = Modifier
                             .width(145.dp)
                             .height(200.dp))
                 }
