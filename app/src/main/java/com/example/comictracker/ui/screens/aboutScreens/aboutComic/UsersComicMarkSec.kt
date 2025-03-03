@@ -23,9 +23,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-@Preview
+
 @Composable
-fun UsersComicMarkSec(){
+fun UsersComicMarkSec(comicId: Int) {
     var mark by remember {
         mutableStateOf("Mark read")
     }
