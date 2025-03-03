@@ -10,6 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -21,6 +24,7 @@ import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.mvi.ComicAppIntent
 import com.example.comictracker.mvi.ComicAppState
 import com.example.comictracker.mvi.DataState
+import com.example.comictracker.ui.screens.CustomToastMessage
 import com.example.comictracker.viewmodel.ComicViewModel
 
 @Composable
@@ -29,6 +33,7 @@ fun AllComicSeriesSec(seriesId:Int,
                       navController: NavHostController){
 
     val uiState by viewModel.state.collectAsState()
+    var showToast by remember { mutableStateOf(false) }
     LaunchedEffect(key1 = seriesId) {
         viewModel.processIntent(ComicAppIntent.LoadComicFromSeriesScreen(seriesId))
     }
@@ -45,7 +50,10 @@ fun AllComicSeriesSec(seriesId:Int,
             when(state){
                 is ComicAppState.AllComicSeriesScreenState -> {
                     when(state.comicFromSeriesList){
-                        is DataState.Error -> TODO()
+                        is DataState.Error -> CustomToastMessage(
+                            message = state.comicFromSeriesList.errorMessage,
+                            isVisible = showToast,
+                            onDismiss = { showToast = false })
                         DataState.Loading -> CircularProgressIndicator()
                         is DataState.Success -> {
                             val comics = state.comicFromSeriesList.result
