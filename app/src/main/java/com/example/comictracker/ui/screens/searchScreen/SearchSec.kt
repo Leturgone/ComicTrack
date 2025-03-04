@@ -50,7 +50,7 @@ fun SearchSec(navController: NavHostController){
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.clickable {
-                            navController.navigate("search_result")
+                            navController.navigate("search_result/${textFieldState.text}")
                         }
                         ) },
                     trailingIcon = { Icon(Icons.Filled.Cancel,
