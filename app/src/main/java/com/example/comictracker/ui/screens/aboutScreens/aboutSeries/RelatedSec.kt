@@ -46,7 +46,7 @@ fun RelatedSec(connectedSeries:List<SeriesModel?>, navController: NavHostControl
                             SeriesComicListCard(title = currentSeries.title?:"null",
                                 image = currentSeries.image?:"null",
                                 lastPaddingEnd = lastPaddingEnd ) {
-                                navController.navigate("series")
+                                navController.navigate("series/${currentSeries.seriesId}")
                             }
                         }
 
