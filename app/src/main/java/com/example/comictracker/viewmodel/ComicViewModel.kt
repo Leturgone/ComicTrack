@@ -8,6 +8,7 @@ import com.example.comictracker.mvi.AboutSeriesScreenData
 import com.example.comictracker.mvi.ComicAppIntent
 import com.example.comictracker.mvi.ComicAppState
 import com.example.comictracker.mvi.DataState
+import com.example.comictracker.mvi.SearchResultScreenData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -42,10 +43,32 @@ class ComicViewModel @Inject constructor(
             is ComicAppIntent.MarkAsUnreadComic -> TODO()
             is ComicAppIntent.MarkAsUnreadSeries -> TODO()
             is ComicAppIntent.MarkAsWillBeReadSeries -> TODO()
-            is ComicAppIntent.Search -> TODO()
+            is ComicAppIntent.Search -> loadSearchResultsScreen(intent.query)
             is ComicAppIntent.LoadComicFromSeriesScreen -> loadComicFromSeriesScreen(intent.seriesId)
         }
 
+    }
+
+    private fun loadSearchResultsScreen(query: String) = viewModelScope.launch{
+        _state.value = ComicAppState.SearchResultScreenSate(DataState.Loading)
+
+        try {
+            val searchSeriesListDeferred = async(Dispatchers.IO) {
+                remoteComicRepository.getSeriesByTitle(query)
+            }
+
+            val searchCharacterListDeferred = async(Dispatchers.IO) {
+                remoteComicRepository.getCharactersByName(query)
+            }
+            val seriesList = searchSeriesListDeferred.await()
+            val characterList = searchCharacterListDeferred.await()
+
+            _state.value = ComicAppState.SearchResultScreenSate(
+                DataState.Success(characterList),DataState.Success(seriesList))
+        }catch (e:Exception){
+            _state.value = ComicAppState.SearchScreenState(
+                DataState.Error("Error loading comic from this series : $e"))
+        }
     }
 
     private fun loadComicFromSeriesScreen(seriesId: Int)  = viewModelScope.launch{
@@ -183,8 +206,6 @@ class ComicViewModel @Inject constructor(
                 series = DataState.Loading
             )
 
-            val series = seriesDef.await()
-
             _state.value = ComicAppState.AboutCharacterScreenState(
                 character =  character,
                 series = seriesDef.await()
@@ -197,7 +218,6 @@ class ComicViewModel @Inject constructor(
                 )
             }
         }
-
 
     }
 }
