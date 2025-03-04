@@ -29,7 +29,9 @@ fun AppNavigation(innerPadding: PaddingValues, navController: NavHostController)
         composable("home"){ HomeScreen(navController) }
         composable("search"){ SearchScreen(navController) }
         composable("library"){ LibraryScreen(navController) }
-        composable("search_result") { SearchResultScreen(navController) }
+        composable("search_result/{search}") {
+            val search = it.arguments!!.getString("search")
+            SearchResultScreen(search!!,navController) }
         composable("all_characters"){ AllCharactersScreen(navController) }
 
         composable("comic/{comicId}") {
