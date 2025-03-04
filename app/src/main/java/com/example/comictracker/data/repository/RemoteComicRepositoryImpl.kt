@@ -52,7 +52,7 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
             comicId = this.id.toInt(),
             title =  this.title,
             number =  this.issueNumber,
-            image = "${this.images[0].path}.${this.images[0].extension}",
+            image = "${this.thumbnail?.path}.${this.thumbnail?.extension}",
             seriesId = this.series!!.resourceURI!!.substringAfter("series/").toInt(),
             seriesTitle = this.series!!.name!!,
             date = this.dates[0].date.toString(),
