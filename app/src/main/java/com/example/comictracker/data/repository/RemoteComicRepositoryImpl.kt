@@ -11,11 +11,14 @@ import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.domain.model.CreatorModel
 import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.domain.repository.RemoteComicRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComicApi) :RemoteComicRepository {
-
-
     //Мапперы
     private fun seriesResult.toModel():SeriesModel{
         return SeriesModel(
@@ -42,6 +45,8 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
         )
     }
 
+
+    //Что то не так при обработке фотки
     private fun comicsResult.toModel():ComicModel{
         return ComicModel(
             comicId = this.id.toInt(),
@@ -130,6 +135,14 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
         return series
     }
 
+    override suspend fun getCharactersByName(name: String): List<CharacterModel> {
+        val characters = mutableListOf<CharacterModel>()
+        api.getCharactersByName(name).data?.results?.forEach() {
+                result -> characters.add(result.toModel())
+        }
+        return characters
+    }
+
     override suspend fun getSeriesById(id: String): SeriesModel {
         Log.i("Repository","Start get sereies")
         val result = api.getSeriesById(id).data!!.results[0]
@@ -139,16 +152,19 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
         return convertesRes
     }
 
-    //Два вызова
-    override suspend fun getSeriesCreators(creatorsRoles: List<Pair<Int, String>>): List<CreatorModel> {
-        val creators = mutableListOf<CreatorModel>()
-        Log.i("Repository","Start get sereies creators")
-        creatorsRoles.forEach { creator ->
-                creators.add(api.getCreatorById(creator.first.toString())
-                    .data!!.results[0].toModel(creator.second))
-            }
-        Log.i("Repository","creators got $creators")
-        return creators
+    override suspend fun getSeriesCreators(creatorsRoles: List<Pair<Int, String>>):
+            List<CreatorModel>  = withContext(Dispatchers.IO) {
+        Log.i("Repository", "Start get sereies creators")
+        val creators = coroutineScope {
+            creatorsRoles.map { creator ->
+                async {
+                    api.getCreatorById(creator.first.toString())
+                        .data!!.results[0].toModel(creator.second)
+                }
+            }.awaitAll() // Ждем завершения всех корутин и собираем результаты
+        }
+        Log.i("Repository", "creators got $creators")
+        return@withContext creators
     }
 
     override suspend fun getSeriesCharacters(seriesId: Int): List<CharacterModel> {
@@ -162,7 +178,7 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
         return characters
     }
 
-    //Два вызова
+
     override suspend fun getConnectedSeries(connectedSeriesId: List<Int?>): List<SeriesModel> {
         val series = mutableListOf<SeriesModel>()
         Log.i("Repository","Start get connected sereies ")
@@ -200,11 +216,14 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
 
     //Два вызова
     override suspend fun getComicCreators(creatorsRoles: List<Pair<Int, String>>): List<CreatorModel> {
-        val creators = mutableListOf<CreatorModel>()
-        creatorsRoles.forEach { creator ->
-                creators.add(api.getCreatorById(creator.first.toString())
-                    .data!!.results[0].toModel(creator.second))
-            }
+        val creators = coroutineScope {
+            creatorsRoles.map { creator ->
+                async {
+                    api.getCreatorById(creator.first.toString())
+                        .data!!.results[0].toModel(creator.second)
+                }
+            }.awaitAll() // Ждем завершения всех корутин и собираем результаты
+        }
         return creators
     }
 
