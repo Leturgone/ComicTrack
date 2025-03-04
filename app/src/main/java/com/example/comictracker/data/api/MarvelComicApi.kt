@@ -29,8 +29,7 @@ interface MarvelComicApi {
         @Path("characterId")characterId:String,
         @Query("contains")contains:String = "comic",
         @Query("orderBy")orderBy:String = "startYear",
-        @Query("limit")limit:String = "80",
-
+        @Query("limit")limit:String = "10",
         @Query("apikey")apikey:String=API_KEY,
         @Query("ts")ts:String=timeStamp,
         @Query("hash")hash:String=hash()
@@ -58,11 +57,22 @@ interface MarvelComicApi {
         @Query("titleStartsWith")titleStartsWith:String,
         @Query("contains")contains:String = "comic",
         @Query("orderBy")orderBy:String = "startYear",
-        @Query("limit")limit:String = "80",
+        @Query("limit")limit:String = "10",
         @Query("apikey")apikey:String=API_KEY,
         @Query("ts")ts:String=timeStamp,
         @Query("hash")hash:String=hash()
     ):SeriesDTO
+
+    @GET("/v1/public/characters")
+    suspend fun getCharactersByName(
+        @Query("nameStartsWith")nameStartsWith:String,
+        @Query("orderBy")orderBy:String = "name",
+        @Query("limit")limit:String = "10",
+
+        @Query("apikey")apikey:String=API_KEY,
+        @Query("ts")ts:String=timeStamp,
+        @Query("hash")hash:String=hash()
+    ):CharactersDTO
 
 
     @GET("/v1/public/series/{seriesId}")
