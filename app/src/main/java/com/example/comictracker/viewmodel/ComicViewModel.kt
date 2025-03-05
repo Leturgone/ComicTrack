@@ -1,7 +1,10 @@
 package com.example.comictracker.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.comictracker.domain.model.CharacterModel
+import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.domain.repository.RemoteComicRepository
 import com.example.comictracker.mvi.AboutComicScreenData
 import com.example.comictracker.mvi.AboutSeriesScreenData
@@ -51,24 +54,28 @@ class ComicViewModel @Inject constructor(
 
     private fun loadSearchResultsScreen(query: String) = viewModelScope.launch{
         _state.value = ComicAppState.SearchResultScreenSate(DataState.Loading)
-
-        try {
-            val searchSeriesListDeferred = async(Dispatchers.IO) {
-                remoteComicRepository.getSeriesByTitle(query)
+        val searchSeriesListDeferred = async(Dispatchers.IO) {
+            try {
+                DataState.Success(remoteComicRepository.getSeriesByTitle(query))
+            }catch (e:Exception){
+                DataState.Error("$e")
             }
 
-            val searchCharacterListDeferred = async(Dispatchers.IO) {
-                remoteComicRepository.getCharactersByName(query)
-            }
-            val seriesList = searchSeriesListDeferred.await()
-            val characterList = searchCharacterListDeferred.await()
-
-            _state.value = ComicAppState.SearchResultScreenSate(
-                DataState.Success(characterList),DataState.Success(seriesList))
-        }catch (e:Exception){
-            _state.value = ComicAppState.SearchResultScreenSate(
-                DataState.Error("Error loading comic from this series : $e"))
         }
+
+        val searchCharacterListDeferred = async(Dispatchers.IO) {
+            try {
+                DataState.Success(remoteComicRepository.getCharactersByName(query))
+            }catch (e:Exception){
+                DataState.Error("$e")
+            }
+
+        }
+
+        val seriesList = searchSeriesListDeferred.await()
+        val characterList = searchCharacterListDeferred.await()
+
+        _state.value = ComicAppState.SearchResultScreenSate(characterList,seriesList)
     }
 
     private fun loadComicFromSeriesScreen(seriesId: Int)  = viewModelScope.launch{
