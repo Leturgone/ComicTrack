@@ -66,7 +66,7 @@ class ComicViewModel @Inject constructor(
             _state.value = ComicAppState.SearchResultScreenSate(
                 DataState.Success(characterList),DataState.Success(seriesList))
         }catch (e:Exception){
-            _state.value = ComicAppState.SearchScreenState(
+            _state.value = ComicAppState.SearchResultScreenSate(
                 DataState.Error("Error loading comic from this series : $e"))
         }
     }
@@ -96,8 +96,35 @@ class ComicViewModel @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    private fun loadSearchScreen() {
-        TODO("Not yet implemented")
+    private fun loadSearchScreen() = viewModelScope.launch {
+        _state.value = ComicAppState.SearchScreenState(DataState.Loading)
+        try {
+            val discoverSeriesListDef  = async(Dispatchers.IO) {
+                remoteComicRepository.getAllSeries()
+            }
+            val mayLikeSeriesListDef  = async(Dispatchers.IO) {
+                //Получение из базы id серий и id персонажей
+                remoteComicRepository.getAllSeries()
+            }
+            val characterListDef = async(Dispatchers.IO) {
+                remoteComicRepository.getAllCharacters()
+            }
+            val dseries = discoverSeriesListDef.await()
+            val mlsreis = mayLikeSeriesListDef.await()
+            val characters = characterListDef.await()
+
+            _state.value = ComicAppState.SearchScreenState(
+                DataState.Success(mlsreis),DataState.Success(dseries),DataState.Success(characters)
+            )
+        }catch (e:Exception){
+            withContext(Dispatchers.Main){
+                _state.value = ComicAppState.SearchScreenState(
+                    DataState.Error("Error loading : $e"),
+                    DataState.Error("Error loading  : $e"),
+                    DataState.Error("Error loading  : $e")
+                )
+            }
+        }
     }
 
     private fun loadSeriesScreen(seriesId: Int)  = viewModelScope.launch {
