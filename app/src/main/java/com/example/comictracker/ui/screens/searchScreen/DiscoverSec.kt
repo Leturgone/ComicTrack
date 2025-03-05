@@ -16,12 +16,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.comictracker.ui.screens.SeriesComicListCard
-import com.example.comictracker.data.model.ComicCover
+import com.example.comictracker.domain.model.SeriesModel
 
 
 @Composable
-fun DiscoverSec(navController: NavHostController){
-    var discoverComicList: List<ComicCover> = listOf()
+fun DiscoverSec(discoverComicList: List<SeriesModel>, navController: NavHostController){
+
 
     Column {
         Text(text = "Discover series",
@@ -37,17 +37,17 @@ fun DiscoverSec(navController: NavHostController){
                     .clickable { navController.navigate("all_cs") })
         }
         LazyRow{
-            items(8){
-                //val newComicCover  = discoverComicList[it]
+            items(discoverComicList.size){
+                val newSeries  = discoverComicList[it]
                 var lastPaddingEnd = 0
-//                if (it == discoverComicList.size - 1){
-//                    lastPaddingEnd = 16
-//                }
+                if (it == discoverComicList.size - 1){
+                    lastPaddingEnd = 16
+                }
                 SeriesComicListCard(
-                    title = "comic title",
-                    image = "http://i.annihil.us/u/prod/marvel/i/mg/9/c0/59dfdd3078b52.jpg",
+                    title = newSeries.title!!,
+                    image = newSeries.image!!,
                     lastPaddingEnd = lastPaddingEnd) {
-                    navController.navigate("series/6343")
+                    navController.navigate("series/${newSeries.seriesId}")
                 }
 
             }

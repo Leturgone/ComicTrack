@@ -27,9 +27,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.comictracker.data.model.CharacterItem
+import com.example.comictracker.domain.model.CharacterModel
 
 @Composable
-fun CharacterSec(navController: NavHostController){
+fun CharacterSec(characterList: List<CharacterModel>, navController: NavHostController){
     Column {
         Text(text = "Characters",
             fontSize = 24.sp,
