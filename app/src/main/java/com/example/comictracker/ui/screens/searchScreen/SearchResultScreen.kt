@@ -1,8 +1,10 @@
 package com.example.comictracker.ui.screens.searchScreen
 
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -17,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -57,17 +60,7 @@ fun SearchResultScreen(query: String,
                 is ComicAppState.SearchResultScreenSate -> {
                     Column {
                         when(state.character){
-                            is DataState.Error ->{
-                             Column {
-                                 Text(text = "Not found")
-                                 Button(onClick = {
-                                     navController.popBackStack()
-                                     navController.navigate("search_result/$query")
-                                 }) {
-                                     Text(text = "Update")
-                                 }
-                             }
-                            }
+                            is DataState.Error ->{}
                             DataState.Loading -> CircularProgressIndicator()
                             is DataState.Success -> {
                                 if(state.character.result.isNotEmpty()) {
@@ -93,7 +86,20 @@ fun SearchResultScreen(query: String,
                             }
                         }
                         when(state.series){
-                            is DataState.Error -> TODO()
+                            is DataState.Error -> {
+                                Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                                    Column {
+                                        Text(text = "Not found")
+                                        Button(onClick = {
+                                            navController.popBackStack()
+                                            navController.navigate("search_result/$query")
+                                        }) {
+                                            Text(text = "Update")
+                                        }
+                                    }
+                                }
+
+                            }
                             DataState.Loading -> CircularProgressIndicator()
                             is DataState.Success -> {
                                 LazyColumn{
@@ -108,7 +114,6 @@ fun SearchResultScreen(query: String,
                             }
                         }
                     }
-
 
                 }
                 else -> {CircularProgressIndicator()}
