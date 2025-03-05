@@ -6,6 +6,8 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.input.TextFieldState
+import androidx.compose.foundation.text.input.clearText
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Cancel
@@ -44,7 +46,7 @@ fun SearchSec(navController: NavHostController){
                 inputField = { SearchBarDefaults.InputField(
                     state = textFieldState,
                     shape = RoundedCornerShape(12.dp),
-                    onSearch = {expanded = false},
+                    onSearch = {expanded = false },
                     expanded = expanded,
                     onExpandedChange = {expanded = it},
                     placeholder = { Text("Search") },
@@ -60,7 +62,7 @@ fun SearchSec(navController: NavHostController){
                                 contentDescription = null,
                                 tint = MaterialTheme.colorScheme.primary,
                                 modifier = Modifier.clickable {
-
+                                    textFieldState.clearText()
                                     expanded = false
                                 }
                             )
