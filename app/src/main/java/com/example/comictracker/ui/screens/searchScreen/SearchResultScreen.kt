@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -56,20 +57,37 @@ fun SearchResultScreen(query: String,
                 is ComicAppState.SearchResultScreenSate -> {
                     Column {
                         when(state.character){
-                            is DataState.Error -> TODO()
+                            is DataState.Error ->{
+                             Column {
+                                 Text(text = "Not found")
+                                 Button(onClick = {
+                                     navController.popBackStack()
+                                     navController.navigate("search_result/$query")
+                                 }) {
+                                     Text(text = "Update")
+                                 }
+                             }
+                            }
                             DataState.Loading -> CircularProgressIndicator()
                             is DataState.Success -> {
-                                LazyRow{
-                                    items(state.character.result.size){
-                                        val character = state.character.result[it]
-                                        CharacterCard(
-                                            imageUrl = character.image,
-                                            characterName = character.name,
-                                            cardSize = 120,
-                                            imageSize = 50
-                                        ) {
-                                            navController.navigate("character/${character.characterId}")
+                                if(state.character.result.isNotEmpty()) {
+                                    LazyRow {
+                                        items(state.character.result.size) {
+                                            val character = state.character.result[it]
+                                            CharacterCard(
+                                                imageUrl = character.image,
+                                                characterName = character.name,
+                                                cardSize = 120,
+                                                imageSize = 50
+                                            ) {
+                                                navController.navigate("character/${character.characterId}")
+                                            }
                                         }
+                                    }
+                                }
+                                else{
+                                    Column {
+                                        Text(text = "Not found")
                                     }
                                 }
                             }
