@@ -1,5 +1,7 @@
 package com.example.comictracker.ui.screens.searchScreen
 
+import android.app.Activity
+import android.view.inputmethod.InputMethodManager
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -21,16 +23,16 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.NavHostController
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchSec(navController: NavHostController){
-    val textFieldState = rememberTextFieldState()
-
+    var textFieldState = rememberTextFieldState()
     var expanded by rememberSaveable { mutableStateOf(false)}
 
         Column(modifier = Modifier.padding(16.dp)) {
@@ -53,13 +55,17 @@ fun SearchSec(navController: NavHostController){
                             navController.navigate("search_result/${textFieldState.text}")
                         }
                         ) },
-                    trailingIcon = { Icon(Icons.Filled.Cancel,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.clickable {
-                            expanded = false
+                    trailingIcon = { if (textFieldState.text.isNotEmpty()){
+                            Icon(Icons.Filled.Cancel,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.clickable {
+
+                                    expanded = false
+                                }
+                            )
                         }
-                        ) }
+                    }
                 )},
                 expanded = expanded,
                 onExpandedChange = {expanded = it}, modifier = Modifier.padding(bottom = 16.dp)
