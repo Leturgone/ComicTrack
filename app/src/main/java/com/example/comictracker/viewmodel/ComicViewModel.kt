@@ -3,9 +3,7 @@ package com.example.comictracker.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.comictracker.domain.model.CharacterModel
 import com.example.comictracker.domain.model.ComicModel
-import com.example.comictracker.domain.model.CreatorModel
 import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.domain.repository.RemoteComicRepository
 import com.example.comictracker.mvi.AboutComicScreenData
@@ -13,9 +11,7 @@ import com.example.comictracker.mvi.AboutSeriesScreenData
 import com.example.comictracker.mvi.ComicAppIntent
 import com.example.comictracker.mvi.ComicAppState
 import com.example.comictracker.mvi.DataState
-import com.example.comictracker.mvi.SearchResultScreenData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,7 +35,7 @@ class ComicViewModel @Inject constructor(
             is ComicAppIntent.LoadCharacterScreen -> loadCharacterScreen(intent.characterId)
             is ComicAppIntent.LoadComicScreen -> loadComicScreen(intent.comicId)
             ComicAppIntent.LoadHomeScreen -> loadHomeScreen()
-            ComicAppIntent.LoadProfileScreen -> loadProfileScreen()
+            ComicAppIntent.LoadLibraryScreen -> loadProfileScreen()
             ComicAppIntent.LoadSearchScreen -> loadSearchScreen()
             is ComicAppIntent.LoadSeriesScreen -> loadSeriesScreen(intent.seriesId)
             is ComicAppIntent.MarkAsCurrentlyReadingSeries -> TODO()
@@ -50,6 +46,7 @@ class ComicViewModel @Inject constructor(
             is ComicAppIntent.MarkAsWillBeReadSeries -> TODO()
             is ComicAppIntent.Search -> loadSearchResultsScreen(intent.query)
             is ComicAppIntent.LoadComicFromSeriesScreen -> loadComicFromSeriesScreen(intent.seriesId)
+            ComicAppIntent.LoadAllScreen -> TODO()
         }
 
     }

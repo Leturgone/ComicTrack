@@ -1,11 +1,10 @@
 package com.example.comictracker.mvi
 
-import com.example.comictracker.domain.model.CharacterModel
-
 sealed class ComicAppIntent {
     data object LoadHomeScreen: ComicAppIntent()
-    data object LoadProfileScreen: ComicAppIntent()
+    data object LoadLibraryScreen: ComicAppIntent()
     data object LoadSearchScreen: ComicAppIntent()
+    data object LoadAllScreen: ComicAppIntent()
     data class Search(val query:String): ComicAppIntent()
     data class LoadSeriesScreen(val seriesId:Int): ComicAppIntent()
     data class LoadComicFromSeriesScreen(val seriesId: Int):ComicAppIntent()
