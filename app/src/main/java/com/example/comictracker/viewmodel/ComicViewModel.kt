@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.model.CharacterModel
+import com.example.comictracker.domain.model.ComicModel
+import com.example.comictracker.domain.model.CreatorModel
 import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.domain.repository.RemoteComicRepository
 import com.example.comictracker.mvi.AboutComicScreenData
@@ -58,7 +60,8 @@ class ComicViewModel @Inject constructor(
             try {
                 DataState.Success(remoteComicRepository.getSeriesByTitle(query))
             }catch (e:Exception){
-                DataState.Error("$e")
+                Log.e("ViewModel","$e")
+                DataState.Error("Error loading results series")
             }
 
         }
@@ -67,7 +70,8 @@ class ComicViewModel @Inject constructor(
             try {
                 DataState.Success(remoteComicRepository.getCharactersByName(query))
             }catch (e:Exception){
-                DataState.Error("$e")
+                Log.e("ViewModel","$e")
+                DataState.Error("Error loading results characters")
             }
 
         }
@@ -105,117 +109,162 @@ class ComicViewModel @Inject constructor(
 
     private fun loadSearchScreen() = viewModelScope.launch {
         _state.value = ComicAppState.SearchScreenState(DataState.Loading)
-        try {
-            val discoverSeriesListDef  = async(Dispatchers.IO) {
-                remoteComicRepository.getAllSeries()
-            }
-            val mayLikeSeriesListDef  = async(Dispatchers.IO) {
-                //Получение из базы id серий и id персонажей
-                remoteComicRepository.getAllSeries()
-            }
-            val characterListDef = async(Dispatchers.IO) {
-                remoteComicRepository.getAllCharacters()
-            }
-            val dseries = discoverSeriesListDef.await()
-            val mlsreis = mayLikeSeriesListDef.await()
-            val characters = characterListDef.await()
-
-            _state.value = ComicAppState.SearchScreenState(
-                DataState.Success(mlsreis),DataState.Success(dseries),DataState.Success(characters)
-            )
-        }catch (e:Exception){
-            withContext(Dispatchers.Main){
-                _state.value = ComicAppState.SearchScreenState(
-                    DataState.Error("Error loading : $e"),
-                    DataState.Error("Error loading  : $e"),
-                    DataState.Error("Error loading  : $e")
-                )
+        val discoverSeriesListDef  = async(Dispatchers.IO) {
+            try{
+                DataState.Success(remoteComicRepository.getAllSeries())
+            }catch(e:Exception){
+                Log.e("ViewModel","$e")
+                DataState.Error("Error loading Discover Series")
             }
         }
+        val mayLikeSeriesListDef  = async(Dispatchers.IO) {
+            try{
+                DataState.Success(remoteComicRepository.getAllSeries())
+            }catch(e:Exception){
+                Log.e("ViewModel","$e")
+                DataState.Error("Error loading May Like Series")
+            }
+        }
+        val characterListDef  = async(Dispatchers.IO) {
+            try{
+                DataState.Success(remoteComicRepository.getAllCharacters())
+            }catch(e:Exception){
+                Log.e("ViewModel","$e")
+                DataState.Error("Error loading characters")
+            }
+        }
+
+        val dseries = discoverSeriesListDef.await()
+        val mlsreis = mayLikeSeriesListDef.await()
+        val characters = characterListDef.await()
+
+        _state.value = ComicAppState.SearchScreenState(
+            mlsreis,dseries,characters
+        )
     }
+
 
     private fun loadSeriesScreen(seriesId: Int)  = viewModelScope.launch {
         _state.value = ComicAppState.AboutComicScreenState(DataState.Loading)
-
-        try {
-            val seriesDeferred = async(Dispatchers.IO){
+        val seriesDeferred = async(Dispatchers.IO){
+            try {
                 remoteComicRepository.getSeriesById(seriesId.toString())
+            }catch (e:Exception){
+                Log.e("ViewModel","$e")
+                emptyList<SeriesModel>()
             }
+        }
 
-            val comicListDeferred = async(Dispatchers.IO) {
+        val comicListDeferred = async(Dispatchers.IO) {
+            try{
                 remoteComicRepository.getComicsFromSeries(seriesId)
+            }catch (e:Exception){
+                Log.e("ViewModel","$e")
+                emptyList()
             }
+        }
 
-            val characterListDeferred = async(Dispatchers.IO) {
+        val characterListDeferred = async(Dispatchers.IO) {
+            try{
                 remoteComicRepository.getSeriesCharacters(seriesId)
+            }catch (e:Exception){
+                Log.e("ViewModel","$e")
+                emptyList()
+            }
+        }
+
+        val series = seriesDeferred.await() // Получение series до зависимых задач.
+
+        val creatorListDeferred = async(Dispatchers.IO) {
+            try {
+                if (series is SeriesModel){
+                    remoteComicRepository.getSeriesCreators(series.creators?: emptyList())
+                } else {
+                    emptyList()
+                }
+            }catch (e:Exception){
+                emptyList()
             }
 
-            val series = seriesDeferred.await() // Получение series до зависимых задач.
+        }
 
-            val creatorListDeferred = async(Dispatchers.IO) {
-                remoteComicRepository.getSeriesCreators(series.creators ?: emptyList())
+        val connectedSeriesListDeferred = async(Dispatchers.IO) {
+            try{
+                if (series is SeriesModel){
+                    remoteComicRepository.getConnectedSeries(series.connectedSeries)
+                }else{
+                    emptyList()
+                }
+            }catch (e:Exception){
+                emptyList()
             }
 
-            val connectedSeriesListDeferred = async(Dispatchers.IO) {
-                remoteComicRepository.getConnectedSeries(series.connectedSeries)
-            }
+        }
 
-            val comicList = comicListDeferred.await()
-            val characterList = characterListDeferred.await()
-            val creatorList = creatorListDeferred.await()
-            val connectedSeriesList = connectedSeriesListDeferred.await()
+        val comicList = comicListDeferred.await()
+        val characterList = characterListDeferred.await()
+        val creatorList = creatorListDeferred.await()
+        val connectedSeriesList = connectedSeriesListDeferred.await()
 
-            _state.value = (ComicAppState.AboutSeriesScreenState(
-                DataState.Success(AboutSeriesScreenData(
+        _state.value = ComicAppState.AboutSeriesScreenState(
+            when(series){
+                is SeriesModel -> DataState.Success(AboutSeriesScreenData(
                     series = series,
                     comicList = comicList,
                     creatorList = creatorList,
                     characterList = characterList,
                     connectedSeriesList = connectedSeriesList
                 ))
-            ))
-        }catch (e:Exception){
-            withContext(Dispatchers.Main){
-                _state.value = ComicAppState.AboutCharacterScreenState(
-                    DataState.Error("Error loading this series : $e")
-                )
+                else -> DataState.Error("Error loading this series ")
             }
-        }
+        )
     }
 
     private fun loadComicScreen(comicId: Int) = viewModelScope.launch {
         _state.value = ComicAppState.AboutComicScreenState(DataState.Loading)
-        try {
-            val comicDeferred = async(Dispatchers.IO){
+        val comicDeferred = async(Dispatchers.IO){
+            try {
                 remoteComicRepository.getComicById(comicId)
+            }catch (e:Exception){
+                emptyList<ComicModel>()
             }
 
+        }
 
-            val characterListDeferred = async(Dispatchers.IO) {
+        val characterListDeferred = async(Dispatchers.IO) {
+            try {
                 remoteComicRepository.getComicCharacters(comicId)
+            }catch (e:Exception){
+                emptyList()
             }
 
-            val comic = comicDeferred.await() // Получение series до зависимых задач.
+        }
 
-            val creatorListDeferred = async(Dispatchers.IO) {
-                remoteComicRepository.getComicCreators(comic.creators ?: emptyList())
+        val comic = comicDeferred.await() // Получение series до зависимых задач.
+
+        val creatorListDeferred = async(Dispatchers.IO) {
+            try {
+                if (comic is ComicModel){
+                    remoteComicRepository.getComicCreators(comic.creators)
+                } else {
+                    emptyList()
+                }
+            }catch (e:Exception){
+                emptyList()
             }
 
-            val characterList = characterListDeferred.await()
-            val creatorList = creatorListDeferred.await()
+        }
 
-            _state.value = (ComicAppState.AboutComicScreenState(
-                DataState.Success(AboutComicScreenData(
+        val characterList = characterListDeferred.await()
+        val creatorList = creatorListDeferred.await()
+
+        _state.value = (ComicAppState.AboutComicScreenState(
+            when(comic){
+                is ComicModel -> DataState.Success(AboutComicScreenData(
                     comic = comic, creatorList = creatorList, characterList = characterList
                 ))
-            ))
-        }catch (e:Exception){
-            withContext(Dispatchers.Main){
-                _state.value = ComicAppState.AboutCharacterScreenState(
-                    DataState.Error("Error loading this series : $e")
-                )
-            }
-        }
+                else ->  DataState.Error("Error loading this series")
+            }))
     }
 
     private fun loadCharacterScreen(characterId:Int) = viewModelScope.launch {
@@ -223,35 +272,35 @@ class ComicViewModel @Inject constructor(
             character = DataState.Loading,
             series = DataState.Loading
         )
-        try {
-
-            val characterDef = async(Dispatchers.IO) {
+        val characterDef = async(Dispatchers.IO) {
+            try {
                 DataState.Success(remoteComicRepository.getCharacterById(characterId))
+            }catch (e:Exception){
+                Log.e("ViewModel","$e")
+                DataState.Error("Error loading character")
             }
 
-            val seriesDef = async(Dispatchers.IO) {
+        }
+
+        val seriesDef = async(Dispatchers.IO) {
+            try{
                 DataState.Success(remoteComicRepository.getCharacterSeries(characterId))
-            }
-
-            val character = characterDef.await()
-
-            _state.value = ComicAppState.AboutCharacterScreenState(
-                character =  character,
-                series = DataState.Loading
-            )
-
-            _state.value = ComicAppState.AboutCharacterScreenState(
-                character =  character,
-                series = seriesDef.await()
-            )
-        }catch (e:Exception){
-            withContext(Dispatchers.Main){
-                _state.value = ComicAppState.AboutCharacterScreenState(
-                    character = DataState.Error("Error loading character"),
-                    series = DataState.Error("Error loading comics with this character")
-                )
+            }catch (e:Exception){
+                Log.e("ViewModel","$e")
+                DataState.Error("Error loading comics with this character")
             }
         }
 
+        val character = characterDef.await()
+
+        _state.value = ComicAppState.AboutCharacterScreenState(
+            character =  character,
+            series = DataState.Loading
+        )
+
+        _state.value = ComicAppState.AboutCharacterScreenState(
+            character =  character,
+            series = seriesDef.await()
+        )
     }
 }
