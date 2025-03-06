@@ -18,10 +18,7 @@ sealed class ComicAppState {
     ): ComicAppState()
 
     data class MyLibraryScreenState(
-        val statistics:DataState<StatisticsforAll> = DataState.Loading,
-        val favoritesList: DataState<List<SeriesModel>> = DataState.Loading,
-        val currentlyReadingList: DataState<List<SeriesModel>>  = DataState.Loading,
-        val lastUpdates:DataState<List<ComicModel>> = DataState.Loading
+        val dataState: DataState<MyLibraryScreenData> = DataState.Loading
     ): ComicAppState()
 
     data class AboutComicScreenState(
@@ -69,7 +66,7 @@ data class SearchScreenData(
 ): ComicAppState()
 
 data class MyLibraryScreenData(
-    val statistics: StatisticsforAll = StatisticsforAll(0,0,0),
+    val statistics: StatisticsforAll = StatisticsforAll(0,0,0,0,0),
     val favoritesList: List<SeriesModel> = emptyList(),
     val currentlyReadingList: List<SeriesModel>  = emptyList(),
     val lastUpdates: List<ComicModel> = emptyList()
