@@ -17,10 +17,10 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.comictracker.ui.screens.SeriesComicListCard
 import com.example.comictracker.data.model.ComicCover
+import com.example.comictracker.domain.model.ComicModel
 
 @Composable
-fun LatestReadingSec(navController: NavHostController){
-    var latestReadingComicList: List<ComicCover> = listOf()
+fun LatestReadingSec(latestReadList: List<ComicModel>, navController: NavHostController){
 
     Column {
         Text(text = "Last updates",
@@ -37,16 +37,16 @@ fun LatestReadingSec(navController: NavHostController){
                 }.padding(end = 15.dp, bottom = 12.dp))
         }
         LazyRow{
-            items(8){
-                //val latestComicCover  = latestReadingComicList[it]
+            items(latestReadList.size){
+                val latestComic  = latestReadList[it]
                 var lastPaddingEnd = 0
-//                if (it == latestReadingComicList.size - 1){
-//                    lastPaddingEnd = 16.dp
-//                }
-                SeriesComicListCard(title = "comic title",
-                    image = "http://i.annihil.us/u/prod/marvel/i/mg/9/c0/59dfdd3078b52.jpg",
+                if (it == latestReadList.size - 1){
+                    lastPaddingEnd = 16
+                }
+                SeriesComicListCard(title = latestComic.title,
+                    image = latestComic.image,
                     lastPaddingEnd =lastPaddingEnd, date = "Date" ) {
-                    navController.navigate("comic")
+                    navController.navigate("comic/${latestComic.comicId}")
 
                 }
 
