@@ -8,24 +8,22 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
-import com.example.comictracker.ui.theme.LightGreen
+import com.example.comictracker.domain.model.StatisticsforAll
 
 @Composable
-fun MicroSectionsSec(navController: NavHostController){
+fun MicroSectionsSec(statistics: StatisticsforAll, navController: NavHostController){
     val stats = listOf(
-        "Comics" to "1000 / 24 this year",
-        "Series" to "30 / 10 this year",
-        "Readlist" to "392",
+        "Comics" to "${statistics.comicCount} / ${statistics.comicCountThisYear}this year",
+        "Series" to "${statistics.seriesCount} / ${statistics.seriesCountThisYear} this year",
+        "Readlist" to "${statistics.readlistCount}",
     )
     Column(
         modifier = Modifier
