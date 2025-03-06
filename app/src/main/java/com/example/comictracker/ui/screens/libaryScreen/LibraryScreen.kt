@@ -5,18 +5,39 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.comictracker.mvi.ComicAppIntent
+import com.example.comictracker.mvi.ComicAppState
+import com.example.comictracker.mvi.DataState
+import com.example.comictracker.ui.screens.CustomToastMessage
+import com.example.comictracker.viewmodel.ComicViewModel
 
 @Composable
-fun LibraryScreen(navController: NavHostController){
+fun LibraryScreen(navController: NavHostController,
+                  viewModel: ComicViewModel = hiltViewModel()
+){
+    val uiState by viewModel.state.collectAsState()
+    var showToast by remember { mutableStateOf(false) }
+
+
+    LaunchedEffect(key1 = "libaryscreen") {
+        viewModel.processIntent(ComicAppIntent.LoadLibraryScreen)
+    }
     Column {
         Text(text = "My Library",
             fontSize = 24.sp,
@@ -24,11 +45,30 @@ fun LibraryScreen(navController: NavHostController){
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(16.dp))
         Column(Modifier.verticalScroll(rememberScrollState())) {
-            MicroSectionsSec(navController)
-            FavoriteSec(navController)
-            CurrentReadingSec(navController)
-            LatestReadingSec(navController)
-            Spacer(modifier = Modifier.padding(bottom = 40.dp))
+            uiState.let {state ->
+                when(state){
+                    is ComicAppState.MyLibraryScreenState ->{
+                        when(state.dataState){
+                            is DataState.Error -> CustomToastMessage(
+                                message = state.dataState.errorMessage,
+                                isVisible = showToast,
+                                onDismiss = { showToast = false })
+                            DataState.Loading -> CircularProgressIndicator()
+                            is DataState.Success -> {
+                                MicroSectionsSec(state.dataState.result.statistics,navController)
+                                FavoriteSec(state.dataState.result.favoritesList,navController)
+                                CurrentReadingSec(state.dataState.result.currentlyReadingList,navController)
+                                LatestReadingSec(state.dataState.result.lastUpdates,navController)
+                                Spacer(modifier = Modifier.padding(bottom = 40.dp))
+                            }
+                        }
+                    }
+
+                    else -> {
+                        CircularProgressIndicator()}
+                }
+            }
+
         }
 
     }
