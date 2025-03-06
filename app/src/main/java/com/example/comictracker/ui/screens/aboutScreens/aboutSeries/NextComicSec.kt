@@ -19,21 +19,26 @@ import com.example.comictracker.domain.model.ComicModel
 
 @Composable
 fun NextComicSec(comicList:List<ComicModel>,navController: NavHostController){
-    Column {
-        Text(text = "Continue reading",
-            fontSize = 24.sp,
-            color = MaterialTheme.colorScheme.onBackground,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(16.dp))
+    if (comicList.isNotEmpty()) {
+        Column {
+            Text(
+                text = "Continue reading",
+                fontSize = 24.sp,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(16.dp)
+            )
 
-        Box(modifier = Modifier.fillMaxWidth(),contentAlignment = Alignment.TopEnd){
-            Text(text = "See all",
-                color = MaterialTheme.colorScheme.primary, modifier = Modifier.padding(end = 15.dp, bottom = 12.dp)
-                    .clickable {
-                        navController.navigate("comics_from_series/${comicList[0].seriesId}")
-                    })
+            Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.TopEnd) {
+                Text(text = "See all",
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(end = 15.dp, bottom = 12.dp)
+                        .clickable {
+                            navController.navigate("comics_from_series/${comicList[0].seriesId}")
+                        })
+            }
+            ComicFromSeriesCard(comicList[0], navController)
         }
-        ComicFromSeriesCard(comicList[0],navController)
     }
 
 }
