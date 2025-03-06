@@ -6,23 +6,16 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.observe
 import androidx.navigation.NavHostController
 import com.example.comictracker.ui.screens.SeriesComicListCard
-import com.example.comictracker.data.model.ComicCover
-import com.example.comictracker.viewmodel.ComicViewModel
+import com.example.comictracker.domain.model.SeriesModel
 
 @Composable
-fun FavoriteSec(navController: NavHostController,
-                viewModel: ComicViewModel = hiltViewModel()){
-    var favoritesComicList: List<Int> = listOf()
+fun FavoriteSec(favoriteList: List<SeriesModel>, navController: NavHostController){
 
     Column {
         Text(text = "Favorites",
@@ -32,16 +25,16 @@ fun FavoriteSec(navController: NavHostController,
             modifier = Modifier.padding(16.dp))
 
         LazyRow{
-            items(8){
-                val favoriteComicId  = favoritesComicList[it]
+            items(favoriteList.size){
+                val favoriteSeries  = favoriteList[it]
                 var lastPaddingEnd = 0
-                if (it == favoritesComicList.size - 1){
+                if (it == favoriteList.size - 1){
                     lastPaddingEnd = 16
                 }
-                SeriesComicListCard(title = "${favoritesComicList[it]} comic title",
-                    image = "http://i.annihil.us/u/prod/marvel/i/mg/9/c0/59dfdd3078b52.jpg",
+                SeriesComicListCard(title = favoriteSeries.title!!,
+                    image = favoriteSeries.image!!,
                     lastPaddingEnd =lastPaddingEnd ) {
-                    navController.navigate("series")
+                    navController.navigate("series/${favoriteSeries.seriesId}")
 
                 }
 
