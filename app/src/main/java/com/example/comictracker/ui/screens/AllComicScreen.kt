@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.NavigateBefore
 import androidx.compose.material.icons.filled.NavigateNext
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
@@ -101,7 +102,7 @@ fun AllComicScreen(sourceId:Int,sourceCategory:String, loadCount:Int,
         Box(contentAlignment = Alignment.CenterEnd, modifier = Modifier.fillMaxSize()) {
             IconButton(onClick = {
                 navController.popBackStack()
-                navController.navigate("all_cs/$sourceId/$sourceCategory/${loadCount + 10}")
+                navController.navigate("all_cs/$sourceId/$sourceCategory/${loadCount + 9}")
             },
                 modifier = Modifier.padding(16.dp),
                 colors = IconButtonColors(
@@ -114,6 +115,26 @@ fun AllComicScreen(sourceId:Int,sourceCategory:String, loadCount:Int,
             ) {
                 Icon(imageVector = Icons.Default.NavigateNext,
                     contentDescription = "nextButton")
+            }
+        }
+        if (loadCount>=9){
+            Box(contentAlignment = Alignment.CenterStart, modifier = Modifier.fillMaxSize()) {
+                IconButton(onClick = {
+                    navController.popBackStack()
+                    navController.navigate("all_cs/$sourceId/$sourceCategory/${loadCount - 9}")
+                },
+                    modifier = Modifier.padding(16.dp),
+                    colors = IconButtonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.secondaryContainer,
+                        disabledContentColor = MaterialTheme.colorScheme.secondaryContainer,
+                        disabledContainerColor = MaterialTheme.colorScheme.primary
+                    ),
+                    shape = CircleShape
+                ) {
+                    Icon(imageVector = Icons.Default.NavigateBefore,
+                        contentDescription = "backButton")
+                }
             }
         }
     }
