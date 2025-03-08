@@ -45,7 +45,7 @@ class ComicViewModel @Inject constructor(
             is ComicAppIntent.MarkAsUnreadSeries -> TODO()
             is ComicAppIntent.MarkAsWillBeReadSeries -> TODO()
             is ComicAppIntent.Search -> loadSearchResultsScreen(intent.query)
-            is ComicAppIntent.LoadComicFromSeriesScreen -> loadComicFromSeriesScreen(intent.seriesId)
+            is ComicAppIntent.LoadComicFromSeriesScreen -> loadComicFromSeriesScreen(intent.seriesId,intent.loadCount)
             is ComicAppIntent.LoadAllScreen -> loadAll(intent.sourceId,intent.sourceCat,intent.loadedCount)
             is ComicAppIntent.LoadAllCharactersScreen -> loadAllCharactersScreen(intent.loadedCount)
         }
@@ -129,13 +129,13 @@ class ComicViewModel @Inject constructor(
         _state.value = ComicAppState.SearchResultScreenSate(characterList,seriesList)
     }
 
-    private fun loadComicFromSeriesScreen(seriesId: Int)  = viewModelScope.launch{
+    private fun loadComicFromSeriesScreen(seriesId: Int,loadedCount: Int)  = viewModelScope.launch{
         _state.value = ComicAppState.AllComicSeriesScreenState(DataState.Loading)
         try {
             withContext(Dispatchers.IO){
                 _state.emit(
                     ComicAppState.AllComicSeriesScreenState(
-                        DataState.Success(remoteComicRepository.getComicsFromSeries(seriesId))
+                        DataState.Success(remoteComicRepository.getComicsFromSeries(seriesId,loadedCount))
                     )
                 )
             }
