@@ -113,7 +113,8 @@ interface MarvelComicApi {
         @Query("formatType")formatType:String = "comic",
         @Query("noVariants")noVariants:String = "true",
         @Query("orderBy")orderBy:String = "issueNumber",
-        @Query("limit")limit:String = "90",
+        @Query("limit")limit:String = "50",
+        @Query("offset")offset:String,
         @Query("apikey")apikey:String=API_KEY,
         @Query("ts")ts:String=timeStamp,
         @Query("hash")hash:String=hash()
