@@ -15,9 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.comictracker.ui.screens.SeriesComicListCard
-import com.example.comictracker.data.model.ComicCover
 import com.example.comictracker.domain.model.SeriesModel
+import com.example.comictracker.ui.screens.SeriesComicListCard
 
 @Composable
 fun MayLikeSec(mayLikeComicList: List<SeriesModel>, navController: NavHostController){
@@ -33,7 +32,7 @@ fun MayLikeSec(mayLikeComicList: List<SeriesModel>, navController: NavHostContro
             Text(text = "See all",
                 color = MaterialTheme.colorScheme.primary, modifier = Modifier
                     .padding(end = 15.dp, bottom = 12.dp)
-                    .clickable { navController.navigate("all_cs") })
+                    .clickable { navController.navigate("all_cs/0/mayLike/0")  })
         }
         LazyRow{
             items(8){

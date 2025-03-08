@@ -34,7 +34,9 @@ fun DiscoverSec(discoverComicList: List<SeriesModel>, navController: NavHostCont
             Text(text = "See all",
                 color = MaterialTheme.colorScheme.primary, modifier = Modifier
                     .padding(end = 15.dp, bottom = 12.dp)
-                    .clickable { navController.navigate("all_cs") })
+                    .clickable {
+                        navController.navigate("all_cs/0/discover/0")
+                    })
         }
         LazyRow{
             items(discoverComicList.size){
