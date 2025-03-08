@@ -99,11 +99,11 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
         return seriesLastReleases
     }
 
-    override suspend fun getCharacterSeries(characterId: Int): List<SeriesModel> {
+    override suspend fun getCharacterSeries(characterId: Int,offset:Int): List<SeriesModel> {
         val characterSeries = mutableListOf<SeriesModel>()
         Log.i("Repository","Start get Character sereies")
 
-        val res = api.getCharacterSeries(characterId.toString()).data!!.results
+        val res = api.getCharacterSeries(characterId.toString(), offset = offset.toString()).data!!.results
         res.forEach {
             result -> characterSeries.add(result.toModel())
         }
@@ -111,17 +111,17 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
         return characterSeries
     }
 
-    override suspend fun getAllSeries(): List<SeriesModel> {
+    override suspend fun getAllSeries(loadedCount: Int): List<SeriesModel> {
         val allSeries = mutableListOf<SeriesModel>()
-        api.getAllSeries().data?.results?.forEach {
+        api.getAllSeries(offset = loadedCount.toString()).data?.results?.forEach {
             result -> allSeries.add(result.toModel())
         }
         return allSeries
     }
 
-    override suspend fun getAllCharacters(): List<CharacterModel> {
+    override suspend fun getAllCharacters(loadedCount: Int): List<CharacterModel> {
         val allCharacters = mutableListOf<CharacterModel>()
-        api.getAllCharacters().data?.results?.forEach {
+        api.getAllCharacters(offset = loadedCount.toString()).data?.results?.forEach {
             result -> allCharacters.add(result.toModel())
         }
         return  allCharacters

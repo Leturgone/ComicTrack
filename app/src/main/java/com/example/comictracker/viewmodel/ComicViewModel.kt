@@ -46,9 +46,59 @@ class ComicViewModel @Inject constructor(
             is ComicAppIntent.MarkAsWillBeReadSeries -> TODO()
             is ComicAppIntent.Search -> loadSearchResultsScreen(intent.query)
             is ComicAppIntent.LoadComicFromSeriesScreen -> loadComicFromSeriesScreen(intent.seriesId)
-            ComicAppIntent.LoadAllScreen -> TODO()
+            is ComicAppIntent.LoadAllScreen -> loadAll(intent.sourceId,intent.sourceCat,intent.loadedCount)
+            is ComicAppIntent.LoadAllCharactersScreen -> loadAllCharactersScreen(intent.loadedCount)
         }
 
+    }
+
+    private fun loadAllCharactersScreen(loadedCount: Int) = viewModelScope.launch {
+        _state.value = ComicAppState.AllCharactersScreenSate(DataState.Loading)
+        val characterListDef  = async(Dispatchers.IO) {
+            try{
+                DataState.Success(remoteComicRepository.getAllCharacters(loadedCount))
+            }catch(e:Exception){
+                Log.e("ViewModel","$e")
+                DataState.Error("Error loading characters")
+            }
+        }
+        val characters = characterListDef.await()
+        _state.value = ComicAppState.AllCharactersScreenSate(characters)
+    }
+
+    private fun loadAll(sourceId: Int, sourceCat: String, loadedCount: Int) = viewModelScope.launch {
+        when(sourceCat){
+            "characterSeries" ->{
+                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
+                val seriesDef = async(Dispatchers.IO) {
+                    try{
+                        DataState.Success(remoteComicRepository.getCharacterSeries(sourceId,loadedCount))
+                    }catch (e:Exception){
+                        Log.e("ViewModel","$e")
+                        DataState.Error("Error loading comics with this character")
+                    }
+                }
+                val series = seriesDef.await()
+                _state.value = ComicAppState.AllSeriesScreenSate(series)
+
+            }
+            "discover" ->{
+                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
+                val seriesDef = async(Dispatchers.IO) {
+                    try{
+                        DataState.Success(remoteComicRepository.getAllSeries(loadedCount))
+                    }catch (e:Exception){
+                        Log.e("ViewModel","$e")
+                        DataState.Error("Error loading comics with this character")
+                    }
+                }
+                val series = seriesDef.await()
+                _state.value = ComicAppState.AllSeriesScreenSate(series)
+            }
+            "mayLike" ->{
+
+            }
+        }
     }
 
     private fun loadSearchResultsScreen(query: String) = viewModelScope.launch{
@@ -101,7 +151,7 @@ class ComicViewModel @Inject constructor(
     }
 
     private fun loadProfileScreen() {
-        TODO("Not yet implemented")
+
     }
 
     private fun loadSearchScreen() = viewModelScope.launch {

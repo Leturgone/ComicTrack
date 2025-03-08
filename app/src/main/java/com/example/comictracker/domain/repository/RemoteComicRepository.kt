@@ -9,11 +9,11 @@ interface RemoteComicRepository {
 
     suspend fun getSeriesLastReleasesById(id: Int): List<ComicModel>
 
-    suspend fun getCharacterSeries(characterId: Int): List<SeriesModel>
+    suspend fun getCharacterSeries(characterId: Int,offset:Int = 0): List<SeriesModel>
 
-    suspend fun getAllSeries():List<SeriesModel>
+    suspend fun getAllSeries(loadedCount: Int = 0):List<SeriesModel>
 
-    suspend fun getAllCharacters():List<CharacterModel>
+    suspend fun getAllCharacters(loadedCount: Int = 0) :List<CharacterModel>
 
     suspend fun getSeriesByTitle(title:String):List<SeriesModel>
 
