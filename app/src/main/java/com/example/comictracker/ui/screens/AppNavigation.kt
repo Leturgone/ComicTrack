@@ -48,9 +48,10 @@ fun AppNavigation(innerPadding: PaddingValues, navController: NavHostController)
             val characterId = it.arguments!!.getString("characterId")
             CharacterScreen(characterId!!.toInt(),navController) }
 
-        composable("comics_from_series/{seriesId}"){
+        composable("comics_from_series/{seriesId}/{loadCount}"){
             val seriesId = it.arguments!!.getString("seriesId")
-            AllComicSeriesSec(seriesId!!.toInt(), navController = navController) }
+            val loadCount = it.arguments!!.getString("loadCount")
+            AllComicSeriesSec(seriesId!!.toInt(),loadCount = loadCount!!.toInt(), navController = navController) }
 
         composable("all_cs/{sourceId}/{category}/{loadCount}") {
             val sourceId = it.arguments!!.getString("sourceId")

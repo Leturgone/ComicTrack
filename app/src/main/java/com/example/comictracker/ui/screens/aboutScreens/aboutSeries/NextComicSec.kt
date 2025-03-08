@@ -34,7 +34,7 @@ fun NextComicSec(comicList:List<ComicModel>,navController: NavHostController){
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(end = 15.dp, bottom = 12.dp)
                         .clickable {
-                            navController.navigate("comics_from_series/${comicList[0].seriesId}")
+                            navController.navigate("comics_from_series/${comicList[0].seriesId}/0")
                         })
             }
             ComicFromSeriesCard(comicList[0], navController)
