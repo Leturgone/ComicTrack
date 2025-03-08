@@ -53,6 +53,7 @@ fun CharacterScreen(
                             onDismiss = { showSecToast = false })
                         DataState.Loading -> CircularProgressIndicator()
                         is DataState.Success -> CharacterSeriesSec(
+                            characterId,
                             state.series.result,
                             navController)
                     }
