@@ -32,7 +32,9 @@ fun AppNavigation(innerPadding: PaddingValues, navController: NavHostController)
         composable("search_result/{search}") {
             val search = it.arguments!!.getString("search")
             SearchResultScreen(search!!,navController) }
-        composable("all_characters"){ AllCharactersScreen(navController) }
+        composable("all_characters/{loadCount}"){
+            val loadCount = it.arguments!!.getString("loadCount")
+            AllCharactersScreen(loadCount!!.toInt(),navController) }
 
         composable("comic/{comicId}") {
             val comicId = it.arguments!!.getString("comicId")
@@ -50,6 +52,10 @@ fun AppNavigation(innerPadding: PaddingValues, navController: NavHostController)
             val seriesId = it.arguments!!.getString("seriesId")
             AllComicSeriesSec(seriesId!!.toInt(), navController = navController) }
 
-        composable("all_cs") { AllComicScreen(emptyList(), navController) }
+        composable("all_cs/{sourceId}/{category}/{loadCount}") {
+            val sourceId = it.arguments!!.getString("sourceId")
+            val category = it.arguments!!.getString("category")
+            val loadCount = it.arguments!!.getString("loadCount")
+            AllComicScreen(sourceId!!.toInt(), category!!,loadCount!!.toInt(), navController) }
     }
 }
