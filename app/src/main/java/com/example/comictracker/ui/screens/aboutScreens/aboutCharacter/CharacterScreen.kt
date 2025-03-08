@@ -14,7 +14,6 @@ import androidx.navigation.NavHostController
 import com.example.comictracker.mvi.ComicAppIntent
 import com.example.comictracker.mvi.ComicAppState
 import com.example.comictracker.mvi.DataState
-import com.example.comictracker.ui.screens.AllComicScreen
 import com.example.comictracker.ui.screens.CustomToastMessage
 import com.example.comictracker.viewmodel.ComicViewModel
 
@@ -46,13 +45,14 @@ fun CharacterScreen(
                         DataState.Loading -> CircularProgressIndicator()
                         is DataState.Success -> CharacterSec(state.character.result)
                     }
+
                     when(state.series){
                         is DataState.Error -> CustomToastMessage(
                             message = state.series.errorMessage,
                             isVisible = showSecToast,
                             onDismiss = { showSecToast = false })
                         DataState.Loading -> CircularProgressIndicator()
-                        is DataState.Success -> AllComicScreen(
+                        is DataState.Success -> CharacterSeriesSec(
                             state.series.result,
                             navController)
                     }
