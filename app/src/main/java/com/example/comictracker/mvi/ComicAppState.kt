@@ -50,6 +50,10 @@ sealed class ComicAppState {
         val character: DataState<List<CharacterModel>> = DataState.Loading,
         val series: DataState<List<SeriesModel>> = DataState.Loading
     ): ComicAppState()
+
+    data class AllCharactersScreenSate(
+        val character: DataState<List<CharacterModel>> = DataState.Loading
+    ) : ComicAppState()
 }
 
 
