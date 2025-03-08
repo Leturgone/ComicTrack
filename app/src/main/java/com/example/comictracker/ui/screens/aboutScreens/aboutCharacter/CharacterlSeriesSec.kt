@@ -25,7 +25,7 @@ import coil3.compose.AsyncImage
 import com.example.comictracker.domain.model.SeriesModel
 
 @Composable
-fun CharacterSeriesSec(seriesList: List<SeriesModel>, navController: NavHostController){
+fun CharacterSeriesSec(characterId:Int,seriesList: List<SeriesModel>, navController: NavHostController){
     Box {
         Column {
             Text(text = "All",
@@ -37,7 +37,7 @@ fun CharacterSeriesSec(seriesList: List<SeriesModel>, navController: NavHostCont
                 Text(text = "See all",
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.clickable {
-                        navController.navigate("all_cs")
+                        navController.navigate("all_cs/$characterId/characterSeries/0")
                     }.padding(end = 15.dp, bottom = 12.dp))
             }
             LazyVerticalGrid(columns = GridCells.Fixed(3), contentPadding = PaddingValues(16.dp),
