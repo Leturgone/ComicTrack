@@ -43,7 +43,7 @@ sealed class ComicAppState {
     ): ComicAppState()
 
     data class AllComicScreenSate(
-        val series: DataState<List<ComicModel>> = DataState.Loading,
+        val comics: DataState<List<ComicModel>> = DataState.Loading,
     ): ComicAppState()
 
     data class SearchResultScreenSate(
