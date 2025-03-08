@@ -4,7 +4,8 @@ sealed class ComicAppIntent {
     data object LoadHomeScreen: ComicAppIntent()
     data object LoadLibraryScreen: ComicAppIntent()
     data object LoadSearchScreen: ComicAppIntent()
-    data object LoadAllScreen: ComicAppIntent()
+    data class LoadAllScreen(val sourceId: Int, val sourceCat:String,
+                             val loadedCount: Int ): ComicAppIntent()
     data class Search(val query:String): ComicAppIntent()
     data class LoadSeriesScreen(val seriesId:Int): ComicAppIntent()
     data class LoadComicFromSeriesScreen(val seriesId: Int):ComicAppIntent()
