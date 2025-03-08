@@ -189,9 +189,9 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
         return series
     }
 
-    override suspend fun getComicsFromSeries(seriesId: Int): List<ComicModel> {
+    override suspend fun getComicsFromSeries(seriesId: Int,loadedCount: Int): List<ComicModel> {
         val comics = mutableListOf<ComicModel>()
-        api.getComicsFromSeries(seriesId.toString()).data!!.results.forEach {
+        api.getComicsFromSeries(seriesId.toString(), offset = loadedCount.toString()).data!!.results.forEach {
             result ->  comics.add(result.toModel())
         }
         return comics

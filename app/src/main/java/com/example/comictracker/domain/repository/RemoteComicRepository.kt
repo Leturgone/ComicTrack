@@ -25,7 +25,7 @@ interface RemoteComicRepository {
     suspend fun getSeriesCharacters(seriesId: Int):List<CharacterModel>
     suspend fun getConnectedSeries(connectedSeriesId: List<Int?>): List<SeriesModel>
 
-    suspend fun getComicsFromSeries(seriesId: Int): List<ComicModel>
+    suspend fun getComicsFromSeries(seriesId: Int,loadedCount: Int = 0): List<ComicModel>
 
     suspend fun getComicById(comicId:Int): ComicModel
 
