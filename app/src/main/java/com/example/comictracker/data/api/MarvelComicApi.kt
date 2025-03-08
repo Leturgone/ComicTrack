@@ -29,7 +29,8 @@ interface MarvelComicApi {
         @Path("characterId")characterId:String,
         @Query("contains")contains:String = "comic",
         @Query("orderBy")orderBy:String = "startYear",
-        @Query("limit")limit:String = "10",
+        @Query("limit")limit:String = "9",
+        @Query("offset")offset:String,
         @Query("apikey")apikey:String=API_KEY,
         @Query("ts")ts:String=timeStamp,
         @Query("hash")hash:String=hash()
@@ -37,7 +38,9 @@ interface MarvelComicApi {
 
     @GET("/v1/public/series")
     suspend fun getAllSeries(
-        @Query("limit")limit:String = "80",
+        @Query("orderBy")orderBy:String = "startYear",
+        @Query("limit")limit:String = "9",
+        @Query("offset")offset:String,
         @Query("apikey")apikey:String=API_KEY,
         @Query("ts")ts:String=timeStamp,
         @Query("hash")hash:String=hash()
@@ -46,7 +49,8 @@ interface MarvelComicApi {
 
     @GET("/v1/public/characters")
     suspend fun getAllCharacters(
-        @Query("limit")limit:String = "80",
+        @Query("limit")limit:String = "9",
+        @Query("offset")offset:String,
         @Query("apikey")apikey:String=API_KEY,
         @Query("ts")ts:String=timeStamp,
         @Query("hash")hash:String=hash(),
