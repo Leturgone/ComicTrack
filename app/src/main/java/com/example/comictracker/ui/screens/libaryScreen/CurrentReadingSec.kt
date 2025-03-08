@@ -15,9 +15,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.comictracker.ui.screens.SeriesComicListCard
-import com.example.comictracker.data.model.ComicCover
 import com.example.comictracker.domain.model.SeriesModel
+import com.example.comictracker.ui.screens.SeriesComicListCard
 
 @Composable
 fun CurrentReadingSec(currentReadingList: List<SeriesModel>, navController: NavHostController){
