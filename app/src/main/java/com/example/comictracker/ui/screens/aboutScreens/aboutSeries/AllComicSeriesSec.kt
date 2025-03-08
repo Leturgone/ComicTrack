@@ -64,7 +64,7 @@ fun AllComicSeriesSec(seriesId:Int,
                                 items(comics.size){
                                     val comic = comics[it]
                                     ComicFromSeriesCard(comic,navController)
-                                    if(it == comics.size-1){
+                                    if((it == comics.size-1) and (comics.size == loadCount+50)){
                                         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
                                             Button(onClick = {
                                                 navController.popBackStack()
