@@ -17,11 +17,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.comictracker.ui.screens.SeriesComicListCard
 import com.example.comictracker.data.model.ComicCover
+import com.example.comictracker.domain.model.ComicModel
 
 
 @Composable
- fun CurrentReadComicListSec(navController: NavHostController){
-    var currentComicList: List<ComicCover> = listOf()
+ fun CurrentReadComicListSec(currentComicList: List<ComicModel>, navController: NavHostController){
      Column {
          Text(text = "Continue reading",
              fontSize = 24.sp,
@@ -32,19 +32,20 @@ import com.example.comictracker.data.model.ComicCover
              Text(text = "See all",
                  color = MaterialTheme.colorScheme.primary,
                  modifier = Modifier.padding(end = 15.dp, bottom = 12.dp).clickable {
-                     navController.navigate("all_cs")
+                     navController.navigate("all_cs/0/nextComics/0")
                  })
          }
          LazyRow{
-             items(8){
-                 //val currentComicCover  = currentComicList[it]
+             items(currentComicList.size){
+                 val currentComic  = currentComicList[it]
                  var lastPaddingEnd = 0
-//                if (it == currentComicList.size - 1){
-//                    lastPaddingEnd = 16.dp
-//                }
-                 SeriesComicListCard(title = "title", image = "http://i.annihil.us/u/prod/marvel/i/mg/d/50/679ba099d9ebe.jpg",
+                if (it == currentComicList.size - 1){
+                    lastPaddingEnd = 16
+                }
+                 SeriesComicListCard(title = currentComic.title,
+                     image = currentComic.image,
                      lastPaddingEnd = lastPaddingEnd) {
-                     navController.navigate("comic")
+                     navController.navigate("comic/${currentComic.comicId}")
                  }
              }
          }

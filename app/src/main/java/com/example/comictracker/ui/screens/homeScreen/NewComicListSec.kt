@@ -17,13 +17,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.comictracker.ui.screens.SeriesComicListCard
 import com.example.comictracker.data.model.ComicCover
-
+import com.example.comictracker.domain.model.ComicModel
 
 
 @Composable
-fun NewComicListSec(navController: NavHostController){
-    var newComicList: List<ComicCover> = listOf()
-
+fun NewComicListSec(newComicList: List<ComicModel>, navController: NavHostController){
     Column {
         Text(text = "New releases",
             fontSize = 24.sp,
@@ -35,20 +33,20 @@ fun NewComicListSec(navController: NavHostController){
             Text(text = "See all",
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.padding(end = 15.dp, bottom = 12.dp).clickable {
-                    navController.navigate("all_cs")
+                    navController.navigate("all_cs/0/newComic/0")
                 })
         }
         LazyRow{
-            items(8){
-                //val newComicCover  = newComicList[it]
+            items(newComicList.size){
+                val newComic  = newComicList[it]
                 var lastPaddingEnd = 0
-//                if (it == newComicList.size - 1){
-//                    lastPaddingEnd = 16.dp
-//                }
-                SeriesComicListCard(title = "comic title",
-                    image = "http://i.annihil.us/u/prod/marvel/i/mg/a/70/673f17fc798fa.jpg",
-                    lastPaddingEnd =lastPaddingEnd,date = "Date" ) {
-                    navController.navigate("comic")
+                if (it == newComicList.size - 1){
+                    lastPaddingEnd = 16
+                }
+                SeriesComicListCard(title = newComic.title,
+                    image = newComic.image,
+                    lastPaddingEnd =lastPaddingEnd,date = newComic.date ) {
+                    navController.navigate("comic/${newComic.comicId}")
                 }
 
             }
