@@ -32,7 +32,7 @@ fun LatestReadingSec(latestReadList: List<ComicModel>, navController: NavHostCon
             Text(text = "See all",
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.clickable {
-                    navController.navigate("all_cs")
+                    navController.navigate("all_cs/0/lastComic/0")
                 }.padding(end = 15.dp, bottom = 12.dp))
         }
         LazyRow{
@@ -44,7 +44,7 @@ fun LatestReadingSec(latestReadList: List<ComicModel>, navController: NavHostCon
                 }
                 SeriesComicListCard(title = latestComic.title,
                     image = latestComic.image,
-                    lastPaddingEnd =lastPaddingEnd, date = "Date" ) {
+                    lastPaddingEnd =lastPaddingEnd, date = latestComic.date ) {
                     navController.navigate("comic/${latestComic.comicId}")
 
                 }
