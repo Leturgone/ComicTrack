@@ -15,9 +15,9 @@ interface MarvelComicApi {
         @Query("format")format:String = "comic",
         @Query("formatType")formatType:String = "comic",
         @Query("noVariants")noVariants:String = "true",
-        @Query("dateDescriptor")dateDescriptor:String = "thisWeek",
+        @Query("dateDescriptor")dateDescriptor:String = "thisMonth",
         @Query("series")series:String,
-        @Query("limit")limit:String = "80",
+        @Query("limit")limit:String = "9",
 
         @Query("apikey")apikey:String=API_KEY,
         @Query("ts")ts:String=timeStamp,
