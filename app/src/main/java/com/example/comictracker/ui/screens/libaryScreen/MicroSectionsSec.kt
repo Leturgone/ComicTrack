@@ -21,10 +21,11 @@ import com.example.comictracker.domain.model.StatisticsforAll
 @Composable
 fun MicroSectionsSec(statistics: StatisticsforAll, navController: NavHostController){
     val stats = listOf(
-        "Comics" to "${statistics.comicCount} / ${statistics.comicCountThisYear}this year",
+        "Comics" to "${statistics.comicCount} / ${statistics.comicCountThisYear} this year",
         "Series" to "${statistics.seriesCount} / ${statistics.seriesCountThisYear} this year",
         "Readlist" to "${statistics.readlistCount}",
     )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -35,7 +36,11 @@ fun MicroSectionsSec(statistics: StatisticsforAll, navController: NavHostControl
             Row(
                 modifier = Modifier.
                 fillMaxWidth().padding(bottom = 8.dp).clickable {
-                    navController.navigate("all_cs")
+                    when(label){
+                        "Comics" ->navController.navigate("all_cs/0/allLibComic/0")
+                        "Series" ->navController.navigate("all_cs/0/allLibSeries/0")
+                        "Readlist" ->navController.navigate("all_cs/0/readlist/0")
+                    }
                 },
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
