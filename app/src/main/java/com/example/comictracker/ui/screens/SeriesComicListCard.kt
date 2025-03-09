@@ -9,6 +9,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 
@@ -21,8 +22,9 @@ fun SeriesComicListCard(title: String,
         Card(modifier = Modifier
             .width(127.dp)
             .height(200.dp)) {
-            AsyncImage(model = image
-                , contentDescription = "${title}  current cover",modifier = Modifier
+            AsyncImage(model = image,
+                    contentScale = ContentScale.FillBounds,
+                contentDescription = "${title}  current cover",modifier = Modifier
                     .width(145.dp)
                     .height(200.dp))
         }

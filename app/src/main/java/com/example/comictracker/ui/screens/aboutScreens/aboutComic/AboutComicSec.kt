@@ -16,6 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -75,7 +76,7 @@ fun AboutComicSec(comic:ComicModel,navController: NavHostController){
                 .width(127.dp)
                 .height(200.dp)) {
                 Box(modifier = Modifier.fillMaxSize(),contentAlignment = Alignment.TopEnd){
-                    AsyncImage(model = comic.image
+                    AsyncImage(model = comic.image, contentScale = ContentScale.FillBounds
                         , contentDescription = "${comic.comicId}  current cover",modifier = Modifier
                             .width(145.dp)
                             .height(200.dp))

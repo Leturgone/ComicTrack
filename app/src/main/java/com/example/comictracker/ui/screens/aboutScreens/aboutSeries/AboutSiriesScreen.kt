@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -68,8 +69,9 @@ fun AboutSeriesSec(series: SeriesModel){
                 .width(127.dp)
                 .height(200.dp)) {
                 Box(modifier = Modifier.fillMaxSize(),contentAlignment = Alignment.TopEnd){
-                    AsyncImage(model = series.image
-                        , contentDescription = " ${series.title} current cover",modifier = Modifier
+                    AsyncImage(model = series.image,
+                        contentScale = ContentScale.FillBounds,
+                        contentDescription = " ${series.title} current cover",modifier = Modifier
                             .width(145.dp)
                             .height(200.dp))
                 }

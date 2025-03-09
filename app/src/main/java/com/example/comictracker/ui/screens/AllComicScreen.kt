@@ -158,7 +158,7 @@ fun SeriesGridSec(seriesList:List<SeriesModel>,navController: NavHostController)
                 Card(modifier = Modifier.aspectRatio(0.7f)) {
                     AsyncImage(model = series.image
                         , contentDescription = "${series.title}  current cover",
-                        contentScale = ContentScale.Crop,
+                        contentScale = ContentScale.FillBounds,
                         modifier = Modifier
                             .fillMaxWidth())
                 }
