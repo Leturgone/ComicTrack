@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.domain.model.SeriesModel
+import com.example.comictracker.domain.model.StatisticsforAll
 import com.example.comictracker.domain.repository.RemoteComicRepository
 import com.example.comictracker.mvi.AboutComicScreenData
 import com.example.comictracker.mvi.AboutSeriesScreenData
@@ -12,6 +13,7 @@ import com.example.comictracker.mvi.ComicAppIntent
 import com.example.comictracker.mvi.ComicAppState
 import com.example.comictracker.mvi.DataState
 import com.example.comictracker.mvi.HomeScreenData
+import com.example.comictracker.mvi.MyLibraryScreenData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -190,7 +192,7 @@ class ComicViewModel @Inject constructor(
                 }
             }
         }
-        val newComics = newComicsDef.awaitAll().flatten()
+
         val nextComicsDef = loadedIdsNextReadComicFromBD.map { id ->
             async(Dispatchers.IO) {
                 try {
@@ -200,13 +202,62 @@ class ComicViewModel @Inject constructor(
                     }
             }
         }
+        val newComics = newComicsDef.awaitAll().flatten()
         val nextComics = nextComicsDef.awaitAll().filterNotNull()
         _state.value = ComicAppState.HomeScreenState(DataState.Success(HomeScreenData(
            newReleasesList = newComics, continueReadingList = nextComics
         )))
     }
 
-    private fun loadProfileScreen() {
+    private fun loadProfileScreen() = viewModelScope.launch {
+        _state.value = ComicAppState.MyLibraryScreenState(DataState.Loading)
+        val loadedStatisticsFromBD = StatisticsforAll(100,110,
+            120,130,140)
+
+        val loadedFavoriteSeriesIdsFromBD = listOf<Int>(38809,38806,38865)
+        val loadedCurrentlyReadingSeriesIdsFromBD = listOf<Int>(38809,38806,38865)
+        val loadedHistoryReadComicFromBD = listOf<Int>(113894)
+
+        val favoriteSeriesDef = loadedFavoriteSeriesIdsFromBD.map { id ->
+            async(Dispatchers.IO) {
+                try {
+                    remoteComicRepository.getSeriesById(id.toString())
+                } catch (e: Exception) {
+                    null
+                }
+            }
+        }
+        val currentSeriesDef = loadedCurrentlyReadingSeriesIdsFromBD.map { id ->
+            async(Dispatchers.IO) {
+                try {
+                    remoteComicRepository.getSeriesById(id.toString())
+                } catch (e: Exception) {
+                    null
+                }
+            }
+        }
+
+        val lastComicsDef = loadedHistoryReadComicFromBD.map { id ->
+            async(Dispatchers.IO) {
+                try {
+                    remoteComicRepository.getComicById(id)
+                } catch (e: Exception) {
+                    null
+                }
+            }
+        }
+
+        val favoriteSeries = favoriteSeriesDef.awaitAll().filterNotNull()
+        val currentSeries = currentSeriesDef.awaitAll().filterNotNull()
+        val lastComics = lastComicsDef.awaitAll().filterNotNull()
+
+        _state.value = ComicAppState.MyLibraryScreenState(DataState.Success(MyLibraryScreenData(
+            statistics = loadedStatisticsFromBD,
+            favoritesList = favoriteSeries,
+            currentlyReadingList = currentSeries,
+            lastUpdates = lastComics
+        )))
+
 
     }
 
