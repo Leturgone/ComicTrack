@@ -32,7 +32,7 @@ fun CurrentReadingSec(currentReadingList: List<SeriesModel>, navController: NavH
             Text(text = "See all",
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.clickable {
-                    navController.navigate("all_cs")
+                    navController.navigate("all_cs/0/currentReading/0")
                 }.padding(end = 15.dp, bottom = 12.dp))
         }
         LazyRow{
