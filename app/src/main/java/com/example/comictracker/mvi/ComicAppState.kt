@@ -8,8 +8,7 @@ import com.example.comictracker.domain.model.StatisticsforAll
 
 sealed class ComicAppState {
     data class HomeScreenState(
-        val newReleasesList:DataState<List<ComicModel>> = DataState.Loading,
-        val continueReadingList:DataState<List<ComicModel>> = DataState.Loading
+        val dataState: DataState<HomeScreenData> = DataState.Loading
     ): ComicAppState()
     data class SearchScreenState(
         val mayLikeList:DataState<List<SeriesModel>> = DataState.Loading,
