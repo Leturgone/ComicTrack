@@ -99,6 +99,21 @@ class ComicViewModel @Inject constructor(
                 val series = seriesDef.await()
                 _state.value = ComicAppState.AllSeriesScreenSate(series)
             }
+            "mayLike" ->{
+                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
+                val mayLikeSeriesFromBD = listOf<Int>(38809,38806,38865)
+                val mayLikeSeriesDef = mayLikeSeriesFromBD.map { id ->
+                    async(Dispatchers.IO) {
+                        try {
+                            remoteComicRepository.getSeriesById(id.toString())
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }
+                }
+                val mayLikeSeries = mayLikeSeriesDef.awaitAll().filterNotNull()
+                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Success(mayLikeSeries))
+            }
             "nextComics" ->{
                 _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
                 val loadedIdsNextReadComicFromBD = listOf<Int>(113894)
@@ -128,6 +143,82 @@ class ComicViewModel @Inject constructor(
                 }
                 val newComics = newComicsDef.awaitAll().flatten()
                 _state.value = ComicAppState.AllComicScreenSate(DataState.Success(newComics))
+            }
+            "lastComic" ->{
+                _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
+                val lastComicsFromBD = listOf<Int>(113894)
+                val lastComicsDef = lastComicsFromBD.map { id ->
+                    async(Dispatchers.IO) {
+                        try {
+                            remoteComicRepository.getComicById(id)
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }
+                }
+                val lastComics = lastComicsDef.awaitAll().filterNotNull()
+                _state.value = ComicAppState.AllComicScreenSate(DataState.Success(lastComics))
+
+            }
+            "currentReading" ->{
+                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
+                val currentSeriesFromBD = listOf<Int>(38809,38806,38865)
+                val currentSeriesDef = currentSeriesFromBD.map { id ->
+                    async(Dispatchers.IO) {
+                        try {
+                            remoteComicRepository.getSeriesById(id.toString())
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }
+                }
+                val currentSeries = currentSeriesDef.awaitAll().filterNotNull()
+                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Success(currentSeries))
+            }
+            "allLibComic" ->{
+                _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
+                val allComicsFromBD = listOf<Int>(113894)
+                val allComicsDef = allComicsFromBD.map { id ->
+                    async(Dispatchers.IO) {
+                        try {
+                            remoteComicRepository.getComicById(id)
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }
+                }
+                val allComics = allComicsDef.awaitAll().filterNotNull()
+                _state.value = ComicAppState.AllComicScreenSate(DataState.Success(allComics))
+            }
+            "allLibSeries" ->{
+                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
+                val allSeriesFromBD = listOf<Int>(38809,38806,38865)
+                val allSeriesDef = allSeriesFromBD.map { id ->
+                    async(Dispatchers.IO) {
+                        try {
+                            remoteComicRepository.getSeriesById(id.toString())
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }
+                }
+                val allSeries = allSeriesDef.awaitAll().filterNotNull()
+                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Success(allSeries))
+            }
+            "readlist" ->{
+                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
+                val readlistFromBD = listOf<Int>(38809,38806,38865)
+                val readlistDef = readlistFromBD.map { id ->
+                    async(Dispatchers.IO) {
+                        try {
+                            remoteComicRepository.getSeriesById(id.toString())
+                        } catch (e: Exception) {
+                            null
+                        }
+                    }
+                }
+                val readlist = readlistDef.awaitAll().filterNotNull()
+                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Success(readlist))
             }
         }
     }
