@@ -143,9 +143,9 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
         return characters
     }
 
-    override suspend fun getSeriesById(id: String): SeriesModel {
+    override suspend fun getSeriesById(id: Int): SeriesModel {
         Log.i("Repository","Start get sereies")
-        val result = api.getSeriesById(id).data!!.results[0]
+        val result = api.getSeriesById(id.toString()).data!!.results[0]
         Log.i("Repository","Series got")
         val convertesRes = result.toModel()
         Log.i("Repository","Coverted $convertesRes")

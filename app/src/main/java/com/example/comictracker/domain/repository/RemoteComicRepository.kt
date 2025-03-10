@@ -19,7 +19,7 @@ interface RemoteComicRepository {
 
     suspend fun getCharactersByName(name: String): List<CharacterModel>
 
-    suspend fun getSeriesById(id:String):SeriesModel
+    suspend fun getSeriesById(id:Int):SeriesModel
 
     suspend fun getSeriesCreators(creatorsRoles: List<Pair<Int, String>>):List<CreatorModel>
     suspend fun getSeriesCharacters(seriesId: Int):List<CharacterModel>
