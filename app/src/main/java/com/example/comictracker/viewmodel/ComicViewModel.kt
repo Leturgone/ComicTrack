@@ -15,10 +15,7 @@ import com.example.comictracker.mvi.DataState
 import com.example.comictracker.mvi.HomeScreenData
 import com.example.comictracker.mvi.MyLibraryScreenData
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
