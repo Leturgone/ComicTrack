@@ -27,11 +27,15 @@ fun AppNavigation(innerPadding: PaddingValues, navController: NavHostController)
         modifier = Modifier.padding(innerPadding)
     ) {
         composable("home"){ HomeScreen(navController) }
+
         composable("search"){ SearchScreen(navController) }
+
         composable("library"){ LibraryScreen(navController) }
+
         composable("search_result/{search}") {
             val search = it.arguments!!.getString("search")
             SearchResultScreen(search!!,navController) }
+
         composable("all_characters/{loadCount}"){
             val loadCount = it.arguments!!.getString("loadCount")
             AllCharactersScreen(loadCount!!.toInt(),navController) }

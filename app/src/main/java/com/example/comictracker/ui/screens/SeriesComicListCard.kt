@@ -24,7 +24,7 @@ fun SeriesComicListCard(title: String,
             .height(200.dp)) {
             AsyncImage(model = image,
                     contentScale = ContentScale.FillBounds,
-                contentDescription = "${title}  current cover",modifier = Modifier
+                contentDescription = "$title  current cover",modifier = Modifier
                     .width(145.dp)
                     .height(200.dp))
         }

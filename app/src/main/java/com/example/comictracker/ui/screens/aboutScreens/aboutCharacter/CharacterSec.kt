@@ -14,13 +14,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
-import com.example.comictracker.ui.screens.aboutScreens.ExpandableText
-import com.example.comictracker.data.model.CharacterItem
 import com.example.comictracker.domain.model.CharacterModel
+import com.example.comictracker.ui.screens.aboutScreens.ExpandableText
 
 
 @Composable
