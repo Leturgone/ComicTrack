@@ -101,11 +101,11 @@ class ComicViewModel @Inject constructor(
             }
             "mayLike" ->{
                 _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
-                val mayLikeSeriesFromBD = listOf<Int>(38809,38806,38865)
+                val mayLikeSeriesFromBD = listOf(38809,38806,38865)
                 val mayLikeSeriesDef = mayLikeSeriesFromBD.map { id ->
                     async(Dispatchers.IO) {
                         try {
-                            remoteComicRepository.getSeriesById(id.toString())
+                            remoteComicRepository.getSeriesById(id)
                         } catch (e: Exception) {
                             null
                         }
@@ -116,7 +116,7 @@ class ComicViewModel @Inject constructor(
             }
             "nextComics" ->{
                 _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
-                val loadedIdsNextReadComicFromBD = listOf<Int>(113894)
+                val loadedIdsNextReadComicFromBD = listOf(113894)
                 val nextComicsDef = loadedIdsNextReadComicFromBD.map { id ->
                     async(Dispatchers.IO) {
                         try {
@@ -131,13 +131,13 @@ class ComicViewModel @Inject constructor(
             }
             "newComic" ->{
                 _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
-                val loadedIdsSeriesFromBD = listOf<Int>(38809,38806,38865)
+                val loadedIdsSeriesFromBD = listOf(38809,38806,38865)
                 val newComicsDef = loadedIdsSeriesFromBD.map { id ->
                     async(Dispatchers.IO) {
                         try {
                             remoteComicRepository.getSeriesLastReleasesById(id)
                         } catch (e: Exception) {
-                            emptyList<ComicModel>() // Возвращаем пустой список в случае ошибки
+                            emptyList()
                         }
                     }
                 }
@@ -146,7 +146,7 @@ class ComicViewModel @Inject constructor(
             }
             "lastComic" ->{
                 _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
-                val lastComicsFromBD = listOf<Int>(113894)
+                val lastComicsFromBD = listOf(113894)
                 val lastComicsDef = lastComicsFromBD.map { id ->
                     async(Dispatchers.IO) {
                         try {
@@ -162,11 +162,11 @@ class ComicViewModel @Inject constructor(
             }
             "currentReading" ->{
                 _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
-                val currentSeriesFromBD = listOf<Int>(38809,38806,38865)
+                val currentSeriesFromBD = listOf(38809,38806,38865)
                 val currentSeriesDef = currentSeriesFromBD.map { id ->
                     async(Dispatchers.IO) {
                         try {
-                            remoteComicRepository.getSeriesById(id.toString())
+                            remoteComicRepository.getSeriesById(id)
                         } catch (e: Exception) {
                             null
                         }
@@ -177,7 +177,7 @@ class ComicViewModel @Inject constructor(
             }
             "allLibComic" ->{
                 _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
-                val allComicsFromBD = listOf<Int>(113894)
+                val allComicsFromBD = listOf(113894)
                 val allComicsDef = allComicsFromBD.map { id ->
                     async(Dispatchers.IO) {
                         try {
@@ -192,11 +192,11 @@ class ComicViewModel @Inject constructor(
             }
             "allLibSeries" ->{
                 _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
-                val allSeriesFromBD = listOf<Int>(38809,38806,38865)
+                val allSeriesFromBD = listOf(38809,38806,38865)
                 val allSeriesDef = allSeriesFromBD.map { id ->
                     async(Dispatchers.IO) {
                         try {
-                            remoteComicRepository.getSeriesById(id.toString())
+                            remoteComicRepository.getSeriesById(id)
                         } catch (e: Exception) {
                             null
                         }
@@ -207,11 +207,11 @@ class ComicViewModel @Inject constructor(
             }
             "readlist" ->{
                 _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
-                val readlistFromBD = listOf<Int>(38809,38806,38865)
+                val readlistFromBD = listOf(38809,38806,38865)
                 val readlistDef = readlistFromBD.map { id ->
                     async(Dispatchers.IO) {
                         try {
-                            remoteComicRepository.getSeriesById(id.toString())
+                            remoteComicRepository.getSeriesById(id)
                         } catch (e: Exception) {
                             null
                         }
@@ -271,15 +271,15 @@ class ComicViewModel @Inject constructor(
     private fun loadHomeScreen() = viewModelScope.launch {
         _state.value = ComicAppState.HomeScreenState(DataState.Loading)
 
-        val loadedIdsSeriesFromBD = listOf<Int>(38809,38806,38865)
-        val loadedIdsNextReadComicFromBD = listOf<Int>(113894)
+        val loadedIdsSeriesFromBD = listOf(38809,38806,38865)
+        val loadedIdsNextReadComicFromBD = listOf(113894)
 
         val newComicsDef = loadedIdsSeriesFromBD.map { id ->
             async(Dispatchers.IO) {
                 try {
                     remoteComicRepository.getSeriesLastReleasesById(id)
                 } catch (e: Exception) {
-                    emptyList<ComicModel>() // Возвращаем пустой список в случае ошибки
+                    emptyList()
                 }
             }
         }
@@ -305,14 +305,14 @@ class ComicViewModel @Inject constructor(
         val loadedStatisticsFromBD = StatisticsforAll(100,110,
             120,130,140)
 
-        val loadedFavoriteSeriesIdsFromBD = listOf<Int>(38809,38806,38865)
-        val loadedCurrentlyReadingSeriesIdsFromBD = listOf<Int>(38809,38806,38865)
-        val loadedHistoryReadComicFromBD = listOf<Int>(113894)
+        val loadedFavoriteSeriesIdsFromBD = listOf(38809,38806,38865)
+        val loadedCurrentlyReadingSeriesIdsFromBD = listOf(38809,38806,38865)
+        val loadedHistoryReadComicFromBD = listOf(113894)
 
         val favoriteSeriesDef = loadedFavoriteSeriesIdsFromBD.map { id ->
             async(Dispatchers.IO) {
                 try {
-                    remoteComicRepository.getSeriesById(id.toString())
+                    remoteComicRepository.getSeriesById(id)
                 } catch (e: Exception) {
                     null
                 }
@@ -321,7 +321,7 @@ class ComicViewModel @Inject constructor(
         val currentSeriesDef = loadedCurrentlyReadingSeriesIdsFromBD.map { id ->
             async(Dispatchers.IO) {
                 try {
-                    remoteComicRepository.getSeriesById(id.toString())
+                    remoteComicRepository.getSeriesById(id)
                 } catch (e: Exception) {
                     null
                 }
@@ -393,7 +393,7 @@ class ComicViewModel @Inject constructor(
         _state.value = ComicAppState.AboutComicScreenState(DataState.Loading)
         val seriesDeferred = async(Dispatchers.IO){
             try {
-                remoteComicRepository.getSeriesById(seriesId.toString())
+                remoteComicRepository.getSeriesById(seriesId)
             }catch (e:Exception){
                 Log.e("ViewModel","$e")
                 emptyList<SeriesModel>()
