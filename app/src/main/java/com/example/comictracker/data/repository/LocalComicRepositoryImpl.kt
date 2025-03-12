@@ -1,4 +1,6 @@
 package com.example.comictracker.data.repository
 
-class LocalComicRepositoryImpl {
+import com.example.comictracker.domain.repository.LocalComicRepository
+
+class LocalComicRepositoryImpl: LocalComicRepository {
 }
