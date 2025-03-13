@@ -46,7 +46,6 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
     }
 
 
-    //Что то не так при обработке фотки
     private fun comicsResult.toModel():ComicModel{
         return ComicModel(
             comicId = this.id.toInt(),
