@@ -24,4 +24,18 @@ interface SeriesDao {
     @Query("DELETE FROM series where seriesApiId=:apiId")
     fun removeSeries(apiId: Int)
 
+    @Query("SELECT lastReadId FROM series WHERE seriesApiId=:apiId")
+    fun getLastRead(apiId: Int)
+
+    @Query("SELECT nextReadId FROM series WHERE seriesApiId=:apiId")
+    fun getNextRead(apiId:Int)
+
+    @Query("UPDATE series SET lastReadId=:lastReadId WHERE seriesApiId=:apiId")
+    fun setLastRead(apiId:Int,lastReadId:Int)
+
+    @Query("UPDATE series SET nextReadId=:nextReadId WHERE seriesApiId=:apiId")
+    fun setNextRead(apiId:Int,nextReadId:Int)
+
+
+
 }
