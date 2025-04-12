@@ -27,10 +27,10 @@ interface SeriesDao {
     fun removeSeries(apiId: Int)
 
     @Query("SELECT lastReadId FROM series WHERE seriesApiId=:apiId")
-    fun getLastRead(apiId: Int)
+    fun getLastRead(apiId: Int):LiveData<Int>
 
     @Query("SELECT nextReadId FROM series WHERE seriesApiId=:apiId")
-    fun getNextRead(apiId:Int)
+    fun getNextRead(apiId:Int):LiveData<Int>
 
     @Query("UPDATE series SET lastReadId=:lastReadId WHERE seriesApiId=:apiId")
     fun setLastRead(apiId:Int,lastReadId:Int)
