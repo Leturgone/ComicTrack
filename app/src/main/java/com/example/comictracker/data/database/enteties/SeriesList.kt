@@ -21,6 +21,8 @@ class SeriesList {
     var id: Int = 0
     @ColumnInfo("listType")
     var listType: String = ""
+    @ColumnInfo("favorite")
+    var favorite: Boolean = false
     @ColumnInfo(name = "Series_idSeries")
     var Series_idSeries:Int = 0
 
