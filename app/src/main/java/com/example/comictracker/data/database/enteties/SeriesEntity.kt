@@ -14,5 +14,7 @@ class SeriesEntity {
     @ColumnInfo("mark")
     var mark:String  ="unread"
     @ColumnInfo("lastReadId")
-    var lastReadId:Int = 0
+    var lastReadId:Int? = null
+    @ColumnInfo("nextReadId")
+    var nextReadId:Int? = null
 }
