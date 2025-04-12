@@ -1,10 +1,12 @@
 package com.example.comictracker.data.database.dao
 
 import androidx.lifecycle.LiveData
+import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.comictracker.data.database.enteties.SeriesEntity
 
+@Dao
 interface SeriesDao {
     @Query("SELECT * FROM series")
     fun getSeries(): LiveData<List<SeriesEntity>>
