@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.domain.model.StatisticsforAll
+import com.example.comictracker.domain.repository.LocalComicRepository
 import com.example.comictracker.domain.repository.RemoteComicRepository
 import com.example.comictracker.mvi.AboutComicScreenData
 import com.example.comictracker.mvi.AboutSeriesScreenData
@@ -27,7 +28,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ComicViewModel @Inject constructor(
-    private val remoteComicRepository: RemoteComicRepository):ViewModel(){
+    private val remoteComicRepository: RemoteComicRepository,
+    private val localComicRepository: LocalComicRepository): ViewModel(){
 
     // Начальное состояние
     private val _state = MutableStateFlow<ComicAppState>(ComicAppState.HomeScreenState())
