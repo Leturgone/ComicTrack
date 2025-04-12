@@ -15,7 +15,7 @@ import androidx.room.PrimaryKey
             onDelete = ForeignKey.CASCADE
         )
     ])
-class SeriesList {
+class SeriesListEntity {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo("SeriesListItemId")
     var id: Int = 0
