@@ -3,6 +3,7 @@ package com.example.comictracker.data.database.enteties
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "series_list",
@@ -14,7 +15,9 @@ import androidx.room.PrimaryKey
             onUpdate = ForeignKey.CASCADE,
             onDelete = ForeignKey.CASCADE
         )
-    ])
+    ],
+    indices = [Index(value = ["Series_idSeries", "listType"], unique = true)]
+)
 data class SeriesListEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo("SeriesListItemId")
