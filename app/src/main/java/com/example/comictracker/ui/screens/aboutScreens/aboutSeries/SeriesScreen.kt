@@ -45,7 +45,12 @@ fun SeriesScreen(
                             UsersSeriesMarkSec(seriesId,
                                 state.dataState.result.series.readMark,
                                 state.dataState.result.series.favoriteMark)
-                            NextComicSec(state.dataState.result.comicList,navController)
+                            if (state.dataState.result.nextRead!=null) {
+                                NextComicSec(state.dataState.result.nextRead, navController)
+                            }else{
+                                NextComicSec(state.dataState.result.comicList[0], navController)
+                            }
+
                             AboutCreatorsAndCharactersSec(
                                 state.dataState.result.creatorList,
                                 state.dataState.result.characterList,
