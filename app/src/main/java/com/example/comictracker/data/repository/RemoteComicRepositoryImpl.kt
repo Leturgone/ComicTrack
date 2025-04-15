@@ -41,7 +41,7 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
             connectedSeries = listOf(
                 this.next?.resourceURI?.substringAfter("series/")?.toIntOrNull(),
                 this.previous?.resourceURI?.substringAfter("series/")?.toIntOrNull(),),
-            readMark = ""
+            readMark = "",favoriteMark = false
         )
     }
 

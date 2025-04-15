@@ -10,5 +10,6 @@ data class SeriesModel(
     val creators: List<Pair<Int, String>>?,
     val characters: List<Int>?,
     val connectedSeries: List<Int?>,
-    val readMark:String
+    val readMark:String,
+    val favoriteMark:Boolean
 )
