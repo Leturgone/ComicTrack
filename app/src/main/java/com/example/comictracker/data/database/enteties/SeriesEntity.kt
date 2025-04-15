@@ -4,7 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "series")
+@Entity(tableName = "series",
+    indices = [androidx.room.Index(value = ["idSeries", "seriesApiId"], unique = true)])
 data class SeriesEntity(
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo("idSeries")

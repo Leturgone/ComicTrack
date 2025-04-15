@@ -14,7 +14,8 @@ import androidx.room.PrimaryKey
             onDelete = ForeignKey.CASCADE,
             onUpdate = ForeignKey.CASCADE
         )
-    ]
+    ],
+    indices = [androidx.room.Index(value = ["idComics", "comicApiId"], unique = true)]
 )
 data class ComicsEntity(
     @PrimaryKey(autoGenerate = true)
