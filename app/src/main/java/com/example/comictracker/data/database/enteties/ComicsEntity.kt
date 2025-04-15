@@ -21,7 +21,7 @@ data class ComicsEntity(
     @ColumnInfo(name = "idComics")
     var id: Int = 0,
     @ColumnInfo(name = "comicApiId")
-    var apiId: Int = 0,
+    var comicApiId: Int = 0,
     @ColumnInfo(name = "mark")
     var mark: String = "unread",
     @ColumnInfo(name = "Series_idSeries")
