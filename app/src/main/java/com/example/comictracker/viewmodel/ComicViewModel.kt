@@ -169,7 +169,7 @@ class ComicViewModel @Inject constructor(
             "mayLike" ->{
                 _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
                 //val mayLikeSeriesFromBD = listOf(38809,38806,38865)
-                val loadedIdsSeriesFromBD = localComicRepository.loadCurrentReadIds()
+                val loadedIdsSeriesFromBD = localComicRepository.loadAllReadSeriesIds()
                 val mayLikeSeriesIds = remoteComicRepository.loadMayLikeSeriesIds(loadedIdsSeriesFromBD)
                 val mayLikeSeries = fetchSeries(mayLikeSeriesIds)
                 _state.value = ComicAppState.AllSeriesScreenSate(DataState.Success(mayLikeSeries))
@@ -360,7 +360,7 @@ class ComicViewModel @Inject constructor(
         }
         val mayLikeSeriesListDef  = async(Dispatchers.IO) {
             try{
-                val loadedIdsSeriesFromBD = localComicRepository.loadCurrentReadIds()
+                val loadedIdsSeriesFromBD = localComicRepository.loadAllReadSeriesIds()
                 val mayLikeSeries= remoteComicRepository.loadMayLikeSeriesIds(loadedIdsSeriesFromBD)
                 DataState.Success(fetchSeries(mayLikeSeries))
             }catch(e:Exception){
