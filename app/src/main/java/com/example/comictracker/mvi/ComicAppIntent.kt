@@ -22,8 +22,8 @@ sealed class ComicAppIntent {
     data class MarkAsWillBeReadSeries(val seriesId:Int): ComicAppIntent()
     data class MarkAsCurrentlyReadingSeries(val seriesId:Int): ComicAppIntent()
     data class MarkAsUnreadSeries(val seriesId:Int): ComicAppIntent()
-    data class MarkAsReadComic(val comicId:Int): ComicAppIntent()
-    data class MarkAsUnreadComic(val comicId:Int): ComicAppIntent()
+    data class MarkAsReadComic(val comicId:Int,val seriesId: Int): ComicAppIntent()
+    data class MarkAsUnreadComic(val comicId:Int,val seriesId: Int): ComicAppIntent()
 
 
 }

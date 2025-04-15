@@ -45,9 +45,9 @@ class ComicViewModel @Inject constructor(
             ComicAppIntent.LoadSearchScreen -> loadSearchScreen()
             is ComicAppIntent.LoadSeriesScreen -> loadSeriesScreen(intent.seriesId)
             is ComicAppIntent.MarkAsCurrentlyReadingSeries -> markAsCurrentlyReadingSeries(intent.seriesId)
-            is ComicAppIntent.MarkAsReadComic -> TODO()
-            is ComicAppIntent.MarkAsReadSeries -> markAsReadComic(intent.seriesId)
-            is ComicAppIntent.MarkAsUnreadComic -> TODO()
+            is ComicAppIntent.MarkAsReadComic -> markAsReadComic(intent.comicId,intent.seriesId)
+            is ComicAppIntent.MarkAsReadSeries -> markAsReadSeries(intent.seriesId)
+            is ComicAppIntent.MarkAsUnreadComic -> markAsUnreadComic(intent.comicId,intent.seriesId)
             is ComicAppIntent.MarkAsUnreadSeries -> markUnreadSeries(intent.seriesId)
             is ComicAppIntent.MarkAsWillBeReadSeries -> markWillBeReadSeries(intent.seriesId)
             is ComicAppIntent.Search -> loadSearchResultsScreen(intent.query)
@@ -59,6 +59,8 @@ class ComicViewModel @Inject constructor(
         }
 
     }
+
+
 
     private suspend fun fetchComics(ids: List<Int>): List<ComicModel> {
         val comicsDef = ids.map { id ->
@@ -97,7 +99,7 @@ class ComicViewModel @Inject constructor(
         return newComicsDef.awaitAll().flatten()
     }
 
-    private fun markAsReadComic(apiId:Int) = viewModelScope.launch{
+    private fun markAsReadSeries(apiId:Int) = viewModelScope.launch{
         if (localComicRepository.markSeriesRead(apiId)){
             loadSeriesScreen(apiId)
         }
@@ -128,6 +130,17 @@ class ComicViewModel @Inject constructor(
     private fun removeSeriesFromFavorites(apiId: Int)  = viewModelScope.launch{
         if(localComicRepository.removeSeriesFromFavorite(apiId)){
             loadSeriesScreen(apiId)
+        }
+    }
+    private fun markAsReadComic(comicApiId: Int, seriesApiId: Int)  = viewModelScope.launch{
+        if(localComicRepository.markComicRead(comicApiId,seriesApiId)){
+            loadComicScreen(comicApiId)
+        }
+    }
+
+    private fun markAsUnreadComic(comicApiId: Int, seriesApiId: Int) = viewModelScope.launch {
+        if(localComicRepository.markComicUnread(comicApiId,seriesApiId)){
+            loadComicScreen(comicApiId)
         }
     }
 
