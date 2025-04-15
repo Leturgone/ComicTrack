@@ -20,11 +20,15 @@ interface LocalComicRepository {
 
     suspend fun loadSeriesMark(apiId:Int):String
 
+    suspend fun loadSeriesFavoriteMark(apiId: Int):Boolean
+
     suspend fun markSeriesRead(apiId: Int):Boolean
 
     suspend fun markComicRead(apiId: Int,seriesApiId:Int):Boolean
 
     suspend fun addSeriesToFavorite(apiId: Int):Boolean
+
+    suspend fun removeSeriesFromFavorite(apiId: Int):Boolean
 
     suspend fun addSeriesToCurrentlyRead(apiId: Int):Boolean
 
