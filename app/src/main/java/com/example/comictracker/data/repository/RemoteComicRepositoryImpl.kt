@@ -234,4 +234,20 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
         return characters
     }
 
+    override suspend fun loadMayLikeSeriesIds(loadedIdsSeriesFromBD: List<Int>): List<Int> {
+        val mayLikeSeries = mutableListOf<Int>()
+        val series = coroutineScope {
+            loadedIdsSeriesFromBD.map { id ->
+                async {
+                    getSeriesById(id)
+                }
+            }
+        }.awaitAll()
+
+        series.forEach {
+            mayLikeSeries.zip(it.connectedSeries)
+        }
+        return mayLikeSeries
+    }
+
 }
