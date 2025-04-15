@@ -30,10 +30,10 @@ interface SeriesDao {
     fun getNextRead(apiId:Int):Int
 
     @Query("UPDATE series SET lastReadId=:lastReadId WHERE seriesApiId=:apiId")
-    fun setLastRead(apiId:Int,lastReadId:Int)
+    fun setLastRead(apiId:Int,lastReadId:Int?)
 
     @Query("UPDATE series SET nextReadId=:nextReadId WHERE seriesApiId=:apiId")
-    fun setNextRead(apiId:Int,nextReadId:Int)
+    fun setNextRead(apiId:Int,nextReadId:Int?)
 
 
 
