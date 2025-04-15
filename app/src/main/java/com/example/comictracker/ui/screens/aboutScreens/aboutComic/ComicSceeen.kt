@@ -47,7 +47,8 @@ fun  ComicScreen(comicId: Int,
                             AboutComicSec(state.dataState.result.comic!!,navController)
                             UsersComicMarkSec(comicId,
                                 state.dataState.result.comic.readMark,
-                                state.dataState.result.comic.seriesId,)
+                                state.dataState.result.comic.seriesId,
+                                state.dataState.result.comic.number)
                             AboutCreatorsAndCharactersSec(state.dataState.result.creatorList,
                                 state.dataState.result.characterList, navController)
                         }

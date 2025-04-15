@@ -87,16 +87,5 @@ data class AboutSeriesScreenData(
     val creatorList: List<CreatorModel> = emptyList(),
     val characterList: List<CharacterModel> = emptyList(),
     val connectedSeriesList: List<SeriesModel> = emptyList(),
-    val nextRead: ComicModel? = comicList[0]
-)
-
-data class AboutCharacterScreenData(
-    val character: CharacterModel? = null,
-    val series: List<SeriesModel> = emptyList()
-)
-
-
-data class SearchResultScreenData(
-    val character: List<CharacterModel> = emptyList(),
-    val series: List<SeriesModel> = emptyList()
+    val nextRead: ComicModel? = null
 )
