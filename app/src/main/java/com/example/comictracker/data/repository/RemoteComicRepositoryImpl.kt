@@ -46,7 +46,6 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
     }
 
 
-    //Что то не так при обработке фотки
     private fun comicsResult.toModel():ComicModel{
         return ComicModel(
             comicId = this.id.toInt(),
@@ -233,6 +232,22 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
             characters.add(result.toModel())
         }
         return characters
+    }
+
+    override suspend fun loadMayLikeSeriesIds(loadedIdsSeriesFromBD: List<Int>): List<Int> {
+        val mayLikeSeries = mutableListOf<Int>()
+        val series = coroutineScope {
+            loadedIdsSeriesFromBD.map { id ->
+                async {
+                    getSeriesById(id)
+                }
+            }
+        }.awaitAll()
+
+        series.forEach {
+            mayLikeSeries.zip(it.connectedSeries)
+        }
+        return mayLikeSeries
     }
 
 }

@@ -1,7 +1,7 @@
 package com.example.comictracker.domain.model
 
 data class SeriesModel(
-    val seriesId: Int?,
+    val seriesId: Int,
     val title:String?,
     val date:String?,
     val desc:String?,

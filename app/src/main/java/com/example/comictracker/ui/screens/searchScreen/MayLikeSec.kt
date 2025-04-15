@@ -35,7 +35,7 @@ fun MayLikeSec(mayLikeComicList: List<SeriesModel>, navController: NavHostContro
                     .clickable { navController.navigate("all_cs/0/mayLike/0")  })
         }
         LazyRow{
-            items(8){
+            items(mayLikeComicList.size){
                 val newSeries  = mayLikeComicList[it]
                 var lastPaddingEnd = 0
                 if (it == mayLikeComicList.size - 1){

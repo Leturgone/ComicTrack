@@ -38,20 +38,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.comictracker.mvi.ComicAppIntent
 import com.example.comictracker.ui.components.MarkCategory
+import com.example.comictracker.viewmodel.ComicViewModel
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UsersSeriesMarkSec(seriesId: Int) {
+fun UsersSeriesMarkSec(seriesId: Int, mark:String, viewModel: ComicViewModel = hiltViewModel()) {
     val markCategories = listOf(
-        MarkCategory(Icons.Filled.AccessTime,"Will be read"),
-        MarkCategory(Icons.Filled.BookmarkAdded,"Read"),
-        MarkCategory(Icons.Filled.Bookmark,"Currently reading"),
-        MarkCategory(Icons.Filled.BookmarkRemove,"Unread"),
+        MarkCategory(Icons.Filled.AccessTime,"Will be read","will"),
+        MarkCategory(Icons.Filled.BookmarkAdded,"Read","read"),
+        MarkCategory(Icons.Filled.Bookmark,"Currently reading","currently"),
+        MarkCategory(Icons.Filled.BookmarkRemove,"Unread","unread"),
 
     )
-    var mark  by remember { mutableStateOf("Unread") }
     val sheetState = rememberModalBottomSheetState()
     val scope = rememberCoroutineScope()
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -72,7 +74,13 @@ fun UsersSeriesMarkSec(seriesId: Int) {
                     showBottomSheet = true
                 }) {
             Text(
-                text = mark,
+                text = when(mark){
+                    markCategories[0].markBD -> markCategories[0].title
+                    markCategories[1].markBD -> markCategories[1].title
+                    markCategories[2].markBD -> markCategories[2].title
+                    markCategories[3].markBD -> markCategories[3].title
+                    else -> {"error"}
+                },
                 fontSize = 17.sp,
                 color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.Normal,
@@ -103,7 +111,13 @@ fun UsersSeriesMarkSec(seriesId: Int) {
                     items(markCategories.size){
                         val markCategory = markCategories[it]
                         Column(Modifier.weight(1f).clickable {
-                            mark = markCategory.title
+                            when(markCategory.markBD){
+                                "read" -> viewModel.processIntent(ComicAppIntent.MarkAsReadSeries(seriesId))
+                                "will" -> viewModel.processIntent(ComicAppIntent.MarkAsWillBeReadSeries(seriesId))
+                                "currently" -> viewModel.processIntent(ComicAppIntent.MarkAsCurrentlyReadingSeries(seriesId))
+                                "unread" -> viewModel.processIntent(ComicAppIntent.MarkAsUnreadSeries(seriesId))
+                            }
+
                             scope.launch { sheetState.hide() }.invokeOnCompletion {
                                 if (!sheetState.isVisible) {
                                     showBottomSheet = false
