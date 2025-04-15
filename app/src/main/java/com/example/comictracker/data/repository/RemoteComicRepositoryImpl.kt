@@ -251,4 +251,32 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
         return mayLikeSeries
     }
 
+    override suspend fun getPreviousComicId(seriesId: Int, number: Int): Int? {
+        Log.i("PREV",seriesId.toString())
+        val nextComic =api.getSpecificComicsFromSeries(
+            seriesId = seriesId.toString(),
+            issueNumber = (number-1).toString(),
+            offset = "0"
+        )
+        return try {
+            nextComic.data?.let { it.results[0].id.toIntOrNull() }
+        }catch (e:Exception){
+            null
+        }
+    }
+
+    override suspend fun getNextComicId(seriesId: Int, number: Int): Int? {
+        Log.i("NEXT",seriesId.toString())
+        val nextComic =api.getSpecificComicsFromSeries(
+            seriesId = seriesId.toString(),
+            issueNumber = (number+1).toString(),
+            offset = "0"
+        )
+        return try {
+            nextComic.data?.let { it.results[0].id.toIntOrNull() }
+        }catch (e:Exception){
+            null
+        }
+    }
+
 }
