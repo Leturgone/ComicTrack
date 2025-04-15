@@ -42,13 +42,20 @@ fun SeriesScreen(
                     is DataState.Success -> {
                         Column(Modifier.verticalScroll(rememberScrollState())){
                             AboutSeriesSec(state.dataState.result.series!!)
+
+                            val firstIssue = if (state.dataState.result.comicList.isNotEmpty())  state.dataState.result.comicList[0] else null
+
                             UsersSeriesMarkSec(seriesId,
                                 state.dataState.result.series.readMark,
-                                state.dataState.result.series.favoriteMark)
+                                state.dataState.result.series.favoriteMark,
+                                firstIssue?.comicId)
+
+
+
                             if (state.dataState.result.nextRead!=null) {
                                 NextComicSec(state.dataState.result.nextRead, navController)
                             }else{
-                                NextComicSec(state.dataState.result.comicList[0], navController)
+                                NextComicSec(firstIssue, navController)
                             }
 
                             AboutCreatorsAndCharactersSec(
