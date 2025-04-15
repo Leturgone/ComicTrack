@@ -49,7 +49,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UsersSeriesMarkSec(seriesId: Int, mark:String,favoriteMark:Boolean,viewModel: ComicViewModel = hiltViewModel()) {
+fun UsersSeriesMarkSec(seriesId: Int, mark:String,favoriteMark:Boolean,firstIssueId:Int? = null,viewModel: ComicViewModel = hiltViewModel()) {
     val markCategories = listOf(
         MarkCategory(Icons.Filled.AccessTime,"Will be read","will"),
         MarkCategory(Icons.Filled.BookmarkAdded,"Read","read"),
@@ -151,7 +151,7 @@ fun UsersSeriesMarkSec(seriesId: Int, mark:String,favoriteMark:Boolean,viewModel
 
                                         "currently" -> viewModel.processIntent(
                                             ComicAppIntent.MarkAsCurrentlyReadingSeries(
-                                                seriesId
+                                                seriesId,firstIssueId
                                             )
                                         )
 
