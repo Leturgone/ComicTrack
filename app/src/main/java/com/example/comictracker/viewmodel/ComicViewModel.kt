@@ -474,6 +474,9 @@ class ComicViewModel @Inject constructor(
                 is SeriesModel -> {
                     val readMark = localComicRepository.loadSeriesMark(series.seriesId)
                     val favoriteMark = localComicRepository.loadSeriesFavoriteMark(series.seriesId)
+                    val nextRead = localComicRepository.loadNextRead(series.seriesId)?.let {
+                        remoteComicRepository.getComicById(it)
+                    }
                     Log.i("ViewModel",favoriteMark.toString())
                     val seriesWithMark = series.copy(readMark = readMark, favoriteMark = favoriteMark)
                     DataState.Success(AboutSeriesScreenData(
@@ -482,7 +485,7 @@ class ComicViewModel @Inject constructor(
                         creatorList = creatorList,
                         characterList = characterList,
                         connectedSeriesList = connectedSeriesList,
-                        nextRead = if (comicList.isNotEmpty()) comicList[0] else null
+                        nextRead = nextRead?: if (comicList.isNotEmpty()) comicList[0] else null
                     ))
                 }
                 else -> DataState.Error("Error loading this series ")
