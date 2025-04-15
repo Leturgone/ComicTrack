@@ -18,8 +18,11 @@ interface SeriesListDao {
     @Query("UPDATE series_list SET listType = 'read' WHERE Series_idSeries =:seriesId")
     fun addToReadUpdate(seriesId: Int)
 
-    @Query("UPDATE series_list SET favorite = 'true' WHERE Series_idSeries =:seriesId ")
+    @Query("UPDATE series_list SET favorite = 1 WHERE Series_idSeries =:seriesId ")
     fun addToFavorites(seriesId:Int)
+
+    @Query("UPDATE series_list SET favorite = 0 WHERE Series_idSeries =:seriesId ")
+    fun removeFromFavorites(seriesId:Int)
 
     @Query("DELETE FROM series_list  WHERE Series_idSeries =:seriesId ")
     fun removeFromLists(seriesId:Int)
@@ -41,7 +44,7 @@ interface SeriesListDao {
 
     @Query("SELECT se.seriesApiId FROM series_list sl " +
             "JOIN series se ON sl.Series_idSeries = se.idSeries " +
-            "WHERE sl.favorite = 'true' ")
+            "WHERE sl.favorite = 1 ")
     fun getFavoriteSeriesApiIds(): List<Int>
 
     @Query("SELECT COUNT(*) FROM series_list WHERE listType = 'read'")
@@ -60,6 +63,11 @@ interface SeriesListDao {
             "JOIN series se ON sl.Series_idSeries = se.idSeries " +
             "WHERE se.seriesApiId = :apiId")
     fun getSeriesMark(apiId: Int): String?
+
+    @Query("SELECT sl.favorite FROM series_list sl " +
+            "JOIN series se ON sl.Series_idSeries = se.idSeries " +
+            "WHERE se.seriesApiId = :apiId")
+    fun getSeriesFavoriteMark(apiId: Int): Boolean
 
     @Query("SELECT se.nextReadId FROM series_list sl " +
             "JOIN series se ON sl.Series_idSeries = se.idSeries " +
