@@ -42,7 +42,9 @@ fun SeriesScreen(
                     is DataState.Success -> {
                         Column(Modifier.verticalScroll(rememberScrollState())){
                             AboutSeriesSec(state.dataState.result.series!!)
-                            UsersSeriesMarkSec(seriesId,state.dataState.result.series!!.readMark)
+                            UsersSeriesMarkSec(seriesId,
+                                state.dataState.result.series.readMark,
+                                state.dataState.result.series.favoriteMark)
                             NextComicSec(state.dataState.result.comicList,navController)
                             AboutCreatorsAndCharactersSec(
                                 state.dataState.result.creatorList,
