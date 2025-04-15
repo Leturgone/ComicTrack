@@ -54,12 +54,11 @@ class ComicViewModel @Inject constructor(
             is ComicAppIntent.LoadComicFromSeriesScreen -> loadComicFromSeriesScreen(intent.seriesId,intent.loadCount)
             is ComicAppIntent.LoadAllScreen -> loadAll(intent.sourceId,intent.sourceCat,intent.loadedCount)
             is ComicAppIntent.LoadAllCharactersScreen -> loadAllCharactersScreen(intent.loadedCount)
+            is ComicAppIntent.AddSeriesToFavorite -> addSeriesToFavorite(intent.seriesId)
+            is ComicAppIntent.RemoveSeriesFromFavorite -> removeSeriesFromFavorites(intent.seriesId)
         }
 
     }
-
-
-
 
     private suspend fun fetchComics(ids: List<Int>): List<ComicModel> {
         val comicsDef = ids.map { id ->
@@ -117,6 +116,17 @@ class ComicViewModel @Inject constructor(
 
     private fun markAsCurrentlyReadingSeries(apiId:Int)  = viewModelScope.launch{
         if (localComicRepository.addSeriesToCurrentlyRead(apiId)){
+            loadSeriesScreen(apiId)
+        }
+    }
+    private fun addSeriesToFavorite(apiId: Int) = viewModelScope.launch {
+        if(localComicRepository.addSeriesToFavorite(apiId)){
+            loadSeriesScreen(apiId)
+        }
+
+    }
+    private fun removeSeriesFromFavorites(apiId: Int)  = viewModelScope.launch{
+        if(localComicRepository.removeSeriesFromFavorite(apiId)){
             loadSeriesScreen(apiId)
         }
     }
@@ -453,7 +463,9 @@ class ComicViewModel @Inject constructor(
             when(series){
                 is SeriesModel -> {
                     val readMark = localComicRepository.loadSeriesMark(series.seriesId)
-                    val seriesWithMark = series.copy(readMark = readMark)
+                    val favoriteMark = localComicRepository.loadSeriesFavoriteMark(series.seriesId)
+                    Log.i("ViewModel",favoriteMark.toString())
+                    val seriesWithMark = series.copy(readMark = readMark, favoriteMark = favoriteMark)
                     DataState.Success(AboutSeriesScreenData(
                         series = seriesWithMark,
                         comicList = comicList,
