@@ -14,6 +14,11 @@ sealed class ComicAppIntent {
     data class LoadComicScreen(val comicId:Int):ComicAppIntent()
     data class LoadCharacterScreen(val characterId:Int):ComicAppIntent()
     data class MarkAsReadSeries(val seriesId:Int): ComicAppIntent()
+
+    data class AddSeriesToFavorite(val seriesId:Int):ComicAppIntent()
+
+    data class RemoveSeriesFromFavorite(val seriesId:Int):ComicAppIntent()
+
     data class MarkAsWillBeReadSeries(val seriesId:Int): ComicAppIntent()
     data class MarkAsCurrentlyReadingSeries(val seriesId:Int): ComicAppIntent()
     data class MarkAsUnreadSeries(val seriesId:Int): ComicAppIntent()
