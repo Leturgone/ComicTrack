@@ -23,7 +23,11 @@ import com.example.comictracker.viewmodel.ComicViewModel
 
 
 @Composable
-fun UsersComicMarkSec(comicId: Int,mark:String, seriesId:Int,viewModel: ComicViewModel = hiltViewModel()) {
+fun UsersComicMarkSec(comicId: Int,
+                      mark:String,
+                      seriesId:Int,
+                      number:String,
+                      viewModel: ComicViewModel = hiltViewModel()) {
 
     Card(
         Modifier
@@ -38,8 +42,8 @@ fun UsersComicMarkSec(comicId: Int,mark:String, seriesId:Int,viewModel: ComicVie
     ) {
         Box(Modifier.padding(10.dp).clickable {
             when(mark){
-                "unread" -> viewModel.processIntent(ComicAppIntent.MarkAsReadComic(comicId,seriesId))
-                "read" -> viewModel.processIntent(ComicAppIntent.MarkAsUnreadComic(comicId,seriesId))
+                "unread" -> viewModel.processIntent(ComicAppIntent.MarkAsReadComic(comicId,seriesId,number))
+                "read" -> viewModel.processIntent(ComicAppIntent.MarkAsUnreadComic(comicId,seriesId,number))
             }
         }) {
             Text(
