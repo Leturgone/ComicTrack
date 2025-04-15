@@ -34,7 +34,7 @@ interface LocalComicRepository {
 
     suspend fun addSeriesToWillBeRead(apiId: Int):Boolean
 
-    suspend fun markComicUnread(apiId: Int):Boolean
+    suspend fun markComicUnread(apiId: Int,seriesApiId:Int):Boolean
     
     suspend fun markSeriesUnread(apiId: Int):Boolean
 

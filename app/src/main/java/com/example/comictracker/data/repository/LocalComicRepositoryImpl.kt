@@ -37,7 +37,7 @@ class LocalComicRepositoryImpl(
 
     override suspend fun loadAllReadComicIds(): List<Int> {
         return withContext(Dispatchers.IO){
-            seriesListDao.getReadSeriesApiIds()
+            comicsDao.getReadComicApiIds()
         }
     }
 
@@ -125,12 +125,28 @@ class LocalComicRepositoryImpl(
     override suspend fun markComicRead(apiId: Int,seriesApiId:Int):Boolean {
         return withContext(Dispatchers.IO){
             try {
-                if(seriesDao.getSeriesByApiId(seriesApiId)==null){
-                    comicsDao.addComic(
-                        ComicsEntity(comicApiId = apiId, mark = "read")
-                    )
+                var entity = seriesDao.getSeriesByApiId(seriesApiId)
+                if(entity==null) {
+                    addSeriesToCurrentlyRead(seriesApiId)
+                    entity = seriesDao.getSeriesByApiId(seriesApiId)
                 }
-                Log.d("Room", "markComicRead: Comic with id $apiId added to 'read' list.")
+                comicsDao.addComic(
+                    ComicsEntity(comicApiId = apiId,
+                        mark = "read",
+                        Series_idSeries = entity!!.id
+                    )
+                )
+                comicsDao.addComic(
+                    ComicsEntity(comicApiId = apiId+1,
+                        mark = "unread",
+                        Series_idSeries = entity.id
+                    )
+                )
+                val comicEntity = comicsDao.getComicByApiId(apiId)
+                val comicsEntity2 = comicsDao.getComicByApiId(apiId+1)
+                seriesDao.setLastRead(seriesApiId,comicEntity!!.id)
+                seriesDao.setNextRead(seriesApiId,comicsEntity2!!.id)
+                Log.d("Room", "markComicRead: Comic with id ${comicEntity.id} mark 'read'.")
                 true
             }catch (e:Exception){
                 Log.e("Room",e.toString())
@@ -222,10 +238,11 @@ class LocalComicRepositoryImpl(
         }
     }
 
-    override suspend fun markComicUnread(apiId: Int):Boolean {
+    override suspend fun markComicUnread(apiId: Int,seriesApiId: Int):Boolean {
         return withContext(Dispatchers.IO){
             if (comicsDao.getComicByApiId(apiId)!==null){
                 comicsDao.removeComic(apiId)
+                seriesDao.setNextRead(seriesApiId,apiId -1)
                 true
             }else{
                 false
