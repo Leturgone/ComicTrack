@@ -245,7 +245,8 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
         }.awaitAll()
 
         series.forEach {
-            mayLikeSeries = mayLikeSeries.zip(it.connectedSeries)
+            val connected = it.connectedSeries.filterNotNull()
+            mayLikeSeries.addAll(connected)
         }
         return mayLikeSeries
     }
