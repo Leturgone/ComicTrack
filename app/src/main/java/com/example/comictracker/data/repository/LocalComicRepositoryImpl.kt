@@ -91,6 +91,14 @@ class LocalComicRepositoryImpl(
         }
     }
 
+    override suspend fun loadSeriesFavoriteMark(apiId: Int): Boolean {
+        return withContext(Dispatchers.IO){
+            val mark = seriesListDao.getSeriesFavoriteMark(apiId)
+            Log.i("BD",mark.toString())
+            mark
+        }
+    }
+
     override suspend fun markSeriesRead(apiId: Int):Boolean {
         return withContext(Dispatchers.IO){
             try {
@@ -143,11 +151,28 @@ class LocalComicRepositoryImpl(
                 if (!seriesListDao.isSeriesInList(apiId)){
                     seriesListDao.addToRead(entity.id)
                 }
-                seriesListDao.addToFavorites(entity.id)
-                Log.d("Room", "addSeriesToFavorite: Series with id ${entity.id} added to 'favorite' list.")
-                true
+                if (!seriesListDao.getSeriesFavoriteMark(apiId)){
+                    seriesListDao.addToFavorites(entity.id)
+                    Log.d("Room", "addSeriesToFavorite: Series with id ${entity.id} added to 'favorite' list.")
+                    true
+                }else{
+                    false
+                }
+
             }catch (e:Exception){
                 Log.e("Room",e.toString())
+                false
+            }
+        }
+    }
+
+    override suspend fun removeSeriesFromFavorite(apiId: Int): Boolean {
+        return withContext(Dispatchers.IO){
+            val entity = seriesDao.getSeriesByApiId(apiId)!!
+            if(seriesListDao.getSeriesFavoriteMark(apiId)){
+                seriesListDao.removeFromFavorites(entity.id)
+                true
+            }else{
                 false
             }
         }
