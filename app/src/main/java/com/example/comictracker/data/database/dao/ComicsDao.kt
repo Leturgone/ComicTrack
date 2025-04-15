@@ -5,7 +5,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.comictracker.data.database.enteties.ComicsEntity
-import com.example.comictracker.data.database.enteties.SeriesEntity
 
 @Dao
 interface ComicsDao {
@@ -20,7 +19,7 @@ interface ComicsDao {
 
     @Query("SELECT comicApiId FROM comics WHERE mark = 'read'")
     fun getReadComicApiIds():List<Int>
-    
+
     @Query("SELECT * FROM comics WHERE idComics=:id")
     fun getComicById(id:Int):ComicsEntity
 
