@@ -268,4 +268,10 @@ class LocalComicRepositoryImpl(
         }
     }
 
+    override suspend fun loadNextRead(apiId: Int): Int? {
+        return withContext(Dispatchers.IO){
+            seriesDao.getNextRead(apiId)
+        }
+    }
+
 }

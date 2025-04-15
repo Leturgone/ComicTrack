@@ -43,4 +43,6 @@ interface LocalComicRepository {
     
     suspend fun markSeriesUnread(apiId: Int):Boolean
 
+    suspend fun loadNextRead(apiId: Int):Int?
+
 }
