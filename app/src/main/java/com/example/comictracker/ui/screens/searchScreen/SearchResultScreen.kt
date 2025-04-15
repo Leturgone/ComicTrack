@@ -21,6 +21,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -79,7 +80,7 @@ fun SearchResultScreen(query: String,
                                 }
                                 else{
                                     Column {
-                                        Text(text = "Not found")
+                                        Text(text = "Characters not found")
                                     }
                                 }
                             }
@@ -139,8 +140,9 @@ fun SearchSeriesCard(series: SeriesModel, clickFun:() -> Unit){
                 Card(modifier = Modifier
                     .width(127.dp)
                     .height(200.dp)) {
-                    AsyncImage(model = series.image
-                        , contentDescription = " ${series.seriesId} current cover",modifier = Modifier
+                    AsyncImage(model = series.image,
+                        contentScale = ContentScale.FillBounds,
+                        contentDescription = " ${series.seriesId} current cover",modifier = Modifier
                             .width(145.dp)
                             .height(200.dp))
                 }

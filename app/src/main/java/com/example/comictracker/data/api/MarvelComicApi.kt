@@ -24,6 +24,21 @@ interface MarvelComicApi {
         @Query("hash")hash:String=hash()
     ):ComicsDTO
 
+    @GET("/v1/public/series/{seriesId}/comics")
+    suspend fun getSpecificComicsFromSeries(
+        @Path("seriesId")seriesId:String,
+        @Query("format")format:String = "comic",
+        @Query("formatType")formatType:String = "comic",
+        @Query("noVariants")noVariants:String = "true",
+        @Query("issueNumber")issueNumber:String,
+        @Query("orderBy")orderBy:String = "issueNumber",
+        @Query("limit")limit:String = "1",
+        @Query("offset")offset:String,
+        @Query("apikey")apikey:String=API_KEY,
+        @Query("ts")ts:String=timeStamp,
+        @Query("hash")hash:String=hash()
+    ):ComicsDTO
+
     @GET("/v1/public/characters/{characterId}/series")
     suspend fun getCharacterSeries(
         @Path("characterId")characterId:String,

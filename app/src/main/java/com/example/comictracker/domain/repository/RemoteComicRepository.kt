@@ -36,4 +36,8 @@ interface RemoteComicRepository {
     suspend fun getComicCharacters(comicId: Int):List<CharacterModel>
 
     suspend fun loadMayLikeSeriesIds(loadedIdsSeriesFromBD:List<Int>):List<Int>
+
+    suspend fun getPreviousComicId(seriesId: Int, number: Int): Int?
+
+    suspend fun getNextComicId(seriesId: Int, number: Int): Int?
 }

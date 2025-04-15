@@ -17,8 +17,8 @@ import androidx.navigation.NavHostController
 import com.example.comictracker.domain.model.ComicModel
 
 @Composable
-fun NextComicSec(comicList:List<ComicModel>,navController: NavHostController){
-    if (comicList.isNotEmpty()) {
+fun NextComicSec(nextComic:ComicModel?,navController: NavHostController){
+    if (nextComic != null) {
         Column {
             Text(
                 text = "Continue reading",
@@ -33,10 +33,10 @@ fun NextComicSec(comicList:List<ComicModel>,navController: NavHostController){
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.padding(end = 15.dp, bottom = 12.dp)
                         .clickable {
-                            navController.navigate("comics_from_series/${comicList[0].seriesId}/0")
+                            navController.navigate("comics_from_series/${nextComic.seriesId}/0")
                         })
             }
-            ComicFromSeriesCard(comicList[0], navController)
+            ComicFromSeriesCard(nextComic, navController)
         }
     }
 
