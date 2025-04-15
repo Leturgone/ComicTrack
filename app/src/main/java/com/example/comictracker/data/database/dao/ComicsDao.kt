@@ -11,6 +11,9 @@ interface ComicsDao {
     @Query("SELECT * FROM comics")
     fun getComics(): LiveData<List<ComicsEntity>>
 
+    @Query("SELECT comicApiId FROM comics ORDER BY idComics DESC ")
+    fun getHistory(): List<Int?>
+
     @Query("SELECT COUNT(*) FROM comics WHERE mark = 'read'")
     fun getComicsCount(): Int
 
