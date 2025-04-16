@@ -3,6 +3,16 @@ package com.example.comictracker.data.api.dto.comicsDTO
 import com.google.gson.annotations.SerializedName
 
 
+/**
+ * Data
+ *
+ * @property offset
+ * @property limit
+ * @property total
+ * @property count
+ * @property results
+ * @constructor Create empty Data
+ */
 data class Data (
 
   @SerializedName("offset"  ) var offset  : String?            = null,

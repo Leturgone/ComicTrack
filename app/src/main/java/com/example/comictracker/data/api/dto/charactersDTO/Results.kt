@@ -8,6 +8,22 @@ import com.example.comictracker.domain.model.ComicModel
 import com.google.gson.annotations.SerializedName
 
 
+/**
+ * Results
+ *
+ * @property id
+ * @property name
+ * @property description
+ * @property modified
+ * @property resourceURI
+ * @property urls
+ * @property thumbnail
+ * @property comics
+ * @property stories
+ * @property events
+ * @property series
+ * @constructor Create empty Results
+ */
 data class Results (
 
     @SerializedName("id"          ) var id          : String,

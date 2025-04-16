@@ -3,6 +3,15 @@ package com.example.comictracker.data.api.dto.creatorsDTO
 import com.google.gson.annotations.SerializedName
 
 
+/**
+ * Stories
+ *
+ * @property available
+ * @property returned
+ * @property collectionURI
+ * @property items
+ * @constructor Create empty Stories
+ */
 data class Stories (
 
   @SerializedName("available"     ) var available     : String?          = null,

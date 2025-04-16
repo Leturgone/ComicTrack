@@ -5,6 +5,40 @@ import com.example.comictracker.data.api.dto.Urls
 import com.google.gson.annotations.SerializedName
 
 
+/**
+ * Results
+ *
+ * @property id
+ * @property digitalId
+ * @property title
+ * @property issueNumber
+ * @property variantDescription
+ * @property description
+ * @property modified
+ * @property isbn
+ * @property upc
+ * @property diamondCode
+ * @property ean
+ * @property issn
+ * @property format
+ * @property pageCount
+ * @property textObjects
+ * @property resourceURI
+ * @property urls
+ * @property series
+ * @property variants
+ * @property collections
+ * @property collectedIssues
+ * @property dates
+ * @property prices
+ * @property thumbnail
+ * @property images
+ * @property creators
+ * @property characters
+ * @property stories
+ * @property events
+ * @constructor Create empty Results
+ */
 data class Results (
 
     @SerializedName("id"                 ) var id                 : String,

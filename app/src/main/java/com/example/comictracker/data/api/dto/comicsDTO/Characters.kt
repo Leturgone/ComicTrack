@@ -3,6 +3,15 @@ package com.example.comictracker.data.api.dto.comicsDTO
 import com.google.gson.annotations.SerializedName
 
 
+/**
+ * Characters
+ *
+ * @property available
+ * @property returned
+ * @property collectionURI
+ * @property items
+ * @constructor Create empty Characters
+ */
 data class Characters (
 
   @SerializedName("available"     ) var available     : String?          = null,
