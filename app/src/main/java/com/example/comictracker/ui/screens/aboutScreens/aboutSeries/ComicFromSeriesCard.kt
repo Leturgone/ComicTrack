@@ -16,23 +16,23 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.comictracker.domain.model.ComicModel
+import com.example.comictracker.mvi.ComicAppIntent
+import com.example.comictracker.viewmodel.ComicViewModel
 
 @Composable
-fun ComicFromSeriesCard(comic:ComicModel,navController: NavHostController){
-    var checkedIconColor by remember { mutableStateOf(Color.Gray) }
+fun ComicFromSeriesCard(comic:ComicModel,navController: NavHostController,
+                        loadCount:Int?,
+                        viewModel: ComicViewModel = hiltViewModel()){
     Card(
         Modifier
             .fillMaxWidth()
@@ -77,15 +77,23 @@ fun ComicFromSeriesCard(comic:ComicModel,navController: NavHostController){
                 Column {
                     Icon(imageVector = Icons.Filled.Check,
                         contentDescription = "ReadIcon",
-                        tint = checkedIconColor,
+                        tint = when(comic.readMark){
+                            "read" -> Color.Green
+                            else -> Color.Gray
+                        },
                         modifier = Modifier
                             .padding(start = 40.dp)
                             .clickable {
-                                when (checkedIconColor) {
-                                    Color.Gray -> checkedIconColor = Color.Green
-                                    Color.Green -> checkedIconColor = Color.Gray
+                                when (comic.readMark) {
+                                     "read"->
+                                         viewModel.processIntent(
+                                        ComicAppIntent.MarkAsUnreadComicInList(comic.comicId,comic.seriesId,comic.number,loadCount!!))
+
+                                    else -> viewModel.processIntent(
+                                        ComicAppIntent.MarkAsReadComicInList(comic.comicId,comic.seriesId,comic.number,loadCount))
                                 }
-                            })
+                            }
+                    )
                 }
             }
         }
