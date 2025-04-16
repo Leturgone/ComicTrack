@@ -154,7 +154,7 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
 
     override suspend fun getCharactersByName(name: String): List<CharacterModel> {
         val characters = mutableListOf<CharacterModel>()
-        api.getCharactersByName(name).data?.results?.forEach() {
+        api.getCharactersByName(name).data?.results?.forEach {
                 result -> characters.add(result.toModel())
         }
         return characters
@@ -253,7 +253,7 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
     }
 
     override suspend fun loadMayLikeSeriesIds(loadedIdsSeriesFromBD: List<Int>): List<Int> {
-        var mayLikeSeries = mutableListOf<Int>()
+        val mayLikeSeries = mutableListOf<Int>()
         val series = coroutineScope {
             loadedIdsSeriesFromBD.map { id ->
                 async {
