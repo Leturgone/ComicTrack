@@ -3,19 +3,18 @@ package com.example.comictracker.domain.repository
 import com.example.comictracker.domain.model.StatisticsforAll
 
 interface LocalComicRepository {
-    suspend fun loadCurrentReadIds():List<Int>
+    suspend fun loadCurrentReadIds(offset:Int):List<Int>
 
-    suspend fun loadNextReadComicIds():List<Int>
+    suspend fun loadNextReadComicIds(offset:Int):List<Int>
 
-    suspend fun loadLastComicIds():List<Int>
 
-    suspend fun loadHistory():List<Int>
+    suspend fun loadHistory(offset:Int):List<Int>
 
-    suspend fun loadAllReadComicIds():List<Int>
+    suspend fun loadAllReadComicIds(offset:Int):List<Int>
 
-    suspend fun loadAllReadSeriesIds():List<Int>
+    suspend fun loadAllReadSeriesIds(offset:Int):List<Int>
 
-    suspend fun loadWillBeReadIds():List<Int>
+    suspend fun loadWillBeReadIds(offset:Int):List<Int>
 
     suspend fun loadStatistics():StatisticsforAll
 

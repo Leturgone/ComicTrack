@@ -17,45 +17,40 @@ class LocalComicRepositoryImpl(
     private val seriesDao: SeriesDao,
     private val seriesListDao: SeriesListDao
 ): LocalComicRepository {
-    override suspend fun loadCurrentReadIds(): List<Int> {
+    override suspend fun loadCurrentReadIds(offset:Int): List<Int> {
         return withContext(Dispatchers.IO){
-            seriesListDao.getCurrentlyReadingSeriesApiIds()
+            seriesListDao.getCurrentlyReadingSeriesApiIds(offset)
         }
     }
 
-    override suspend fun loadNextReadComicIds(): List<Int> {
+    override suspend fun loadNextReadComicIds(offset:Int): List<Int> {
         return withContext(Dispatchers.IO){
-            seriesListDao.getNextComicsForSeries().filterNotNull()
+            seriesListDao.getNextComicsForSeries(offset).filterNotNull()
         }
     }
 
-    override suspend fun loadLastComicIds(): List<Int> {
+
+    override suspend fun loadHistory(offset:Int): List<Int> {
         return withContext(Dispatchers.IO){
-            seriesListDao.getLastReadComicsForSeries().filterNotNull()
+            comicsDao.getHistory(offset).filterNotNull()
         }
     }
 
-    override suspend fun loadHistory(): List<Int> {
+    override suspend fun loadAllReadComicIds(offset:Int): List<Int> {
         return withContext(Dispatchers.IO){
-            comicsDao.getHistory().filterNotNull()
+            comicsDao.getReadComicApiIds(offset)
         }
     }
 
-    override suspend fun loadAllReadComicIds(): List<Int> {
-        return withContext(Dispatchers.IO){
-            comicsDao.getReadComicApiIds()
-        }
-    }
-
-    override suspend fun loadAllReadSeriesIds(): List<Int> {
+    override suspend fun loadAllReadSeriesIds(offset:Int): List<Int> {
         return  withContext(Dispatchers.IO){
-            seriesListDao.getReadSeriesApiIds()
+            seriesListDao.getReadSeriesApiIds(offset)
         }
     }
 
-    override suspend fun loadWillBeReadIds(): List<Int> {
+    override suspend fun loadWillBeReadIds(offset:Int): List<Int> {
         return  withContext(Dispatchers.IO){
-            seriesListDao.getWillBeReadSeriesApiIds()
+            seriesListDao.getWillBeReadSeriesApiIds(offset)
         }
     }
 
