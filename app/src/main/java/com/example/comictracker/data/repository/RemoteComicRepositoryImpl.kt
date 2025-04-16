@@ -16,10 +16,28 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
+import java.util.Locale
 import javax.inject.Inject
 
 class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComicApi) :RemoteComicRepository {
     //Мапперы
+
+    private fun formatDate(dateString: String): String {
+        return try {
+            val inputFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.getDefault())
+            val date = inputFormat.parse(dateString)
+
+            val outputFormat = SimpleDateFormat("dd.MM.yyyy", Locale.getDefault())
+            outputFormat.format(date!!)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            ""
+        }
+    }
+
+
+
     private fun seriesResult.toModel():SeriesModel{
         return SeriesModel(
             seriesId = this.id!!.toInt(),
@@ -54,7 +72,7 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
             image = "${this.thumbnail?.path}.${this.thumbnail?.extension}",
             seriesId = this.series!!.resourceURI!!.substringAfter("series/").toInt(),
             seriesTitle = this.series!!.name!!,
-            date = this.dates[0].date.toString(),
+            date = formatDate(this.dates[0].date.toString()),
             creators = this.creators!!.items.map {
                 Pair(
                     it.resourceURI!!.substringAfter("creators/").toInt(),
