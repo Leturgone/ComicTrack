@@ -100,7 +100,6 @@ class LocalComicRepositoryImpl(
     override suspend fun loadSeriesFavoriteMark(apiId: Int): Boolean {
         return withContext(Dispatchers.IO){
             val mark = seriesListDao.getSeriesFavoriteMark(apiId)
-            Log.i("BD",mark.toString())
             mark
         }
     }
@@ -136,6 +135,7 @@ class LocalComicRepositoryImpl(
                     addSeriesToCurrentlyRead(seriesApiId,nextComicApiId)
                     entity = seriesDao.getSeriesByApiId(seriesApiId)
                 }
+                if (comicsDao.getComicByApiId(apiId)!=null) return@withContext false
                 comicsDao.addComic(
                     ComicsEntity(comicApiId = apiId,
                         mark = "read",
@@ -207,7 +207,7 @@ class LocalComicRepositoryImpl(
                 }
                 seriesListDao.addToCurrentlyReading(entity.id)
                 seriesDao.setNextRead(apiId,firstIssueId)
-                Log.d("Room", "markSeriesRead: Series with id ${entity.id} added to 'read' list.")
+                Log.d("Room", "addSeriesToCurrentlyRead: Series with id ${entity.id} added to 'currently' list.")
                 true
             }catch (e:Exception){
                 Log.e("Room",e.toString())
@@ -229,7 +229,7 @@ class LocalComicRepositoryImpl(
                     seriesListDao.addToRead(entity.id)
                 }
                 seriesListDao.addToWillBeRead(entity.id)
-                Log.d("Room", "markSeriesRead: Series with id ${entity.id} added to 'read' list.")
+                Log.d("Room", "addSeriesToWillBeRead: Series with id ${entity.id} added to 'will' list.")
                 true
             }catch (e:Exception){
                 Log.e("Room",e.toString())
