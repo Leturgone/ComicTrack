@@ -63,7 +63,7 @@ fun AllComicSeriesSec(seriesId:Int,
                             LazyColumn{
                                 items(comics.size){
                                     val comic = comics[it]
-                                    ComicFromSeriesCard(comic,navController)
+                                    ComicFromSeriesCard(comic,navController,loadCount)
                                     if((it == comics.size-1) and (comics.size == loadCount+50)){
                                         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
                                             Button(onClick = {
