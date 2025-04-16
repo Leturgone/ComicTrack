@@ -44,6 +44,15 @@ import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
 
+/**
+ * All comic screen
+ *
+ * @param sourceId
+ * @param sourceCategory
+ * @param loadCount
+ * @param navController
+ * @param viewModel
+ */
 @Composable
 fun AllComicScreen(sourceId:Int,sourceCategory:String, loadCount:Int,
                    navController: NavHostController,
@@ -141,6 +150,12 @@ fun AllComicScreen(sourceId:Int,sourceCategory:String, loadCount:Int,
 
 }
 
+/**
+ * Series grid sec
+ *
+ * @param seriesList
+ * @param navController
+ */
 @Composable
 fun SeriesGridSec(seriesList:List<SeriesModel>,navController: NavHostController){
     LazyVerticalGrid(columns = GridCells.Fixed(3), contentPadding = PaddingValues(16.dp),
@@ -167,6 +182,12 @@ fun SeriesGridSec(seriesList:List<SeriesModel>,navController: NavHostController)
     }
 }
 
+/**
+ * Comic grid sec
+ *
+ * @param comicList
+ * @param navController
+ */
 @Composable
 fun ComicGridSec(comicList:List<ComicModel>, navController: NavHostController ){
     LazyVerticalGrid(columns = GridCells.Fixed(3), contentPadding = PaddingValues(16.dp),

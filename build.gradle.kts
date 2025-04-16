@@ -3,5 +3,16 @@ plugins {
     id("com.android.application") version "8.2.2" apply false
     id("org.jetbrains.kotlin.android") version "1.9.0" apply false
     id("com.google.dagger.hilt.android") version "2.55" apply false
-    id("org.jetbrains.dokka") version "1.9.10"
+    id("org.jetbrains.dokka") version "1.9.0"
+}
+
+tasks.dokkaHtml {
+    outputDirectory.set(buildDir.resolve("dokka"))
+
+    dokkaSourceSets {
+        configureEach {
+            sourceRoots.from(
+                file("src/main/java"), file("src/main/kotlin"))
+        }
+    }
 }

@@ -18,6 +18,12 @@ import androidx.navigation.NavHostController
 import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.presentation.ui.screens.SeriesComicListCard
 
+/**
+ * Current reading sec
+ *
+ * @param currentReadingList
+ * @param navController
+ */
 @Composable
 fun CurrentReadingSec(currentReadingList: List<SeriesModel>, navController: NavHostController){
 

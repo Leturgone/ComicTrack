@@ -21,6 +21,13 @@ import com.example.comictracker.presentation.ui.screens.CustomToastMessage
 import com.example.comictracker.presentation.ui.screens.aboutScreens.AboutCreatorsAndCharactersSec
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
 
+/**
+ * Series screen
+ *
+ * @param seriesId
+ * @param navController
+ * @param viewModel
+ */
 @Composable
 fun SeriesScreen(
     seriesId: Int,
@@ -72,6 +79,4 @@ fun SeriesScreen(
             }
         }
     }
-
-
 }

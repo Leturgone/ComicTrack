@@ -19,6 +19,12 @@ import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.presentation.ui.screens.SeriesComicListCard
 
 
+/**
+ * Current read comic list sec
+ *
+ * @param currentComicList
+ * @param navController
+ */
 @Composable
  fun CurrentReadComicListSec(currentComicList: List<ComicModel>, navController: NavHostController){
      Column {

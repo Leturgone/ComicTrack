@@ -24,6 +24,11 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.comictracker.presentation.ui.components.BottomNavigation
 import com.example.comictracker.presentation.ui.theme.LightGreen
 
+/**
+ * Bottom navigation bar
+ *
+ * @param navController
+ */
 @Composable
 fun BottomNavigationBar(navController: NavHostController){
 

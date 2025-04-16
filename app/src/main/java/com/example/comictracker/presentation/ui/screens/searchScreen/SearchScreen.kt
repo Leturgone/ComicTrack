@@ -21,6 +21,12 @@ import com.example.comictracker.presentation.ui.screens.CustomToastMessage
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
 
 
+/**
+ * Search screen
+ *
+ * @param navController
+ * @param viewModel
+ */
 @Composable
 fun SearchScreen(navController: NavHostController,
                  viewModel: ComicViewModel = hiltViewModel()){
@@ -71,7 +77,4 @@ fun SearchScreen(navController: NavHostController,
             }
         }
     }
-
-
-
 }

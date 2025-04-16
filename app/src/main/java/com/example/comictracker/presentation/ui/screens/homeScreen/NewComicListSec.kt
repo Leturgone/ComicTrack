@@ -19,6 +19,12 @@ import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.presentation.ui.screens.SeriesComicListCard
 
 
+/**
+ * New comic list sec
+ *
+ * @param newComicList
+ * @param navController
+ */
 @Composable
 fun NewComicListSec(newComicList: List<ComicModel>, navController: NavHostController){
     Column {
@@ -51,5 +57,4 @@ fun NewComicListSec(newComicList: List<ComicModel>, navController: NavHostContro
             }
         }
     }
-
 }

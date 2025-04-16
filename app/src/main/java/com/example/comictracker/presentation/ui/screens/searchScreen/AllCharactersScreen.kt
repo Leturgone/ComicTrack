@@ -37,6 +37,13 @@ import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.ui.screens.CustomToastMessage
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
 
+/**
+ * All characters screen
+ *
+ * @param loadCount
+ * @param navController
+ * @param viewModel
+ */
 @Composable
 fun  AllCharactersScreen(loadCount: Int, navController: NavHostController,
                          viewModel: ComicViewModel = hiltViewModel()){
@@ -123,6 +130,4 @@ fun  AllCharactersScreen(loadCount: Int, navController: NavHostController,
         }
 
     }
-
-
 }

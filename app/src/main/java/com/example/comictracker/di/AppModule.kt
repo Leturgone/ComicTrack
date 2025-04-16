@@ -23,9 +23,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
+/**
+ * App module
+ *
+ * @constructor Create empty App module
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class AppModule {
+    /**
+     * Provide marvel comic api
+     *
+     * @return
+     */
     @Provides
     @Singleton
     fun provideMarvelComicApi():MarvelComicApi{
@@ -46,12 +56,24 @@ class AppModule {
             .create(MarvelComicApi::class.java)
     }
 
+    /**
+     * Provide remote repository
+     *
+     * @param api
+     * @return
+     */
     @Provides
     @Singleton
     fun provideRemoteRepository(api: MarvelComicApi):RemoteComicRepository{
         return RemoteComicRepositoryImpl(api)
     }
 
+    /**
+     * Provide comic tracker database
+     *
+     * @param context
+     * @return
+     */
     @Provides
     @Singleton
     fun provideComicTrackerDatabase(@ApplicationContext context: Context): ComicTrackerDatabase {
@@ -62,31 +84,56 @@ class AppModule {
         ).build()
     }
 
+    /**
+     * Provide comics dao
+     *
+     * @param db
+     * @return
+     */
     @Provides
     @Singleton
     fun provideComicsDao(db:ComicTrackerDatabase): ComicsDao{
         return db.comicsDao()
     }
 
+    /**
+     * Provide series dao
+     *
+     * @param db
+     * @return
+     */
     @Provides
     @Singleton
     fun provideSeriesDao(db:ComicTrackerDatabase): SeriesDao{
         return db.seriesDao()
     }
 
+    /**
+     * Provide series list dao
+     *
+     * @param db
+     * @return
+     */
     @Provides
     @Singleton
     fun provideSeriesListDao(db:ComicTrackerDatabase): SeriesListDao{
         return db.seriesListDao()
     }
 
+    /**
+     * Provide local repository
+     *
+     * @param comicsDao
+     * @param seriesDao
+     * @param seriesListDao
+     * @return
+     */
     @Provides
     @Singleton
     fun provideLocalRepository(comicsDao: ComicsDao, seriesDao: SeriesDao,
                                seriesListDao: SeriesListDao): LocalComicRepository {
         return LocalComicRepositoryImpl(comicsDao, seriesDao, seriesListDao)
     }
-
 
 
 }

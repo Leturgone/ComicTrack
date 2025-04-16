@@ -1,5 +1,20 @@
 package com.example.comictracker.domain.model
 
+/**
+ * Comic model
+ *
+ * @property comicId
+ * @property title
+ * @property number
+ * @property image
+ * @property seriesId
+ * @property seriesTitle
+ * @property date
+ * @property creators
+ * @property characters
+ * @property readMark
+ * @constructor Create empty Comic model
+ */
 data class ComicModel(
     val comicId :Int,
     val title: String,

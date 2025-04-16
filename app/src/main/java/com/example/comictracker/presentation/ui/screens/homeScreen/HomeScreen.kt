@@ -21,6 +21,12 @@ import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.ui.screens.CustomToastMessage
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
 
+/**
+ * Home screen
+ *
+ * @param navController
+ * @param viewModel
+ */
 @Composable
 fun HomeScreen(navController: NavHostController,viewModel: ComicViewModel = hiltViewModel()){
     val uiState by viewModel.state.collectAsState()

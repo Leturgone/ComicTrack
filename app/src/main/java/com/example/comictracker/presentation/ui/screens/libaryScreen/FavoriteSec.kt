@@ -14,6 +14,12 @@ import androidx.navigation.NavHostController
 import com.example.comictracker.presentation.ui.screens.SeriesComicListCard
 import com.example.comictracker.domain.model.SeriesModel
 
+/**
+ * Favorite sec
+ *
+ * @param favoriteList
+ * @param navController
+ */
 @Composable
 fun FavoriteSec(favoriteList: List<SeriesModel>, navController: NavHostController){
 

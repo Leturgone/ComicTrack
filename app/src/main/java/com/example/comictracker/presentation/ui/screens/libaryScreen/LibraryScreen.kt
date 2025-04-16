@@ -27,6 +27,12 @@ import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.ui.screens.CustomToastMessage
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
 
+/**
+ * Library screen
+ *
+ * @param navController
+ * @param viewModel
+ */
 @Composable
 fun LibraryScreen(navController: NavHostController,
                   viewModel: ComicViewModel = hiltViewModel()
@@ -72,5 +78,4 @@ fun LibraryScreen(navController: NavHostController,
         }
 
     }
-
 }

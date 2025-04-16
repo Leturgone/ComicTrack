@@ -46,6 +46,15 @@ import com.example.comictracker.presentation.ui.components.MarkCategory
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
 import kotlinx.coroutines.launch
 
+/**
+ * Users series mark sec
+ *
+ * @param seriesId
+ * @param mark
+ * @param favoriteMark
+ * @param firstIssueId
+ * @param viewModel
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UsersSeriesMarkSec(seriesId: Int, mark:String,favoriteMark:Boolean,firstIssueId:Int? = null,viewModel: ComicViewModel = hiltViewModel()) {

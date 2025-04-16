@@ -23,6 +23,11 @@ import coil3.compose.AsyncImage
 import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.presentation.ui.screens.aboutScreens.ExpandableText
 
+/**
+ * About series sec
+ *
+ * @param series
+ */
 @Composable
 fun AboutSeriesSec(series: SeriesModel){
     Column {

@@ -15,6 +15,14 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/**
+ * Expandable text
+ *
+ * @param text
+ * @param modifier
+ * @param maxLines
+ * @param width
+ */
 @Composable
 fun ExpandableText(
     text: String,

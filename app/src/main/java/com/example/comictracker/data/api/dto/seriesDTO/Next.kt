@@ -3,6 +3,13 @@ package com.example.comictracker.data.api.dto.seriesDTO
 import com.google.gson.annotations.SerializedName
 
 
+/**
+ * Next
+ *
+ * @property resourceURI
+ * @property name
+ * @constructor Create empty Next
+ */
 data class Next (
 
   @SerializedName("resourceURI" ) var resourceURI : String? = null,

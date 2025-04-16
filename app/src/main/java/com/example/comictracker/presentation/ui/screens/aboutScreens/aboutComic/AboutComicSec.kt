@@ -24,6 +24,12 @@ import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.comictracker.domain.model.ComicModel
 
+/**
+ * About comic sec
+ *
+ * @param comic
+ * @param navController
+ */
 @Composable
 fun AboutComicSec(comic:ComicModel,navController: NavHostController){
     Column {

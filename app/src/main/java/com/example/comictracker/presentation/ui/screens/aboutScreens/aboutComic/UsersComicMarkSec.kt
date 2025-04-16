@@ -22,6 +22,15 @@ import com.example.comictracker.presentation.mvi.ComicAppIntent
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
 
 
+/**
+ * Users comic mark sec
+ *
+ * @param comicId
+ * @param mark
+ * @param seriesId
+ * @param number
+ * @param viewModel
+ */
 @Composable
 fun UsersComicMarkSec(comicId: Int,
                       mark:String,

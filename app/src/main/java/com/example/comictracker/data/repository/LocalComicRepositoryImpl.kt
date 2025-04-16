@@ -12,6 +12,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
 
+/**
+ * Local comic repository impl
+ *
+ * @property comicsDao
+ * @property seriesDao
+ * @property seriesListDao
+ * @constructor Create empty Local comic repository impl
+ */
 class LocalComicRepositoryImpl(
     private val comicsDao: ComicsDao,
     private val seriesDao: SeriesDao,

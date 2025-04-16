@@ -21,6 +21,13 @@ import com.example.comictracker.presentation.ui.screens.CustomToastMessage
 import com.example.comictracker.presentation.ui.screens.aboutScreens.AboutCreatorsAndCharactersSec
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
 
+/**
+ * Comic screen
+ *
+ * @param comicId
+ * @param navController
+ * @param viewModel
+ */
 @Composable
 fun  ComicScreen(comicId: Int,
                  navController: NavHostController,

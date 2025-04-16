@@ -20,6 +20,12 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
 
+/**
+ * Remote comic repository impl
+ *
+ * @property api
+ * @constructor Create empty Remote comic repository impl
+ */
 class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComicApi) :RemoteComicRepository {
     //Мапперы
 

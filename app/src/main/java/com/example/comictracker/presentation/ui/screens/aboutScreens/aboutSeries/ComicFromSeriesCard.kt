@@ -29,6 +29,14 @@ import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.presentation.mvi.ComicAppIntent
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
 
+/**
+ * Comic from series card
+ *
+ * @param comic
+ * @param navController
+ * @param loadCount
+ * @param viewModel
+ */
 @Composable
 fun ComicFromSeriesCard(comic:ComicModel,navController: NavHostController,
                         loadCount:Int?,

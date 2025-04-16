@@ -24,9 +24,10 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import dagger.hilt.android.AndroidEntryPoint
 
 
-
 /**
- * This is a sample class.
+ * Main activity
+ *
+ * @constructor Create empty Main activity
  */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -65,6 +66,10 @@ class MainActivity : ComponentActivity() {
 }
 
 
+/**
+ * Main screen
+ *
+ */
 @Composable
 fun MainScreen(){
     val navController = rememberNavController()
@@ -84,6 +89,11 @@ fun MainScreen(){
     }
 }
 
+/**
+ * Set bar color
+ *
+ * @param color
+ */
 @Composable
 private fun SetBarColor(color : Color){
     //Функция для изменения цвета статусбара
@@ -94,6 +104,10 @@ private fun SetBarColor(color : Color){
 }
 
 
+/**
+ * Greeting preview
+ *
+ */
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {

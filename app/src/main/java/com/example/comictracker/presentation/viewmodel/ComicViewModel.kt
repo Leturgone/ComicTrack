@@ -25,6 +25,13 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
+/**
+ * Comic view model
+ *
+ * @property remoteComicRepository
+ * @property localComicRepository
+ * @constructor Create empty Comic view model
+ */
 @HiltViewModel
 class ComicViewModel @Inject constructor(
     private val remoteComicRepository: RemoteComicRepository,
@@ -36,6 +43,11 @@ class ComicViewModel @Inject constructor(
     val state: StateFlow<ComicAppState> = _state
 
 
+    /**
+     * Process intent
+     *
+     * @param intent
+     */
     fun processIntent(intent: ComicAppIntent){
         when(intent){
             is ComicAppIntent.LoadCharacterScreen -> loadCharacterScreen(intent.characterId)
@@ -63,8 +75,12 @@ class ComicViewModel @Inject constructor(
     }
 
 
-
-
+    /**
+     * Fetch comics
+     *
+     * @param ids
+     * @return
+     */
     private suspend fun fetchComics(ids: List<Int>): List<ComicModel> {
         val comicsDef = ids.map { id ->
             viewModelScope.async(Dispatchers.IO) {
@@ -77,6 +93,13 @@ class ComicViewModel @Inject constructor(
         }
         return comicsDef.awaitAll().filterNotNull()
     }
+
+    /**
+     * Fetch series
+     *
+     * @param ids
+     * @return
+     */
     private suspend fun fetchSeries(ids: List<Int>): List<SeriesModel> {
         val seriesDef = ids.map { id ->
             viewModelScope.async(Dispatchers.IO) {
@@ -89,6 +112,13 @@ class ComicViewModel @Inject constructor(
         }
         return seriesDef.awaitAll().filterNotNull()
     }
+
+    /**
+     * Fetch updates for series
+     *
+     * @param ids
+     * @return
+     */
     private suspend fun fetchUpdatesForSeries(ids: List<Int>): List<ComicModel> {
         val newComicsDef = ids.map { id ->
             viewModelScope.async(Dispatchers.IO) {
@@ -102,40 +132,82 @@ class ComicViewModel @Inject constructor(
         return newComicsDef.awaitAll().flatten()
     }
 
+    /**
+     * Mark as read series
+     *
+     * @param apiId
+     */
     private fun markAsReadSeries(apiId:Int) = viewModelScope.launch{
         if (localComicRepository.markSeriesRead(apiId)){
             loadSeriesScreen(apiId)
         }
     }
+
+    /**
+     * Mark will be read series
+     *
+     * @param apiId
+     */
     private fun markWillBeReadSeries(apiId:Int)  = viewModelScope.launch{
         if(localComicRepository.addSeriesToWillBeRead(apiId)){
             loadSeriesScreen(apiId)
         }
     }
 
+    /**
+     * Mark unread series
+     *
+     * @param apiId
+     */
     private fun markUnreadSeries(apiId:Int)  = viewModelScope.launch{
         if (localComicRepository.markSeriesUnread(apiId)){
             loadSeriesScreen(apiId)
         }
     }
 
-    private fun markAsCurrentlyReadingSeries(apiId:Int,firstIssueId:Int?)  = viewModelScope.launch{
+    /**
+     * Mark as currently reading series
+     *
+     * @param apiId
+     * @param firstIssueId
+     */
+    private fun markAsCurrentlyReadingSeries(apiId:Int, firstIssueId:Int?)  = viewModelScope.launch{
         if (localComicRepository.addSeriesToCurrentlyRead(apiId,firstIssueId)){
             loadSeriesScreen(apiId)
         }
     }
+
+    /**
+     * Add series to favorite
+     *
+     * @param apiId
+     */
     private fun addSeriesToFavorite(apiId: Int) = viewModelScope.launch {
         if(localComicRepository.addSeriesToFavorite(apiId)){
             loadSeriesScreen(apiId)
         }
 
     }
+
+    /**
+     * Remove series from favorites
+     *
+     * @param apiId
+     */
     private fun removeSeriesFromFavorites(apiId: Int)  = viewModelScope.launch{
         if(localComicRepository.removeSeriesFromFavorite(apiId)){
             loadSeriesScreen(apiId)
         }
     }
-    private fun markAsReadComic(comicApiId: Int, seriesApiId: Int,number:String)  = viewModelScope.launch{
+
+    /**
+     * Mark as read comic
+     *
+     * @param comicApiId
+     * @param seriesApiId
+     * @param number
+     */
+    private fun markAsReadComic(comicApiId: Int, seriesApiId: Int, number:String)  = viewModelScope.launch{
         val nextComicId = async {
             remoteComicRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
         }.await()
@@ -144,7 +216,14 @@ class ComicViewModel @Inject constructor(
         }
     }
 
-    private fun markAsUnreadComic(comicApiId: Int, seriesApiId: Int,number:String) = viewModelScope.launch {
+    /**
+     * Mark as unread comic
+     *
+     * @param comicApiId
+     * @param seriesApiId
+     * @param number
+     */
+    private fun markAsUnreadComic(comicApiId: Int, seriesApiId: Int, number:String) = viewModelScope.launch {
         val prevComicId = async {
             remoteComicRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
         }.await()
@@ -153,6 +232,14 @@ class ComicViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Mark as unread comic in list
+     *
+     * @param comicApiId
+     * @param seriesApiId
+     * @param number
+     * @param loadedCount
+     */
     private fun markAsUnreadComicInList(comicApiId: Int, seriesApiId: Int, number: String, loadedCount: Int)  = viewModelScope.launch{
         val prevComicId = async {
             remoteComicRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
@@ -163,6 +250,14 @@ class ComicViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Mark as read comic in list
+     *
+     * @param comicApiId
+     * @param seriesApiId
+     * @param number
+     * @param loadedCount
+     */
     private fun markAsReadComicInList(comicApiId: Int, seriesApiId: Int, number: String, loadedCount: Int?) = viewModelScope.launch{
         val nextComicId = async {
             remoteComicRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
@@ -179,6 +274,11 @@ class ComicViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Load all characters screen
+     *
+     * @param loadedCount
+     */
     private fun loadAllCharactersScreen(loadedCount: Int) = viewModelScope.launch {
         _state.value = ComicAppState.AllCharactersScreenSate(DataState.Loading)
         val characterListDef  = async(Dispatchers.IO) {
@@ -194,6 +294,13 @@ class ComicViewModel @Inject constructor(
     }
 
 
+    /**
+     * Load all
+     *
+     * @param sourceId
+     * @param sourceCat
+     * @param loadedCount
+     */
     private fun loadAll(sourceId: Int, sourceCat: String, loadedCount: Int) = viewModelScope.launch {
 
         when(sourceCat){
@@ -277,6 +384,11 @@ class ComicViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Load search results screen
+     *
+     * @param query
+     */
     private fun loadSearchResultsScreen(query: String) = viewModelScope.launch{
         _state.value = ComicAppState.SearchResultScreenSate(DataState.Loading)
         val searchSeriesListDeferred = async(Dispatchers.IO) {
@@ -305,7 +417,13 @@ class ComicViewModel @Inject constructor(
         _state.value = ComicAppState.SearchResultScreenSate(characterList,seriesList)
     }
 
-    private fun loadComicFromSeriesScreen(seriesId: Int,loadedCount: Int)  = viewModelScope.launch{
+    /**
+     * Load comic from series screen
+     *
+     * @param seriesId
+     * @param loadedCount
+     */
+    private fun loadComicFromSeriesScreen(seriesId: Int, loadedCount: Int)  = viewModelScope.launch{
         _state.value = ComicAppState.AllComicSeriesScreenState(DataState.Loading)
         try {
             withContext(Dispatchers.IO){
@@ -328,8 +446,10 @@ class ComicViewModel @Inject constructor(
     }
 
 
-
-
+    /**
+     * Load home screen
+     *
+     */
     private fun loadHomeScreen() = viewModelScope.launch {
         _state.value = ComicAppState.HomeScreenState(DataState.Loading)
 
@@ -347,6 +467,10 @@ class ComicViewModel @Inject constructor(
             ))
     }
 
+    /**
+     * Load profile screen
+     *
+     */
     private fun loadProfileScreen() = viewModelScope.launch {
         _state.value = ComicAppState.MyLibraryScreenState(DataState.Loading)
 
@@ -401,6 +525,10 @@ class ComicViewModel @Inject constructor(
 
     }
 
+    /**
+     * Load search screen
+     *
+     */
     private fun loadSearchScreen() = viewModelScope.launch {
         _state.value = ComicAppState.SearchScreenState(DataState.Loading)
         val discoverSeriesListDef  = async(Dispatchers.IO) {
@@ -440,6 +568,11 @@ class ComicViewModel @Inject constructor(
     }
 
 
+    /**
+     * Load series screen
+     *
+     * @param seriesId
+     */
     private fun loadSeriesScreen(seriesId: Int)  = viewModelScope.launch {
         _state.value = ComicAppState.AboutComicScreenState(DataState.Loading)
         val seriesDeferred = async(Dispatchers.IO){
@@ -528,6 +661,11 @@ class ComicViewModel @Inject constructor(
         )
     }
 
+    /**
+     * Load comic screen
+     *
+     * @param comicId
+     */
     private fun loadComicScreen(comicId: Int) = viewModelScope.launch {
         _state.value = ComicAppState.AboutComicScreenState(DataState.Loading)
         val comicDeferred = async(Dispatchers.IO){
@@ -582,6 +720,11 @@ class ComicViewModel @Inject constructor(
             }))
     }
 
+    /**
+     * Load character screen
+     *
+     * @param characterId
+     */
     private fun loadCharacterScreen(characterId:Int) = viewModelScope.launch {
         _state.value = ComicAppState.AboutCharacterScreenState(
             character = DataState.Loading,

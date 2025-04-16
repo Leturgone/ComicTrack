@@ -34,6 +34,13 @@ import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
 
+/**
+ * Search result screen
+ *
+ * @param query
+ * @param navController
+ * @param viewModel
+ */
 @Composable
 fun SearchResultScreen(query: String,
                        navController: NavHostController,
@@ -125,6 +132,13 @@ fun SearchResultScreen(query: String,
 
 }
 
+/**
+ * Search series card
+ *
+ * @param series
+ * @param clickFun
+ * @receiver
+ */
 @Composable
 fun SearchSeriesCard(series: SeriesModel, clickFun:() -> Unit){
     Row(Modifier.clickable(onClick = clickFun)) {

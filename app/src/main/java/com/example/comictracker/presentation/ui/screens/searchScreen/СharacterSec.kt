@@ -25,6 +25,12 @@ import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.comictracker.domain.model.CharacterModel
 
+/**
+ * Character sec
+ *
+ * @param characterList
+ * @param navController
+ */
 @Composable
 fun CharacterSec(characterList: List<CharacterModel>, navController: NavHostController){
     Column {
@@ -78,6 +84,16 @@ fun CharacterSec(characterList: List<CharacterModel>, navController: NavHostCont
 
 }
 
+/**
+ * Character card
+ *
+ * @param imageUrl
+ * @param characterName
+ * @param cardSize
+ * @param imageSize
+ * @param clickFun
+ * @receiver
+ */
 @Composable
 fun CharacterCard(imageUrl: String, characterName: String,cardSize :Int,imageSize:Int, clickFun:() -> Unit) {
     Card(modifier = Modifier

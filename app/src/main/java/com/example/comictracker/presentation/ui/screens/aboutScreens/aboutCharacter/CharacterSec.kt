@@ -21,6 +21,11 @@ import com.example.comictracker.domain.model.CharacterModel
 import com.example.comictracker.presentation.ui.screens.aboutScreens.ExpandableText
 
 
+/**
+ * Character sec
+ *
+ * @param character
+ */
 @Composable
 fun CharacterSec(character: CharacterModel) {
     Row{

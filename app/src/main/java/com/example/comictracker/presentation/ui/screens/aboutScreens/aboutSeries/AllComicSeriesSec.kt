@@ -29,6 +29,14 @@ import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.ui.screens.CustomToastMessage
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
 
+/**
+ * All comic series sec
+ *
+ * @param seriesId
+ * @param loadCount
+ * @param viewModel
+ * @param navController
+ */
 @Composable
 fun AllComicSeriesSec(seriesId:Int,
                       loadCount:Int,

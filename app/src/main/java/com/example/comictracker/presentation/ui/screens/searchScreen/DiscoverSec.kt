@@ -19,6 +19,12 @@ import com.example.comictracker.presentation.ui.screens.SeriesComicListCard
 import com.example.comictracker.domain.model.SeriesModel
 
 
+/**
+ * Discover sec
+ *
+ * @param discoverComicList
+ * @param navController
+ */
 @Composable
 fun DiscoverSec(discoverComicList: List<SeriesModel>, navController: NavHostController){
 
@@ -55,5 +61,4 @@ fun DiscoverSec(discoverComicList: List<SeriesModel>, navController: NavHostCont
             }
         }
     }
-
 }

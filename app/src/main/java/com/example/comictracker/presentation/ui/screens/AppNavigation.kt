@@ -18,6 +18,12 @@ import com.example.comictracker.presentation.ui.screens.searchScreen.SearchResul
 import com.example.comictracker.presentation.ui.screens.searchScreen.SearchScreen
 
 
+/**
+ * App navigation
+ *
+ * @param innerPadding
+ * @param navController
+ */
 @Composable
 fun AppNavigation(innerPadding: PaddingValues, navController: NavHostController){
 

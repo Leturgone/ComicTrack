@@ -18,6 +18,13 @@ import com.example.comictracker.presentation.ui.screens.CustomToastMessage
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
 
 
+/**
+ * Character screen
+ *
+ * @param characterId
+ * @param navController
+ * @param viewModel
+ */
 @Composable
 fun CharacterScreen(
     characterId: Int,

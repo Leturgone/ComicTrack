@@ -18,6 +18,12 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.comictracker.domain.model.StatisticsforAll
 
+/**
+ * Micro sections sec
+ *
+ * @param statistics
+ * @param navController
+ */
 @Composable
 fun MicroSectionsSec(statistics: StatisticsforAll, navController: NavHostController){
     val stats = listOf(

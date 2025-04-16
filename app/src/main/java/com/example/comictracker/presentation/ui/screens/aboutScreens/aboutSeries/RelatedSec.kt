@@ -15,6 +15,12 @@ import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.presentation.ui.screens.SeriesComicListCard
 
 
+/**
+ * Related sec
+ *
+ * @param connectedSeries
+ * @param navController
+ */
 @Composable
 fun RelatedSec(connectedSeries:List<SeriesModel?>, navController: NavHostController){
 

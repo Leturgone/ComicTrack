@@ -18,6 +18,12 @@ import androidx.navigation.NavHostController
 import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.presentation.ui.screens.SeriesComicListCard
 
+/**
+ * May like sec
+ *
+ * @param mayLikeComicList
+ * @param navController
+ */
 @Composable
 fun MayLikeSec(mayLikeComicList: List<SeriesModel>, navController: NavHostController){
 

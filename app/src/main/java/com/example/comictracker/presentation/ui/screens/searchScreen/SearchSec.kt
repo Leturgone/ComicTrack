@@ -27,6 +27,11 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 
 
+/**
+ * Search sec
+ *
+ * @param navController
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchSec(navController: NavHostController){

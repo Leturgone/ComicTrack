@@ -4,6 +4,15 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
+/**
+ * Series entity
+ *
+ * @property id
+ * @property seriesApiId
+ * @property lastReadId
+ * @property nextReadId
+ * @constructor Create empty Series entity
+ */
 @Entity(tableName = "series",
     indices = [androidx.room.Index(value = ["idSeries", "seriesApiId"], unique = true)])
 data class SeriesEntity(

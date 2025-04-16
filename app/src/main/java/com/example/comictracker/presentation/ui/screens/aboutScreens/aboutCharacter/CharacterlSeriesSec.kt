@@ -24,6 +24,13 @@ import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.comictracker.domain.model.SeriesModel
 
+/**
+ * Character series sec
+ *
+ * @param characterId
+ * @param seriesList
+ * @param navController
+ */
 @Composable
 fun CharacterSeriesSec(characterId:Int,seriesList: List<SeriesModel>, navController: NavHostController){
     Box {
@@ -64,6 +71,4 @@ fun CharacterSeriesSec(characterId:Int,seriesList: List<SeriesModel>, navControl
             }
         }
     }
-
-
 }

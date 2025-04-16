@@ -14,6 +14,16 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 
 
+/**
+ * Series comic list card
+ *
+ * @param title
+ * @param image
+ * @param lastPaddingEnd
+ * @param date
+ * @param clickFun
+ * @receiver
+ */
 @Composable
 fun SeriesComicListCard(title: String,
     image: String, lastPaddingEnd:Int, date:String? = null, clickFun:() -> Unit){

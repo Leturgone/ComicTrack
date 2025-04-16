@@ -5,6 +5,15 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
+/**
+ * Comics entity
+ *
+ * @property id
+ * @property comicApiId
+ * @property mark
+ * @property Series_idSeries
+ * @constructor Create empty Comics entity
+ */
 @Entity(tableName = "comics",
     foreignKeys = [
         ForeignKey(

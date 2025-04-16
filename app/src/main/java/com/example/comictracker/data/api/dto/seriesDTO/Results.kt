@@ -5,6 +5,28 @@ import com.example.comictracker.data.api.dto.Urls
 import com.google.gson.annotations.SerializedName
 
 
+/**
+ * Results
+ *
+ * @property id
+ * @property title
+ * @property description
+ * @property resourceURI
+ * @property urls
+ * @property startYear
+ * @property endYear
+ * @property rating
+ * @property modified
+ * @property thumbnail
+ * @property comics
+ * @property stories
+ * @property events
+ * @property characters
+ * @property creators
+ * @property next
+ * @property previous
+ * @constructor Create empty Results
+ */
 data class Results (
 
     @SerializedName("id"          ) var id          : String?         = null,

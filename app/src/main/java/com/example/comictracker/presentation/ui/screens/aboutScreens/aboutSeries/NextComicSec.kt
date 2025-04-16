@@ -16,6 +16,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.comictracker.domain.model.ComicModel
 
+/**
+ * Next comic sec
+ *
+ * @param nextComic
+ * @param navController
+ */
 @Composable
 fun NextComicSec(nextComic:ComicModel?,navController: NavHostController){
     if (nextComic != null) {

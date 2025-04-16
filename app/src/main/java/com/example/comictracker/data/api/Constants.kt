@@ -9,7 +9,11 @@ import java.sql.Timestamp
 val timeStamp = Timestamp(System.currentTimeMillis()).toString()
 
 
-
+/**
+ * Hash
+ *
+ * @return
+ */
 fun hash(): String{
     val input = "$timeStamp$PRIVATE_KEY$API_KEY"
     val md = MessageDigest.getInstance("MD5")

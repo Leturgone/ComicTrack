@@ -24,6 +24,13 @@ import com.example.comictracker.domain.model.CharacterModel
 import com.example.comictracker.domain.model.CreatorModel
 import com.example.comictracker.presentation.ui.screens.searchScreen.CharacterCard
 
+/**
+ * About creators and characters sec
+ *
+ * @param creators
+ * @param characters
+ * @param navController
+ */
 @Composable
 fun AboutCreatorsAndCharactersSec(creators: List<CreatorModel>,
                                   characters: List<CharacterModel>,

@@ -20,6 +20,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.delay
 
+/**
+ * Custom toast message
+ *
+ * @param message
+ * @param isVisible
+ * @param onDismiss
+ * @param modifier
+ * @param duration
+ * @receiver
+ */
 @Composable
 fun CustomToastMessage(
     message: String,

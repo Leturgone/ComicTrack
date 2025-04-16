@@ -6,6 +6,15 @@ import androidx.room.ForeignKey
 import androidx.room.Index
 import androidx.room.PrimaryKey
 
+/**
+ * Series list entity
+ *
+ * @property id
+ * @property listType
+ * @property favorite
+ * @property Series_idSeries
+ * @constructor Create empty Series list entity
+ */
 @Entity(tableName = "series_list",
     foreignKeys = [
         ForeignKey(
