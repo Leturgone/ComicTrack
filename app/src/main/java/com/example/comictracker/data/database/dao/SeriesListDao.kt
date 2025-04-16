@@ -29,22 +29,22 @@ interface SeriesListDao {
 
     @Query("SELECT se.seriesApiId FROM series_list sl " +
             "JOIN series se ON sl.Series_idSeries = se.idSeries " +
-            "WHERE sl.listType = 'currently'")
-    fun getCurrentlyReadingSeriesApiIds(): List<Int>
+            "WHERE sl.listType = 'currently' LIMIT 10 OFFSET :offset")
+    fun getCurrentlyReadingSeriesApiIds(offset:Int): List<Int>
 
     @Query("SELECT se.seriesApiId FROM series_list sl " +
             "JOIN series se ON sl.Series_idSeries = se.idSeries " +
-            "WHERE sl.listType = 'will'")
-    fun getWillBeReadSeriesApiIds(): List<Int>
+            "WHERE sl.listType = 'will' LIMIT 10 OFFSET :offset")
+    fun getWillBeReadSeriesApiIds(offset: Int): List<Int>
 
     @Query("SELECT se.seriesApiId FROM series_list sl " +
             "JOIN series se ON sl.Series_idSeries = se.idSeries " +
-            "WHERE sl.listType = 'read'")
-    fun getReadSeriesApiIds(): List<Int>
+            "WHERE sl.listType = 'read' LIMIT 10 OFFSET :offset")
+    fun getReadSeriesApiIds(offset: Int): List<Int>
 
     @Query("SELECT se.seriesApiId FROM series_list sl " +
             "JOIN series se ON sl.Series_idSeries = se.idSeries " +
-            "WHERE sl.favorite = 1 ")
+            "WHERE sl.favorite = 1 LIMIT 5")
     fun getFavoriteSeriesApiIds(): List<Int>
 
     @Query("SELECT COUNT(*) FROM series_list WHERE listType = 'read'")
@@ -71,8 +71,8 @@ interface SeriesListDao {
 
     @Query("SELECT se.nextReadId FROM series_list sl " +
             "JOIN series se ON sl.Series_idSeries = se.idSeries " +
-            "WHERE sl.listType = 'currently'")
-    fun getNextComicsForSeries():List<Int?>
+            "WHERE sl.listType = 'currently' LIMIT 10 OFFSET :offset")
+    fun getNextComicsForSeries(offset: Int):List<Int?>
 
     @Query("SELECT se.lastReadId FROM series_list sl " +
             "JOIN series se ON sl.Series_idSeries = se.idSeries " +
