@@ -36,7 +36,7 @@ fun NextComicSec(nextComic:ComicModel?,navController: NavHostController){
                             navController.navigate("comics_from_series/${nextComic.seriesId}/0")
                         })
             }
-            ComicFromSeriesCard(nextComic, navController)
+            ComicFromSeriesCard(nextComic, navController,null)
         }
     }
 
