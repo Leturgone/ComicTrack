@@ -11,8 +11,8 @@ interface ComicsDao {
     @Query("SELECT * FROM comics")
     fun getComics(): LiveData<List<ComicsEntity>>
 
-    @Query("SELECT comicApiId FROM comics ORDER BY idComics DESC ")
-    fun getHistory(): List<Int?>
+    @Query("SELECT comicApiId FROM comics ORDER BY idComics DESC LIMIT 10 OFFSET :offset")
+    fun getHistory(offset:Int): List<Int?>
 
     @Query("SELECT COUNT(*) FROM comics WHERE mark = 'read'")
     fun getComicsCount(): Int
@@ -20,8 +20,8 @@ interface ComicsDao {
     @Query("SELECT * FROM comics WHERE comicApiId=:apiId")
     fun getComicByApiId(apiId:Int): ComicsEntity?
 
-    @Query("SELECT comicApiId FROM comics WHERE mark = 'read'")
-    fun getReadComicApiIds():List<Int>
+    @Query("SELECT comicApiId FROM comics WHERE mark = 'read' LIMIT 10 OFFSET :offset")
+    fun getReadComicApiIds(offset:Int):List<Int>
 
     @Query("SELECT * FROM comics WHERE idComics=:id")
     fun getComicById(id:Int):ComicsEntity

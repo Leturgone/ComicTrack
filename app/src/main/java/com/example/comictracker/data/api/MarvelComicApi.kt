@@ -103,15 +103,6 @@ interface MarvelComicApi {
 
     ):SeriesDTO
 
-    @GET("/v1/public/series/{seriesId}/creators")
-    suspend fun getSeriesCreators(
-        @Path("seriesId")seriesId:String,
-        @Query("limit")limit:String = "20",
-        @Query("apikey")apikey:String=API_KEY,
-        @Query("ts")ts:String=timeStamp,
-        @Query("hash")hash:String=hash()
-    ):CreatorsDTO
-
     @GET("/v1/public/series/{seriesId}/characters")
     suspend fun getSeriesCharacters(
         @Path("seriesId")seriesId:String,
@@ -143,14 +134,8 @@ interface MarvelComicApi {
         @Query("ts")ts:String=timeStamp,
         @Query("hash")hash:String=hash()
     ):ComicsDTO
-    @GET("/v1/public/comics/{comicId}/creators")
-    suspend fun getComicCreators(
-        @Path("comicId")comicId:String,
-        @Query("limit")limit:String = "20",
-        @Query("apikey")apikey:String=API_KEY,
-        @Query("ts")ts:String=timeStamp,
-        @Query("hash")hash:String=hash()
-    ):CreatorsDTO
+
+
     @GET("/v1/public/comics/{comicId}/characters")
     suspend fun getComicCharacters(
         @Path("comicId")comicId:String,
