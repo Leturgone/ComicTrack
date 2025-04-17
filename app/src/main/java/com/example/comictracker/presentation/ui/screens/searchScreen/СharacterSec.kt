@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -24,17 +25,18 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.comictracker.domain.model.CharacterModel
+import com.example.comictracker.R
 
 @Composable
 fun CharacterSec(characterList: List<CharacterModel>, navController: NavHostController){
     Column {
-        Text(text = "Characters",
+        Text(text = stringResource(id = R.string.characters),
             fontSize = 24.sp,
             color = MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.Bold,
             modifier = Modifier.padding(16.dp))
         Box(modifier = Modifier.fillMaxWidth(),contentAlignment = Alignment.TopEnd){
-            Text(text = "See all",
+            Text(text = stringResource(id = R.string.see_all),
                 color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier
                     .clickable {

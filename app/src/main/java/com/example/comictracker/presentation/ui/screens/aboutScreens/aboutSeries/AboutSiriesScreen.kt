@@ -16,20 +16,21 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.presentation.ui.screens.aboutScreens.ExpandableText
-
+import com.example.comictracker.R
 @Composable
 fun AboutSeriesSec(series: SeriesModel){
     Column {
         Row(Modifier.fillMaxWidth()){
             Column {
                 Text(
-                    text = series.title?:"No title",
+                    text = series.title?: stringResource(id = R.string.no_title),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
@@ -40,13 +41,13 @@ fun AboutSeriesSec(series: SeriesModel){
 
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "DATE",
+                    text = stringResource(id = R.string.date),
                     fontSize = 12.sp,
                     color = Color.Gray
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = series.date?:"Date not date",
+                    text = series.date?: stringResource(id = R.string.no_date),
                     fontSize = 14.sp,
                     color = Color.White
                 )
@@ -54,12 +55,12 @@ fun AboutSeriesSec(series: SeriesModel){
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    text = "DESCRIPTION",
+                    text = stringResource(id = R.string.desc),
                     fontSize = 12.sp,
                     color = Color.Gray
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                ExpandableText(text = series.desc?:"No description")
+                ExpandableText(text = series.desc?: stringResource(id = R.string.no_desc))
 
             }
 

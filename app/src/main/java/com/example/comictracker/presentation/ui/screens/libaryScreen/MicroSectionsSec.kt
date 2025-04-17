@@ -12,18 +12,20 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.comictracker.domain.model.StatisticsforAll
+import com.example.comictracker.R
 
 @Composable
 fun MicroSectionsSec(statistics: StatisticsforAll, navController: NavHostController){
     val stats = listOf(
-        "Comics" to "${statistics.comicCount} / ${statistics.comicCountThisYear} this year",
-        "Series" to "${statistics.seriesCount} / ${statistics.seriesCountThisYear} this year",
-        "Readlist" to "${statistics.readlistCount}",
+        Pair(stringResource(id = R.string.comics),"comics") to "${statistics.comicCount} / ${statistics.comicCountThisYear} ${stringResource(id = R.string.this_year)}",
+        Pair(stringResource(id = R.string.series_m),"series") to "${statistics.seriesCount} / ${statistics.seriesCountThisYear} ${stringResource(id = R.string.this_year)}",
+        Pair(stringResource(id = R.string.readlist),"readlist") to "${statistics.readlistCount}",
     )
 
     Column(
@@ -34,18 +36,20 @@ fun MicroSectionsSec(statistics: StatisticsforAll, navController: NavHostControl
     ) {
         stats.forEach { (label, value) ->
             Row(
-                modifier = Modifier.
-                fillMaxWidth().padding(bottom = 8.dp).clickable {
-                    when(label){
-                        "Comics" ->navController.navigate("all_cs/0/allLibComic/0")
-                        "Series" ->navController.navigate("all_cs/0/allLibSeries/0")
-                        "Readlist" ->navController.navigate("all_cs/0/readlist/0")
-                    }
-                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp)
+                    .clickable {
+                        when (label.second) {
+                            "comics" -> navController.navigate("all_cs/0/allLibComic/0")
+                            "series" -> navController.navigate("all_cs/0/allLibSeries/0")
+                            "readlist" -> navController.navigate("all_cs/0/readlist/0")
+                        }
+                    },
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = label,
+                    text = label.first,
                     modifier = Modifier.weight(1f),
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Start

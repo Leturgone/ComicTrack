@@ -14,19 +14,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.comictracker.presentation.mvi.ComicAppIntent
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
-
+import com.example.comictracker.R
 
 @Composable
-fun UsersComicMarkSec(comicId: Int,
-                      mark:String,
-                      seriesId:Int,
-                      number:String,
+fun UsersComicMarkSec(comicId: Int, mark:String,
+                      seriesId:Int, number:String,
                       viewModel: ComicViewModel = hiltViewModel()) {
 
     Card(
@@ -40,17 +39,27 @@ fun UsersComicMarkSec(comicId: Int,
             disabledContentColor = Color.Gray
         )
     ) {
-        Box(Modifier.padding(10.dp).clickable {
-            when(mark){
-                "unread" -> viewModel.processIntent(ComicAppIntent.MarkAsReadComic(comicId,seriesId,number))
-                "read" -> viewModel.processIntent(ComicAppIntent.MarkAsUnreadComic(comicId,seriesId,number))
-            }
-        }) {
+        Box(
+            Modifier
+                .padding(10.dp)
+                .clickable {
+                    when (mark) {
+                        "unread" -> viewModel.processIntent(
+                            ComicAppIntent.MarkAsReadComic(comicId, seriesId, number
+                            )
+                        )
+
+                        "read" -> viewModel.processIntent(
+                            ComicAppIntent.MarkAsUnreadComic(comicId, seriesId, number
+                            )
+                        )
+                    }
+                }) {
             Text(
                 text = when(mark){
-                    "unread" -> "Mark read"
-                    "read" -> "Mark unread"
-                    else -> {"Error"}
+                    "unread" -> stringResource(id = R.string.mark_read)
+                    "read" -> stringResource(id = R.string.mark_unread)
+                    else -> { stringResource(id = R.string.error)}
                 },
                 fontSize = 17.sp,
                 color = MaterialTheme.colorScheme.onBackground,

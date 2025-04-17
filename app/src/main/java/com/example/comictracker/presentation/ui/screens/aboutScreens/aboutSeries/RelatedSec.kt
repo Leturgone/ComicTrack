@@ -7,19 +7,20 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.presentation.ui.screens.SeriesComicListCard
-
+import com.example.comictracker.R
 
 @Composable
 fun RelatedSec(connectedSeries:List<SeriesModel?>, navController: NavHostController){
 
     Column {
-        Text(text = "Connected",
+        Text(text = stringResource(id = R.string.connected),
             fontSize = 24.sp,
             color = MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.Bold,
@@ -27,7 +28,7 @@ fun RelatedSec(connectedSeries:List<SeriesModel?>, navController: NavHostControl
 
         when(connectedSeries.isEmpty()){
             true -> {
-                Text(text = "No connected series",
+                Text(text = stringResource(id = R.string.no_connected),
                     fontSize = 20.sp,
                     color = MaterialTheme.colorScheme.onBackground,
                     fontWeight = FontWeight.Normal,

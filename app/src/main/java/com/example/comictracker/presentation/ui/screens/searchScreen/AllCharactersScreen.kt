@@ -26,6 +26,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,6 +37,7 @@ import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.ui.screens.CustomToastMessage
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
+import com.example.comictracker.R
 
 @Composable
 fun  AllCharactersScreen(loadCount: Int, navController: NavHostController,
@@ -50,7 +52,7 @@ fun  AllCharactersScreen(loadCount: Int, navController: NavHostController,
 
     Box {
         Column {
-            Text(text = "All",
+            Text(text = stringResource(id = R.string.all),
                 fontSize = 24.sp,
                 color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.Bold,

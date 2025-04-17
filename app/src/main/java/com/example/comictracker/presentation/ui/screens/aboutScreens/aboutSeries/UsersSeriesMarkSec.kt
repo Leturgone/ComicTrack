@@ -36,6 +36,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -45,15 +46,16 @@ import com.example.comictracker.presentation.mvi.ComicAppIntent
 import com.example.comictracker.presentation.ui.components.MarkCategory
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
 import kotlinx.coroutines.launch
+import com.example.comictracker.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UsersSeriesMarkSec(seriesId: Int, mark:String,favoriteMark:Boolean,firstIssueId:Int? = null,viewModel: ComicViewModel = hiltViewModel()) {
     val markCategories = listOf(
-        MarkCategory(Icons.Filled.AccessTime,"Will be read","will"),
-        MarkCategory(Icons.Filled.BookmarkAdded,"Read","read"),
-        MarkCategory(Icons.Filled.Bookmark,"Currently reading","currently"),
-        MarkCategory(Icons.Filled.BookmarkRemove,"Unread","unread"),
+        MarkCategory(Icons.Filled.AccessTime, stringResource(id = R.string.will_mark),"will"),
+        MarkCategory(Icons.Filled.BookmarkAdded,stringResource(id = R.string.read_mark),"read"),
+        MarkCategory(Icons.Filled.Bookmark,stringResource(id = R.string.current_mark),"currently"),
+        MarkCategory(Icons.Filled.BookmarkRemove, stringResource(id = R.string.unread_mark),"unread"),
 
     )
     val sheetState = rememberModalBottomSheetState()
@@ -94,7 +96,9 @@ fun UsersSeriesMarkSec(seriesId: Int, mark:String,favoriteMark:Boolean,firstIssu
                     Modifier.padding(start = 310.dp))
             }
         }
-        Box(modifier = Modifier.fillMaxWidth().padding(16.dp), contentAlignment = Alignment.CenterEnd) {
+        Box(modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp), contentAlignment = Alignment.CenterEnd) {
             IconButton(onClick = {
                 when(favoriteMark){
                     true -> viewModel.processIntent(ComicAppIntent.RemoveSeriesFromFavorite(seriesId))
@@ -121,7 +125,7 @@ fun UsersSeriesMarkSec(seriesId: Int, mark:String,favoriteMark:Boolean,firstIssu
         ) {
             Column(Modifier.fillMaxWidth(),Arrangement.SpaceBetween,Alignment.CenterHorizontally) {
                 Text(
-                    text = "Choose Category",
+                    text = stringResource(id = R.string.choose_category),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = Color.White,
@@ -150,7 +154,7 @@ fun UsersSeriesMarkSec(seriesId: Int, mark:String,favoriteMark:Boolean,firstIssu
 
                                         "currently" -> viewModel.processIntent(
                                             ComicAppIntent.MarkAsCurrentlyReadingSeries(
-                                                seriesId,firstIssueId
+                                                seriesId, firstIssueId
                                             )
                                         )
 
