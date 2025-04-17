@@ -1,3 +1,45 @@
 <resources>
-    <string name="app_name">ComicTracker</string>
+    <string name="app_name" translatable="false">ComicTracker</string>
+    <string name="creators">Создатели</string>
+    <string name="characters">Персонажи</string>
+    <string name="read_mark">Прочитано</string>
+    <string name="will_mark">Буду читать</string>
+    <string name="current_mark">Читаю сейчас</string>
+    <string name="unread_mark">Не прочитано</string>
+    <string name="choose_category">Выберите категорию</string>
+    <string name="connected">Связанные</string>
+    <string name="no_connected">Не найдено связанных серий</string>
+    <string name="continue_reading">Продолжить чтение</string>
+    <string name="see_all">Все</string>
+    <string name="all_comics">Все комиксы</string>
+    <string name="load_more">Загрузить еще</string>
+    <string name="no_title">Без названия</string>
+    <string name="date">ДАТА</string>
+    <string name="no_date">Даты не найдено</string>
+    <string name="desc">ОПИСАНИЕ</string>
+    <string name="no_desc">Без описания</string>
+    <string name="mark_read">Отметить прочитанным</string>
+    <string name="mark_unread">Отметить непрочитанным</string>
+    <string name="error">Ошибка</string>
+    <string name="series">СЕРИЯ</string>
+    <string name="all">Все</string>
+    <string name="see_more">Больше</string>
+    <string name="see_less">Меньше</string>
+    <string name="new_releases">Новые выпуски</string>
+    <string name="favorites">Любимые</string>
+    <string name="last_updates">Последние</string>
+    <string name="my_library">Моя библиотека</string>
+    <string name="comics">Комиксы</string>
+    <string name="series_m">Серии</string>
+    <string name="readlist">Буду читать</string>
+    <string name="this_year">в этом году</string>
+    <string name="discover">Откройте новые серии</string>
+    <string name="may_like">Может понравиться</string>
+    <string name="search_result">Результаты поиска</string>
+    <string name="char_no_found">Персонажей не найдено</string>
+    <string name="not_found">Не найдено</string>
+    <string name="update">Обновить</string>
+    <string name="search_comics">Искать комиксы</string>
+    <string name="search">Поиск</string>
+
 </resources>
