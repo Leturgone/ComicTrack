@@ -31,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,6 +44,7 @@ import com.example.comictracker.presentation.mvi.ComicAppIntent
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
+import com.example.comictracker.R
 
 @Composable
 fun AllComicScreen(sourceId:Int,sourceCategory:String, loadCount:Int,
@@ -59,7 +61,7 @@ fun AllComicScreen(sourceId:Int,sourceCategory:String, loadCount:Int,
 
     Box {
         Column {
-            Text(text = "All",
+            Text(text = stringResource(id = R.string.all),
                 fontSize = 24.sp,
                 color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.Bold,
