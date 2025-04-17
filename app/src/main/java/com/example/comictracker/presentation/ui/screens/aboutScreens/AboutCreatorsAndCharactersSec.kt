@@ -15,11 +15,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
+import com.example.comictracker.R
 import com.example.comictracker.domain.model.CharacterModel
 import com.example.comictracker.domain.model.CreatorModel
 import com.example.comictracker.presentation.ui.screens.searchScreen.CharacterCard
@@ -31,7 +33,7 @@ fun AboutCreatorsAndCharactersSec(creators: List<CreatorModel>,
 
     Column(Modifier.fillMaxWidth()) {
 
-        Text(text = "Creators",
+        Text(text = stringResource(id = R.string.creators),
             fontSize = 24.sp,
             color = MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.Bold,
@@ -62,7 +64,7 @@ fun AboutCreatorsAndCharactersSec(creators: List<CreatorModel>,
         }
 
 
-        Text(text = "Characters",
+        Text(text = stringResource(id = R.string.characters),
             fontSize = 24.sp,
             color = MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.Bold,

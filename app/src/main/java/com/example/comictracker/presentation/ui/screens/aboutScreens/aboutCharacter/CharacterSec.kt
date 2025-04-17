@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -20,7 +21,7 @@ import coil3.compose.AsyncImage
 import com.example.comictracker.domain.model.CharacterModel
 import com.example.comictracker.presentation.ui.screens.aboutScreens.ExpandableText
 
-
+import com.example.comictracker.R
 @Composable
 fun CharacterSec(character: CharacterModel) {
     Row{
@@ -35,7 +36,7 @@ fun CharacterSec(character: CharacterModel) {
 
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = "DESCRIPTION",
+                text = stringResource(id = R.string.desc),
                 fontSize = 12.sp,
                 color = Color.Gray
             )
@@ -45,7 +46,8 @@ fun CharacterSec(character: CharacterModel) {
         AsyncImage(
             model = character.image,
             contentDescription = "character",
-            modifier = Modifier.padding(start = 10.dp)
+            modifier = Modifier
+                .padding(start = 10.dp)
                 .size(150.dp)
                 .clip(CircleShape)
         )

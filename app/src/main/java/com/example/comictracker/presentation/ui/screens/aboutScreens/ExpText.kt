@@ -10,10 +10,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.comictracker.R
 
 @Composable
 fun ExpandableText(
@@ -49,7 +51,7 @@ fun ExpandableText(
     )
     if (isOverflowing && !isExpanded) {
         Text(
-            text = " ...See More",
+            text = stringResource(id = R.string.see_more),
             fontSize = 14.sp,
             color = Color.Gray,
             modifier = modifier
@@ -59,7 +61,7 @@ fun ExpandableText(
         )
     } else if (isExpanded) {
         Text(
-            text = " See Less",
+            text = stringResource(id = R.string.see_less),
             fontSize = 14.sp,
             color = Color.Gray,
             modifier = modifier
