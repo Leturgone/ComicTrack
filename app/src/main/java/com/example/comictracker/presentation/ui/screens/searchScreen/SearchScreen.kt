@@ -71,7 +71,4 @@ fun SearchScreen(navController: NavHostController,
             }
         }
     }
-
-
-
 }

@@ -21,20 +21,21 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-
+import com.example.comictracker.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SearchSec(navController: NavHostController){
-    var textFieldState = rememberTextFieldState()
+    val textFieldState = rememberTextFieldState()
     var expanded by rememberSaveable { mutableStateOf(false)}
 
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Search comics",
+            Text(text = stringResource(id = R.string.search_comics),
                 fontSize = 24.sp,
                 color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.Bold)
@@ -45,7 +46,7 @@ fun SearchSec(navController: NavHostController){
                     onSearch = {expanded = false },
                     expanded = expanded,
                     onExpandedChange = {expanded = it},
-                    placeholder = { Text("Search") },
+                    placeholder = { Text(stringResource(id = R.string.search)) },
                     leadingIcon = { Icon(Icons.Default.Search,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.primary,

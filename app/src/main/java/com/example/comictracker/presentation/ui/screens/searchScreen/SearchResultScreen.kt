@@ -22,6 +22,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,6 +34,7 @@ import com.example.comictracker.presentation.mvi.ComicAppIntent
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.viewmodel.ComicViewModel
+import com.example.comictracker.R
 
 @Composable
 fun SearchResultScreen(query: String,
@@ -49,7 +51,7 @@ fun SearchResultScreen(query: String,
     }
     
     Column {
-        Text(text = "Search result",
+        Text(text = stringResource(id = R.string.search_result),
             fontSize = 24.sp,
             color = MaterialTheme.colorScheme.onBackground,
             fontWeight = FontWeight.Bold,
@@ -80,7 +82,7 @@ fun SearchResultScreen(query: String,
                                 }
                                 else{
                                     Column {
-                                        Text(text = "Characters not found")
+                                        Text(text = stringResource(id = R.string.char_no_found))
                                     }
                                 }
                             }
@@ -89,12 +91,12 @@ fun SearchResultScreen(query: String,
                             is DataState.Error -> {
                                 Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
                                     Column {
-                                        Text(text = "Not found")
+                                        Text(text = stringResource(id = R.string.not_found))
                                         Button(onClick = {
                                             navController.popBackStack()
                                             navController.navigate("search_result/$query")
                                         }) {
-                                            Text(text = "Update")
+                                            Text(text = stringResource(id = R.string.update))
                                         }
                                     }
                                 }
