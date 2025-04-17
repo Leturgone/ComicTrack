@@ -1,2 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="creators">Creators</string>
+    <string name="characters">Characters</string>
+    <string name="read_mark">Read</string>
+    <string name="will_mark">Will be read</string>
+    <string name="current_mark">Currently reading</string>
+    <string name="unread_mark">Unread</string>
+    <string name="choose_category">Choose Category</string>
+    <string name="connected">Connected</string>
+    <string name="no_connected">No connected series</string>
+    <string name="continue_reading">Continue reading</string>
+    <string name="see_all">See all</string>
+    <string name="all_comics">All Comics</string>
+    <string name="load_more">Load more</string>
+    <string name="no_title">No title</string>
+    <string name="date">DATE</string>
+    <string name="no_date">Date not found</string>
+    <string name="desc">DESCRIPTION</string>
+    <string name="no_desc">No description</string>
+    <string name="mark_read">Mark read</string>
+    <string name="mark_unread">Mark unread</string>
+    <string name="error">Error</string>
+    <string name="series">SERIES</string>
+    <string name="all">All</string>
+    <string name="see_more">…See More</string>
+    <string name="see_less"> See Less</string>
+    <string name="new_releases">New releases</string>
+    <string name="favorites">Favorites</string>
+    <string name="last_updates">Last updates</string>
+    <string name="my_library">My Library</string>
+    <string name="comics">Comics</string>
+    <string name="series_m">Series</string>
+    <string name="readlist">Readlist</string>
+    <string name="this_year">this year</string>
+    <string name="discover">Discover series</string>
+    <string name="may_like">May like</string>
+    <string name="search_result">Search result</string>
+    <string name="char_no_found">Characters not found</string>
+    <string name="not_found">Not found</string>
+    <string name="update">Update</string>
+    <string name="search_comics">Search comics</string>
+    <string name="search">Search</string>
+</resources>
