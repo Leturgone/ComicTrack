@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -31,7 +32,7 @@ import com.example.comictracker.R
          Box(modifier = Modifier.fillMaxWidth(),contentAlignment = Alignment.TopEnd){
              Text(text = stringResource(id = R.string.see_all),
                  color = MaterialTheme.colorScheme.primary,
-                 modifier = Modifier
+                 modifier = Modifier.testTag("seeAllContinueReading")
                      .padding(end = 15.dp, bottom = 12.dp)
                      .clickable {
                          navController.navigate("all_cs/0/nextComics/0")
