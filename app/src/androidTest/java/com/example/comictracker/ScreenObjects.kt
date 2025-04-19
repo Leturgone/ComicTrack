@@ -94,3 +94,10 @@ class AboutSeriesScreen(series: SeriesModel) {
     val connectedList = hasText(series.connectedSeries.first().toString())
     val noConnectedList = hasText("No connected series")
 }
+
+object AllScreen{
+    val AllTemplate = hasText("All")
+}
+object AllComicScreen{
+    val AllTemplate = hasText("All Comics")
+}
