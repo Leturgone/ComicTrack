@@ -58,10 +58,39 @@ class AboutCharacterScreen(character:CharacterModel){
 
 }
 
-class AboutComicScreen(series: SeriesModel) {
-
+class AboutComicScreen(comic: ComicModel) {
+    val titleTemplate = hasText(comic.title)
+    val seriesTemplate = hasText("SERIES")
+    val seriesTitleTemplate = hasText(comic.seriesTitle)
+    val dateTemplate = hasText("DATE")
+    val comicDateTemplate = hasText(comic.date)
+    val markReadTemplates = hasText("Mark read")
+    val markUnreadTemplate = hasText("Mark unread")
+    val creatorsTemplate = hasText("Creators")
+    val creatorsList = hasText("creator")
+    val charactersTemplate = hasText("Characters")
+    val charactersList = hasText("character")
 }
 
-object AboutSeriesScreen{
-
+class AboutSeriesScreen(series: SeriesModel) {
+    val titleTemplate = hasText(series.title ?: "No title")
+    val dateTemplate = hasText("DATE")
+    val comicDateTemplate = hasText(series.date?:"No date")
+    val descTemplate  = hasText("DESCRIPTION")
+    val seriesDescTemplate = hasText(series.desc?:"No description")
+    val markTemplate = hasText(series.readMark)
+    val readTemplate = hasText("Read")
+    val willBeReadTemplate = hasText("Will be read")
+    val currentlyReadingTemplate = hasText("Currently reading")
+    val unreadTemplate = hasText("Unread")
+    val continueReadingTemplate = hasText("Continue reading")
+    val seeAllTemplate = hasText("See all") and hasClickAction()
+    val nextReadItem = hasContentDescription("current cover")
+    val creatorsTemplate = hasText("Creators")
+    val creatorsList = hasText("creator")
+    val charactersTemplate = hasText("Characters")
+    val charactersList = hasText("character")
+    val connectedTemplate = hasText("Connected")
+    val connectedList = hasText(series.connectedSeries.first().toString())
+    val noConnectedList = hasText("No connected series")
 }
