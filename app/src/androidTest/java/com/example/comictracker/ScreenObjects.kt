@@ -17,8 +17,8 @@ object HomeScreen{
 }
 
 object SearchScreen{
-    val SearchTemplate = (hasText("Search comics")) and hasNoClickAction()
-    val SearchBar = (hasText("Search")) and hasTestTag("searchBar")
+    val searchTemplate = (hasText("Search comics")) and hasNoClickAction()
+    val searchBar = (hasText("Search")) and hasTestTag("searchBar")
     val mayLikeTemplate = (hasText("May like")) and hasNoClickAction()
     val mayLikeList = hasContentDescription("  current cover")
     val seeAllNewTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeMayLike")
@@ -31,11 +31,16 @@ object SearchScreen{
 }
 
 object LibraryScreen{
-    val LibraryTemplate = (hasText("My Library")) and hasNoClickAction()
-    val ComicsTemplate = (hasText("Comics")) and hasClickAction()
-    val SeriesTemplate = (hasText("Series")) and hasClickAction()
-    val ReadlistTemplate = (hasText("Readlist")) and hasClickAction()
-    val FavoriteTemplate = (hasText("Favorites")) and hasNoClickAction()
+    val libraryTemplate = (hasText("My Library")) and hasNoClickAction()
+    val comicsTemplate = (hasText("Comics")) and hasClickAction()
+    val seriesTemplate = (hasText("Series")) and hasClickAction()
+    val readlistTemplate = (hasText("Readlist")) and hasClickAction()
+    val favoriteTemplate = (hasText("Favorites")) and hasNoClickAction()
+    val favoritesList = hasContentDescription("  current cover")
+    val curReadTemplate = (hasText("Currently reading")) and hasNoClickAction()
+    val curReadList = hasContentDescription("  current cover")
+    val lastUpdatesTemplate = (hasText("Last updates")) and hasNoClickAction()
+    val lastUpdatesList = hasContentDescription("  current cover")
 
 
 }
