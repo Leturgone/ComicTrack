@@ -5,6 +5,9 @@ import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasNoClickAction
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
+import com.example.comictracker.domain.model.CharacterModel
+import com.example.comictracker.domain.model.ComicModel
+import com.example.comictracker.domain.model.SeriesModel
 
 
 object HomeScreen{
@@ -45,10 +48,17 @@ object LibraryScreen{
 
 }
 
-object AboutCharacterScreen{
+class AboutCharacterScreen(character:CharacterModel){
+    val characterTemplate = (hasText(character.name))
+    val descTemplate = (hasText("DESCRIPTION"))
+    val characterDesc = hasText(character.desc)
+    val allTemplate = hasText("All")
+    val seeAllTemplate = hasText("See all") and hasClickAction()
+    val lastUpdatesList = hasContentDescription("${character.series.first()}  current cover")
 
 }
-object AboutComicScreen{
+
+class AboutComicScreen(series: SeriesModel) {
 
 }
 
