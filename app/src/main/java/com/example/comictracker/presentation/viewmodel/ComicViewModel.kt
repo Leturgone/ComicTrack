@@ -63,8 +63,6 @@ class ComicViewModel @Inject constructor(
     }
 
 
-
-
     private suspend fun fetchComics(ids: List<Int>): List<ComicModel> {
         val comicsDef = ids.map { id ->
             viewModelScope.async(Dispatchers.IO) {
@@ -102,7 +100,7 @@ class ComicViewModel @Inject constructor(
         return newComicsDef.awaitAll().flatten()
     }
 
-    private fun markAsReadSeries(apiId:Int) = viewModelScope.launch{
+    private fun markAsReadSeries(apiId:Int) = viewModelScope.launch(Dispatchers.IO){
         if (localComicRepository.markSeriesRead(apiId)){
             loadSeriesScreen(apiId)
         }
