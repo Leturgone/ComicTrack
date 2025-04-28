@@ -1,4 +1,4 @@
 package com.example.comictracker.presentation.viewmodel
 
-class searchScreenViewModel {
+class SearchScreenViewModel {
 }
