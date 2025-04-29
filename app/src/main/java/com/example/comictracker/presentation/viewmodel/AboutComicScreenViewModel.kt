@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.domain.repository.LocalComicRepository
-import com.example.comictracker.domain.repository.RemoteComicRepository
 import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
 import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
 import com.example.comictracker.domain.repository.remote.RemoteCreatorsRepository
