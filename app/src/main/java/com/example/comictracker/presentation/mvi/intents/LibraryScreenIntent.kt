@@ -1,4 +1,6 @@
 package com.example.comictracker.presentation.mvi.intents
 
-class LibraryScreenIntent {
+sealed class LibraryScreenIntent {
+    data object LoadLibraryScreen: LibraryScreenIntent()
+
 }
