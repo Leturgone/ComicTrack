@@ -37,6 +37,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
             is AboutSeriesScreenIntent.MarkAsWillBeReadSeries -> markWillBeReadSeries(intent.seriesId)
             is AboutSeriesScreenIntent.RemoveSeriesFromFavorite -> removeSeriesFromFavorites(intent.seriesId)
             is AboutSeriesScreenIntent.MarkAsReadNextComic -> markAsReadNextComic(intent.comicId,intent.seriesId, intent.issueNumber)
+            is AboutSeriesScreenIntent.MarkAsUnreadLastComic -> markAsUnreadNextComic(intent.comicId,intent.seriesId, intent.issueNumber)
         }
     }
 
@@ -171,6 +172,16 @@ class AboutSeriesScreenViewModel @Inject constructor(
         }.await()
 
         if (localComicRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
+            loadSeriesScreen(seriesApiId)
+        }
+    }
+
+    private fun markAsUnreadNextComic(comicApiId: Int, seriesApiId: Int, number: String) = viewModelScope.launch{
+        val prevComicId = async {
+            remoteComicRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
+        }.await()
+
+        if (localComicRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
             loadSeriesScreen(seriesApiId)
         }
     }
