@@ -40,4 +40,10 @@ interface RemoteComicRepository {
     suspend fun getPreviousComicId(seriesId: Int, number: Int): Int?
 
     suspend fun getNextComicId(seriesId: Int, number: Int): Int?
+
+    suspend fun fetchComics(ids: List<Int>): List<ComicModel>
+
+    suspend fun fetchSeries(ids: List<Int>): List<SeriesModel>
+
+    suspend fun fetchUpdatesForSeries(ids: List<Int>): List<ComicModel>
 }
