@@ -297,4 +297,49 @@ class RemoteComicRepositoryImpl @Inject constructor(private val api: MarvelComic
         }
     }
 
+    override suspend fun fetchComics(ids: List<Int>): List<ComicModel> {
+        val comicsDef = ids.map { id ->
+            withContext(Dispatchers.IO){
+                async {
+                    try {
+                        getComicById(id)
+                    } catch (e: Exception) {
+                        null
+                    }
+                }
+            }
+        }
+        return comicsDef.awaitAll().filterNotNull()
+    }
+
+    override suspend fun fetchSeries(ids: List<Int>): List<SeriesModel> {
+        val seriesDef = ids.map { id ->
+            withContext(Dispatchers.IO){
+                async {
+                    try {
+                        getSeriesById(id)
+                    } catch (e: Exception) {
+                        null
+                    }
+                }
+            }
+        }
+        return seriesDef.awaitAll().filterNotNull()
+    }
+
+    override suspend fun fetchUpdatesForSeries(ids: List<Int>): List<ComicModel> {
+        val newComicsDef = ids.map { id ->
+            withContext(Dispatchers.IO){
+                async {
+                    try {
+                        getSeriesLastReleasesById(id)
+                    } catch (e: Exception) {
+                        emptyList()
+                    }
+                }
+            }
+        }
+        return newComicsDef.awaitAll().flatten()
+    }
+
 }

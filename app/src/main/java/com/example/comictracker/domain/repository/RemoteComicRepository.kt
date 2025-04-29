@@ -22,7 +22,9 @@ interface RemoteComicRepository {
     suspend fun getSeriesById(id:Int):SeriesModel
 
     suspend fun getSeriesCreators(creatorsRoles: List<Pair<Int, String>>):List<CreatorModel>
+
     suspend fun getSeriesCharacters(seriesId: Int):List<CharacterModel>
+
     suspend fun getConnectedSeries(connectedSeriesId: List<Int?>): List<SeriesModel>
 
     suspend fun getComicsFromSeries(seriesId: Int,loadedCount: Int = 0): List<ComicModel>
@@ -40,4 +42,10 @@ interface RemoteComicRepository {
     suspend fun getPreviousComicId(seriesId: Int, number: Int): Int?
 
     suspend fun getNextComicId(seriesId: Int, number: Int): Int?
+
+    suspend fun fetchComics(ids: List<Int>): List<ComicModel>
+
+    suspend fun fetchSeries(ids: List<Int>): List<SeriesModel>
+
+    suspend fun fetchUpdatesForSeries(ids: List<Int>): List<ComicModel>
 }

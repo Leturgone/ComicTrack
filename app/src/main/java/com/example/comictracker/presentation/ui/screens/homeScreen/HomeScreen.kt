@@ -15,19 +15,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.comictracker.presentation.mvi.ComicAppIntent
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
+import com.example.comictracker.presentation.mvi.intents.HomeScreenIntent
 import com.example.comictracker.presentation.ui.screens.CustomToastMessage
-import com.example.comictracker.presentation.viewmodel.ComicViewModel
+import com.example.comictracker.presentation.viewmodel.HomeScreenViewModel
 
 @Composable
-fun HomeScreen(navController: NavHostController,viewModel: ComicViewModel = hiltViewModel()){
+fun HomeScreen(navController: NavHostController,viewModel: HomeScreenViewModel = hiltViewModel()){
     val uiState by viewModel.state.collectAsState()
     var showToast by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = "homeScreen") {
-        viewModel.processIntent(ComicAppIntent.LoadHomeScreen)
+        viewModel.processIntent(HomeScreenIntent.LoadHomeScreen)
     }
     Column {
         uiState.let {state->

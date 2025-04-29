@@ -11,25 +11,25 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.comictracker.presentation.mvi.ComicAppIntent
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
+import com.example.comictracker.presentation.mvi.intents.AboutCharacterScreenIntent
 import com.example.comictracker.presentation.ui.screens.CustomToastMessage
-import com.example.comictracker.presentation.viewmodel.ComicViewModel
+import com.example.comictracker.presentation.viewmodel.AboutCharacterScreenViewModel
 
 
 @Composable
 fun CharacterScreen(
     characterId: Int,
     navController: NavHostController,
-    viewModel: ComicViewModel = hiltViewModel()
+    viewModel: AboutCharacterScreenViewModel = hiltViewModel()
     ){
     val uiState by viewModel.state.collectAsState()
     var showToast by remember { mutableStateOf(false) }
     var showSecToast by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = characterId) {
-        viewModel.processIntent(ComicAppIntent.LoadCharacterScreen(characterId))
+        viewModel.processIntent(AboutCharacterScreenIntent.LoadCharacterScreen(characterId))
     }
 
 

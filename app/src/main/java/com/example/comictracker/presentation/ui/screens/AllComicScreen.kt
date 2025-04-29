@@ -40,23 +40,23 @@ import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.domain.model.SeriesModel
-import com.example.comictracker.presentation.mvi.ComicAppIntent
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
-import com.example.comictracker.presentation.viewmodel.ComicViewModel
 import com.example.comictracker.R
+import com.example.comictracker.presentation.mvi.intents.AllScreenIntent
+import com.example.comictracker.presentation.viewmodel.AllScreenViewModel
 
 @Composable
 fun AllComicScreen(sourceId:Int,sourceCategory:String, loadCount:Int,
                    navController: NavHostController,
-                   viewModel: ComicViewModel = hiltViewModel()){
+                   viewModel: AllScreenViewModel = hiltViewModel()){
 
 
     val uiState by viewModel.state.collectAsState()
     var showToast by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = sourceId) {
-        viewModel.processIntent(ComicAppIntent.LoadAllScreen(sourceId,sourceCategory,loadCount))
+        viewModel.processIntent(AllScreenIntent.LoadAllScreen(sourceId,sourceCategory,loadCount))
     }
 
     Box {

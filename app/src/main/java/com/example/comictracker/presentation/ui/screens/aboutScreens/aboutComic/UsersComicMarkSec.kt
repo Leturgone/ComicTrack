@@ -19,14 +19,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.comictracker.presentation.mvi.ComicAppIntent
-import com.example.comictracker.presentation.viewmodel.ComicViewModel
 import com.example.comictracker.R
+import com.example.comictracker.presentation.mvi.intents.AboutComicScreenIntent
+import com.example.comictracker.presentation.viewmodel.AboutComicScreenViewModel
 
 @Composable
 fun UsersComicMarkSec(comicId: Int, mark:String,
                       seriesId:Int, number:String,
-                      viewModel: ComicViewModel = hiltViewModel()) {
+                      viewModel: AboutComicScreenViewModel = hiltViewModel()) {
 
     Card(
         Modifier
@@ -45,12 +45,12 @@ fun UsersComicMarkSec(comicId: Int, mark:String,
                 .clickable {
                     when (mark) {
                         "unread" -> viewModel.processIntent(
-                            ComicAppIntent.MarkAsReadComic(comicId, seriesId, number
+                            AboutComicScreenIntent.MarkAsReadComic(comicId, seriesId, number
                             )
                         )
 
                         "read" -> viewModel.processIntent(
-                            ComicAppIntent.MarkAsUnreadComic(comicId, seriesId, number
+                            AboutComicScreenIntent.MarkAsUnreadComic(comicId, seriesId, number
                             )
                         )
                     }
