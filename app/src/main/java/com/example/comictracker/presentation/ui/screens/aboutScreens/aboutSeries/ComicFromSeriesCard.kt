@@ -1,5 +1,6 @@
 package com.example.comictracker.presentation.ui.screens.aboutScreens.aboutSeries
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -78,8 +79,16 @@ fun ComicFromSeriesCard(comic:ComicModel,navController: NavHostController, onCli
                     Icon(imageVector = Icons.Filled.Check,
                         contentDescription = "ReadIcon",
                         tint = when(comic.readMark){
-                            "read" -> Color.Green
-                            else -> Color.Gray
+
+                            "read" -> {
+
+                                Log.i("MARK",comic.readMark)
+                                Color.Green
+                            }
+                            else -> {
+                                Log.i("MARK",comic.toString())
+                                Color.Gray
+                            }
                         },
                         modifier = Modifier.padding(start = 40.dp).clickable(onClick = onClick)
                     )
