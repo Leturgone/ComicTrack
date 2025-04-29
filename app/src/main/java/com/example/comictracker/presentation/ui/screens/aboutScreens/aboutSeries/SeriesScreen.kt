@@ -14,21 +14,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.comictracker.presentation.mvi.ComicAppIntent
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
+import com.example.comictracker.presentation.mvi.intents.AboutSeriesScreenIntent
 import com.example.comictracker.presentation.ui.screens.CustomToastMessage
 import com.example.comictracker.presentation.ui.screens.aboutScreens.AboutCreatorsAndCharactersSec
-import com.example.comictracker.presentation.viewmodel.ComicViewModel
+import com.example.comictracker.presentation.viewmodel.AboutSeriesScreenViewModel
 
 @Composable
 fun SeriesScreen(
     seriesId: Int,
-    navController: NavHostController, viewModel: ComicViewModel = hiltViewModel()){
+    navController: NavHostController,
+    viewModel: AboutSeriesScreenViewModel = hiltViewModel()) {
     val uiState by viewModel.state.collectAsState()
     var showToast by remember { mutableStateOf(false) }
     LaunchedEffect(key1 = seriesId) {
-        viewModel.processIntent(ComicAppIntent.LoadSeriesScreen(seriesId))
+        viewModel.processIntent(AboutSeriesScreenIntent.LoadSeriesScreen(seriesId))
     }
     uiState.let { state ->
         when(state){
