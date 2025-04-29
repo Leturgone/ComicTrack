@@ -29,17 +29,17 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
+import com.example.comictracker.R
 import com.example.comictracker.domain.model.SeriesModel
-import com.example.comictracker.presentation.mvi.ComicAppIntent
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
-import com.example.comictracker.presentation.viewmodel.ComicViewModel
-import com.example.comictracker.R
+import com.example.comictracker.presentation.mvi.intents.SearchScreenIntent
+import com.example.comictracker.presentation.viewmodel.SearchScreenViewModel
 
 @Composable
 fun SearchResultScreen(query: String,
                        navController: NavHostController,
-                       viewModel: ComicViewModel = hiltViewModel()){
+                       viewModel: SearchScreenViewModel = hiltViewModel()){
 
 
 
@@ -47,7 +47,7 @@ fun SearchResultScreen(query: String,
 
 
     LaunchedEffect(key1 = query) {
-        viewModel.processIntent(ComicAppIntent.Search(query))
+        viewModel.processIntent(SearchScreenIntent.Search(query))
     }
     
     Column {
