@@ -8,9 +8,15 @@ import com.example.comictracker.data.database.dao.ComicsDao
 import com.example.comictracker.data.database.dao.SeriesDao
 import com.example.comictracker.data.database.dao.SeriesListDao
 import com.example.comictracker.data.repository.LocalComicRepositoryImpl
-import com.example.comictracker.data.repository.RemoteComicRepositoryImpl
+import com.example.comictracker.data.repository.remote.RemoteCharacterRepositoryImpl
+import com.example.comictracker.data.repository.remote.RemoteComicsRepositoryImpl
+import com.example.comictracker.data.repository.remote.RemoteCreatorsRepositoryImpl
+import com.example.comictracker.data.repository.remote.RemoteSeriesRepositoryImpl
 import com.example.comictracker.domain.repository.LocalComicRepository
-import com.example.comictracker.domain.repository.RemoteComicRepository
+import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
+import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
+import com.example.comictracker.domain.repository.remote.RemoteCreatorsRepository
+import com.example.comictracker.domain.repository.remote.RemoteSeriesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,9 +54,29 @@ class AppModule {
 
     @Provides
     @Singleton
-    fun provideRemoteRepository(api: MarvelComicApi):RemoteComicRepository{
-        return RemoteComicRepositoryImpl(api)
+    fun provideRemoteComicsRepository(api: MarvelComicApi): RemoteComicsRepository {
+        return RemoteComicsRepositoryImpl(api)
     }
+
+    @Provides
+    @Singleton
+    fun provideRemoteSeriesRepository(api: MarvelComicApi): RemoteSeriesRepository {
+        return RemoteSeriesRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRemoteCreatorsRepository(api: MarvelComicApi): RemoteCreatorsRepository {
+        return RemoteCreatorsRepositoryImpl(api)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRemoteCharactersRepository(api: MarvelComicApi): RemoteCharacterRepository {
+        return RemoteCharacterRepositoryImpl(api)
+    }
+
+
 
     @Provides
     @Singleton
