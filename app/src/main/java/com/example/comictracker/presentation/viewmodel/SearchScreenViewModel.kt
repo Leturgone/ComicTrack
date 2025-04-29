@@ -4,7 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.repository.LocalComicRepository
-import com.example.comictracker.domain.repository.RemoteComicRepository
+import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
+import com.example.comictracker.domain.repository.remote.RemoteSeriesRepository
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.mvi.intents.SearchScreenIntent
@@ -18,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchScreenViewModel @Inject constructor(
-    private val remoteComicRepository: RemoteComicRepository,
+    private val remoteSeriesRepository: RemoteSeriesRepository,
+    private val remoteCharacterRepository: RemoteCharacterRepository,
     private val localComicRepository: LocalComicRepository,
 ): ViewModel() {
     private val _state = MutableStateFlow<ComicAppState>(ComicAppState.HomeScreenState())
@@ -36,7 +38,7 @@ class SearchScreenViewModel @Inject constructor(
         _state.value = ComicAppState.SearchScreenState(DataState.Loading)
         val discoverSeriesListDef  = async(Dispatchers.IO) {
             try{
-                DataState.Success(remoteComicRepository.getAllSeries())
+                DataState.Success(remoteSeriesRepository.getAllSeries())
             }catch(e:Exception){
                 Log.e("ViewModel","$e")
                 DataState.Error("Error loading Discover Series")
@@ -45,8 +47,8 @@ class SearchScreenViewModel @Inject constructor(
         val mayLikeSeriesListDef  = async(Dispatchers.IO) {
             try{
                 val loadedIdsSeriesFromBD = localComicRepository.loadAllReadSeriesIds(0)
-                val mayLikeSeries= remoteComicRepository.loadMayLikeSeriesIds(loadedIdsSeriesFromBD)
-                DataState.Success(remoteComicRepository.fetchSeries(mayLikeSeries))
+                val mayLikeSeries= remoteSeriesRepository.loadMayLikeSeriesIds(loadedIdsSeriesFromBD)
+                DataState.Success(remoteSeriesRepository.fetchSeries(mayLikeSeries))
             }catch(e:Exception){
                 Log.e("ViewModel","$e")
                 DataState.Error("Error loading May Like Series")
@@ -54,7 +56,7 @@ class SearchScreenViewModel @Inject constructor(
         }
         val characterListDef  = async(Dispatchers.IO) {
             try{
-                DataState.Success(remoteComicRepository.getAllCharacters())
+                DataState.Success(remoteCharacterRepository.getAllCharacters())
             }catch(e:Exception){
                 Log.e("ViewModel","$e")
                 DataState.Error("Error loading characters")
@@ -74,7 +76,7 @@ class SearchScreenViewModel @Inject constructor(
         _state.value = ComicAppState.SearchResultScreenSate(DataState.Loading)
         val searchSeriesListDeferred = async(Dispatchers.IO) {
             try {
-                DataState.Success(remoteComicRepository.getSeriesByTitle(query))
+                DataState.Success(remoteSeriesRepository.getSeriesByTitle(query))
             }catch (e:Exception){
                 Log.e("ViewModel","$e")
                 DataState.Error("Error loading results series")
@@ -84,7 +86,7 @@ class SearchScreenViewModel @Inject constructor(
 
         val searchCharacterListDeferred = async(Dispatchers.IO) {
             try {
-                DataState.Success(remoteComicRepository.getCharactersByName(query))
+                DataState.Success(remoteCharacterRepository.getCharactersByName(query))
             }catch (e:Exception){
                 Log.e("ViewModel","$e")
                 DataState.Error("Error loading results characters")
