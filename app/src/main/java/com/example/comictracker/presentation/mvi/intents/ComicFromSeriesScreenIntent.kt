@@ -1,7 +1,5 @@
 package com.example.comictracker.presentation.mvi.intents
 
-import com.example.comictracker.presentation.mvi.ComicAppIntent
-
 sealed class ComicFromSeriesScreenIntent {
 
     data class LoadComicFromSeriesScreen(val seriesId: Int, val loadCount: Int): ComicFromSeriesScreenIntent()
