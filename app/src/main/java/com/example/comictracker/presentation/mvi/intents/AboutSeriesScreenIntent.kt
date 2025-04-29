@@ -18,4 +18,6 @@ sealed class AboutSeriesScreenIntent {
 
     data class MarkAsReadNextComic(val comicId:Int,val seriesId: Int, val issueNumber:String): AboutSeriesScreenIntent()
 
+    data class MarkAsUnreadLastComic(val comicId:Int, val seriesId: Int, val issueNumber:String): AboutSeriesScreenIntent()
+
 }
