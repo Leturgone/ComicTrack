@@ -1,4 +1,6 @@
 package com.example.comictracker.presentation.mvi.intents
 
-class HomeScreenIntent {
+sealed class HomeScreenIntent {
+    data object LoadHomeScreen: HomeScreenIntent()
+
 }
