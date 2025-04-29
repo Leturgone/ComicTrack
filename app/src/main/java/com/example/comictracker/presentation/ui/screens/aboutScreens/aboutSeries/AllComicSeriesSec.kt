@@ -24,23 +24,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.comictracker.presentation.mvi.ComicAppIntent
+import com.example.comictracker.R
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
+import com.example.comictracker.presentation.mvi.intents.ComicFromSeriesScreenIntent
 import com.example.comictracker.presentation.ui.screens.CustomToastMessage
-import com.example.comictracker.presentation.viewmodel.ComicViewModel
-import com.example.comictracker.R
+import com.example.comictracker.presentation.viewmodel.ComicFromSeriesScreenViewModel
 
 @Composable
 fun AllComicSeriesSec(seriesId:Int,
                       loadCount:Int,
-                      viewModel: ComicViewModel = hiltViewModel(),
+                      viewModel: ComicFromSeriesScreenViewModel = hiltViewModel(),
                       navController: NavHostController){
 
     val uiState by viewModel.state.collectAsState()
     var showToast by remember { mutableStateOf(false) }
     LaunchedEffect(key1 = seriesId) {
-        viewModel.processIntent(ComicAppIntent.LoadComicFromSeriesScreen(seriesId,loadCount))
+        viewModel.processIntent(ComicFromSeriesScreenIntent.LoadComicFromSeriesScreen(seriesId,loadCount))
     }
 
 
@@ -65,7 +65,27 @@ fun AllComicSeriesSec(seriesId:Int,
                             LazyColumn{
                                 items(comics.size){
                                     val comic = comics[it]
-                                    ComicFromSeriesCard(comic,navController,loadCount)
+                                    ComicFromSeriesCard(comic,navController){
+                                        when (comic.readMark) {
+                                            "read" -> viewModel.processIntent(
+                                                    ComicFromSeriesScreenIntent.MarkAsUnreadComicInList(
+                                                        comic.comicId,
+                                                        comic.seriesId,
+                                                        comic.number,
+                                                        loadCount
+                                                    )
+                                                )
+
+                                            else -> viewModel.processIntent(
+                                                ComicFromSeriesScreenIntent.MarkAsReadComicInList(
+                                                    comic.comicId,
+                                                    comic.seriesId,
+                                                    comic.number,
+                                                    loadCount
+                                                )
+                                            )
+                                        }
+                                    }
                                     if((it == comics.size-1) and (comics.size == loadCount+50)){
                                         Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
                                             Button(onClick = {
