@@ -4,6 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.repository.RemoteComicRepository
+import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
+import com.example.comictracker.domain.repository.remote.RemoteSeriesRepository
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.mvi.intents.AboutCharacterScreenIntent
@@ -17,7 +19,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AboutCharacterScreenViewModel @Inject constructor(
-    private val remoteComicRepository: RemoteComicRepository,
+    private val characterRepository: RemoteCharacterRepository,
+    private val seriesRepository: RemoteSeriesRepository,
 ): ViewModel() {
 
     private val _state = MutableStateFlow<ComicAppState>(ComicAppState.HomeScreenState())
@@ -37,7 +40,7 @@ class AboutCharacterScreenViewModel @Inject constructor(
         )
         val characterDef = async(Dispatchers.IO) {
             try {
-                DataState.Success(remoteComicRepository.getCharacterById(characterId))
+                DataState.Success(characterRepository.getCharacterById(characterId))
             }catch (e:Exception){
                 Log.e("ViewModel","$e")
                 DataState.Error("Error loading character")
@@ -47,7 +50,7 @@ class AboutCharacterScreenViewModel @Inject constructor(
 
         val seriesDef = async(Dispatchers.IO) {
             try{
-                DataState.Success(remoteComicRepository.getCharacterSeries(characterId))
+                DataState.Success(seriesRepository.getCharacterSeries(characterId))
             }catch (e:Exception){
                 Log.e("ViewModel","$e")
                 DataState.Error("Error loading comics with this character")
