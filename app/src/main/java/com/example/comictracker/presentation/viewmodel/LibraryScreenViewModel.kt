@@ -3,7 +3,8 @@ package com.example.comictracker.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.repository.LocalComicRepository
-import com.example.comictracker.domain.repository.RemoteComicRepository
+import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
+import com.example.comictracker.domain.repository.remote.RemoteSeriesRepository
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.mvi.MyLibraryScreenData
@@ -20,7 +21,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class LibraryScreenViewModel @Inject constructor(
-    private val remoteComicRepository: RemoteComicRepository,
+    private val remoteSeriesRepository: RemoteSeriesRepository,
+    private val remoteComicsRepository: RemoteComicsRepository,
     private val localComicRepository: LocalComicRepository,
 ):ViewModel() {
     private val _state = MutableStateFlow<ComicAppState>(ComicAppState.HomeScreenState())
@@ -43,7 +45,7 @@ class LibraryScreenViewModel @Inject constructor(
         val favoriteSeriesDef = loadedFavoriteSeriesIdsFromBD.map { id ->
             async(Dispatchers.IO) {
                 try {
-                    remoteComicRepository.getSeriesById(id)
+                    remoteSeriesRepository.getSeriesById(id)
                 } catch (e: Exception) {
                     null
                 }
@@ -52,7 +54,7 @@ class LibraryScreenViewModel @Inject constructor(
         val currentSeriesDef = loadedCurrentlyReadingSeriesIdsFromBD.map { id ->
             async(Dispatchers.IO) {
                 try {
-                    remoteComicRepository.getSeriesById(id)
+                    remoteSeriesRepository.getSeriesById(id)
                 } catch (e: Exception) {
                     null
                 }
@@ -62,7 +64,7 @@ class LibraryScreenViewModel @Inject constructor(
         val lastComicsDef = loadedHistoryReadComicFromBD.map { id ->
             async(Dispatchers.IO) {
                 try {
-                    remoteComicRepository.getComicById(id)
+                    remoteComicsRepository.getComicById(id)
                 } catch (e: Exception) {
                     null
                 }
