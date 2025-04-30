@@ -3,7 +3,6 @@ package com.example.comictracker.data.repository.remote
 import android.util.Log
 import com.example.comictracker.data.api.MarvelComicApi
 import com.example.comictracker.data.api.dto.seriesDTO.Results
-import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.domain.repository.remote.RemoteSeriesRepository
 import kotlinx.coroutines.Dispatchers
