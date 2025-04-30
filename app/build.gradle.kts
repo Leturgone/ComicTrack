@@ -94,6 +94,12 @@ dependencies {
     kapt("androidx.room:room-compiler:2.6.1")
     implementation("androidx.room:room-ktx:2.6.1")
 
+    testImplementation("org.mockito:mockito-core:5.17.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+
+    androidTestImplementation("org.mockito:mockito-core:5.17.0")
+    androidTestImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+
 }
 kapt {
     correctErrorTypes = true
