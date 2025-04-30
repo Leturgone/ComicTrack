@@ -97,8 +97,11 @@ dependencies {
     testImplementation("org.mockito:mockito-core:5.17.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
 
-    androidTestImplementation("org.mockito:mockito-core:5.17.0")
+    androidTestImplementation("org.mockito:mockito-android:5.17.0")
     androidTestImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+
+    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
 
 }
 kapt {
