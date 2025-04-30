@@ -2,7 +2,8 @@ package com.example.comictracker.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.comictracker.domain.repository.LocalComicRepository
+import com.example.comictracker.domain.repository.local.LocalReadRepository
+import com.example.comictracker.domain.repository.local.LocalWriteRepository
 import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
 import com.example.comictracker.domain.repository.remote.RemoteSeriesRepository
 import com.example.comictracker.presentation.mvi.ComicAppState
@@ -23,7 +24,9 @@ import javax.inject.Inject
 class LibraryScreenViewModel @Inject constructor(
     private val remoteSeriesRepository: RemoteSeriesRepository,
     private val remoteComicsRepository: RemoteComicsRepository,
-    private val localComicRepository: LocalComicRepository,
+    //private val localComicRepository: LocalComicRepository,
+    private val localWriteRepository: LocalWriteRepository,
+    private val localReadRepository: LocalReadRepository
 ):ViewModel() {
     private val _state = MutableStateFlow<ComicAppState>(ComicAppState.HomeScreenState())
 
@@ -37,10 +40,10 @@ class LibraryScreenViewModel @Inject constructor(
     private fun loadLibraryScreen() = viewModelScope.launch {
         _state.value = ComicAppState.MyLibraryScreenState(DataState.Loading)
 
-        val loadedStatisticsFromBD = localComicRepository.loadStatistics()
-        val loadedFavoriteSeriesIdsFromBD = localComicRepository.loadFavoritesIds()
-        val loadedCurrentlyReadingSeriesIdsFromBD = localComicRepository.loadCurrentReadIds(0)
-        val loadedHistoryReadComicFromBD = localComicRepository.loadHistory(0)
+        val loadedStatisticsFromBD = localReadRepository.loadStatistics()
+        val loadedFavoriteSeriesIdsFromBD = localReadRepository.loadFavoritesIds()
+        val loadedCurrentlyReadingSeriesIdsFromBD = localReadRepository.loadCurrentReadIds(0)
+        val loadedHistoryReadComicFromBD = localReadRepository.loadHistory(0)
 
         val favoriteSeriesDef = loadedFavoriteSeriesIdsFromBD.map { id ->
             async(Dispatchers.IO) {
