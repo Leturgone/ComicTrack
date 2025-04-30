@@ -12,11 +12,11 @@ import com.example.comictracker.domain.model.SeriesModel
 
 object HomeScreen{
     val newReleasesTemplate = (hasText("New releases")) and hasNoClickAction()
-    val newReleasesCard = hasContentDescription("  current cover")
+    val newReleasesCard = hasContentDescription("${comicExample.title}  current cover")
     val continueReadingTemplate = (hasText("Continue reading")) and hasNoClickAction()
-    val continueReadingList = hasContentDescription("  current cover")
+    val continueReadingList = hasContentDescription("${secondComicExample.title}  current cover")
     val seeAllNewTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeAllNew")
-    val seeAllContinueTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeAllNew")
+    val seeAllContinueTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeAllContinueReading")
 }
 
 object SearchScreen{
