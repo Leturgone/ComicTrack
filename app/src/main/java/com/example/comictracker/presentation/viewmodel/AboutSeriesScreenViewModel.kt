@@ -4,7 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.model.SeriesModel
-import com.example.comictracker.domain.repository.LocalComicRepository
+import com.example.comictracker.domain.repository.local.LocalReadRepository
+import com.example.comictracker.domain.repository.local.LocalWriteRepository
 import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
 import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
 import com.example.comictracker.domain.repository.remote.RemoteCreatorsRepository
@@ -27,7 +28,8 @@ class AboutSeriesScreenViewModel @Inject constructor(
     private val remoteComicsRepository:RemoteComicsRepository,
     private val remoteCharacterRepository: RemoteCharacterRepository,
     private val remoteCreatorsRepository: RemoteCreatorsRepository,
-    private val localComicRepository: LocalComicRepository,
+    private val localWriteRepository: LocalWriteRepository,
+    private val localReadRepository: LocalReadRepository
 ): ViewModel(){
 
     private val _state = MutableStateFlow<ComicAppState>(ComicAppState.HomeScreenState())
@@ -112,9 +114,9 @@ class AboutSeriesScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AboutSeriesScreenState(
             when(series){
                 is SeriesModel -> {
-                    val readMark = localComicRepository.loadSeriesMark(series.seriesId)
-                    val favoriteMark = localComicRepository.loadSeriesFavoriteMark(series.seriesId)
-                    val nextRead = localComicRepository.loadNextRead(series.seriesId)?.let {
+                    val readMark = localReadRepository.loadSeriesMark(series.seriesId)
+                    val favoriteMark = localReadRepository.loadSeriesFavoriteMark(series.seriesId)
+                    val nextRead = localReadRepository.loadNextRead(series.seriesId)?.let {
                         remoteComicsRepository.getComicById(it)
                     }
                     Log.i("ViewModel",favoriteMark.toString())
@@ -136,38 +138,38 @@ class AboutSeriesScreenViewModel @Inject constructor(
     }
 
     private fun markAsCurrentlyReadingSeries(apiId:Int,firstIssueId:Int?)  = viewModelScope.launch{
-        if (localComicRepository.addSeriesToCurrentlyRead(apiId,firstIssueId)){
+        if (localWriteRepository.addSeriesToCurrentlyRead(apiId,firstIssueId)){
             loadSeriesScreen(apiId)
         }
     }
 
     private fun markAsReadSeries(apiId:Int) = viewModelScope.launch(Dispatchers.IO){
-        if (localComicRepository.markSeriesRead(apiId)){
+        if (localWriteRepository.markSeriesRead(apiId)){
             loadSeriesScreen(apiId)
         }
     }
 
     private fun markUnreadSeries(apiId:Int)  = viewModelScope.launch{
-        if (localComicRepository.markSeriesUnread(apiId)){
+        if (localWriteRepository.markSeriesUnread(apiId)){
             loadSeriesScreen(apiId)
         }
     }
 
     private fun markWillBeReadSeries(apiId:Int)  = viewModelScope.launch{
-        if(localComicRepository.addSeriesToWillBeRead(apiId)){
+        if(localWriteRepository.addSeriesToWillBeRead(apiId)){
             loadSeriesScreen(apiId)
         }
     }
 
     private fun addSeriesToFavorite(apiId: Int) = viewModelScope.launch {
-        if(localComicRepository.addSeriesToFavorite(apiId)){
+        if(localWriteRepository.addSeriesToFavorite(apiId)){
             loadSeriesScreen(apiId)
         }
 
     }
 
     private fun removeSeriesFromFavorites(apiId: Int)  = viewModelScope.launch{
-        if(localComicRepository.removeSeriesFromFavorite(apiId)){
+        if(localWriteRepository.removeSeriesFromFavorite(apiId)){
             loadSeriesScreen(apiId)
         }
     }
@@ -177,7 +179,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
             remoteComicsRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
         }.await()
 
-        if (localComicRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
+        if (localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
             loadSeriesScreen(seriesApiId)
         }
     }
@@ -187,7 +189,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
             remoteComicsRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
         }.await()
 
-        if (localComicRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
+        if (localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
             loadSeriesScreen(seriesApiId)
         }
     }
