@@ -101,3 +101,9 @@ object AllScreen{
 object AllComicScreen{
     val AllTemplate = hasText("All Comics")
 }
+
+object SearchResultScreen{
+    val searchResultTemplate = hasText("Search result")
+    val updateButton = hasText("Update") and hasClickAction()
+    val notFoundErrorText = hasText("Not found")
+}
