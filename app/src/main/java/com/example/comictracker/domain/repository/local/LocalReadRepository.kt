@@ -26,6 +26,6 @@ interface LocalReadRepository {
 
     suspend fun loadSeriesFavoriteMark(apiId: Int):Boolean
 
-    suspend fun loadNextRead(apiId: Int):Int?
+    suspend fun loadNextRead(seriesApiId: Int):Int?
 
 }
