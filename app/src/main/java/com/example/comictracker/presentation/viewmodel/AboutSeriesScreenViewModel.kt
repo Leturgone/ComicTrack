@@ -4,8 +4,12 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.model.SeriesModel
-import com.example.comictracker.domain.repository.LocalComicRepository
-import com.example.comictracker.domain.repository.RemoteComicRepository
+import com.example.comictracker.domain.repository.local.LocalReadRepository
+import com.example.comictracker.domain.repository.local.LocalWriteRepository
+import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
+import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
+import com.example.comictracker.domain.repository.remote.RemoteCreatorsRepository
+import com.example.comictracker.domain.repository.remote.RemoteSeriesRepository
 import com.example.comictracker.presentation.mvi.AboutSeriesScreenData
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
@@ -20,8 +24,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AboutSeriesScreenViewModel @Inject constructor(
-    private val remoteComicRepository: RemoteComicRepository,
-    private val localComicRepository: LocalComicRepository,
+    private val remoteSeriesRepository: RemoteSeriesRepository,
+    private val remoteComicsRepository:RemoteComicsRepository,
+    private val remoteCharacterRepository: RemoteCharacterRepository,
+    private val remoteCreatorsRepository: RemoteCreatorsRepository,
+    private val localWriteRepository: LocalWriteRepository,
+    private val localReadRepository: LocalReadRepository
 ): ViewModel(){
 
     private val _state = MutableStateFlow<ComicAppState>(ComicAppState.HomeScreenState())
@@ -45,7 +53,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AboutComicScreenState(DataState.Loading)
         val seriesDeferred = async(Dispatchers.IO){
             try {
-                remoteComicRepository.getSeriesById(seriesId)
+                remoteSeriesRepository.getSeriesById(seriesId)
             }catch (e:Exception){
                 Log.e("ViewModel","$e")
                 emptyList<SeriesModel>()
@@ -54,7 +62,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
 
         val comicListDeferred = async(Dispatchers.IO) {
             try{
-                remoteComicRepository.getComicsFromSeries(seriesId)
+                remoteComicsRepository.getComicsFromSeries(seriesId)
             }catch (e:Exception){
                 Log.e("ViewModel","$e")
                 emptyList()
@@ -63,7 +71,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
 
         val characterListDeferred = async(Dispatchers.IO) {
             try{
-                remoteComicRepository.getSeriesCharacters(seriesId)
+                remoteCharacterRepository.getSeriesCharacters(seriesId)
             }catch (e:Exception){
                 Log.e("ViewModel","$e")
                 emptyList()
@@ -75,7 +83,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
         val creatorListDeferred = async(Dispatchers.IO) {
             try {
                 if (series is SeriesModel){
-                    remoteComicRepository.getSeriesCreators(series.creators?: emptyList())
+                    remoteCreatorsRepository.getSeriesCreators(series.creators?: emptyList())
                 } else {
                     emptyList()
                 }
@@ -88,7 +96,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
         val connectedSeriesListDeferred = async(Dispatchers.IO) {
             try{
                 if (series is SeriesModel){
-                    remoteComicRepository.getConnectedSeries(series.connectedSeries)
+                    remoteSeriesRepository.getConnectedSeries(series.connectedSeries)
                 }else{
                     emptyList()
                 }
@@ -106,10 +114,10 @@ class AboutSeriesScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AboutSeriesScreenState(
             when(series){
                 is SeriesModel -> {
-                    val readMark = localComicRepository.loadSeriesMark(series.seriesId)
-                    val favoriteMark = localComicRepository.loadSeriesFavoriteMark(series.seriesId)
-                    val nextRead = localComicRepository.loadNextRead(series.seriesId)?.let {
-                        remoteComicRepository.getComicById(it)
+                    val readMark = localReadRepository.loadSeriesMark(series.seriesId)
+                    val favoriteMark = localReadRepository.loadSeriesFavoriteMark(series.seriesId)
+                    val nextRead = localReadRepository.loadNextRead(series.seriesId)?.let {
+                        remoteComicsRepository.getComicById(it)
                     }
                     Log.i("ViewModel",favoriteMark.toString())
                     val seriesWithMark = series.copy(readMark = readMark, favoriteMark = favoriteMark)
@@ -130,58 +138,58 @@ class AboutSeriesScreenViewModel @Inject constructor(
     }
 
     private fun markAsCurrentlyReadingSeries(apiId:Int,firstIssueId:Int?)  = viewModelScope.launch{
-        if (localComicRepository.addSeriesToCurrentlyRead(apiId,firstIssueId)){
+        if (localWriteRepository.addSeriesToCurrentlyRead(apiId,firstIssueId)){
             loadSeriesScreen(apiId)
         }
     }
 
     private fun markAsReadSeries(apiId:Int) = viewModelScope.launch(Dispatchers.IO){
-        if (localComicRepository.markSeriesRead(apiId)){
+        if (localWriteRepository.markSeriesRead(apiId)){
             loadSeriesScreen(apiId)
         }
     }
 
     private fun markUnreadSeries(apiId:Int)  = viewModelScope.launch{
-        if (localComicRepository.markSeriesUnread(apiId)){
+        if (localWriteRepository.markSeriesUnread(apiId)){
             loadSeriesScreen(apiId)
         }
     }
 
     private fun markWillBeReadSeries(apiId:Int)  = viewModelScope.launch{
-        if(localComicRepository.addSeriesToWillBeRead(apiId)){
+        if(localWriteRepository.addSeriesToWillBeRead(apiId)){
             loadSeriesScreen(apiId)
         }
     }
 
     private fun addSeriesToFavorite(apiId: Int) = viewModelScope.launch {
-        if(localComicRepository.addSeriesToFavorite(apiId)){
+        if(localWriteRepository.addSeriesToFavorite(apiId)){
             loadSeriesScreen(apiId)
         }
 
     }
 
     private fun removeSeriesFromFavorites(apiId: Int)  = viewModelScope.launch{
-        if(localComicRepository.removeSeriesFromFavorite(apiId)){
+        if(localWriteRepository.removeSeriesFromFavorite(apiId)){
             loadSeriesScreen(apiId)
         }
     }
 
     private fun markAsReadNextComic(comicApiId: Int, seriesApiId: Int, number: String) = viewModelScope.launch{
         val nextComicId = async {
-            remoteComicRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
+            remoteComicsRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
         }.await()
 
-        if (localComicRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
+        if (localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
             loadSeriesScreen(seriesApiId)
         }
     }
 
     private fun markAsUnreadNextComic(comicApiId: Int, seriesApiId: Int, number: String) = viewModelScope.launch{
         val prevComicId = async {
-            remoteComicRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
+            remoteComicsRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
         }.await()
 
-        if (localComicRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
+        if (localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
             loadSeriesScreen(seriesApiId)
         }
     }

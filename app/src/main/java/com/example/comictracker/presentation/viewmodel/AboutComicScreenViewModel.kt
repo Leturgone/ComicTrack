@@ -3,8 +3,11 @@ package com.example.comictracker.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.model.ComicModel
-import com.example.comictracker.domain.repository.LocalComicRepository
-import com.example.comictracker.domain.repository.RemoteComicRepository
+import com.example.comictracker.domain.repository.local.LocalReadRepository
+import com.example.comictracker.domain.repository.local.LocalWriteRepository
+import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
+import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
+import com.example.comictracker.domain.repository.remote.RemoteCreatorsRepository
 import com.example.comictracker.presentation.mvi.AboutComicScreenData
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
@@ -19,8 +22,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AboutComicScreenViewModel @Inject constructor(
-    private val remoteComicRepository: RemoteComicRepository,
-    private val localComicRepository: LocalComicRepository,
+    private val remoteComicsRepository: RemoteComicsRepository,
+    private val remoteCharacterRepository: RemoteCharacterRepository,
+    private val remoteCreatorsRepository: RemoteCreatorsRepository,
+    private val localWriteRepository: LocalWriteRepository,
+    private val localReadRepository: LocalReadRepository
+    //private val localComicRepository: LocalComicRepository,
 ): ViewModel(){
 
     private val _state = MutableStateFlow<ComicAppState>(ComicAppState.HomeScreenState())
@@ -38,7 +45,7 @@ class AboutComicScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AboutComicScreenState(DataState.Loading)
         val comicDeferred = async(Dispatchers.IO){
             try {
-                remoteComicRepository.getComicById(comicId)
+                remoteComicsRepository.getComicById(comicId)
             }catch (e:Exception){
                 emptyList<ComicModel>()
             }
@@ -47,7 +54,7 @@ class AboutComicScreenViewModel @Inject constructor(
 
         val characterListDeferred = async(Dispatchers.IO) {
             try {
-                remoteComicRepository.getComicCharacters(comicId)
+                remoteCharacterRepository.getComicCharacters(comicId)
             }catch (e:Exception){
                 emptyList()
             }
@@ -60,7 +67,7 @@ class AboutComicScreenViewModel @Inject constructor(
         val creatorListDeferred = async(Dispatchers.IO) {
             try {
                 if (comic is ComicModel){
-                    remoteComicRepository.getComicCreators(comic.creators)
+                    remoteCreatorsRepository.getComicCreators(comic.creators)
                 } else {
                     emptyList()
                 }
@@ -76,7 +83,7 @@ class AboutComicScreenViewModel @Inject constructor(
         _state.value = (ComicAppState.AboutComicScreenState(
             when(comic){
                 is ComicModel ->{
-                    val readMark = localComicRepository.loadComicMark(comic.comicId)
+                    val readMark = localReadRepository.loadComicMark(comic.comicId)
                     val comicWithMark = comic.copy(readMark = readMark)
                     DataState.Success(
                         AboutComicScreenData(
@@ -90,17 +97,17 @@ class AboutComicScreenViewModel @Inject constructor(
 
     private fun markAsReadComic(comicApiId: Int, seriesApiId: Int,number:String)  = viewModelScope.launch{
         val nextComicId = async {
-            remoteComicRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
+            remoteComicsRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
         }.await()
-        if(localComicRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
+        if(localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
             loadComicScreen(comicApiId)
         }
     }
     private fun markAsUnreadComic(comicApiId: Int, seriesApiId: Int,number:String) = viewModelScope.launch {
         val prevComicId = async {
-            remoteComicRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
+            remoteComicsRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
         }.await()
-        if(localComicRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
+        if(localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
             loadComicScreen(comicApiId)
         }
     }
