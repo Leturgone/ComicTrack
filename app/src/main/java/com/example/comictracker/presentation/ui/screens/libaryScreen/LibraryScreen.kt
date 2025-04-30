@@ -22,23 +22,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.comictracker.presentation.mvi.ComicAppIntent
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.ui.screens.CustomToastMessage
-import com.example.comictracker.presentation.viewmodel.ComicViewModel
 import com.example.comictracker.R
+import com.example.comictracker.presentation.mvi.intents.LibraryScreenIntent
+import com.example.comictracker.presentation.viewmodel.LibraryScreenViewModel
 
 @Composable
 fun LibraryScreen(navController: NavHostController,
-                  viewModel: ComicViewModel = hiltViewModel()
+                  viewModel: LibraryScreenViewModel = hiltViewModel()
 ){
     val uiState by viewModel.state.collectAsState()
     var showToast by remember { mutableStateOf(false) }
 
 
     LaunchedEffect(key1 = "libaryscreen") {
-        viewModel.processIntent(ComicAppIntent.LoadLibraryScreen)
+        viewModel.processIntent(LibraryScreenIntent.LoadLibraryScreen)
     }
     Column {
         Text(text = stringResource(id = R.string.my_library),

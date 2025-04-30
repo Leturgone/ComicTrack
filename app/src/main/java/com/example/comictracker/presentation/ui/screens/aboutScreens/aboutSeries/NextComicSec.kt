@@ -14,12 +14,17 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.R
+import com.example.comictracker.presentation.mvi.intents.AboutSeriesScreenIntent
+import com.example.comictracker.presentation.viewmodel.AboutSeriesScreenViewModel
 
 @Composable
-fun NextComicSec(nextComic:ComicModel?,navController: NavHostController){
+fun NextComicSec(nextComic:ComicModel?,navController: NavHostController,
+                 viewModel:AboutSeriesScreenViewModel = hiltViewModel()
+                 ){
     if (nextComic != null) {
         Column {
             Text(
@@ -39,7 +44,26 @@ fun NextComicSec(nextComic:ComicModel?,navController: NavHostController){
                             navController.navigate("comics_from_series/${nextComic.seriesId}/0")
                         })
             }
-            ComicFromSeriesCard(nextComic, navController,null)
+            ComicFromSeriesCard(nextComic, navController){
+                when (nextComic.readMark) {
+                    "read" ->
+                        viewModel.processIntent(
+                            AboutSeriesScreenIntent.MarkAsUnreadLastComic(
+                                nextComic.comicId,
+                                nextComic.seriesId,
+                                nextComic.number
+                            )
+                        )
+
+                    else -> viewModel.processIntent(
+                        AboutSeriesScreenIntent.MarkAsReadNextComic(
+                            nextComic.comicId,
+                            nextComic.seriesId,
+                            nextComic.number,
+                        )
+                    )
+                }
+            }
         }
     }
 

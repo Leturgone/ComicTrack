@@ -42,15 +42,16 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.comictracker.presentation.mvi.ComicAppIntent
-import com.example.comictracker.presentation.ui.components.MarkCategory
-import com.example.comictracker.presentation.viewmodel.ComicViewModel
-import kotlinx.coroutines.launch
 import com.example.comictracker.R
+import com.example.comictracker.presentation.mvi.intents.AboutSeriesScreenIntent
+import com.example.comictracker.presentation.ui.components.MarkCategory
+import com.example.comictracker.presentation.viewmodel.AboutSeriesScreenViewModel
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun UsersSeriesMarkSec(seriesId: Int, mark:String,favoriteMark:Boolean,firstIssueId:Int? = null,viewModel: ComicViewModel = hiltViewModel()) {
+fun UsersSeriesMarkSec(seriesId: Int, mark:String,favoriteMark:Boolean,firstIssueId:Int? = null,
+                       viewModel: AboutSeriesScreenViewModel = hiltViewModel()) {
     val markCategories = listOf(
         MarkCategory(Icons.Filled.AccessTime, stringResource(id = R.string.will_mark),"will"),
         MarkCategory(Icons.Filled.BookmarkAdded,stringResource(id = R.string.read_mark),"read"),
@@ -101,8 +102,8 @@ fun UsersSeriesMarkSec(seriesId: Int, mark:String,favoriteMark:Boolean,firstIssu
             .padding(16.dp), contentAlignment = Alignment.CenterEnd) {
             IconButton(onClick = {
                 when(favoriteMark){
-                    true -> viewModel.processIntent(ComicAppIntent.RemoveSeriesFromFavorite(seriesId))
-                    false -> viewModel.processIntent(ComicAppIntent.AddSeriesToFavorite(seriesId))
+                    true -> viewModel.processIntent(AboutSeriesScreenIntent.RemoveSeriesFromFavorite(seriesId))
+                    false -> viewModel.processIntent(AboutSeriesScreenIntent.AddSeriesToFavorite(seriesId))
                 }
             }) {
                 Icon(imageVector = Icons.Filled.Star,
@@ -141,25 +142,25 @@ fun UsersSeriesMarkSec(seriesId: Int, mark:String,favoriteMark:Boolean,firstIssu
                                 .clickable {
                                     when (markCategory.markBD) {
                                         "read" -> viewModel.processIntent(
-                                            ComicAppIntent.MarkAsReadSeries(
+                                            AboutSeriesScreenIntent.MarkAsReadSeries(
                                                 seriesId
                                             )
                                         )
 
                                         "will" -> viewModel.processIntent(
-                                            ComicAppIntent.MarkAsWillBeReadSeries(
+                                            AboutSeriesScreenIntent.MarkAsWillBeReadSeries(
                                                 seriesId
                                             )
                                         )
 
                                         "currently" -> viewModel.processIntent(
-                                            ComicAppIntent.MarkAsCurrentlyReadingSeries(
+                                            AboutSeriesScreenIntent.MarkAsCurrentlyReadingSeries(
                                                 seriesId, firstIssueId
                                             )
                                         )
 
                                         "unread" -> viewModel.processIntent(
-                                            ComicAppIntent.MarkAsUnreadSeries(
+                                            AboutSeriesScreenIntent.MarkAsUnreadSeries(
                                                 seriesId
                                             )
                                         )

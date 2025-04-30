@@ -32,22 +32,22 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import com.example.comictracker.presentation.mvi.ComicAppIntent
+import com.example.comictracker.R
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
+import com.example.comictracker.presentation.mvi.intents.AllScreenIntent
 import com.example.comictracker.presentation.ui.screens.CustomToastMessage
-import com.example.comictracker.presentation.viewmodel.ComicViewModel
-import com.example.comictracker.R
+import com.example.comictracker.presentation.viewmodel.AllScreenViewModel
 
 @Composable
 fun  AllCharactersScreen(loadCount: Int, navController: NavHostController,
-                         viewModel: ComicViewModel = hiltViewModel()){
+                         viewModel: AllScreenViewModel = hiltViewModel()){
 
     val uiState by viewModel.state.collectAsState()
     var showToast by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = "allcharscreen") {
-        viewModel.processIntent(ComicAppIntent.LoadAllCharactersScreen(loadCount))
+        viewModel.processIntent(AllScreenIntent.LoadAllCharactersScreen(loadCount))
     }
 
     Box {

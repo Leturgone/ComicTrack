@@ -1,5 +1,6 @@
 package com.example.comictracker.presentation.ui.screens.aboutScreens.aboutSeries
 
+import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,17 +23,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import coil3.compose.AsyncImage
 import com.example.comictracker.domain.model.ComicModel
-import com.example.comictracker.presentation.mvi.ComicAppIntent
-import com.example.comictracker.presentation.viewmodel.ComicViewModel
 
 @Composable
-fun ComicFromSeriesCard(comic:ComicModel,navController: NavHostController,
-                        loadCount:Int?,
-                        viewModel: ComicViewModel = hiltViewModel()){
+fun ComicFromSeriesCard(comic:ComicModel,navController: NavHostController, onClick: () -> Unit){
+
     Card(
         Modifier
             .fillMaxWidth()
@@ -46,7 +43,9 @@ fun ComicFromSeriesCard(comic:ComicModel,navController: NavHostController,
         )
     ) {
         Box() {
-            Box(modifier = Modifier.fillMaxWidth().padding(10.dp), contentAlignment = Alignment.TopStart) {
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp), contentAlignment = Alignment.TopStart) {
                 Row() {
                     AsyncImage(
                         model = comic.image,
@@ -73,26 +72,25 @@ fun ComicFromSeriesCard(comic:ComicModel,navController: NavHostController,
 
                 }
             }
-            Box(modifier = Modifier.fillMaxWidth().padding(10.dp), contentAlignment = Alignment.TopEnd){
+            Box(modifier = Modifier
+                .fillMaxWidth()
+                .padding(10.dp), contentAlignment = Alignment.TopEnd){
                 Column {
                     Icon(imageVector = Icons.Filled.Check,
                         contentDescription = "ReadIcon",
                         tint = when(comic.readMark){
-                            "read" -> Color.Green
-                            else -> Color.Gray
-                        },
-                        modifier = Modifier
-                            .padding(start = 40.dp)
-                            .clickable {
-                                when (comic.readMark) {
-                                     "read"->
-                                         viewModel.processIntent(
-                                        ComicAppIntent.MarkAsUnreadComicInList(comic.comicId,comic.seriesId,comic.number,loadCount!!))
 
-                                    else -> viewModel.processIntent(
-                                        ComicAppIntent.MarkAsReadComicInList(comic.comicId,comic.seriesId,comic.number,loadCount))
-                                }
+                            "read" -> {
+
+                                Log.i("MARK",comic.readMark)
+                                Color.Green
                             }
+                            else -> {
+                                Log.i("MARK",comic.toString())
+                                Color.Gray
+                            }
+                        },
+                        modifier = Modifier.padding(start = 40.dp).clickable(onClick = onClick)
                     )
                 }
             }
