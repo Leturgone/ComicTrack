@@ -3,7 +3,7 @@ package com.example.comictracker.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.comictracker.domain.repository.LocalComicRepository
+import com.example.comictracker.domain.repository.local.LocalReadRepository
 import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
 import com.example.comictracker.domain.repository.remote.RemoteSeriesRepository
 import com.example.comictracker.presentation.mvi.ComicAppState
@@ -21,7 +21,7 @@ import javax.inject.Inject
 class SearchScreenViewModel @Inject constructor(
     private val remoteSeriesRepository: RemoteSeriesRepository,
     private val remoteCharacterRepository: RemoteCharacterRepository,
-    private val localComicRepository: LocalComicRepository,
+    private val localReadRepository: LocalReadRepository
 ): ViewModel() {
     private val _state = MutableStateFlow<ComicAppState>(ComicAppState.HomeScreenState())
 
@@ -46,7 +46,7 @@ class SearchScreenViewModel @Inject constructor(
         }
         val mayLikeSeriesListDef  = async(Dispatchers.IO) {
             try{
-                val loadedIdsSeriesFromBD = localComicRepository.loadAllReadSeriesIds(0)
+                val loadedIdsSeriesFromBD = localReadRepository.loadAllReadSeriesIds(0)
                 val mayLikeSeries= remoteSeriesRepository.loadMayLikeSeriesIds(loadedIdsSeriesFromBD)
                 DataState.Success(remoteSeriesRepository.fetchSeries(mayLikeSeries))
             }catch(e:Exception){
