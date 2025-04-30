@@ -41,7 +41,7 @@ class LocalReadRepositoryImpl(
 
     override suspend fun loadAllReadSeriesIds(offset:Int): List<Int> {
         return withContext(Dispatchers.IO){
-            seriesListDao.getCurrentlyReadingSeriesApiIds(offset)
+            seriesListDao.getReadSeriesApiIds(offset)
         }
     }
 
