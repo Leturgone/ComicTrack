@@ -16,7 +16,7 @@ android {
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.example.comictracker.HiltTestRunner"
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -99,6 +99,9 @@ dependencies {
 
     androidTestImplementation("org.mockito:mockito-android:5.17.0")
     androidTestImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
+
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.38.1")
+    kaptAndroidTest("com.google.dagger:hilt-android-compiler:2.38.1")
 
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
     androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
