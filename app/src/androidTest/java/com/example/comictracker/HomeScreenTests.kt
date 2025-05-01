@@ -101,6 +101,7 @@ class HomeScreenTests {
             onNode(HomeScreen.seeAllNewTemplate).performClick()
 
             onNode(AllScreen.AllTemplate).assertExists()
+            onNode(AllScreen.newReleasesCard).assertExists()
         }
 
     }
@@ -112,6 +113,30 @@ class HomeScreenTests {
     fun navigationToNewTest(){}
 
     @Test
-    fun navigationToAllNextTest(){}
+    fun navigationToAllNextTest() = runTest{
+        Mockito.`when`(
+            localReadRepository.loadCurrentReadIds(0)
+        ).thenReturn(listOf(1, 2, 3))
+
+        Mockito.`when`(
+            localReadRepository.loadNextReadComicIds(0)
+        ).thenReturn(listOf(1, 2, 3))
+
+        Mockito.`when`(
+            remoteComicRepository.fetchUpdatesForSeries(listOf(1, 2, 3))
+        ).thenReturn(newReleasesMockList)
+
+        Mockito.`when`(
+            remoteComicRepository.fetchComics(listOf(1, 2, 3))
+        ).thenReturn(continueReadingMockList)
+
+        composeTestRule.run {
+            setContent { MainScreen()}
+            onNode(HomeScreen.seeAllContinueTemplate).performClick()
+
+            onNode(AllScreen.AllTemplate).assertExists()
+            onNode(AllScreen.continueReadingList).assertExists()
+        }
+    }
 
 }
