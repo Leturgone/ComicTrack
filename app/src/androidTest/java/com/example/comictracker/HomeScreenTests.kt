@@ -79,7 +79,7 @@ class HomeScreenTests {
     }
 
     @Test
-    fun navigationToNewTest() = runTest{
+    fun navigationToAllNewTest() = runTest{
         Mockito.`when`(
             localReadRepository.loadCurrentReadIds(0)
         ).thenReturn(listOf(1, 2, 3))
@@ -109,7 +109,7 @@ class HomeScreenTests {
     fun navigationToNextTest(){}
 
     @Test
-    fun navigationToAllNewTest(){}
+    fun navigationToNewTest(){}
 
     @Test
     fun navigationToAllNextTest(){}
