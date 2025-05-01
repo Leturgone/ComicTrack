@@ -97,9 +97,12 @@ class AboutSeriesScreen(series: SeriesModel) {
 
 object AllScreen{
     val AllTemplate = hasText("All")
+    val newReleasesCard = hasContentDescription("${comicExample.title}  current cover")
+    val continueReadingList = hasContentDescription("${secondComicExample.title}  current cover")
 }
 object AllComicScreen{
     val AllTemplate = hasText("All Comics")
+
 }
 
 object SearchResultScreen{
