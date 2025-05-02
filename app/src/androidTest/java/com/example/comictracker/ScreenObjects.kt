@@ -1,5 +1,9 @@
 package com.example.comictracker
 
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.LibraryBooks
+import androidx.compose.material.icons.rounded.Home
+import androidx.compose.material.icons.rounded.Search
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasContentDescription
 import androidx.compose.ui.test.hasNoClickAction
@@ -8,6 +12,7 @@ import androidx.compose.ui.test.hasText
 import com.example.comictracker.domain.model.CharacterModel
 import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.domain.model.SeriesModel
+import com.example.comictracker.presentation.ui.components.BottomNavigation
 
 
 object HomeScreenTestObj{
@@ -17,6 +22,12 @@ object HomeScreenTestObj{
     val continueReadingList = hasContentDescription("${secondComicExample.title}  current cover")
     val seeAllNewTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeAllNew")
     val seeAllContinueTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeAllContinueReading")
+}
+
+object BottomBarTestObj{
+    val homeTemplate = hasContentDescription("home")
+    val searchTemplate = hasContentDescription("search")
+    val libraryTemplate = hasContentDescription("library")
 }
 
 object SearchScreenTestObj{
