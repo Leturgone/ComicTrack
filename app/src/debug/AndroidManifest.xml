@@ -1,0 +1,9 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.example.comictracker">
+
+    <application>
+        <activity
+            android:name=".HiltComponentActivity"
+            android:exported="false" />
+    </application>
+</manifest>

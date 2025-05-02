@@ -27,7 +27,6 @@ class AboutComicScreenViewModel @Inject constructor(
     private val remoteCreatorsRepository: RemoteCreatorsRepository,
     private val localWriteRepository: LocalWriteRepository,
     private val localReadRepository: LocalReadRepository
-    //private val localComicRepository: LocalComicRepository,
 ): ViewModel(){
 
     private val _state = MutableStateFlow<ComicAppState>(ComicAppState.HomeScreenState())

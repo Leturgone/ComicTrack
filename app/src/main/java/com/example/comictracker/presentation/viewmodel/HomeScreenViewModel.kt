@@ -17,7 +17,6 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
     private val remoteComicsRepository: RemoteComicsRepository,
-    //private val localComicRepository: LocalComicRepository,
     private val localReadRepository: LocalReadRepository
 ): ViewModel() {
     private val _state = MutableStateFlow<ComicAppState>(ComicAppState.HomeScreenState())
