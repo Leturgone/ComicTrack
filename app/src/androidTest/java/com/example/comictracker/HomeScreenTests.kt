@@ -4,7 +4,9 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
 import com.example.comictracker.di.AppModule
 import com.example.comictracker.domain.repository.local.LocalReadRepository
+import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
 import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
+import com.example.comictracker.domain.repository.remote.RemoteCreatorsRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
@@ -24,11 +26,11 @@ class HomeScreenTests {
     @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
 
-    val newReleasesMockList = listOf(
+    private val newReleasesMockList = listOf(
         comicExample
     )
 
-    val continueReadingMockList = listOf(
+    private val continueReadingMockList = listOf(
         secondComicExample
     )
 
@@ -38,13 +40,15 @@ class HomeScreenTests {
     @Inject
     lateinit var localReadRepository: LocalReadRepository
 
-    @Before
-    fun setUp(){
-        hiltRule.inject()
-    }
+    @Inject
+    lateinit var remoteCharacterRepository:RemoteCharacterRepository
 
-    @Test
-    fun existTest() = runTest {
+    @Inject
+    lateinit var remoteCreatorsRepository: RemoteCreatorsRepository
+
+    @Before
+    fun setUp() = runTest{
+        hiltRule.inject()
 
         Mockito.`when`(
             localReadRepository.loadCurrentReadIds(0)
@@ -61,44 +65,34 @@ class HomeScreenTests {
         Mockito.`when`(
             remoteComicRepository.fetchComics(listOf(1, 2, 3))
         ).thenReturn(continueReadingMockList)
+    }
 
+
+    @Test
+    fun existTest() = runTest {
         composeTestRule.run {
+
             setContent { MainScreen()}
-            onNode(HomeScreen.newReleasesTemplate).assertExists()
-            onNode(HomeScreen.newReleasesCard).assertExists()
-            onNode(HomeScreen.continueReadingTemplate).assertExists()
-            onNode(HomeScreen.continueReadingList).assertExists()
+            onNode(HomeScreenTestObj.newReleasesTemplate).assertExists()
+            onNode(HomeScreenTestObj.newReleasesCard).assertExists()
+            onNode(HomeScreenTestObj.continueReadingTemplate).assertExists()
+            onNode(HomeScreenTestObj.continueReadingList).assertExists()
 
-            onNode(HomeScreen.seeAllNewTemplate).assertExists()
-            onNode(HomeScreen.seeAllContinueTemplate).assertExists()
+            onNode(HomeScreenTestObj.seeAllNewTemplate).assertExists()
+            onNode(HomeScreenTestObj.seeAllContinueTemplate).assertExists()
 
-            onNode(HomeScreen.seeAllNewTemplate).performClick()
+            onNode(HomeScreenTestObj.seeAllNewTemplate).performClick()
 
             onNode(AllScreen.AllTemplate).assertExists()
         }
     }
 
     @Test
-    fun navigationToAllNewTest() = runTest{
-        Mockito.`when`(
-            localReadRepository.loadCurrentReadIds(0)
-        ).thenReturn(listOf(1, 2, 3))
-
-        Mockito.`when`(
-            localReadRepository.loadNextReadComicIds(0)
-        ).thenReturn(listOf(1, 2, 3))
-
-        Mockito.`when`(
-            remoteComicRepository.fetchUpdatesForSeries(listOf(1, 2, 3))
-        ).thenReturn(newReleasesMockList)
-
-        Mockito.`when`(
-            remoteComicRepository.fetchComics(listOf(1, 2, 3))
-        ).thenReturn(continueReadingMockList)
+    fun navigationToAllNewTest() = runTest {
 
         composeTestRule.run {
             setContent { MainScreen()}
-            onNode(HomeScreen.seeAllNewTemplate).performClick()
+            onNode(HomeScreenTestObj.seeAllNewTemplate).performClick()
 
             onNode(AllScreen.AllTemplate).assertExists()
             onNode(AllScreen.newReleasesCard).assertExists()
@@ -107,35 +101,82 @@ class HomeScreenTests {
     }
 
     @Test
-    fun navigationToNextTest(){}
-
-    @Test
-    fun navigationToNewTest(){}
-
-    @Test
-    fun navigationToAllNextTest() = runTest{
+    fun navigationToNewTest() = runTest {
         Mockito.`when`(
-            localReadRepository.loadCurrentReadIds(0)
-        ).thenReturn(listOf(1, 2, 3))
+            remoteComicRepository.getComicById(4372)
+        ).thenReturn(comicExample)
+
 
         Mockito.`when`(
-            localReadRepository.loadNextReadComicIds(0)
-        ).thenReturn(listOf(1, 2, 3))
+            remoteCharacterRepository.getComicCharacters(4372)
+        ).thenReturn(listOf(characterExample))
 
         Mockito.`when`(
-            remoteComicRepository.fetchUpdatesForSeries(listOf(1, 2, 3))
-        ).thenReturn(newReleasesMockList)
+            remoteCreatorsRepository.getComicCreators(comicExample.creators)
+        ).thenReturn(listOf(creatorExample))
 
         Mockito.`when`(
-            remoteComicRepository.fetchComics(listOf(1, 2, 3))
-        ).thenReturn(continueReadingMockList)
+            remoteCreatorsRepository.getComicCreators(comicExample.creators)
+        ).thenReturn(listOf(creatorExample))
+
+        Mockito.`when`(
+            localReadRepository.loadComicMark(4372)
+        ).thenReturn("unread")
+
 
         composeTestRule.run {
             setContent { MainScreen()}
-            onNode(HomeScreen.seeAllContinueTemplate).performClick()
+            onNode(HomeScreenTestObj.seeAllNewTemplate).performClick()
 
             onNode(AllScreen.AllTemplate).assertExists()
-            onNode(AllScreen.continueReadingList).assertExists()
+            onNode(AllScreen.newReleasesCard).performClick()
+            onNode(AboutComicScreenTestObj(comicExample).titleTemplate).assertExists()
+        }
+    }
+
+    @Test
+    fun navigationToNextTest() = runTest{
+
+        Mockito.`when`(
+            remoteComicRepository.getComicById(9450)
+        ).thenReturn(secondComicExample)
+
+        Mockito.`when`(
+            remoteCharacterRepository.getComicCharacters(9450)
+        ).thenReturn(listOf(characterExample))
+
+        Mockito.`when`(
+            remoteCreatorsRepository.getComicCreators(secondComicExample.creators)
+        ).thenReturn(listOf(creatorExample))
+
+        Mockito.`when`(
+            remoteCreatorsRepository.getComicCreators(secondComicExample.creators)
+        ).thenReturn(listOf(creatorExample))
+
+        Mockito.`when`(
+            localReadRepository.loadComicMark(9450)
+        ).thenReturn("unread")
+
+        composeTestRule.run {
+            setContent { MainScreen()}
+            onNode(HomeScreenTestObj.seeAllContinueTemplate).performClick()
+
+            onNode(AllScreen.AllTemplate).assertExists()
+            onNode(AllScreen.continueReadingCard).performClick()
+
+            onNode(AboutComicScreenTestObj(secondComicExample).titleTemplate).assertExists()
+        }
+    }
+
+    @Test
+    fun navigationToAllNextTest() = runTest{
+
+        composeTestRule.run {
+            setContent { MainScreen()}
+            onNode(HomeScreenTestObj.seeAllContinueTemplate).performClick()
+
+            onNode(AllScreen.AllTemplate).assertExists()
+            onNode(AllScreen.continueReadingCard).assertExists()
         }
     }
 
