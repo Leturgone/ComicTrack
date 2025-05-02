@@ -10,7 +10,7 @@ import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.domain.model.SeriesModel
 
 
-object HomeScreen{
+object HomeScreenTestObj{
     val newReleasesTemplate = (hasText("New releases")) and hasNoClickAction()
     val newReleasesCard = hasContentDescription("${comicExample.title}  current cover")
     val continueReadingTemplate = (hasText("Continue reading")) and hasNoClickAction()
@@ -19,7 +19,7 @@ object HomeScreen{
     val seeAllContinueTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeAllContinueReading")
 }
 
-object SearchScreen{
+object SearchScreenTestObj{
     val searchTemplate = (hasText("Search comics")) and hasNoClickAction()
     val searchBar = (hasText("Search")) and hasTestTag("searchBar")
     val mayLikeTemplate = (hasText("May like")) and hasNoClickAction()
@@ -33,7 +33,7 @@ object SearchScreen{
     val characterList = hasContentDescription("  current cover")
 }
 
-object LibraryScreen{
+object LibraryScreenTestObj{
     val libraryTemplate = (hasText("My Library")) and hasNoClickAction()
     val comicsTemplate = (hasText("Comics")) and hasClickAction()
     val seriesTemplate = (hasText("Series")) and hasClickAction()
@@ -48,7 +48,7 @@ object LibraryScreen{
 
 }
 
-class AboutCharacterScreen(character:CharacterModel){
+class AboutCharacterScreenTestObj(character:CharacterModel){
     val characterTemplate = (hasText(character.name))
     val descTemplate = (hasText("DESCRIPTION"))
     val characterDesc = hasText(character.desc)
@@ -58,7 +58,7 @@ class AboutCharacterScreen(character:CharacterModel){
 
 }
 
-class AboutComicScreen(comic: ComicModel) {
+class AboutComicScreenTestObj(comic: ComicModel) {
     val titleTemplate = hasText(comic.title)
     val seriesTemplate = hasText("SERIES")
     val seriesTitleTemplate = hasText(comic.seriesTitle)
@@ -98,7 +98,7 @@ class AboutSeriesScreen(series: SeriesModel) {
 object AllScreen{
     val AllTemplate = hasText("All")
     val newReleasesCard = hasContentDescription("${comicExample.title}  current cover")
-    val continueReadingList = hasContentDescription("${secondComicExample.title}  current cover")
+    val continueReadingCard = hasContentDescription("${secondComicExample.title}  current cover")
 }
 object AllComicScreen{
     val AllTemplate = hasText("All Comics")
