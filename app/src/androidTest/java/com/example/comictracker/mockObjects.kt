@@ -82,7 +82,23 @@ val creatorExample =  CreatorModel(
     role = "writer"
 )
 
-
+val secondSeriesExample = SeriesModel(
+    seriesId=3897,
+    title="Daredevil: The Man Without Fear (1993)",
+    date="1993 - 1993",
+    desc=null,
+    image="http://i.annihil.us/u/prod/marvel/i/mg/3/c0/5d924c45980e1.jpg",
+    comics= listOf(20750, 20751, 20752, 20753, 20754),
+    creators= listOf(
+        Pair(17, "writer"), Pair(13196, "penciler"),
+        Pair(1759, "letterer"), Pair(6758, "colorist"),
+        Pair(397, "inker")
+    ),
+    characters= listOf(1009262, 1009288, 1010786, 1009389),
+    connectedSeries = listOf(null, null),
+    readMark="unread",
+    favoriteMark=false
+)
 
 
 
