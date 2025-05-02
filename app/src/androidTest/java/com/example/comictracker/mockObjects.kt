@@ -2,6 +2,7 @@ package com.example.comictracker
 
 import com.example.comictracker.domain.model.CharacterModel
 import com.example.comictracker.domain.model.ComicModel
+import com.example.comictracker.domain.model.CreatorModel
 import com.example.comictracker.domain.model.SeriesModel
 
 val seriesExample = SeriesModel(
@@ -72,6 +73,13 @@ val characterExample = CharacterModel(
         21112, 16450, 6079, 27392, 9790, 24380, 13896,
         4897, 20443, 2116, 454, 1489, 2984, 41609, 318,
         6056, 14818, 14779, 42695, 9792)
+)
+
+val creatorExample =  CreatorModel(
+    creatorId = 1178,
+    name = "Name",
+    image = "http://i.annihil.us/u/prod/marvel/i/mg/9/c0/527bb7b37ff55.jpg",
+    role = "writer"
 )
 
 
