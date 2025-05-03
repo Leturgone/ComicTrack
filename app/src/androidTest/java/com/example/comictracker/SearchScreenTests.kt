@@ -146,7 +146,20 @@ class SearchScreenTests {
     }
 
     @Test
-    fun navigateToAllDiscoverTest(){}
+    fun navigateToAllDiscoverTest(){
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(BottomBarTestObj.searchTemplate).assertExists()
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.seeAllDiscoverTemplate).performClick()
+
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.discoverSeriesCard).assertExists()
+
+        }
+    }
 
     @Test
     fun navigateToCharacterTest(){}
