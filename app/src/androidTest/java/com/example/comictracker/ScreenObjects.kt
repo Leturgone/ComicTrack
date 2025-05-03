@@ -112,6 +112,7 @@ object AllScreenTestObj{
     val continueReadingCard = hasContentDescription("${secondComicExample.title}  current cover")
     val mayLikeSeriesCard = hasContentDescription("${secondSeriesExample.title}  current cover")
     val discoverSeriesCard = hasContentDescription("${seriesExample.title}  current cover")
+    val allCharacters =  hasContentDescription("${characterExample.name} character")
 }
 object AllComicFromSeriesScreenTestObj{
     val AllTemplate = hasText("All Comics")
