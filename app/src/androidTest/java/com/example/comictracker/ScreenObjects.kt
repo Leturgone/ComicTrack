@@ -32,16 +32,16 @@ object BottomBarTestObj{
 
 object SearchScreenTestObj{
     val searchTemplate = (hasText("Search comics")) and hasNoClickAction()
-    val searchBar = (hasText("Search")) and hasTestTag("searchBar")
+    val searchBar =  hasTestTag("searchBar")
     val mayLikeTemplate = (hasText("May like")) and hasNoClickAction()
-    val mayLikeList = hasContentDescription("  current cover")
-    val seeAllMayLikeTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeMayLike")
+    val mayLikeList = hasContentDescription("${secondSeriesExample.title}  current cover")
+    val seeAllMayLikeTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeAllMayLike")
     val discoverSeriesTemplate = (hasText("Discover series")) and hasNoClickAction()
     val seeAllDiscoverTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeAllDiscover")
-    val discoverList = hasContentDescription("  current cover")
+    val discoverList = hasContentDescription("${seriesExample.title}  current cover")
     val charactersTemplate = (hasText("Characters")) and hasNoClickAction()
     val seeAllCharactersTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeAllCharacters")
-    val characterList = hasContentDescription("  current cover")
+    val characterList = hasContentDescription("${characterExample.name} character")
 }
 
 object LibraryScreenTestObj{
