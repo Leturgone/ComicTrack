@@ -83,7 +83,7 @@ class AboutComicScreenTestObj(comic: ComicModel) {
     val charactersList = hasText("character")
 }
 
-class AboutSeriesScreen(series: SeriesModel) {
+class AboutSeriesScreenTestObj(series: SeriesModel) {
     val titleTemplate = hasText(series.title ?: "No title")
     val dateTemplate = hasText("DATE")
     val comicDateTemplate = hasText(series.date?:"No date")
