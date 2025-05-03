@@ -82,8 +82,17 @@ class SearchScreenTests {
             onNode(BottomBarTestObj.searchTemplate).assertExists()
             onNode(BottomBarTestObj.searchTemplate).performClick()
 
-            on
-
+            onNode(SearchScreenTestObj.searchTemplate).assertExists()
+            onNode(SearchScreenTestObj.searchBar).assertExists()
+            onNode(SearchScreenTestObj.mayLikeTemplate).assertExists()
+            onNode(SearchScreenTestObj.seeAllMayLikeTemplate).assertExists()
+            onNode(SearchScreenTestObj.mayLikeList).assertExists()
+            onNode(SearchScreenTestObj.discoverSeriesTemplate).assertExists()
+            onNode(SearchScreenTestObj.seeAllDiscoverTemplate).assertExists()
+            onNode(SearchScreenTestObj.discoverList).assertExists()
+            onNode(SearchScreenTestObj.charactersTemplate).assertExists()
+            onNode(SearchScreenTestObj.seeAllCharactersTemplate).assertExists()
+            onNode(SearchScreenTestObj.characterList).assertExists()
         }
     }
 
