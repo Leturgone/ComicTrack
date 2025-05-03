@@ -96,6 +96,32 @@ class SearchScreenTests {
         }
     }
 
+    @Test
+    fun navigateToMayLikeTest(){}
+
+    @Test
+    fun navigateToAllMayLikeTest(){}
+
+    @Test
+    fun navigateToDiscoverTest(){}
+
+    @Test
+    fun navigateToAllDiscoverTest(){}
+
+    @Test
+    fun navigateToCharacterTest(){}
+
+    @Test
+    fun navigateToAllCharacterTest(){}
+
+    @Test
+    fun searchSeriesCharacterTest(){}
+
+    @Test
+    fun searchSeriesTest(){}
+
+    @Test
+    fun errorSearchTest(){}
 
 
 }
