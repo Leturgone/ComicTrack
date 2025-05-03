@@ -111,6 +111,7 @@ class SearchScreenTests {
 
             onNode(SearchScreenTestObj.mayLikeList).performClick()
             onNode(AboutSeriesScreenTestObj(secondSeriesExample).titleTemplate).assertExists()
+
         }
     }
 
@@ -126,12 +127,22 @@ class SearchScreenTests {
 
             onNode(AllScreenTestObj.AllTemplate).assertExists()
             onNode(AllScreenTestObj.mayLikeSeriesCard).assertExists()
+
         }
     }
 
     @Test
     fun navigateToDiscoverTest(){
-        composeTestRule.run {  }
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(BottomBarTestObj.searchTemplate).assertExists()
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.discoverList).performClick()
+            onNode(AboutSeriesScreenTestObj(seriesExample).titleTemplate).assertExists()
+
+        }
     }
 
     @Test
