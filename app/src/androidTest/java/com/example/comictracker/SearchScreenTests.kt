@@ -4,6 +4,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
 import com.example.comictracker.data.database.enteties.SeriesEntity
 import com.example.comictracker.di.AppModule
+import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.domain.repository.local.LocalReadRepository
 import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
 import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
@@ -29,11 +30,20 @@ class SearchScreenTests {
     @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
 
+    private val newReleasesMockList = listOf(comicExample)
+
+    private val continueReadingMockList = listOf(secondComicExample)
+
     private val mayLikeSeriesList = listOf(secondSeriesExample)
 
     private val discoverSeriesList = listOf(seriesExample)
 
-    private val characterList = listOf(characterExample)
+    private val characterList = listOf(
+        characterExample,
+        characterExample.copy(name = "ch1"),
+        characterExample.copy(name = "ch2"),
+        characterExample.copy(name = "ch3")
+    )
 
     @Inject
     lateinit var remoteComicRepository: RemoteComicsRepository
@@ -50,9 +60,38 @@ class SearchScreenTests {
     @Inject
     lateinit var remoteSeriesRepository: RemoteSeriesRepository
 
+    private lateinit var mockHelper:MockHelper
+
+
+
     @Before
     fun setUp() = runTest{
         hiltRule.inject()
+
+        mockHelper = MockHelper(
+            remoteSeriesRepository = remoteSeriesRepository,
+            remoteComicsRepository = remoteComicRepository,
+            remoteCharacterRepository = remoteCharacterRepository,
+            remoteCreatorsRepository = remoteCreatorsRepository,
+            localReadRepository = localReadRepository,
+        )
+
+        Mockito.`when`(
+            localReadRepository.loadCurrentReadIds(0)
+        ).thenReturn(listOf(1, 2, 3))
+
+        Mockito.`when`(
+            localReadRepository.loadNextReadComicIds(0)
+        ).thenReturn(listOf(1, 2, 3))
+
+        Mockito.`when`(
+            remoteComicRepository.fetchUpdatesForSeries(listOf(1, 2, 3))
+        ).thenReturn(newReleasesMockList)
+
+        Mockito.`when`(
+            remoteComicRepository.fetchComics(listOf(1, 2, 3))
+        ).thenReturn(continueReadingMockList)
+
 
         //Discover list mock
         Mockito.`when`(
@@ -76,7 +115,7 @@ class SearchScreenTests {
         //Character list mock
         Mockito.`when`(
             remoteCharacterRepository.getAllCharacters()
-        ).thenReturn(listOf(characterExample))
+        ).thenReturn(characterList)
     }
 
     @Test
@@ -101,10 +140,15 @@ class SearchScreenTests {
         }
     }
 
+
+
+
     @Test
-    fun navigateToMayLikeTest(){
+    fun navigateToMayLikeTest() = runTest(){
         composeTestRule.run {
             setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUp(secondSeriesExample)
 
             onNode(BottomBarTestObj.searchTemplate).assertExists()
             onNode(BottomBarTestObj.searchTemplate).performClick()
@@ -132,9 +176,11 @@ class SearchScreenTests {
     }
 
     @Test
-    fun navigateToDiscoverTest(){
+    fun navigateToDiscoverTest() = runTest{
         composeTestRule.run {
             setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUp(seriesExample)
 
             onNode(BottomBarTestObj.searchTemplate).assertExists()
             onNode(BottomBarTestObj.searchTemplate).performClick()
@@ -162,7 +208,9 @@ class SearchScreenTests {
     }
 
     @Test
-    fun navigateToCharacterTest(){}
+    fun navigateToCharacterTest(){
+
+    }
 
     @Test
     fun navigateToAllCharacterTest(){}
