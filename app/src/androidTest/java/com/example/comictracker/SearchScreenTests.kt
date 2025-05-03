@@ -2,6 +2,7 @@ package com.example.comictracker
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
+import com.example.comictracker.data.database.enteties.SeriesEntity
 import com.example.comictracker.di.AppModule
 import com.example.comictracker.domain.repository.local.LocalReadRepository
 import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
@@ -53,10 +54,12 @@ class SearchScreenTests {
     fun setUp() = runTest{
         hiltRule.inject()
 
+        //Discover list mock
         Mockito.`when`(
             remoteSeriesRepository.getAllSeries()
         ).thenReturn(discoverSeriesList)
 
+        //MayLike list mock
         Mockito.`when`(
             localReadRepository.loadAllReadSeriesIds(0)
         ).thenReturn(listOf(1,2,3))
@@ -65,10 +68,12 @@ class SearchScreenTests {
             remoteSeriesRepository.loadMayLikeSeriesIds(listOf(1,2,3))
         ).thenReturn(listOf(1))
 
+
         Mockito.`when`(
             remoteSeriesRepository.fetchSeries(listOf(1))
         ).thenReturn(mayLikeSeriesList)
 
+        //Character list mock
         Mockito.`when`(
             remoteCharacterRepository.getAllCharacters()
         ).thenReturn(listOf(characterExample))
@@ -97,7 +102,17 @@ class SearchScreenTests {
     }
 
     @Test
-    fun navigateToMayLikeTest(){}
+    fun navigateToMayLikeTest(){
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(BottomBarTestObj.searchTemplate).assertExists()
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.mayLikeList).performClick()
+            onNode(AboutSeriesScreenTestObj(secondSeriesExample).titleTemplate).assertExists()
+        }
+    }
 
     @Test
     fun navigateToAllMayLikeTest(){}
