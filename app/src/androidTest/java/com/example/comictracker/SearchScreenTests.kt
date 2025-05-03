@@ -115,10 +115,24 @@ class SearchScreenTests {
     }
 
     @Test
-    fun navigateToAllMayLikeTest(){}
+    fun navigateToAllMayLikeTest(){
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(BottomBarTestObj.searchTemplate).assertExists()
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.seeAllMayLikeTemplate).performClick()
+
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.mayLikeSeriesCard).assertExists()
+        }
+    }
 
     @Test
-    fun navigateToDiscoverTest(){}
+    fun navigateToDiscoverTest(){
+        composeTestRule.run {  }
+    }
 
     @Test
     fun navigateToAllDiscoverTest(){}
