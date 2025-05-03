@@ -35,7 +35,7 @@ object SearchScreenTestObj{
     val searchBar = (hasText("Search")) and hasTestTag("searchBar")
     val mayLikeTemplate = (hasText("May like")) and hasNoClickAction()
     val mayLikeList = hasContentDescription("  current cover")
-    val seeAllNewTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeMayLike")
+    val seeAllMayLikeTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeMayLike")
     val discoverSeriesTemplate = (hasText("Discover series")) and hasNoClickAction()
     val seeAllDiscoverTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeAllDiscover")
     val discoverList = hasContentDescription("  current cover")
