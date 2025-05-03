@@ -106,17 +106,18 @@ class AboutSeriesScreenTestObj(series: SeriesModel) {
     val noConnectedList = hasText("No connected series")
 }
 
-object AllScreen{
+object AllScreenTestObj{
     val AllTemplate = hasText("All")
     val newReleasesCard = hasContentDescription("${comicExample.title}  current cover")
     val continueReadingCard = hasContentDescription("${secondComicExample.title}  current cover")
+    val mayLikeSeriesCard = hasContentDescription("${secondSeriesExample.title}  current cover")
 }
-object AllComicScreen{
+object AllComicFromSeriesScreenTestObj{
     val AllTemplate = hasText("All Comics")
 
 }
 
-object SearchResultScreen{
+object SearchResultScreenTestObj{
     val searchResultTemplate = hasText("Search result")
     val updateButton = hasText("Update") and hasClickAction()
     val notFoundErrorText = hasText("Not found")

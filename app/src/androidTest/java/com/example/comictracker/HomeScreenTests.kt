@@ -83,7 +83,7 @@ class HomeScreenTests {
 
             onNode(HomeScreenTestObj.seeAllNewTemplate).performClick()
 
-            onNode(AllScreen.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
         }
     }
 
@@ -94,8 +94,8 @@ class HomeScreenTests {
             setContent { MainScreen()}
             onNode(HomeScreenTestObj.seeAllNewTemplate).performClick()
 
-            onNode(AllScreen.AllTemplate).assertExists()
-            onNode(AllScreen.newReleasesCard).assertExists()
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.newReleasesCard).assertExists()
         }
 
     }
@@ -128,8 +128,8 @@ class HomeScreenTests {
             setContent { MainScreen()}
             onNode(HomeScreenTestObj.seeAllNewTemplate).performClick()
 
-            onNode(AllScreen.AllTemplate).assertExists()
-            onNode(AllScreen.newReleasesCard).performClick()
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.newReleasesCard).performClick()
             onNode(AboutComicScreenTestObj(comicExample).titleTemplate).assertExists()
         }
     }
@@ -161,8 +161,8 @@ class HomeScreenTests {
             setContent { MainScreen()}
             onNode(HomeScreenTestObj.seeAllContinueTemplate).performClick()
 
-            onNode(AllScreen.AllTemplate).assertExists()
-            onNode(AllScreen.continueReadingCard).performClick()
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.continueReadingCard).performClick()
 
             onNode(AboutComicScreenTestObj(secondComicExample).titleTemplate).assertExists()
         }
@@ -175,8 +175,8 @@ class HomeScreenTests {
             setContent { MainScreen()}
             onNode(HomeScreenTestObj.seeAllContinueTemplate).performClick()
 
-            onNode(AllScreen.AllTemplate).assertExists()
-            onNode(AllScreen.continueReadingCard).assertExists()
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.continueReadingCard).assertExists()
         }
     }
 
