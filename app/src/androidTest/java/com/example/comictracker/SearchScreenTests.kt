@@ -208,12 +208,36 @@ class SearchScreenTests {
     }
 
     @Test
-    fun navigateToCharacterTest(){
+    fun navigateToCharacterTest() = runTest{
+
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(BottomBarTestObj.searchTemplate).assertExists()
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            Mockito.`when`(
+                remoteCharacterRepository.getCharacterById(characterExample.characterId)
+            ).thenReturn(characterExample)
+
+            Mockito.`when`(
+                remoteSeriesRepository.getCharacterSeries(characterExample.characterId)
+            ).thenReturn(emptyList())
+
+            onNode(SearchScreenTestObj.characterList).performClick()
+
+            onNode(AboutCharacterScreenTestObj(characterExample).characterTemplate).assertExists()
+
+
+        }
 
     }
 
     @Test
-    fun navigateToAllCharacterTest(){}
+    fun navigateToAllCharacterTest(){
+
+
+    }
 
     @Test
     fun searchSeriesCharacterTest(){}
