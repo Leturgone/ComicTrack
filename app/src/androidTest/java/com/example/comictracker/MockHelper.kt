@@ -60,6 +60,28 @@ class MockHelper(
             ).thenReturn(null)
         }
 
+    }
+
+    suspend fun mockHomeScreenSetUp(){
+        localReadRepository?.let {
+            Mockito.`when`(
+                localReadRepository.loadCurrentReadIds(0)
+            ).thenReturn(listOf(1, 2, 3))
+
+            Mockito.`when`(
+                localReadRepository.loadNextReadComicIds(0)
+            ).thenReturn(listOf(1, 2, 3))
+        }
+
+        remoteComicsRepository?.let {
+            Mockito.`when`(
+                remoteComicsRepository.fetchUpdatesForSeries(listOf(1, 2, 3))
+            ).thenReturn(listOf(comicExample))
+
+            Mockito.`when`(
+                remoteComicsRepository.fetchComics(listOf(1, 2, 3))
+            ).thenReturn(listOf(secondComicExample))
+        }
 
     }
 }
