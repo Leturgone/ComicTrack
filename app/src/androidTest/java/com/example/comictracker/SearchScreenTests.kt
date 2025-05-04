@@ -376,7 +376,36 @@ class SearchScreenTests {
     }
 
     @Test
-    fun searchResultSeriesNavigationTest(){}
+    fun searchResultSeriesNavigationTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUp(seriesExample)
+
+            Mockito.`when`(
+                remoteCharacterRepository.getCharactersByName("Daredevil")
+            ).thenReturn(listOf(characterExample))
+
+            Mockito.`when`(
+                remoteSeriesRepository.getSeriesByTitle("Daredevil")
+            ).thenReturn(listOf(seriesExample))
+
+
+            onNode(BottomBarTestObj.searchTemplate).assertExists()
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.searchEditText).assertExists()
+
+            onNode(SearchScreenTestObj.searchEditText).performTextInput("Daredevil")
+            onNode(SearchScreenTestObj.searchBar).performClick()
+
+            onNode(SearchResultScreenTestObj.searchResultTemplate).assertExists()
+            onNode(SearchResultScreenTestObj.resSeriesCard).performClick()
+
+            onNode(AboutSeriesScreenTestObj(seriesExample).titleTemplate).assertExists()
+
+        }
+    }
 
 
 }
