@@ -125,6 +125,7 @@ object SearchResultScreenTestObj{
     val searchResultTemplate = hasText("Search result")
     val resCharacterCard = hasContentDescription("${characterExample.name} character")
     val resSeriesCard = hasContentDescription("${seriesExample.title}  current cover")
+    val characterNotFoundMessage = hasText("Characters not found")
     val updateButton = hasText("Update") and hasClickAction()
     val notFoundErrorText = hasText("Not found")
 }
