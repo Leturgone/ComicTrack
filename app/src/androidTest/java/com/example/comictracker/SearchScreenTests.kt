@@ -2,6 +2,7 @@ package com.example.comictracker
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTextInput
 import com.example.comictracker.data.database.enteties.SeriesEntity
 import com.example.comictracker.di.AppModule
 import com.example.comictracker.domain.model.SeriesModel
@@ -250,13 +251,44 @@ class SearchScreenTests {
     }
 
     @Test
-    fun searchSeriesCharacterTest(){}
+    fun searchSeriesCharacterTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            Mockito.`when`(
+                remoteCharacterRepository.getCharactersByName("Daredevil")
+            ).thenReturn(listOf(characterExample))
+
+            Mockito.`when`(
+                remoteSeriesRepository.getSeriesByTitle("Daredevil")
+            ).thenReturn(listOf(seriesExample))
+
+            onNode(BottomBarTestObj.searchTemplate).assertExists()
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.searchEditText).assertExists()
+
+            onNode(SearchScreenTestObj.searchEditText).performTextInput("Daredevil")
+            onNode(SearchScreenTestObj.searchBar).performClick()
+
+            onNode(SearchResultScreenTestObj.searchResultTemplate).assertExists()
+            onNode(SearchResultScreenTestObj.resCharacterCard).assertExists()
+            onNode(SearchResultScreenTestObj.resSeriesCard).assertExists()
+        }
+
+    }
 
     @Test
     fun searchSeriesTest(){}
 
     @Test
     fun errorSearchTest(){}
+
+    @Test
+    fun searchResultCharacterNavigationTest(){}
+
+    @Test
+    fun searchResultSeriesNavigationTest(){}
 
 
 }
