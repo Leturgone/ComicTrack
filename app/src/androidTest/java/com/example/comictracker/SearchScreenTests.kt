@@ -19,6 +19,8 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
+import org.mockito.kotlin.doThrow
+import java.lang.Exception
 import javax.inject.Inject
 
 
@@ -307,7 +309,34 @@ class SearchScreenTests {
     }
 
     @Test
-    fun errorSearchTest(){}
+    fun errorSearchTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            Mockito.`when`(
+                remoteCharacterRepository.getCharactersByName("")
+            ).thenThrow(RuntimeException("Simulated error"))
+
+            Mockito.`when`(
+                remoteSeriesRepository.getSeriesByTitle("")
+            ).thenThrow(RuntimeException("Simulated error"))
+
+            onNode(BottomBarTestObj.searchTemplate).assertExists()
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.searchEditText).assertExists()
+
+            onNode(SearchScreenTestObj.searchEditText).performTextInput("")
+            onNode(SearchScreenTestObj.searchBar).performClick()
+
+            onNode(SearchResultScreenTestObj.searchResultTemplate).assertExists()
+            onNode(SearchResultScreenTestObj.resCharacterCard).assertDoesNotExist()
+            onNode(SearchResultScreenTestObj.characterNotFoundMessage).assertDoesNotExist()
+            onNode(SearchResultScreenTestObj.resSeriesCard).assertDoesNotExist()
+            onNode(SearchResultScreenTestObj.updateButton).assertExists()
+            onNode(SearchResultScreenTestObj.notFoundErrorText).assertExists()
+        }
+    }
 
     @Test
     fun searchResultCharacterNavigationTest(){}
