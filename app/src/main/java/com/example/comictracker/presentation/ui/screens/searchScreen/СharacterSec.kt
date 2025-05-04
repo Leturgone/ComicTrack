@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -38,7 +39,7 @@ fun CharacterSec(characterList: List<CharacterModel>, navController: NavHostCont
         Box(modifier = Modifier.fillMaxWidth(),contentAlignment = Alignment.TopEnd){
             Text(text = stringResource(id = R.string.see_all),
                 color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier
+                modifier = Modifier.testTag("seeAllCharacters")
                     .clickable {
                         navController.navigate("all_characters/0")
                     }
@@ -92,7 +93,7 @@ fun CharacterCard(imageUrl: String, characterName: String,cardSize :Int,imageSiz
                 .padding(8.dp)) {
             AsyncImage(
                 model = imageUrl,
-                contentDescription = "character",
+                contentDescription = "$characterName character",
                 modifier = Modifier
                     .size(imageSize.dp)
                     .clip(CircleShape)
