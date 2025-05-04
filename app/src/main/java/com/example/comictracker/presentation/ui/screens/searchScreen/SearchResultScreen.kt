@@ -144,7 +144,7 @@ fun SearchSeriesCard(series: SeriesModel, clickFun:() -> Unit){
                     .height(200.dp)) {
                     AsyncImage(model = series.image,
                         contentScale = ContentScale.FillBounds,
-                        contentDescription = " ${series.seriesId} current cover",modifier = Modifier
+                        contentDescription = "${series.title}  current cover",modifier = Modifier
                             .width(145.dp)
                             .height(200.dp))
                 }
