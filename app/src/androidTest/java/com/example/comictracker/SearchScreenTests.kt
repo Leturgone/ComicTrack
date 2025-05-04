@@ -341,15 +341,38 @@ class SearchScreenTests {
     @Test
     fun searchResultCharacterNavigationTest() = runTest{
 
-        Mockito.`when`(
-            remoteCharacterRepository.getCharacterById(characterExample.characterId)
-        ).thenReturn(characterExample)
+        composeTestRule.run {
+            setContent { MainScreen() }
 
-        Mockito.`when`(
-            remoteSeriesRepository.getCharacterSeries(characterExample.characterId)
-        ).thenReturn(emptyList())
+            Mockito.`when`(
+                remoteCharacterRepository.getCharacterById(characterExample.characterId)
+            ).thenReturn(characterExample)
 
+            Mockito.`when`(
+                remoteSeriesRepository.getCharacterSeries(characterExample.characterId)
+            ).thenReturn(emptyList())
 
+            Mockito.`when`(
+                remoteCharacterRepository.getCharactersByName("Daredevil")
+            ).thenReturn(listOf(characterExample))
+
+            Mockito.`when`(
+                remoteSeriesRepository.getSeriesByTitle("Daredevil")
+            ).thenReturn(listOf(seriesExample))
+
+            onNode(BottomBarTestObj.searchTemplate).assertExists()
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.searchEditText).assertExists()
+
+            onNode(SearchScreenTestObj.searchEditText).performTextInput("Daredevil")
+            onNode(SearchScreenTestObj.searchBar).performClick()
+
+            onNode(SearchResultScreenTestObj.searchResultTemplate).assertExists()
+            onNode(SearchResultScreenTestObj.resCharacterCard).performClick()
+
+            onNode(AboutCharacterScreenTestObj(characterExample).characterTemplate).assertExists()
+        }
     }
 
     @Test
