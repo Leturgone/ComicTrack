@@ -339,7 +339,18 @@ class SearchScreenTests {
     }
 
     @Test
-    fun searchResultCharacterNavigationTest(){}
+    fun searchResultCharacterNavigationTest() = runTest{
+
+        Mockito.`when`(
+            remoteCharacterRepository.getCharacterById(characterExample.characterId)
+        ).thenReturn(characterExample)
+
+        Mockito.`when`(
+            remoteSeriesRepository.getCharacterSeries(characterExample.characterId)
+        ).thenReturn(emptyList())
+
+
+    }
 
     @Test
     fun searchResultSeriesNavigationTest(){}
