@@ -279,7 +279,32 @@ class SearchScreenTests {
     }
 
     @Test
-    fun searchSeriesTest(){}
+    fun searchSeriesTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            Mockito.`when`(
+                remoteCharacterRepository.getCharactersByName("Daredevil")
+            ).thenReturn(emptyList())
+
+            Mockito.`when`(
+                remoteSeriesRepository.getSeriesByTitle("Daredevil")
+            ).thenReturn(listOf(seriesExample))
+
+            onNode(BottomBarTestObj.searchTemplate).assertExists()
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.searchEditText).assertExists()
+
+            onNode(SearchScreenTestObj.searchEditText).performTextInput("Daredevil")
+            onNode(SearchScreenTestObj.searchBar).performClick()
+
+            onNode(SearchResultScreenTestObj.searchResultTemplate).assertExists()
+            onNode(SearchResultScreenTestObj.resCharacterCard).assertDoesNotExist()
+            onNode(SearchResultScreenTestObj.characterNotFoundMessage).assertExists()
+            onNode(SearchResultScreenTestObj.resSeriesCard).assertExists()
+        }
+    }
 
     @Test
     fun errorSearchTest(){}
