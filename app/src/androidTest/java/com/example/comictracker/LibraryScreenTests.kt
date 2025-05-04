@@ -116,5 +116,33 @@ class LibraryScreenTests {
         }
     }
 
+    @Test
+    fun navigateToAllComicsTest(){}
+
+    @Test
+    fun navigateToAllSeriesTest(){}
+
+    @Test
+    fun navigateToReadlistTest(){}
+
+    @Test
+    fun navigateToFavorites(){}
+
+    @Test
+    fun navigateToCurrentlyReading(){}
+
+    @Test
+    fun navigateToAllCurrentlyReading(){}
+
+    @Test
+    fun navigateToLastUpdates(){}
+
+    @Test
+    fun navigateToAllLastUpdates(){}
+
+
+
+
+
 
 }
