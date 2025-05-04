@@ -6,6 +6,7 @@ import androidx.compose.material.icons.rounded.Home
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasContentDescription
+import androidx.compose.ui.test.hasInsertTextAtCursorAction
 import androidx.compose.ui.test.hasNoClickAction
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.hasText
@@ -33,6 +34,7 @@ object BottomBarTestObj{
 object SearchScreenTestObj{
     val searchTemplate = (hasText("Search comics")) and hasNoClickAction()
     val searchBar =  hasTestTag("searchBar")
+    val searchEditText = hasText("Search") and hasInsertTextAtCursorAction()
     val mayLikeTemplate = (hasText("May like")) and hasNoClickAction()
     val mayLikeList = hasContentDescription("${secondSeriesExample.title}  current cover")
     val seeAllMayLikeTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeAllMayLike")
@@ -121,6 +123,8 @@ object AllComicFromSeriesScreenTestObj{
 
 object SearchResultScreenTestObj{
     val searchResultTemplate = hasText("Search result")
+    val resCharacterCard = hasContentDescription("${characterExample.name} character")
+    val resSeriesCard = hasContentDescription("${seriesExample.title}  current cover")
     val updateButton = hasText("Update") and hasClickAction()
     val notFoundErrorText = hasText("Not found")
 }
