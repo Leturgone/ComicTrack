@@ -218,7 +218,19 @@ class LibraryScreenTests {
     }
 
     @Test
-    fun navigateToAllCurrentlyReading(){}
+    fun navigateToAllCurrentlyReading(){
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+
+            onNode(BottomBarTestObj.libraryTemplate).assertExists()
+            onNode(BottomBarTestObj.libraryTemplate).performClick()
+
+            onNode(LibraryScreenTestObj.seeAllCurrentTemplate).performClick()
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.allCurrentlyCard).assertExists()
+        }
+    }
 
     @Test
     fun navigateToLastUpdates(){}
