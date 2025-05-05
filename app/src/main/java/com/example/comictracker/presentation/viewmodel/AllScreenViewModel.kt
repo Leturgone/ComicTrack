@@ -117,6 +117,14 @@ class AllScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AllSeriesScreenSate(DataState.Success(allSeries))
     }
 
+    private fun loadAllMayLikeSeriesScreen(loadedCount:Int) = viewModelScope.launch {
+        _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
+        val loadedIdsSeriesFromBD = localReadRepository.loadAllReadSeriesIds(loadedCount)
+        val mayLikeSeriesIds = remoteSeriesRepository.loadMayLikeSeriesIds(loadedIdsSeriesFromBD)
+        val mayLikeSeries = remoteSeriesRepository.fetchSeries(mayLikeSeriesIds)
+        _state.value = ComicAppState.AllSeriesScreenSate(DataState.Success(mayLikeSeries))
+    }
+
     private fun loadAll(sourceId: Int, sourceCat: String, loadedCount: Int) = viewModelScope.launch {
 
         when(sourceCat){
@@ -147,13 +155,13 @@ class AllScreenViewModel @Inject constructor(
 //                val series = seriesDef.await()
 //                _state.value = ComicAppState.AllSeriesScreenSate(series)
 //            }
-            "mayLike" ->{
-                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
-                val loadedIdsSeriesFromBD = localReadRepository.loadAllReadSeriesIds(loadedCount)
-                val mayLikeSeriesIds = remoteSeriesRepository.loadMayLikeSeriesIds(loadedIdsSeriesFromBD)
-                val mayLikeSeries = remoteSeriesRepository.fetchSeries(mayLikeSeriesIds)
-                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Success(mayLikeSeries))
-            }
+//            "mayLike" ->{
+//                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
+//                val loadedIdsSeriesFromBD = localReadRepository.loadAllReadSeriesIds(loadedCount)
+//                val mayLikeSeriesIds = remoteSeriesRepository.loadMayLikeSeriesIds(loadedIdsSeriesFromBD)
+//                val mayLikeSeries = remoteSeriesRepository.fetchSeries(mayLikeSeriesIds)
+//                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Success(mayLikeSeries))
+//            }
             "nextComics" ->{
                 _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
                 val loadedIdsNextReadComicFromBD = localReadRepository.loadNextReadComicIds(loadedCount)
