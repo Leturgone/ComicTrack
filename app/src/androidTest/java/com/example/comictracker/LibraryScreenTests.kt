@@ -233,7 +233,26 @@ class LibraryScreenTests {
     }
 
     @Test
-    fun navigateToLastUpdates(){}
+    fun navigateToLastUpdates() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            Mockito.`when`(
+                remoteSeriesRepository.fetchSeries(listOf(1))
+            ).thenReturn(emptyList())
+
+
+
+            mockHelper.mockComicScreenSetup(comicExample,"read")
+
+            onNode(BottomBarTestObj.libraryTemplate).assertExists()
+            onNode(BottomBarTestObj.libraryTemplate).performClick()
+
+            onNode(LibraryScreenTestObj.lastUpdatesList).assertExists().performClick()
+            onNode(AboutComicScreenTestObj(comicExample).titleTemplate).assertExists()
+            onNode(AboutComicScreenTestObj(comicExample).markUnreadTemplate).assertExists()
+        }
+    }
 
     @Test
     fun navigateToAllLastUpdates(){}
