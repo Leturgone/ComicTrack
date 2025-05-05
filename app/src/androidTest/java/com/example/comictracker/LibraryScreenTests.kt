@@ -117,10 +117,50 @@ class LibraryScreenTests {
     }
 
     @Test
-    fun navigateToAllComicsTest(){}
+    fun navigateToAllComicsTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+
+            Mockito.`when`(
+                localReadRepository.loadAllReadComicIds(0)
+            ).thenReturn(listOf(6))
+
+            Mockito.`when`(
+                remoteComicRepository.fetchComics(listOf(6))
+            ).thenReturn(listOf(secondComicExample))
+
+            onNode(BottomBarTestObj.libraryTemplate).assertExists()
+            onNode(BottomBarTestObj.libraryTemplate).performClick()
+
+            onNode(LibraryScreenTestObj.comicsTemplate).performClick()
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.allComicCard).assertExists()
+        }
+    }
 
     @Test
-    fun navigateToAllSeriesTest(){}
+    fun navigateToAllSeriesTest()= runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+
+            Mockito.`when`(
+                localReadRepository.loadAllReadSeriesIds(0)
+            ).thenReturn(listOf(5))
+
+            Mockito.`when`(
+                remoteSeriesRepository.fetchSeries(listOf(5))
+            ).thenReturn(listOf(secondSeriesExample))
+
+            onNode(BottomBarTestObj.libraryTemplate).assertExists()
+            onNode(BottomBarTestObj.libraryTemplate).performClick()
+
+            onNode(LibraryScreenTestObj.seriesTemplate).performClick()
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.allSeriesCard).assertExists()
+        }
+    }
 
     @Test
     fun navigateToReadlistTest(){}
