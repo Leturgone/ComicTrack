@@ -186,7 +186,20 @@ class LibraryScreenTests {
     }
 
     @Test
-    fun navigateToFavorites(){}
+    fun navigateToFavorites() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUp(secondSeriesExample)
+
+            onNode(BottomBarTestObj.libraryTemplate).assertExists()
+            onNode(BottomBarTestObj.libraryTemplate).performClick()
+
+            onNode(LibraryScreenTestObj.favoritesList).performClick()
+            onNode(AboutSeriesScreenTestObj(secondSeriesExample).titleTemplate).assertExists()
+            onNode(AboutSeriesScreenTestObj(secondSeriesExample).unreadTemplate).assertExists()
+        }
+    }
 
     @Test
     fun navigateToCurrentlyReading(){}
