@@ -132,6 +132,13 @@ class AllScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AllComicScreenSate(DataState.Success(newComics))
     }
 
+    private fun loadAllNextComicScreen(loadedCount:Int) = viewModelScope.launch {
+        _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
+        val loadedIdsNextReadComicFromBD = localReadRepository.loadNextReadComicIds(loadedCount)
+        val nextComics = remoteComicsRepository.fetchComics(loadedIdsNextReadComicFromBD)
+        _state.value = ComicAppState.AllComicScreenSate(DataState.Success(nextComics))
+    }
+
 
 
     private fun loadAll(sourceId: Int, sourceCat: String, loadedCount: Int) = viewModelScope.launch {
@@ -171,12 +178,12 @@ class AllScreenViewModel @Inject constructor(
 //                val mayLikeSeries = remoteSeriesRepository.fetchSeries(mayLikeSeriesIds)
 //                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Success(mayLikeSeries))
 //            }
-            "nextComics" ->{
-                _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
-                val loadedIdsNextReadComicFromBD = localReadRepository.loadNextReadComicIds(loadedCount)
-                val nextComics = remoteComicsRepository.fetchComics(loadedIdsNextReadComicFromBD)
-                _state.value = ComicAppState.AllComicScreenSate(DataState.Success(nextComics))
-            }
+//            "nextComics" ->{
+//                _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
+//                val loadedIdsNextReadComicFromBD = localReadRepository.loadNextReadComicIds(loadedCount)
+//                val nextComics = remoteComicsRepository.fetchComics(loadedIdsNextReadComicFromBD)
+//                _state.value = ComicAppState.AllComicScreenSate(DataState.Success(nextComics))
+//            }
 //            "newComic" ->{
 //                _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
 //                val loadedIdsSeriesFromBD = localReadRepository.loadCurrentReadIds(loadedCount)
