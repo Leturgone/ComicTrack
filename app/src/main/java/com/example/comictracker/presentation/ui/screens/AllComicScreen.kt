@@ -56,7 +56,18 @@ fun AllComicScreen(sourceId:Int,sourceCategory:String, loadCount:Int,
     var showToast by remember { mutableStateOf(false) }
 
     LaunchedEffect(key1 = sourceId) {
-        viewModel.processIntent(AllScreenIntent.LoadAllScreen(sourceId,sourceCategory,loadCount))
+        when(sourceCategory){
+            "characterSeries" ->{viewModel.processIntent(AllScreenIntent.LoadAllCharacterSeriesScreen(sourceId,loadCount))}
+            "discover" ->{viewModel.processIntent(AllScreenIntent.LoadAllDiscoverSeriesScreen(loadCount))}
+            "mayLike"->{viewModel.processIntent(AllScreenIntent.LoadAllMayLikeSeriesScreen(loadCount))}
+            "nextComics" -> {viewModel.processIntent(AllScreenIntent.LoadAllNextComicScreen(loadCount))}
+            "newComic" ->{viewModel.processIntent(AllScreenIntent.LoadAllNewComicScreen(loadCount))}
+            "lastComic" ->{viewModel.processIntent(AllScreenIntent.LoadAllLastComicScreen(loadCount))}
+            "currentReading" ->{viewModel.processIntent(AllScreenIntent.LoadAllCurrentReadingSeriesScreen(loadCount))}
+            "allLibComic" ->{viewModel.processIntent(AllScreenIntent.LoadAllLibComicScreen(loadCount))}
+            "allLibSeries" ->{viewModel.processIntent(AllScreenIntent.LoadAllLibSeriesScreen(loadCount))}
+            "readlist" ->{viewModel.processIntent(AllScreenIntent.LoadReadListScreen(loadCount))}
+        }
     }
 
     Box {
