@@ -125,6 +125,15 @@ class AllScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AllSeriesScreenSate(DataState.Success(mayLikeSeries))
     }
 
+    private fun loadAllNewComicScreen(loadedCount:Int) = viewModelScope.launch {
+        _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
+        val loadedIdsSeriesFromBD = localReadRepository.loadCurrentReadIds(loadedCount)
+        val newComics = remoteComicsRepository.fetchUpdatesForSeries(loadedIdsSeriesFromBD)
+        _state.value = ComicAppState.AllComicScreenSate(DataState.Success(newComics))
+    }
+
+
+
     private fun loadAll(sourceId: Int, sourceCat: String, loadedCount: Int) = viewModelScope.launch {
 
         when(sourceCat){
@@ -168,12 +177,12 @@ class AllScreenViewModel @Inject constructor(
                 val nextComics = remoteComicsRepository.fetchComics(loadedIdsNextReadComicFromBD)
                 _state.value = ComicAppState.AllComicScreenSate(DataState.Success(nextComics))
             }
-            "newComic" ->{
-                _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
-                val loadedIdsSeriesFromBD = localReadRepository.loadCurrentReadIds(loadedCount)
-                val newComics = remoteComicsRepository.fetchUpdatesForSeries(loadedIdsSeriesFromBD)
-                _state.value = ComicAppState.AllComicScreenSate(DataState.Success(newComics))
-            }
+//            "newComic" ->{
+//                _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
+//                val loadedIdsSeriesFromBD = localReadRepository.loadCurrentReadIds(loadedCount)
+//                val newComics = remoteComicsRepository.fetchUpdatesForSeries(loadedIdsSeriesFromBD)
+//                _state.value = ComicAppState.AllComicScreenSate(DataState.Success(newComics))
+//            }
 //            "lastComic" ->{
 //                _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
 //                val lastComicsFromBD = localReadRepository.loadHistory(loadedCount)
