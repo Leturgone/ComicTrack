@@ -96,6 +96,13 @@ class AllScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AllCharactersScreenSate(characters)
     }
 
+    private fun loadAllLastComicScreen(loadedCount:Int) = viewModelScope.launch {
+        _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
+        val lastComicsFromBD = localReadRepository.loadHistory(loadedCount)
+        val lastComics = remoteComicsRepository.fetchComics(lastComicsFromBD)
+        _state.value = ComicAppState.AllComicScreenSate(DataState.Success(lastComics))
+    }
+
     private fun loadAll(sourceId: Int, sourceCat: String, loadedCount: Int) = viewModelScope.launch {
 
         when(sourceCat){
@@ -145,13 +152,13 @@ class AllScreenViewModel @Inject constructor(
                 val newComics = remoteComicsRepository.fetchUpdatesForSeries(loadedIdsSeriesFromBD)
                 _state.value = ComicAppState.AllComicScreenSate(DataState.Success(newComics))
             }
-            "lastComic" ->{
-                _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
-                val lastComicsFromBD = localReadRepository.loadHistory(loadedCount)
-                val lastComics = remoteComicsRepository.fetchComics(lastComicsFromBD)
-                _state.value = ComicAppState.AllComicScreenSate(DataState.Success(lastComics))
-
-            }
+//            "lastComic" ->{
+//                _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
+//                val lastComicsFromBD = localReadRepository.loadHistory(loadedCount)
+//                val lastComics = remoteComicsRepository.fetchComics(lastComicsFromBD)
+//                _state.value = ComicAppState.AllComicScreenSate(DataState.Success(lastComics))
+//
+//            }
 //            "currentReading" ->{
 //                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
 //                val currentSeriesFromBD = localReadRepository.loadCurrentReadIds(loadedCount)
