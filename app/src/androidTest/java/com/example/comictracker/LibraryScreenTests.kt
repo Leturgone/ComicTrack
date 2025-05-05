@@ -202,7 +202,20 @@ class LibraryScreenTests {
     }
 
     @Test
-    fun navigateToCurrentlyReading(){}
+    fun navigateToCurrentlyReading() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUp(seriesExample)
+
+            onNode(BottomBarTestObj.libraryTemplate).assertExists()
+            onNode(BottomBarTestObj.libraryTemplate).performClick()
+
+            onNode(LibraryScreenTestObj.curReadList).performClick()
+            onNode(AboutSeriesScreenTestObj(seriesExample).titleTemplate).assertExists()
+            onNode(AboutSeriesScreenTestObj(seriesExample).unreadTemplate).assertExists()
+        }
+    }
 
     @Test
     fun navigateToAllCurrentlyReading(){}
@@ -212,10 +225,5 @@ class LibraryScreenTests {
 
     @Test
     fun navigateToAllLastUpdates(){}
-
-
-
-
-
 
 }
