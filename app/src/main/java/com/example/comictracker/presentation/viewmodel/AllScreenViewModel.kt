@@ -33,7 +33,31 @@ class AllScreenViewModel @Inject constructor(
         when(intent){
             is AllScreenIntent.LoadAllCharactersScreen -> loadAllCharactersScreen(intent.loadedCount)
             is AllScreenIntent.LoadAllScreen -> loadAll(intent.sourceId,intent.sourceCat,intent.loadedCount)
+            is AllScreenIntent.LoadAllCharacterSeriesScreen -> loadAllCharacterSeriesScreen(intent.characterId,intent.loadedCount)
+            is AllScreenIntent.LoadAllCurrentReadingSeriesScreen -> loadAllCurrentReadingSeriesScreen(intent.loadedCount)
+            is AllScreenIntent.LoadAllDiscoverSeriesScreen -> loadAllDiscoverSeriesScreen(intent.loadedCount)
+            is AllScreenIntent.LoadAllLastComicScreen -> loadAllLastComicScreen(intent.loadedCount)
+            is AllScreenIntent.LoadAllLibComicScreen -> loadAllLibComicScreen(intent.loadedCount)
+            is AllScreenIntent.LoadAllLibSeriesScreen -> loadAllLibSeriesScreen(intent.loadedCount)
+            is AllScreenIntent.LoadAllMayLikeSeriesScreen -> loadAllMayLikeSeriesScreen(intent.loadedCount)
+            is AllScreenIntent.LoadAllNewComicScreen -> loadAllNewComicScreen(intent.loadedCount)
+            is AllScreenIntent.LoadAllNextComicScreen -> loadAllNextComicScreen(intent.loadedCount)
+            is AllScreenIntent.LoadReadListScreen -> loadReadListScreen(intent.loadedCount)
         }
+    }
+
+    private fun loadAllCharacterSeriesScreen(characterId: Int,loadedCount:Int) = viewModelScope.launch{
+        _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
+        val seriesDef = async(Dispatchers.IO) {
+            try{
+                DataState.Success(remoteSeriesRepository.getCharacterSeries(characterId,loadedCount))
+            }catch (e:Exception){
+                Log.e("ViewModel","$e")
+                DataState.Error("Error loading comics with this character")
+            }
+        }
+        val series = seriesDef.await()
+        _state.value = ComicAppState.AllSeriesScreenSate(series)
     }
 
 
