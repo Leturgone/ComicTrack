@@ -32,7 +32,6 @@ class AllScreenViewModel @Inject constructor(
     fun processIntent(intent:AllScreenIntent){
         when(intent){
             is AllScreenIntent.LoadAllCharactersScreen -> loadAllCharactersScreen(intent.loadedCount)
-            is AllScreenIntent.LoadAllScreen -> loadAll(intent.sourceId,intent.sourceCat,intent.loadedCount)
             is AllScreenIntent.LoadAllCharacterSeriesScreen -> loadAllCharacterSeriesScreen(intent.characterId,intent.loadedCount)
             is AllScreenIntent.LoadAllCurrentReadingSeriesScreen -> loadAllCurrentReadingSeriesScreen(intent.loadedCount)
             is AllScreenIntent.LoadAllDiscoverSeriesScreen -> loadAllDiscoverSeriesScreen(intent.loadedCount)
@@ -139,88 +138,10 @@ class AllScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AllComicScreenSate(DataState.Success(nextComics))
     }
 
-
-
-    private fun loadAll(sourceId: Int, sourceCat: String, loadedCount: Int) = viewModelScope.launch {
-
-        when(sourceCat){
-//            "characterSeries" ->{
-//                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
-//                val seriesDef = async(Dispatchers.IO) {
-//                    try{
-//                        DataState.Success(remoteSeriesRepository.getCharacterSeries(sourceId,loadedCount))
-//                    }catch (e:Exception){
-//                        Log.e("ViewModel","$e")
-//                        DataState.Error("Error loading comics with this character")
-//                    }
-//                }
-//                val series = seriesDef.await()
-//                _state.value = ComicAppState.AllSeriesScreenSate(series)
-//
-//            }
-//            "discover" ->{
-//                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
-//                val seriesDef = async(Dispatchers.IO) {
-//                    try{
-//                        DataState.Success(remoteSeriesRepository.getAllSeries(loadedCount))
-//                    }catch (e:Exception){
-//                        Log.e("ViewModel","$e")
-//                        DataState.Error("Error loading comics with this character")
-//                    }
-//                }
-//                val series = seriesDef.await()
-//                _state.value = ComicAppState.AllSeriesScreenSate(series)
-//            }
-//            "mayLike" ->{
-//                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
-//                val loadedIdsSeriesFromBD = localReadRepository.loadAllReadSeriesIds(loadedCount)
-//                val mayLikeSeriesIds = remoteSeriesRepository.loadMayLikeSeriesIds(loadedIdsSeriesFromBD)
-//                val mayLikeSeries = remoteSeriesRepository.fetchSeries(mayLikeSeriesIds)
-//                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Success(mayLikeSeries))
-//            }
-//            "nextComics" ->{
-//                _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
-//                val loadedIdsNextReadComicFromBD = localReadRepository.loadNextReadComicIds(loadedCount)
-//                val nextComics = remoteComicsRepository.fetchComics(loadedIdsNextReadComicFromBD)
-//                _state.value = ComicAppState.AllComicScreenSate(DataState.Success(nextComics))
-//            }
-//            "newComic" ->{
-//                _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
-//                val loadedIdsSeriesFromBD = localReadRepository.loadCurrentReadIds(loadedCount)
-//                val newComics = remoteComicsRepository.fetchUpdatesForSeries(loadedIdsSeriesFromBD)
-//                _state.value = ComicAppState.AllComicScreenSate(DataState.Success(newComics))
-//            }
-//            "lastComic" ->{
-//                _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
-//                val lastComicsFromBD = localReadRepository.loadHistory(loadedCount)
-//                val lastComics = remoteComicsRepository.fetchComics(lastComicsFromBD)
-//                _state.value = ComicAppState.AllComicScreenSate(DataState.Success(lastComics))
-//
-//            }
-//            "currentReading" ->{
-//                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
-//                val currentSeriesFromBD = localReadRepository.loadCurrentReadIds(loadedCount)
-//                val currentSeries = remoteSeriesRepository.fetchSeries(currentSeriesFromBD)
-//                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Success(currentSeries))
-//            }
-//            "allLibComic" ->{
-//                _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
-//                val allComicsFromBD = localReadRepository.loadAllReadComicIds(loadedCount)
-//                val allComics = remoteComicsRepository.fetchComics(allComicsFromBD)
-//                _state.value = ComicAppState.AllComicScreenSate(DataState.Success(allComics))
-//            }
-//            "allLibSeries" ->{
-//                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
-//                val allSeriesFromBD = localReadRepository.loadAllReadSeriesIds(loadedCount)
-//                val allSeries = remoteSeriesRepository.fetchSeries(allSeriesFromBD)
-//                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Success(allSeries))
-//            }
-            "readlist" ->{
-                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
-                val readlistFromBD = localReadRepository.loadWillBeReadIds(loadedCount)
-                val readlist = remoteSeriesRepository.fetchSeries(readlistFromBD)
-                _state.value = ComicAppState.AllSeriesScreenSate(DataState.Success(readlist))
-            }
-        }
+    private fun loadReadListScreen(loadedCount:Int) = viewModelScope.launch {
+        _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
+        val readlistFromBD = localReadRepository.loadWillBeReadIds(loadedCount)
+        val readlist = remoteSeriesRepository.fetchSeries(readlistFromBD)
+        _state.value = ComicAppState.AllSeriesScreenSate(DataState.Success(readlist))
     }
 }
