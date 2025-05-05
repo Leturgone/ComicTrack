@@ -163,7 +163,27 @@ class LibraryScreenTests {
     }
 
     @Test
-    fun navigateToReadlistTest(){}
+    fun navigateToReadlistTest()= runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+
+            Mockito.`when`(
+                localReadRepository.loadWillBeReadIds(0)
+            ).thenReturn(listOf(7))
+
+            Mockito.`when`(
+                remoteSeriesRepository.fetchSeries(listOf(7))
+            ).thenReturn(listOf(seriesExample))
+
+            onNode(BottomBarTestObj.libraryTemplate).assertExists()
+            onNode(BottomBarTestObj.libraryTemplate).performClick()
+
+            onNode(LibraryScreenTestObj.readlistTemplate).performClick()
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.allReadlistCard).assertExists()
+        }
+    }
 
     @Test
     fun navigateToFavorites(){}
