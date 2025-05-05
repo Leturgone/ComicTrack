@@ -23,7 +23,6 @@ class AllScreenViewModel @Inject constructor(
     private val remoteSeriesRepository: RemoteSeriesRepository,
     private val remoteComicsRepository: RemoteComicsRepository,
     private val remoteCharacterRepository: RemoteCharacterRepository,
-    //private val localComicRepository: LocalComicRepository,
     private val localReadRepository: LocalReadRepository
 ): ViewModel(){
 
