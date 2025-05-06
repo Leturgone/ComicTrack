@@ -17,6 +17,7 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
+import org.mockito.kotlin.any
 import javax.inject.Inject
 
 
@@ -145,7 +146,34 @@ class ComicScreenTests {
     }
 
     @Test
-    fun markAsReadTest(){}
+    fun markAsReadTest() = runTest{
+        composeTestRule.run{
+            setContent{ MainScreen()}
+
+            onNode(HomeScreenTestObj.newReleasesCard).performClick()
+
+            mockHelper.mockComicScreenSetup(comicExample,"unread")
+
+            val comicScreenNode =AboutComicScreenTestObj(comicExample)
+
+            onNode(comicScreenNode.markReadTemplates).assertExists()
+
+
+            Mockito.`when`(
+                remoteComicRepository.getNextComicId(comicExample.seriesId, 1)
+            ).thenReturn(null)
+
+            Mockito.`when`(
+                localWriteRepository.markComicRead(comicExample.comicId, comicExample.seriesId,null)
+            ).thenReturn(true)
+
+            mockHelper.mockComicScreenSetup(comicExample,"read")
+            onNode(comicScreenNode.markReadTemplates).performClick()
+
+            onNode(comicScreenNode.markUnreadTemplate).assertExists()
+        }
+
+    }
 
     @Test
     fun markAsUnReadTest(){}
