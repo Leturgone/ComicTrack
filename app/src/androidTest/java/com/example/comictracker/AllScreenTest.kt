@@ -61,6 +61,8 @@ class AllScreenTest {
 
         //HomeScreen
         mockHelper.mockHomeScreenSetUp()
+
+
     }
 
     @Test
@@ -71,6 +73,24 @@ class AllScreenTest {
 
             onNode(AllScreenTestObj.AllTemplate).assertExists()
             onNode(AllScreenTestObj.newReleasesCard).assertExists()
+            onNode(AllScreenTestObj.nextButton).assertExists()
+        }
+    }
+
+    @Test
+    fun existTestAllSeries() = runTest{
+        composeTestRule.run {
+
+            //SearchScreen
+            mockHelper.mockSearchScreenSetup()
+
+            setContent { MainScreen() }
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.seeAllDiscoverTemplate).performClick()
+
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.discoverSeriesCard).assertExists()
             onNode(AllScreenTestObj.nextButton).assertExists()
         }
     }
