@@ -275,4 +275,62 @@ class AllScreenTest {
         }
 
     }
+
+    @Test
+    fun navigateToNextPageCharactersTest() = runTest(){
+        composeTestRule.run {
+
+            //SearchScreen
+            mockHelper.mockSearchScreenSetup()
+
+            Mockito.`when`(
+                remoteSeriesRepository.getAllSeries()
+            ).thenReturn(emptyList())
+
+            Mockito.`when`(
+                remoteCharacterRepository.getAllCharacters(9)
+            ).thenReturn(listOf(characterExample.copy(name = "ch12")))
+
+            setContent { MainScreen() }
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.seeAllCharactersTemplate).performClick()
+
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.allCharacters).assertExists()
+            onNode(AllScreenTestObj.nextButton).performClick()
+            onNode(AllScreenTestObj.charactersNextButtonCard).assertExists()
+        }
+    }
+
+    @Test
+    fun navigateToPreviousPageCharactersTest() = runTest(){
+        composeTestRule.run {
+
+            //SearchScreen
+            mockHelper.mockSearchScreenSetup()
+
+            Mockito.`when`(
+                remoteSeriesRepository.getAllSeries()
+            ).thenReturn(emptyList())
+
+            Mockito.`when`(
+                remoteCharacterRepository.getAllCharacters(9)
+            ).thenReturn(listOf(characterExample.copy(name = "ch12")))
+
+            setContent { MainScreen() }
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.seeAllCharactersTemplate).performClick()
+
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.allCharacters).assertExists()
+            onNode(AllScreenTestObj.nextButton).performClick()
+            onNode(AllScreenTestObj.charactersNextButtonCard).assertExists()
+            onNode(AllScreenTestObj.backButton).assertExists()
+            onNode(AllScreenTestObj.backButton).performClick()
+            onNode(AllScreenTestObj.allCharacters).assertExists()
+        }
+
+    }
 }
