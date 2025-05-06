@@ -49,7 +49,7 @@ fun AboutCreatorsAndCharactersSec(creators: List<CreatorModel>,
                         .padding(8.dp)) {
                         AsyncImage(
                             model = creator.image,
-                            contentDescription = "creator",
+                            contentDescription = "${creator.name} creator",
                             modifier = Modifier
                                 .size(50.dp)
                                 .clip(CircleShape)
