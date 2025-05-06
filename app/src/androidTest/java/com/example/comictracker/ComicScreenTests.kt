@@ -91,7 +91,27 @@ class ComicScreenTests {
     }
 
     @Test
-    fun navigateToSeriesTest(){}
+    fun navigateToSeriesTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(HomeScreenTestObj.newReleasesCard).performClick()
+
+            mockHelper.mockComicScreenSetup(comicExample,"read")
+
+            mockHelper.mockSeriesSetUp(seriesExample)
+
+            val comicScreenNode =AboutComicScreenTestObj(comicExample)
+
+            onNode(comicScreenNode.titleTemplate).assertExists()
+            onNode(comicScreenNode.seriesTemplate).assertExists()
+            onNode(comicScreenNode.seriesTitleTemplate).performClick()
+
+            onNode(AboutSeriesScreenTestObj(seriesExample).titleTemplate).assertExists()
+            onNode(AboutSeriesScreenTestObj(seriesExample).unreadTemplate).assertExists()
+
+        }
+    }
 
     @Test
     fun navigateToCharacterTest(){}
