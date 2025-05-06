@@ -67,6 +67,13 @@ class CharacterUiTest {
 
         mockHelper.mockComicScreenSetup(comicExample,"read")
 
+        Mockito.`when`(
+            remoteCharacterRepository.getCharacterById(characterExample.characterId)
+        ).thenReturn(characterExample)
+
+        Mockito.`when`(
+            remoteSeriesRepository.getCharacterSeries(characterExample.characterId)
+        ).thenReturn(listOf(seriesExample))
     }
 
     @Test
@@ -75,14 +82,6 @@ class CharacterUiTest {
 
             setContent { MainScreen() }
             onNode(HomeScreenTestObj.newReleasesCard).performClick()
-
-            Mockito.`when`(
-                remoteCharacterRepository.getCharacterById(characterExample.characterId)
-            ).thenReturn(characterExample)
-
-            Mockito.`when`(
-                remoteSeriesRepository.getCharacterSeries(characterExample.characterId)
-            ).thenReturn(listOf(seriesExample))
 
             val comicScreenNode =AboutComicScreenTestObj(comicExample)
 
@@ -98,9 +97,25 @@ class CharacterUiTest {
             onNode(characterScreenNode.allTemplate).assertExists()
             onNode(characterScreenNode.seeAllTemplate).assertExists()
             onNode(characterScreenNode.characterSeriesCard).assertExists()
+        }
+    }
 
+    @Test
+    fun navigateToCharacterSeriesTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+            mockHelper.mockSeriesSetUp(seriesExample)
+            onNode(HomeScreenTestObj.newReleasesCard).performClick()
 
+            val comicScreenNode =AboutComicScreenTestObj(comicExample)
 
+            val characterScreenNode = AboutCharacterScreenTestObj(characterExample)
+
+            onNode(comicScreenNode.charactersList).performClick()
+
+            onNode(characterScreenNode.characterSeriesCard).performClick()
+
+            onNode(AboutSeriesScreenTestObj(seriesExample).titleTemplate).assertExists()
         }
 
 
