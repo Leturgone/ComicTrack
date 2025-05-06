@@ -118,6 +118,25 @@ class CharacterUiTest {
             onNode(AboutSeriesScreenTestObj(seriesExample).titleTemplate).assertExists()
         }
 
+    }
 
+    @Test
+    fun navigateToAllCharacterSeries(){
+        composeTestRule.run {
+            setContent { MainScreen() }
+            onNode(HomeScreenTestObj.newReleasesCard).performClick()
+
+            val comicScreenNode =AboutComicScreenTestObj(comicExample)
+
+            val characterScreenNode = AboutCharacterScreenTestObj(characterExample)
+
+            onNode(comicScreenNode.charactersList).performClick()
+
+            onNode(characterScreenNode.seeAllTemplate).performClick()
+
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(characterScreenNode.characterTemplate).assertDoesNotExist()
+            onNode(AllScreenTestObj.allCharacterSeriesCard).assertExists()
+        }
     }
 }
