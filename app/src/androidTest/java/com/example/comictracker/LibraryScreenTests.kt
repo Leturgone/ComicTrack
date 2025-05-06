@@ -255,6 +255,22 @@ class LibraryScreenTests {
     }
 
     @Test
-    fun navigateToAllLastUpdates(){}
+    fun navigateToAllLastUpdates() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            Mockito.`when`(
+                remoteSeriesRepository.fetchSeries(listOf(1))
+            ).thenReturn(emptyList())
+
+            onNode(BottomBarTestObj.libraryTemplate).assertExists()
+            onNode(BottomBarTestObj.libraryTemplate).performClick()
+
+            onNode(LibraryScreenTestObj.seeAllLastTemplate).performClick()
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.allLastCard).assertExists()
+        }
+        
+    }
 
 }
