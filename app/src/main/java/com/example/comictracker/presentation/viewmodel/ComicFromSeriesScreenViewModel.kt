@@ -20,7 +20,6 @@ import javax.inject.Inject
 @HiltViewModel
 class ComicFromSeriesScreenViewModel @Inject constructor(
     private val remoteComicsRepository: RemoteComicsRepository,
-    //private val localComicRepository: LocalComicRepository,
     private val localWriteRepository: LocalWriteRepository,
     private val localReadRepository: LocalReadRepository
 ): ViewModel(){
