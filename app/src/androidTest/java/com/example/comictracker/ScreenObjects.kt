@@ -83,9 +83,9 @@ class AboutComicScreenTestObj(comic: ComicModel) {
     val markReadTemplates = hasText("Mark read")
     val markUnreadTemplate = hasText("Mark unread")
     val creatorsTemplate = hasText("Creators")
-    val creatorsList = hasText("creator")
+    val creatorsList = hasContentDescription("${creatorExample.name} creator")
     val charactersTemplate = hasText("Characters")
-    val charactersList = hasText("character")
+    val charactersList = hasContentDescription("${characterExample.name} character")
 }
 
 class AboutSeriesScreenTestObj(series: SeriesModel) {
