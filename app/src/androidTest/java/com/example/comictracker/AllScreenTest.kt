@@ -139,7 +139,29 @@ class AllScreenTest {
     }
 
     @Test
-    fun allCharactersScreenNavigateTest(){
+    fun allCharactersScreenNavigateTest() = runTest{
+        composeTestRule.run {
 
+            //SearchScreen
+            mockHelper.mockSearchScreenSetup()
+
+
+            Mockito.`when`(
+                remoteSeriesRepository.getAllSeries()
+            ).thenReturn(emptyList())
+
+            mockHelper.mockCharacterScreen(characterExample, emptyList())
+
+            setContent { MainScreen() }
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.seeAllCharactersTemplate).performClick()
+
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.allCharacters).performClick()
+
+            onNode(AboutCharacterScreenTestObj(characterExample).characterTemplate).assertExists()
+            onNode(AboutCharacterScreenTestObj(characterExample).descTemplate).assertExists()
+        }
     }
 }
