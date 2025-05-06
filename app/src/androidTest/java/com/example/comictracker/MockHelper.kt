@@ -113,4 +113,52 @@ class MockHelper(
         }
 
     }
+
+    suspend fun mockSearchScreenSetup(){
+
+
+        val mayLikeSeriesList = listOf(secondSeriesExample)
+
+        val discoverSeriesList = listOf(seriesExample)
+
+        val characterList = listOf(
+            characterExample,
+            characterExample.copy(name = "ch1"),
+            characterExample.copy(name = "ch2"),
+            characterExample.copy(name = "ch3")
+        )
+
+
+        remoteSeriesRepository?.let {
+            //Discover list mock
+            Mockito.`when`(
+                it.getAllSeries()
+            ).thenReturn(discoverSeriesList)
+
+            Mockito.`when`(
+                it.loadMayLikeSeriesIds(listOf(1,2,3))
+            ).thenReturn(listOf(1))
+
+            Mockito.`when`(
+                it.fetchSeries(listOf(1))
+            ).thenReturn(mayLikeSeriesList)
+
+        }
+
+        localReadRepository?.let {
+            //MayLike list mock
+            Mockito.`when`(
+                it.loadAllReadSeriesIds(0)
+            ).thenReturn(listOf(1,2,3))
+        }
+
+
+        remoteCharacterRepository?.let {
+            //Character list mock
+            Mockito.`when`(
+                it.getAllCharacters()
+            ).thenReturn(characterList)
+        }
+
+    }
 }
