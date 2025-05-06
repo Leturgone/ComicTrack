@@ -90,4 +90,16 @@ class ComicScreenTests {
         }
     }
 
+    @Test
+    fun navigateToSeriesTest(){}
+
+    @Test
+    fun navigateToCharacterTest(){}
+
+    @Test
+    fun markAsReadTest(){}
+
+    @Test
+    fun markAsUnReadTest(){}
+
 }
