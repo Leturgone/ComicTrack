@@ -3,7 +3,6 @@ package com.example.comictracker.presentation.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.repository.local.LocalReadRepository
-import com.example.comictracker.domain.repository.local.LocalWriteRepository
 import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
 import com.example.comictracker.domain.repository.remote.RemoteSeriesRepository
 import com.example.comictracker.presentation.mvi.ComicAppState
@@ -24,8 +23,6 @@ import javax.inject.Inject
 class LibraryScreenViewModel @Inject constructor(
     private val remoteSeriesRepository: RemoteSeriesRepository,
     private val remoteComicsRepository: RemoteComicsRepository,
-    //private val localComicRepository: LocalComicRepository,
-    private val localWriteRepository: LocalWriteRepository,
     private val localReadRepository: LocalReadRepository
 ):ViewModel() {
     private val _state = MutableStateFlow<ComicAppState>(ComicAppState.HomeScreenState())
@@ -45,38 +42,10 @@ class LibraryScreenViewModel @Inject constructor(
         val loadedCurrentlyReadingSeriesIdsFromBD = localReadRepository.loadCurrentReadIds(0)
         val loadedHistoryReadComicFromBD = localReadRepository.loadHistory(0)
 
-        val favoriteSeriesDef = loadedFavoriteSeriesIdsFromBD.map { id ->
-            async(Dispatchers.IO) {
-                try {
-                    remoteSeriesRepository.getSeriesById(id)
-                } catch (e: Exception) {
-                    null
-                }
-            }
-        }
-        val currentSeriesDef = loadedCurrentlyReadingSeriesIdsFromBD.map { id ->
-            async(Dispatchers.IO) {
-                try {
-                    remoteSeriesRepository.getSeriesById(id)
-                } catch (e: Exception) {
-                    null
-                }
-            }
-        }
 
-        val lastComicsDef = loadedHistoryReadComicFromBD.map { id ->
-            async(Dispatchers.IO) {
-                try {
-                    remoteComicsRepository.getComicById(id)
-                } catch (e: Exception) {
-                    null
-                }
-            }
-        }
-
-        val favoriteSeries = favoriteSeriesDef.awaitAll().filterNotNull()
-        val currentSeries = currentSeriesDef.awaitAll().filterNotNull()
-        val lastComics = lastComicsDef.awaitAll().filterNotNull()
+        val favoriteSeries = remoteSeriesRepository.fetchSeries(loadedFavoriteSeriesIdsFromBD)
+        val currentSeries = remoteSeriesRepository.fetchSeries(loadedCurrentlyReadingSeriesIdsFromBD)
+        val lastComics = remoteComicsRepository.fetchComics(loadedHistoryReadComicFromBD)
 
         _state.value = ComicAppState.MyLibraryScreenState(
             DataState.Success(

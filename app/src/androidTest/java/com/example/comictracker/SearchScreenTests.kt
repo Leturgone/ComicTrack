@@ -14,6 +14,7 @@ import com.example.comictracker.domain.repository.remote.RemoteSeriesRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
@@ -33,9 +34,6 @@ class SearchScreenTests {
     @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
 
-    private val newReleasesMockList = listOf(comicExample)
-
-    private val continueReadingMockList = listOf(secondComicExample)
 
     private val mayLikeSeriesList = listOf(secondSeriesExample)
 
@@ -79,21 +77,7 @@ class SearchScreenTests {
             localReadRepository = localReadRepository,
         )
 
-        Mockito.`when`(
-            localReadRepository.loadCurrentReadIds(0)
-        ).thenReturn(listOf(1, 2, 3))
-
-        Mockito.`when`(
-            localReadRepository.loadNextReadComicIds(0)
-        ).thenReturn(listOf(1, 2, 3))
-
-        Mockito.`when`(
-            remoteComicRepository.fetchUpdatesForSeries(listOf(1, 2, 3))
-        ).thenReturn(newReleasesMockList)
-
-        Mockito.`when`(
-            remoteComicRepository.fetchComics(listOf(1, 2, 3))
-        ).thenReturn(continueReadingMockList)
+        mockHelper.mockHomeScreenSetUp()
 
 
         //Discover list mock
@@ -216,6 +200,10 @@ class SearchScreenTests {
         composeTestRule.run {
             setContent { MainScreen() }
 
+            Mockito.`when`(
+                remoteSeriesRepository.fetchSeries(listOf(1))
+            ).thenReturn(emptyList())
+
             onNode(BottomBarTestObj.searchTemplate).assertExists()
             onNode(BottomBarTestObj.searchTemplate).performClick()
 
@@ -237,9 +225,12 @@ class SearchScreenTests {
     }
 
     @Test
-    fun navigateToAllCharacterTest(){
+    fun navigateToAllCharacterTest() = runTest{
         composeTestRule.run {
             setContent { MainScreen() }
+            Mockito.`when`(
+                remoteSeriesRepository.fetchSeries(listOf(1))
+            ).thenReturn(emptyList())
 
             onNode(BottomBarTestObj.searchTemplate).assertExists()
             onNode(BottomBarTestObj.searchTemplate).performClick()

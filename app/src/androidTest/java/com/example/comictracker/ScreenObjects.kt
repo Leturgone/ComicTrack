@@ -42,7 +42,7 @@ object SearchScreenTestObj{
     val seeAllDiscoverTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeAllDiscover")
     val discoverList = hasContentDescription("${seriesExample.title}  current cover")
     val charactersTemplate = (hasText("Characters")) and hasNoClickAction()
-    val seeAllCharactersTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeAllCharacters")
+    val seeAllCharactersTemplate = hasTestTag("seeAllCharacters")
     val characterList = hasContentDescription("${characterExample.name} character")
 }
 
@@ -52,11 +52,14 @@ object LibraryScreenTestObj{
     val seriesTemplate = (hasText("Series")) and hasClickAction()
     val readlistTemplate = (hasText("Readlist")) and hasClickAction()
     val favoriteTemplate = (hasText("Favorites")) and hasNoClickAction()
-    val favoritesList = hasContentDescription("  current cover")
+    val favoritesList = hasContentDescription("${secondSeriesExample.title}  current cover")
     val curReadTemplate = (hasText("Currently reading")) and hasNoClickAction()
-    val curReadList = hasContentDescription("  current cover")
+    val curReadList = hasContentDescription("${seriesExample.title}  current cover")
     val lastUpdatesTemplate = (hasText("Last updates")) and hasNoClickAction()
-    val lastUpdatesList = hasContentDescription("  current cover")
+    val lastUpdatesList = hasContentDescription("${comicExample.title}  current cover")
+    val seeAllCurrentTemplate =  (hasText("See all")) and hasClickAction() and hasTestTag("seeAllCurrent")
+    val seeAllLastTemplate =  (hasText("See all")) and hasClickAction() and hasTestTag("seeAllLast")
+
 
 
 }
@@ -115,6 +118,11 @@ object AllScreenTestObj{
     val mayLikeSeriesCard = hasContentDescription("${secondSeriesExample.title}  current cover")
     val discoverSeriesCard = hasContentDescription("${seriesExample.title}  current cover")
     val allCharacters =  hasContentDescription("${characterExample.name} character")
+    val allSeriesCard = hasContentDescription("${secondSeriesExample.title}  current cover")
+    val allComicCard = hasContentDescription("${secondComicExample.title}  current cover")
+    val allReadlistCard = hasContentDescription("${seriesExample.title}  current cover")
+    val allCurrentlyCard = hasContentDescription("${seriesExample.title}  current cover")
+    val allLastCard = hasContentDescription("${comicExample.title}  current cover")
 }
 object AllComicFromSeriesScreenTestObj{
     val AllTemplate = hasText("All Comics")

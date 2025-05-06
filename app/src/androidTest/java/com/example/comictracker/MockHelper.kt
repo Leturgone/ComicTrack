@@ -1,5 +1,6 @@
 package com.example.comictracker
 
+import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.domain.repository.local.LocalReadRepository
 import com.example.comictracker.domain.repository.local.LocalWriteRepository
@@ -60,6 +61,56 @@ class MockHelper(
             ).thenReturn(null)
         }
 
+    }
+
+    suspend fun mockHomeScreenSetUp(){
+        localReadRepository?.let {
+            Mockito.`when`(
+                localReadRepository.loadCurrentReadIds(0)
+            ).thenReturn(listOf(1, 2, 3))
+
+            Mockito.`when`(
+                localReadRepository.loadNextReadComicIds(0)
+            ).thenReturn(listOf(1, 2, 3))
+        }
+
+        remoteComicsRepository?.let {
+            Mockito.`when`(
+                remoteComicsRepository.fetchUpdatesForSeries(listOf(1, 2, 3))
+            ).thenReturn(listOf(comicExample))
+
+            Mockito.`when`(
+                remoteComicsRepository.fetchComics(listOf(1, 2, 3))
+            ).thenReturn(listOf(secondComicExample))
+        }
+
+    }
+
+    suspend fun mockComicScreenSetup(comic: ComicModel,mark:String){
+
+        remoteComicsRepository?.let {
+            Mockito.`when`(
+                it.getComicById(comic.comicId)
+            ).thenReturn(comic)
+        }
+
+        remoteCharacterRepository?.let {
+            Mockito.`when`(
+                it.getComicCharacters(comic.comicId)
+            ).thenReturn(listOf(characterExample))
+        }
+
+        remoteCreatorsRepository?.let {
+            Mockito.`when`(
+                it.getComicCreators(comic.creators)
+            ).thenReturn(listOf(creatorExample))
+        }
+
+        localReadRepository?.let {
+            Mockito.`when`(
+                localReadRepository.loadComicMark(comic.comicId)
+            ).thenReturn(mark)
+        }
 
     }
 }
