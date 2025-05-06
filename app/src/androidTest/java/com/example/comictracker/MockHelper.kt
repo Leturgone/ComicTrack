@@ -1,5 +1,6 @@
 package com.example.comictracker
 
+import com.example.comictracker.domain.model.CharacterModel
 import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.domain.repository.local.LocalReadRepository
@@ -86,6 +87,23 @@ class MockHelper(
 
     }
 
+    suspend fun mockCharacterScreen(characterExample:CharacterModel,list: List<SeriesModel>){
+
+        remoteCharacterRepository?.let {
+            Mockito.`when`(
+                it.getCharacterById(characterExample.characterId)
+            ).thenReturn(characterExample)
+        }
+
+        remoteSeriesRepository?.let {
+            Mockito.`when`(
+                it.getCharacterSeries(characterExample.characterId)
+            ).thenReturn(list)
+        }
+
+
+    }
+
     suspend fun mockComicScreenSetup(comic: ComicModel,mark:String){
 
         remoteComicsRepository?.let {
@@ -110,6 +128,54 @@ class MockHelper(
             Mockito.`when`(
                 localReadRepository.loadComicMark(comic.comicId)
             ).thenReturn(mark)
+        }
+
+    }
+
+    suspend fun mockSearchScreenSetup(){
+
+
+        val mayLikeSeriesList = listOf(secondSeriesExample)
+
+        val discoverSeriesList = listOf(seriesExample)
+
+        val characterList = listOf(
+            characterExample,
+            characterExample.copy(name = "ch1"),
+            characterExample.copy(name = "ch2"),
+            characterExample.copy(name = "ch3")
+        )
+
+
+        remoteSeriesRepository?.let {
+            //Discover list mock
+            Mockito.`when`(
+                it.getAllSeries()
+            ).thenReturn(discoverSeriesList)
+
+            Mockito.`when`(
+                it.loadMayLikeSeriesIds(listOf(1,2,3))
+            ).thenReturn(listOf(1))
+
+            Mockito.`when`(
+                it.fetchSeries(listOf(1))
+            ).thenReturn(mayLikeSeriesList)
+
+        }
+
+        localReadRepository?.let {
+            //MayLike list mock
+            Mockito.`when`(
+                it.loadAllReadSeriesIds(0)
+            ).thenReturn(listOf(1,2,3))
+        }
+
+
+        remoteCharacterRepository?.let {
+            //Character list mock
+            Mockito.`when`(
+                it.getAllCharacters()
+            ).thenReturn(characterList)
         }
 
     }
