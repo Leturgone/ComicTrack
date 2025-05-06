@@ -1,6 +1,7 @@
 package com.example.comictracker
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.performClick
 import com.example.comictracker.di.AppModule
 import com.example.comictracker.domain.repository.local.LocalReadRepository
 import com.example.comictracker.domain.repository.local.LocalWriteRepository
@@ -63,11 +64,14 @@ class AllScreenTest {
     }
 
     @Test
-    fun existTest(){
+    fun existTestAllComic(){
         composeTestRule.run {
             setContent { MainScreen() }
+            onNode(HomeScreenTestObj.seeAllNewTemplate).performClick()
 
-            onNode(HomeScreenTestObj.seeAllNewTemplate)
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.newReleasesCard).assertExists()
+            onNode(AllScreenTestObj.nextButton).assertExists()
         }
     }
 
