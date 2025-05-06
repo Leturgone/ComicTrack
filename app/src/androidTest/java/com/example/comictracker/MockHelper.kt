@@ -1,5 +1,6 @@
 package com.example.comictracker
 
+import com.example.comictracker.domain.model.CharacterModel
 import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.domain.repository.local.LocalReadRepository
@@ -83,6 +84,23 @@ class MockHelper(
                 remoteComicsRepository.fetchComics(listOf(1, 2, 3))
             ).thenReturn(listOf(secondComicExample))
         }
+
+    }
+
+    suspend fun mockCharacterScreen(characterExample:CharacterModel,list: List<SeriesModel>){
+
+        remoteCharacterRepository?.let {
+            Mockito.`when`(
+                it.getCharacterById(characterExample.characterId)
+            ).thenReturn(characterExample)
+        }
+
+        remoteSeriesRepository?.let {
+            Mockito.`when`(
+                it.getCharacterSeries(characterExample.characterId)
+            ).thenReturn(list)
+        }
+
 
     }
 
