@@ -119,7 +119,7 @@ class AllScreenTest {
     }
 
     @Test
-    fun navigateToNextPageTest() = runTest(){
+    fun navigateToNextPageComicsTest() = runTest(){
         composeTestRule.run {
             setContent { MainScreen() }
             onNode(HomeScreenTestObj.seeAllNewTemplate).performClick()
@@ -140,7 +140,7 @@ class AllScreenTest {
     }
 
     @Test
-    fun navigateToPreviousPageTest() = runTest(){
+    fun navigateToPreviousPageComicsTest() = runTest(){
         composeTestRule.run {
             setContent { MainScreen() }
             onNode(HomeScreenTestObj.seeAllNewTemplate).performClick()
@@ -196,8 +196,6 @@ class AllScreenTest {
             onNode(AllScreenTestObj.newReleasesCard).performClick()
 
             onNode(AboutComicScreenTestObj(comicExample).titleTemplate).assertExists()
-
-
         }
     }
 
@@ -226,5 +224,55 @@ class AllScreenTest {
             onNode(AboutCharacterScreenTestObj(characterExample).characterTemplate).assertExists()
             onNode(AboutCharacterScreenTestObj(characterExample).descTemplate).assertExists()
         }
+    }
+
+    @Test
+    fun navigateToNextPageSeriesTest() = runTest(){
+        composeTestRule.run {
+            setContent { MainScreen() }
+            //SearchScreen
+            mockHelper.mockSearchScreenSetup()
+
+            Mockito.`when`(
+                remoteSeriesRepository.getAllSeries(9)
+            ).thenReturn(listOf(secondSeriesExample))
+
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.seeAllDiscoverTemplate).performClick()
+
+
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.discoverSeriesCard).assertExists()
+            onNode(AllScreenTestObj.nextButton).performClick()
+            onNode(AllScreenTestObj.discoverSeriesNextButtonCard).assertExists()
+        }
+    }
+
+    @Test
+    fun navigateToPreviousPageSeriesTest() = runTest(){
+        composeTestRule.run {
+            setContent { MainScreen() }
+            //SearchScreen
+            mockHelper.mockSearchScreenSetup()
+
+            Mockito.`when`(
+                remoteSeriesRepository.getAllSeries(9)
+            ).thenReturn(listOf(secondSeriesExample))
+
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.seeAllDiscoverTemplate).performClick()
+
+
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.discoverSeriesCard).assertExists()
+            onNode(AllScreenTestObj.nextButton).performClick()
+            onNode(AllScreenTestObj.discoverSeriesNextButtonCard).assertExists()
+            onNode(AllScreenTestObj.backButton).assertExists()
+            onNode(AllScreenTestObj.backButton).performClick()
+            onNode(AllScreenTestObj.discoverSeriesCard).assertExists()
+        }
+
     }
 }
