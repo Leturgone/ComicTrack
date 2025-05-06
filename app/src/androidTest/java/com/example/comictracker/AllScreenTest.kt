@@ -119,12 +119,48 @@ class AllScreenTest {
     }
 
     @Test
-    fun navigateToNextPageTest(){
+    fun navigateToNextPageTest() = runTest(){
+        composeTestRule.run {
+            setContent { MainScreen() }
+            onNode(HomeScreenTestObj.seeAllNewTemplate).performClick()
 
+            Mockito.`when`(
+                localReadRepository.loadCurrentReadIds(9)
+            ).thenReturn(listOf(455))
+
+            Mockito.`when`(
+                remoteComicRepository.fetchUpdatesForSeries(listOf(455))
+            ).thenReturn(listOf(secondComicExample))
+
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.newReleasesCard).assertExists()
+            onNode(AllScreenTestObj.nextButton).performClick()
+            onNode(AllScreenTestObj.newReleasesNextButtonCard).assertExists()
+        }
     }
 
     @Test
-    fun navigateToPreviousPageTest(){
+    fun navigateToPreviousPageTest() = runTest(){
+        composeTestRule.run {
+            setContent { MainScreen() }
+            onNode(HomeScreenTestObj.seeAllNewTemplate).performClick()
+
+            Mockito.`when`(
+                localReadRepository.loadCurrentReadIds(9)
+            ).thenReturn(listOf(455))
+
+            Mockito.`when`(
+                remoteComicRepository.fetchUpdatesForSeries(listOf(455))
+            ).thenReturn(listOf(secondComicExample))
+
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.newReleasesCard).assertExists()
+            onNode(AllScreenTestObj.nextButton).performClick()
+            onNode(AllScreenTestObj.newReleasesNextButtonCard).assertExists()
+
+            onNode(AllScreenTestObj.backButton).performClick()
+            onNode(AllScreenTestObj.newReleasesCard).assertExists()
+        }
 
     }
 
