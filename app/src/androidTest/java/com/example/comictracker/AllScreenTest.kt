@@ -16,6 +16,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mockito
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -91,6 +92,28 @@ class AllScreenTest {
 
             onNode(AllScreenTestObj.AllTemplate).assertExists()
             onNode(AllScreenTestObj.discoverSeriesCard).assertExists()
+            onNode(AllScreenTestObj.nextButton).assertExists()
+        }
+    }
+
+    @Test
+    fun existTestAllCharacters() = runTest{
+        composeTestRule.run {
+
+            //SearchScreen
+            mockHelper.mockSearchScreenSetup()
+
+            Mockito.`when`(
+                remoteSeriesRepository.getAllSeries()
+            ).thenReturn(emptyList())
+
+            setContent { MainScreen() }
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.seeAllCharactersTemplate).performClick()
+
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.allCharacters).assertExists()
             onNode(AllScreenTestObj.nextButton).assertExists()
         }
     }
