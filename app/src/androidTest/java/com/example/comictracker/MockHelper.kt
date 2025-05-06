@@ -61,7 +61,6 @@ class MockHelper(
                 it.loadNextRead(series.seriesId)
             ).thenReturn(null)
         }
-
     }
 
     suspend fun mockHomeScreenSetUp(){
@@ -178,5 +177,52 @@ class MockHelper(
             ).thenReturn(characterList)
         }
 
+    }
+
+    suspend fun mockSeriesSetUpForSeriesTest(series: SeriesModel,mark: String,favorite:Boolean,nextRead:ComicModel){
+        remoteSeriesRepository?.let {
+            Mockito.`when`(
+                it.getSeriesById(series.seriesId)
+            ).thenReturn(series)
+
+            Mockito.`when`(
+                it.getConnectedSeries(series.connectedSeries)
+            ).thenReturn(listOf(secondSeriesExample))
+        }
+
+        remoteComicsRepository?.let {
+            Mockito.`when`(
+                it.getComicsFromSeries(series.seriesId)
+            ).thenReturn(listOf(comicExample, secondComicExample))
+            Mockito.`when`(
+                it.getComicById(33333)
+            ).thenReturn(nextRead)
+        }
+
+        remoteCharacterRepository?.let {
+            Mockito.`when`(
+                it.getSeriesCharacters(series.seriesId)
+            ).thenReturn(listOf(characterExample))
+        }
+
+        remoteCreatorsRepository?.let {
+            Mockito.`when`(
+                it.getSeriesCreators(series.creators!!)
+            ).thenReturn(listOf(creatorExample))
+        }
+
+        localReadRepository?.let {
+            Mockito.`when`(
+                it.loadSeriesMark(series.seriesId)
+            ).thenReturn(mark)
+
+            Mockito.`when`(
+                it.loadSeriesFavoriteMark(series.seriesId)
+            ).thenReturn(favorite)
+
+            Mockito.`when`(
+                it.loadNextRead(series.seriesId)
+            ).thenReturn(33333)
+        }
     }
 }
