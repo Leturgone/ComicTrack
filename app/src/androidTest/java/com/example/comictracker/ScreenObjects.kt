@@ -121,6 +121,7 @@ object AllScreenTestObj{
     val allCharacterSeriesCard = hasContentDescription("${seriesExample.title}  current cover")
     val nextButton = hasContentDescription("nextButton")
     val backButton = hasContentDescription("backButton")
+    val newReleasesNextButtonCard = hasContentDescription("${secondComicExample.title}  current cover")
 }
 
 object AllComicFromSeriesScreenTestObj{
