@@ -204,4 +204,32 @@ class ComicScreenTests {
         }
     }
 
+    @Test
+    fun errorWhileMarkTest()= runTest{
+        composeTestRule.run{
+            setContent{ MainScreen()}
+
+            onNode(HomeScreenTestObj.newReleasesCard).performClick()
+
+            mockHelper.mockComicScreenSetup(comicExample,"read")
+
+            val comicScreenNode =AboutComicScreenTestObj(comicExample)
+
+            onNode(comicScreenNode.markUnreadTemplate).assertExists()
+
+
+            Mockito.`when`(
+                remoteComicRepository.getPreviousComicId(comicExample.seriesId, 1)
+            ).thenReturn(null)
+
+            Mockito.`when`(
+                localWriteRepository.markComicUnread(comicExample.comicId, comicExample.seriesId,null)
+            ).thenReturn(false)
+
+            onNode(comicScreenNode.markUnreadTemplate).performClick()
+
+            onNode(comicScreenNode.markUnreadTemplate).assertExists()
+        }
+    }
+
 }
