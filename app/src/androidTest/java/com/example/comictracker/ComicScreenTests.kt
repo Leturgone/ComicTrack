@@ -16,6 +16,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mockito
 import javax.inject.Inject
 
 
@@ -114,7 +115,34 @@ class ComicScreenTests {
     }
 
     @Test
-    fun navigateToCharacterTest(){}
+    fun navigateToCharacterTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(HomeScreenTestObj.newReleasesCard).performClick()
+
+            mockHelper.mockComicScreenSetup(comicExample,"read")
+
+            Mockito.`when`(
+                remoteCharacterRepository.getCharacterById(characterExample.characterId)
+            ).thenReturn(characterExample)
+
+            Mockito.`when`(
+                remoteSeriesRepository.getCharacterSeries(characterExample.characterId)
+            ).thenReturn(emptyList())
+
+            val comicScreenNode =AboutComicScreenTestObj(comicExample)
+
+            val characterScreenNode = AboutCharacterScreenTestObj(characterExample)
+
+            onNode(comicScreenNode.titleTemplate).assertExists()
+            onNode(comicScreenNode.charactersList).assertExists()
+            onNode(comicScreenNode.charactersList).performClick()
+
+            onNode(characterScreenNode.characterTemplate).assertExists()
+            onNode(characterScreenNode.descTemplate).assertExists()
+        }
+    }
 
     @Test
     fun markAsReadTest(){}
