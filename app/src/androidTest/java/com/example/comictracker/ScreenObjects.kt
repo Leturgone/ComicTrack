@@ -65,7 +65,7 @@ class AboutCharacterScreenTestObj(character:CharacterModel){
     val characterDesc = hasText(character.desc)
     val allTemplate = hasText("All")
     val seeAllTemplate = hasText("See all") and hasClickAction()
-    val lastUpdatesList = hasContentDescription("${character.series.first()}  current cover")
+    val characterSeriesCard = hasContentDescription("${seriesExample.title}  current cover")
 
 }
 
