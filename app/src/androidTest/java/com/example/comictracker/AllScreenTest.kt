@@ -129,8 +129,23 @@ class AllScreenTest {
     }
 
     @Test
-    fun allSeriesScreenNavigateTest(){
+    fun allSeriesScreenNavigateTest() =  runTest{
+        composeTestRule.run {
 
+            //SearchScreen
+            mockHelper.mockSearchScreenSetup()
+            mockHelper.mockSeriesSetUp(seriesExample)
+
+            setContent { MainScreen() }
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.seeAllDiscoverTemplate).performClick()
+
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.discoverSeriesCard).performClick()
+
+            onNode(AboutSeriesScreenTestObj(seriesExample).titleTemplate).assertExists()
+        }
     }
 
     @Test
