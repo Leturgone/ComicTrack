@@ -149,8 +149,20 @@ class AllScreenTest {
     }
 
     @Test
-    fun allComicsScreenNavigateTest(){
+    fun allComicsScreenNavigateTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
 
+            mockHelper.mockComicScreenSetup(comicExample,"read")
+            onNode(HomeScreenTestObj.seeAllNewTemplate).performClick()
+
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.newReleasesCard).performClick()
+
+            onNode(AboutComicScreenTestObj(comicExample).titleTemplate).assertExists()
+
+
+        }
     }
 
     @Test
