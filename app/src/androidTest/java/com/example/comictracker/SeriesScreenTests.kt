@@ -258,10 +258,57 @@ class SeriesScreenTests {
     }
 
     @Test
-    fun unmarkAsFavoriteTest(){}
+    fun unMarkAsFavoriteTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "read", true, comicExample)
+
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.discoverList).performClick()
+
+            val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
+            Mockito.`when`(
+                localWriteRepository.removeSeriesFromFavorite(seriesExample.seriesId)
+            ).thenReturn(true)
+
+
+            onNode(aboutSeriesNode.favoriteMark).assertDoesNotExist()
+            onNode(aboutSeriesNode.unFavoriteMark).performClick()
+
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "read", false, comicExample)
+
+            onNode(aboutSeriesNode.favoriteMark).assertExists()
+
+        }
+    }
 
     @Test
-    fun markNextComicAsReadTest(){}
+    fun markNextComicAsReadTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "read", true, comicExample)
+
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.discoverList).performClick()
+
+            val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
+
+            Mockito.`when`(
+                localWriteRepository.markComicRead(comicExample.seriesId, seriesExample.seriesId,
+                    secondComicExample.seriesId)
+            ).thenReturn(true)
+
+
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "read", false, secondComicExample)
+            onNode(aboutSeriesNode.secondNestReadItem).assertExists()
+
+        }
+
+    }
 
     @Test
     fun navigateToAllComicFromSeriesTest(){}
