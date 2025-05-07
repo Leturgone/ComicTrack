@@ -140,7 +140,35 @@ class SeriesScreenTests {
     }
 
     @Test
-    fun markAsUnreadTest(){}
+    fun markAsUnreadTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "read", false, comicExample)
+
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.discoverList).performClick()
+
+            val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
+
+            onNode(aboutSeriesNode.readTemplate).performClick()
+
+            onNode(aboutSeriesNode.bottomSheetReadMark).assertExists()
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "unread", false, comicExample)
+
+            Mockito.`when`(
+                localWriteRepository.markSeriesUnread(seriesExample.seriesId)
+            ).thenReturn(true)
+
+            onNode(aboutSeriesNode.bottomSheetTemplate).assertExists()
+            onNode(aboutSeriesNode.bottomSheetUnreadMark).performClick()
+
+            onNode(aboutSeriesNode.unreadTemplate).assertExists()
+            onNode(aboutSeriesNode.bottomSheetTemplate).assertDoesNotExist()
+
+        }
+    }
 
     @Test
     fun markAsWillBeReadTest(){}
