@@ -231,7 +231,31 @@ class SeriesScreenTests {
     }
 
     @Test
-    fun markAsFavoriteTest(){}
+    fun markAsFavoriteTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "read", false, comicExample)
+
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.discoverList).performClick()
+
+            val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
+            Mockito.`when`(
+                localWriteRepository.addSeriesToFavorite(seriesExample.seriesId)
+            ).thenReturn(true)
+
+
+            onNode(aboutSeriesNode.unFavoriteMark).assertDoesNotExist()
+            onNode(aboutSeriesNode.favoriteMark).performClick()
+
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "read", true, comicExample)
+
+            onNode(aboutSeriesNode.unFavoriteMark).assertExists()
+
+        }
+    }
 
     @Test
     fun unmarkAsFavoriteTest(){}
