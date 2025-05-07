@@ -201,7 +201,34 @@ class SeriesScreenTests {
     }
 
     @Test
-    fun markAsCurrentlyReadingTest(){}
+    fun markAsCurrentlyReadingTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "read", false, comicExample)
+
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.discoverList).performClick()
+
+            val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
+
+            onNode(aboutSeriesNode.readTemplate).performClick()
+
+            onNode(aboutSeriesNode.bottomSheetReadMark).assertExists()
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "currently", false, comicExample)
+
+            Mockito.`when`(
+                localWriteRepository.addSeriesToCurrentlyRead(seriesExample.seriesId, comicExample.comicId)
+            ).thenReturn(true)
+
+            onNode(aboutSeriesNode.bottomSheetTemplate).assertExists()
+            onNode(aboutSeriesNode.bottomSheetCurrentlyMark).performClick()
+
+            onNode(aboutSeriesNode.currentlyReadingTemplate).assertExists()
+            onNode(aboutSeriesNode.bottomSheetTemplate).assertDoesNotExist()
+        }
+    }
 
     @Test
     fun markAsFavoriteTest(){}
