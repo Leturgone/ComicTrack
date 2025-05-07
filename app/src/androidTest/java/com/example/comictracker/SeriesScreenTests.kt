@@ -1,6 +1,7 @@
 package com.example.comictracker
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
+import androidx.compose.ui.test.performClick
 import com.example.comictracker.di.AppModule
 import com.example.comictracker.domain.repository.local.LocalReadRepository
 import com.example.comictracker.domain.repository.local.LocalWriteRepository
@@ -11,6 +12,8 @@ import com.example.comictracker.domain.repository.remote.RemoteSeriesRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
+import kotlinx.coroutines.test.runTest
+import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
@@ -44,8 +47,64 @@ class SeriesScreenTests {
 
     private lateinit var mockHelper:MockHelper
 
+
+    @Before
+    fun setUp() = runTest {
+        hiltRule.inject()
+
+        mockHelper = MockHelper(
+            remoteSeriesRepository = remoteSeriesRepository,
+            remoteComicsRepository = remoteComicRepository,
+            remoteCharacterRepository = remoteCharacterRepository,
+            remoteCreatorsRepository = remoteCreatorsRepository,
+            localReadRepository = localReadRepository,
+            localWriteRepository = localWriteRepository
+        )
+        mockHelper.mockHomeScreenSetUp()
+        mockHelper.mockSearchScreenSetup()
+
+    }
+
+
     @Test
-    fun existTest(){}
+    fun existTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample,"unread",false, comicExample)
+
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.discoverList).performClick()
+
+            val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
+
+            onNode(aboutSeriesNode.titleTemplate).assertExists()
+            onNode(aboutSeriesNode.dateTemplate).assertExists()
+            onNode(aboutSeriesNode.seriesDateTemplate).assertExists()
+            onNode(aboutSeriesNode.descTemplate).assertExists()
+            onNode(aboutSeriesNode.seriesDescTemplate).assertExists()
+            onNode(aboutSeriesNode.seeMoreTemplate).assertExists()
+            onNode(aboutSeriesNode.seeLessTemplate).assertDoesNotExist()
+
+            onNode(aboutSeriesNode.unreadTemplate).assertExists()
+            onNode(aboutSeriesNode.favoriteMark).assertExists()
+
+            onNode(aboutSeriesNode.continueReadingTemplate).assertExists()
+
+            onNode(aboutSeriesNode.seeAllTemplate).assertExists()
+            onNode(aboutSeriesNode.nextReadItem).assertExists()
+            onNode(aboutSeriesNode.readItemMark).assertExists()
+
+            onNode(aboutSeriesNode.creatorsTemplate).assertExists()
+            onNode(aboutSeriesNode.creatorsList).assertExists()
+            onNode(aboutSeriesNode.charactersTemplate).assertExists()
+            onNode(aboutSeriesNode.charactersList).assertExists()
+            onNode(aboutSeriesNode.connectedTemplate).assertExists()
+            onNode(aboutSeriesNode.connectedList).assertExists()
+
+        }
+    }
 
     @Test
     fun markAsReadTest(){}
