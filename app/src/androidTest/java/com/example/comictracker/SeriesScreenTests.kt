@@ -16,6 +16,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mockito
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -107,7 +108,36 @@ class SeriesScreenTests {
     }
 
     @Test
-    fun markAsReadTest(){}
+    fun markAsReadTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "unread", false, comicExample)
+
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.discoverList).performClick()
+
+            val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
+
+            onNode(aboutSeriesNode.unreadTemplate).performClick()
+
+            onNode(aboutSeriesNode.bottomSheetReadMark).assertExists()
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "read", false, comicExample)
+
+            Mockito.`when`(
+                localWriteRepository.markSeriesRead(seriesExample.seriesId)
+            ).thenReturn(true)
+
+            onNode(aboutSeriesNode.bottomSheetTemplate).assertExists()
+            onNode(aboutSeriesNode.bottomSheetReadMark).performClick()
+
+            onNode(aboutSeriesNode.readTemplate).assertExists()
+            onNode(aboutSeriesNode.bottomSheetTemplate).assertDoesNotExist()
+
+        }
+
+    }
 
     @Test
     fun markAsUnreadTest(){}
