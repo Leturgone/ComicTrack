@@ -93,6 +93,7 @@ class AboutSeriesScreenTestObj(series: SeriesModel) {
     val seriesDescTemplate = hasText(series.desc?:"No description")
     val favoriteMark = hasContentDescription("favoriteButton")
 
+    val bottomSheetTemplate = hasText("Choose Category")
     val bottomSheetReadMark = hasContentDescription("Read icon")
     val bottomSheetUnreadMark = hasContentDescription("Unread icon")
     val bottomSheetCurrentlyMark = hasContentDescription("Currently reading icon")
