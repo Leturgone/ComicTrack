@@ -110,7 +110,10 @@ fun UsersSeriesMarkSec(seriesId: Int, mark:String,favoriteMark:Boolean,firstIssu
                     tint = when(favoriteMark){
                         true-> Color.Yellow
                         false -> Color.LightGray},
-                    contentDescription = "favoriteButton")
+                    contentDescription = when(favoriteMark){
+                        true -> "unFavoriteButton"
+                        false -> "favoriteButton"
+                    })
             }
         }
     }
