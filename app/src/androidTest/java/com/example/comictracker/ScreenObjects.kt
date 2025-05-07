@@ -92,6 +92,7 @@ class AboutSeriesScreenTestObj(series: SeriesModel) {
     val seeLessTemplate = hasText("See Less")
     val seriesDescTemplate = hasText(series.desc?:"No description")
     val favoriteMark = hasContentDescription("favoriteButton")
+    val unFavoriteMark = hasContentDescription("unFavoriteButton")
 
     val bottomSheetTemplate = hasText("Choose Category")
     val bottomSheetReadMark = hasContentDescription("Read icon")
