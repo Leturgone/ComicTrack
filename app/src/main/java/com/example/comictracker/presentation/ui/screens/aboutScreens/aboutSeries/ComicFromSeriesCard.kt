@@ -49,7 +49,7 @@ fun ComicFromSeriesCard(comic:ComicModel,navController: NavHostController, onCli
                 Row() {
                     AsyncImage(
                         model = comic.image,
-                        contentDescription = "current cover", modifier = Modifier
+                        contentDescription = "${comic.title}  current cover", modifier = Modifier
                             .width(80.dp)
                             .height(100.dp)
                     )
@@ -79,16 +79,8 @@ fun ComicFromSeriesCard(comic:ComicModel,navController: NavHostController, onCli
                     Icon(imageVector = Icons.Filled.Check,
                         contentDescription = "ReadIcon",
                         tint = when(comic.readMark){
-
-                            "read" -> {
-
-                                Log.i("MARK",comic.readMark)
-                                Color.Green
-                            }
-                            else -> {
-                                Log.i("MARK",comic.toString())
-                                Color.Gray
-                            }
+                            "read" -> { Color.Green }
+                            else -> { Color.Gray }
                         },
                         modifier = Modifier.padding(start = 40.dp).clickable(onClick = onClick)
                     )
