@@ -226,7 +226,7 @@ class MockHelper(
         }
     }
 
-    suspend fun mockAllComicsFromSeriesScreenSetup(seriesExample: SeriesModel, comicList:List<ComicModel>){
+    suspend fun mockAllComicsFromSeriesScreenSetup(seriesExample: SeriesModel, comicList:List<ComicModel>,mark: String = "read"){
         remoteComicsRepository?.let {
             Mockito.`when`(
                 it.getComicsFromSeries(seriesExample.seriesId,0)
@@ -239,7 +239,7 @@ class MockHelper(
             comicList.forEach { comic ->
                 Mockito.`when`(
                     rep.loadComicMark(comic.comicId)
-                ).thenReturn("read")
+                ).thenReturn(mark)
             }
         }
 
