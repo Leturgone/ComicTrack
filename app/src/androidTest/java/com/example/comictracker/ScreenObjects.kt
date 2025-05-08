@@ -147,6 +147,7 @@ object AllScreenTestObj{
 
 object AllComicFromSeriesScreenTestObj{
     val AllTemplate = hasText("All Comics")
+    val comicList = hasContentDescription("${secondComicExample.title}  current cover")
 
 }
 
