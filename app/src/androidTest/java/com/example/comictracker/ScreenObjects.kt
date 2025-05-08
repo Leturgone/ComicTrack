@@ -147,11 +147,15 @@ object AllScreenTestObj{
 
 object AllComicFromSeriesScreenTestObj{
     val AllTemplate = hasText("All Comics")
-    val comicList = hasContentDescription("${secondComicExample.title}  current cover")
+    val comicListItem = hasContentDescription("${secondComicExample.title}  current cover")
 
+    val comicList = hasTestTag("all_comics_from_series")
     val readItemMark = hasContentDescription("ReadIcon")
 
+    val secondPageItem = hasContentDescription("${comicExample.title}  current cover")
     val unreadItemMark = hasContentDescription("UnreadIcon")
+
+    val loadMoreButton = hasTestTag("load_more")
 
 }
 
