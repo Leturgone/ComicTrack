@@ -414,7 +414,57 @@ class SeriesScreenTests {
     }
 
     @Test
-    fun markAsReadComicFromSeriesTest(){}
+    fun markAsReadComicFromSeriesTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "read", false, comicExample)
+
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.discoverList).performClick()
+
+            val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
+
+            mockHelper.mockAllComicsFromSeriesScreenSetup(
+                seriesExample, listOf(
+                    secondComicExample
+                ),"unread"
+            )
+
+            onNode(aboutSeriesNode.seeAllTemplate).assertExists()
+            onNode(aboutSeriesNode.seeAllTemplate).performClick()
+
+            onNode(AllComicFromSeriesScreenTestObj.comicList).assertExists()
+
+            Mockito.`when`(
+                remoteComicRepository.getNextComicId(
+                    secondComicExample.seriesId,
+                    secondComicExample.number.toFloat().toInt())
+            ).thenReturn(null)
+
+            Mockito.`when`(
+                localWriteRepository.markComicRead(
+                    secondComicExample.comicId,
+                    secondComicExample.seriesId,
+                    null)
+            ).thenReturn(true)
+
+
+            mockHelper.mockAllComicsFromSeriesScreenSetup(
+                seriesExample, listOf(
+                    secondComicExample
+                ),"read"
+            )
+
+            onNode(AllComicFromSeriesScreenTestObj.unreadItemMark).assertExists()
+
+            onNode(AllComicFromSeriesScreenTestObj.unreadItemMark).performClick()
+
+
+            onNode(AllComicFromSeriesScreenTestObj.readItemMark).assertExists()
+        }
+    }
 
     @Test
     fun markAsUnreadComicFromSeriesTest(){}
