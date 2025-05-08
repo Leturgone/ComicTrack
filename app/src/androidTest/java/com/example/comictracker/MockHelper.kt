@@ -225,4 +225,24 @@ class MockHelper(
             ).thenReturn(comicExample.comicId)
         }
     }
+
+    suspend fun mockAllComicsFromSeriesScreenSetup(seriesExample: SeriesModel, comicList:List<ComicModel>){
+        remoteComicsRepository?.let {
+            Mockito.`when`(
+                it.getComicsFromSeries(seriesExample.seriesId,0)
+            ).thenReturn(
+                comicList
+            )
+        }
+
+        localReadRepository?.let { rep ->
+            comicList.forEach { comic ->
+                Mockito.`when`(
+                    rep.loadComicMark(comic.comicId)
+                ).thenReturn("read")
+            }
+        }
+
+
+    }
 }
