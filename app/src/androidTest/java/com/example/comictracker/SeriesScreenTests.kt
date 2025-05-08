@@ -101,6 +101,9 @@ class SeriesScreenTests {
 
             onNode(aboutSeriesNode.creatorsTemplate).assertExists()
             onNode(aboutSeriesNode.creatorsList).assertExists()
+            onNode(aboutSeriesNode.seriesScreenScroll).performTouchInput {
+                swipeUp()
+            }
             onNode(aboutSeriesNode.charactersTemplate).assertExists()
             onNode(aboutSeriesNode.charactersList).assertExists()
             onNode(aboutSeriesNode.connectedTemplate).assertExists()
@@ -603,13 +606,68 @@ class SeriesScreenTests {
     }
 
     @Test
-    fun navigateToCharactersTest(){
+    fun navigateToCharactersTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
 
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "read", false, comicExample)
+
+            mockHelper.mockCharacterScreen(characterExample, listOf(seriesExample))
+
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.discoverList).performClick()
+
+            val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
+
+
+            onNode(aboutSeriesNode.seriesScreenScroll).performTouchInput {
+                swipeUp()
+            }
+
+            onNode(aboutSeriesNode.charactersTemplate).assertExists()
+            onNode(aboutSeriesNode.charactersList).assertExists()
+            onNode(aboutSeriesNode.charactersList).performClick()
+
+            onNode(AboutCharacterScreenTestObj(characterExample).characterTemplate).assertExists()
+            onNode(AboutCharacterScreenTestObj(characterExample).characterDesc).assertExists()
+        }
 
     }
 
+
     @Test
-    fun navigateToConnectedSeriesTest(){}
+    fun navigateToConnectedSeriesTest() = runTest {
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "read", false, comicExample)
+
+
+
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.discoverList).performClick()
+
+            val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
+
+
+            onNode(aboutSeriesNode.seriesScreenScroll).performTouchInput {
+                swipeUp()
+            }
+
+            onNode(aboutSeriesNode.connectedTemplate).assertExists()
+            onNode(aboutSeriesNode.connectedList).assertExists()
+
+            mockHelper.mockSeriesSetUp(secondSeriesExample)
+
+            onNode(aboutSeriesNode.connectedList).performClick()
+
+            onNode(AboutSeriesScreenTestObj(secondSeriesExample).titleTemplate).assertExists()
+        }
+
+    }
+
 
 
 
