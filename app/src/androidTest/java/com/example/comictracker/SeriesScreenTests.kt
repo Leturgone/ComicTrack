@@ -108,6 +108,28 @@ class SeriesScreenTests {
     }
 
     @Test
+    fun navigateToComicTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "unread", false, comicExample)
+
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.discoverList).performClick()
+
+            val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
+
+            mockHelper.mockComicScreenSetup(comicExample,"unread")
+            onNode(aboutSeriesNode.nextReadItem).assertExists()
+
+            onNode(aboutSeriesNode.nextReadItem).performClick()
+
+            onNode(AboutComicScreenTestObj(comicExample).titleTemplate).assertExists()
+        }
+    }
+
+    @Test
     fun markAsReadTest() = runTest{
         composeTestRule.run {
             setContent { MainScreen() }
