@@ -77,7 +77,10 @@ fun ComicFromSeriesCard(comic:ComicModel,navController: NavHostController, onCli
                 .padding(10.dp), contentAlignment = Alignment.TopEnd){
                 Column {
                     Icon(imageVector = Icons.Filled.Check,
-                        contentDescription = "ReadIcon",
+                        contentDescription =when(comic.readMark){
+                            "read" -> "ReadIcon"
+                            else -> "UnreadIcon"
+                        },
                         tint = when(comic.readMark){
                             "read" -> { Color.Green }
                             else -> { Color.Gray }
