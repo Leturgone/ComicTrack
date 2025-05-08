@@ -401,18 +401,8 @@ class SeriesScreenTests {
 
             val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
 
-            Mockito.`when`(
-                remoteComicRepository.getComicsFromSeries(seriesExample.seriesId,0)
-            ).thenReturn(
-                listOf(comicExample, secondComicExample)
-            )
-            Mockito.`when`(
-                localReadRepository.loadComicMark(comicExample.comicId)
-            ).thenReturn("read")
-
-            Mockito.`when`(
-                localReadRepository.loadComicMark(secondComicExample.comicId)
-            ).thenReturn("read")
+            mockHelper.mockAllComicsFromSeriesScreenSetup(seriesExample, listOf(comicExample,
+                secondComicExample))
 
             onNode(aboutSeriesNode.seeAllTemplate).assertExists()
             onNode(aboutSeriesNode.seeAllTemplate).performClick()
@@ -428,6 +418,35 @@ class SeriesScreenTests {
 
     @Test
     fun markAsUnreadComicFromSeriesTest(){}
+
+    @Test
+    fun navigateToComicFromAllComicsTest() = runTest {
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "read", false, comicExample)
+
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.discoverList).performClick()
+
+            val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
+
+            mockHelper.mockAllComicsFromSeriesScreenSetup(seriesExample, listOf(comicExample,
+                secondComicExample))
+
+            onNode(aboutSeriesNode.seeAllTemplate).assertExists()
+            onNode(aboutSeriesNode.seeAllTemplate).performClick()
+
+            onNode(AllComicFromSeriesScreenTestObj.comicList).assertExists()
+
+            mockHelper.mockComicScreenSetup(secondComicExample,"read")
+
+            onNode(AllComicFromSeriesScreenTestObj.comicList).performClick()
+
+            onNode(AboutComicScreenTestObj(secondComicExample).titleTemplate).assertExists()
+        }
+    }
 
     @Test
     fun navigateToCharactersTest(){}
