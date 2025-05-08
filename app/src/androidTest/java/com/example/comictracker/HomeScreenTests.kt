@@ -26,13 +26,6 @@ class HomeScreenTests {
     @get:Rule(order = 1)
     val composeTestRule = createAndroidComposeRule<HiltComponentActivity>()
 
-    private val newReleasesMockList = listOf(
-        comicExample
-    )
-
-    private val continueReadingMockList = listOf(
-        secondComicExample
-    )
 
     @Inject
     lateinit var remoteComicRepository: RemoteComicsRepository
@@ -46,25 +39,20 @@ class HomeScreenTests {
     @Inject
     lateinit var remoteCreatorsRepository: RemoteCreatorsRepository
 
+    private lateinit var mockHelper: MockHelper
+
     @Before
     fun setUp() = runTest{
         hiltRule.inject()
 
-        Mockito.`when`(
-            localReadRepository.loadCurrentReadIds(0)
-        ).thenReturn(listOf(1, 2, 3))
+        mockHelper = MockHelper(
+            remoteComicsRepository = remoteComicRepository,
+            remoteCharacterRepository = remoteCharacterRepository,
+            remoteCreatorsRepository = remoteCreatorsRepository,
+            localReadRepository = localReadRepository,
+        )
 
-        Mockito.`when`(
-            localReadRepository.loadNextReadComicIds(0)
-        ).thenReturn(listOf(1, 2, 3))
-
-        Mockito.`when`(
-            remoteComicRepository.fetchUpdatesForSeries(listOf(1, 2, 3))
-        ).thenReturn(newReleasesMockList)
-
-        Mockito.`when`(
-            remoteComicRepository.fetchComics(listOf(1, 2, 3))
-        ).thenReturn(continueReadingMockList)
+        mockHelper.mockHomeScreenSetUp()
     }
 
 
@@ -102,29 +90,9 @@ class HomeScreenTests {
 
     @Test
     fun navigationToNewTest() = runTest {
-        Mockito.`when`(
-            remoteComicRepository.getComicById(4372)
-        ).thenReturn(comicExample)
-
-
-        Mockito.`when`(
-            remoteCharacterRepository.getComicCharacters(4372)
-        ).thenReturn(listOf(characterExample))
-
-        Mockito.`when`(
-            remoteCreatorsRepository.getComicCreators(comicExample.creators)
-        ).thenReturn(listOf(creatorExample))
-
-        Mockito.`when`(
-            remoteCreatorsRepository.getComicCreators(comicExample.creators)
-        ).thenReturn(listOf(creatorExample))
-
-        Mockito.`when`(
-            localReadRepository.loadComicMark(4372)
-        ).thenReturn("unread")
-
 
         composeTestRule.run {
+            mockHelper.mockComicScreenSetup(comicExample,"unread")
             setContent { MainScreen()}
             onNode(HomeScreenTestObj.seeAllNewTemplate).performClick()
 
@@ -137,27 +105,8 @@ class HomeScreenTests {
     @Test
     fun navigationToNextTest() = runTest{
 
-        Mockito.`when`(
-            remoteComicRepository.getComicById(9450)
-        ).thenReturn(secondComicExample)
-
-        Mockito.`when`(
-            remoteCharacterRepository.getComicCharacters(9450)
-        ).thenReturn(listOf(characterExample))
-
-        Mockito.`when`(
-            remoteCreatorsRepository.getComicCreators(secondComicExample.creators)
-        ).thenReturn(listOf(creatorExample))
-
-        Mockito.`when`(
-            remoteCreatorsRepository.getComicCreators(secondComicExample.creators)
-        ).thenReturn(listOf(creatorExample))
-
-        Mockito.`when`(
-            localReadRepository.loadComicMark(9450)
-        ).thenReturn("unread")
-
         composeTestRule.run {
+            mockHelper.mockComicScreenSetup(secondComicExample,"unread")
             setContent { MainScreen()}
             onNode(HomeScreenTestObj.seeAllContinueTemplate).performClick()
 
