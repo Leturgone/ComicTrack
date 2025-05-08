@@ -195,7 +195,7 @@ class MockHelper(
                 it.getComicsFromSeries(series.seriesId)
             ).thenReturn(listOf(comicExample, secondComicExample))
             Mockito.`when`(
-                it.getComicById(33333)
+                it.getComicById(comicExample.comicId)
             ).thenReturn(nextRead)
         }
 
@@ -222,7 +222,7 @@ class MockHelper(
 
             Mockito.`when`(
                 it.loadNextRead(series.seriesId)
-            ).thenReturn(33333)
+            ).thenReturn(comicExample.comicId)
         }
     }
 }
