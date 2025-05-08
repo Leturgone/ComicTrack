@@ -123,6 +123,9 @@ class AboutSeriesScreenTestObj(series: SeriesModel) {
     val connectedTemplate = hasText("Connected")
     val connectedList = hasContentDescription("${secondSeriesExample.title}  current cover")
     val noConnectedList = hasText("No connected series")
+
+    val seriesScreenScroll = hasTestTag("seriesScreenScroll")
+
 }
 
 object AllScreenTestObj{
