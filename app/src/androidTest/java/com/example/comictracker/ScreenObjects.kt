@@ -149,6 +149,10 @@ object AllComicFromSeriesScreenTestObj{
     val AllTemplate = hasText("All Comics")
     val comicList = hasContentDescription("${secondComicExample.title}  current cover")
 
+    val readItemMark = hasContentDescription("ReadIcon")
+
+    val unreadItemMark = hasContentDescription("UnreadIcon")
+
 }
 
 object SearchResultScreenTestObj{
