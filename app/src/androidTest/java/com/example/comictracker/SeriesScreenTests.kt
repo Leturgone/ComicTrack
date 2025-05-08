@@ -2,6 +2,8 @@ package com.example.comictracker
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.swipeUp
 import com.example.comictracker.di.AppModule
 import com.example.comictracker.domain.repository.local.LocalReadRepository
 import com.example.comictracker.domain.repository.local.LocalWriteRepository
@@ -409,7 +411,7 @@ class SeriesScreenTests {
 
             onNode(AllComicFromSeriesScreenTestObj.AllTemplate).assertExists()
 
-            onNode(AllComicFromSeriesScreenTestObj.comicList).assertExists()
+            onNode(AllComicFromSeriesScreenTestObj.comicListItem).assertExists()
         }
     }
 
@@ -435,7 +437,7 @@ class SeriesScreenTests {
             onNode(aboutSeriesNode.seeAllTemplate).assertExists()
             onNode(aboutSeriesNode.seeAllTemplate).performClick()
 
-            onNode(AllComicFromSeriesScreenTestObj.comicList).assertExists()
+            onNode(AllComicFromSeriesScreenTestObj.comicListItem).assertExists()
 
             Mockito.`when`(
                 remoteComicRepository.getNextComicId(
@@ -488,7 +490,7 @@ class SeriesScreenTests {
             onNode(aboutSeriesNode.seeAllTemplate).assertExists()
             onNode(aboutSeriesNode.seeAllTemplate).performClick()
 
-            onNode(AllComicFromSeriesScreenTestObj.comicList).assertExists()
+            onNode(AllComicFromSeriesScreenTestObj.comicListItem).assertExists()
 
             Mockito.`when`(
                 remoteComicRepository.getPreviousComicId(
@@ -538,18 +540,73 @@ class SeriesScreenTests {
             onNode(aboutSeriesNode.seeAllTemplate).assertExists()
             onNode(aboutSeriesNode.seeAllTemplate).performClick()
 
-            onNode(AllComicFromSeriesScreenTestObj.comicList).assertExists()
+            onNode(AllComicFromSeriesScreenTestObj.comicListItem).assertExists()
 
             mockHelper.mockComicScreenSetup(secondComicExample,"read")
 
-            onNode(AllComicFromSeriesScreenTestObj.comicList).performClick()
+            onNode(AllComicFromSeriesScreenTestObj.comicListItem).performClick()
 
             onNode(AboutComicScreenTestObj(secondComicExample).titleTemplate).assertExists()
         }
     }
 
     @Test
-    fun navigateToCharactersTest(){}
+    fun loadMoreComicsInListTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "read", false, comicExample)
+
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.discoverList).performClick()
+
+            val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
+
+            mockHelper.mockAllComicsFromSeriesScreenSetup(seriesExample,
+                listOf(
+                    secondComicExample,secondComicExample,secondComicExample,secondComicExample,secondComicExample,
+                    secondComicExample,secondComicExample,secondComicExample,secondComicExample,secondComicExample,
+                    secondComicExample,secondComicExample,secondComicExample,secondComicExample,secondComicExample,
+                    secondComicExample,secondComicExample,secondComicExample,secondComicExample,secondComicExample,
+                    secondComicExample,secondComicExample,secondComicExample,secondComicExample,secondComicExample,
+                    secondComicExample,secondComicExample,secondComicExample,secondComicExample,secondComicExample,
+                    secondComicExample,secondComicExample,secondComicExample,secondComicExample,secondComicExample,
+                    secondComicExample,secondComicExample,secondComicExample,secondComicExample,secondComicExample,
+                    secondComicExample,secondComicExample,secondComicExample,secondComicExample,secondComicExample,
+                    secondComicExample,secondComicExample,secondComicExample,secondComicExample,secondComicExample,
+                    )
+            )
+            Mockito.`when`(
+                remoteComicRepository.getComicsFromSeries(seriesExample.seriesId,50)
+            ).thenReturn(
+                listOf(comicExample)
+            )
+            onNode(aboutSeriesNode.seeAllTemplate).assertExists()
+            onNode(aboutSeriesNode.seeAllTemplate).performClick()
+
+
+            repeat(3) {
+                onNode(AllComicFromSeriesScreenTestObj.comicList).performTouchInput {
+                    swipeUp()
+                }
+            }
+
+            onNode(AllComicFromSeriesScreenTestObj.loadMoreButton).assertExists()
+            onNode(AllComicFromSeriesScreenTestObj.loadMoreButton).performClick()
+
+            mockHelper.mockAllComicsFromSeriesScreenSetup(seriesExample, listOf(comicExample))
+            onNode(AllComicFromSeriesScreenTestObj.AllTemplate).assertExists()
+            onNode(AllComicFromSeriesScreenTestObj.secondPageItem).assertExists()
+            onNode(AllComicFromSeriesScreenTestObj.comicListItem).assertDoesNotExist()
+        }
+    }
+
+    @Test
+    fun navigateToCharactersTest(){
+
+
+    }
 
     @Test
     fun navigateToConnectedSeriesTest(){}
