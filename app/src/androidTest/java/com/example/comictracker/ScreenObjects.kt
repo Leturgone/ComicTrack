@@ -91,8 +91,9 @@ class AboutSeriesScreenTestObj(series: SeriesModel) {
     val seeMoreTemplate = hasText("See More")
     val seeLessTemplate = hasText("See Less")
     val seriesDescTemplate = hasText(series.desc?:"No description")
-    val favoriteMark = hasContentDescription("favoriteButton")
-    val unFavoriteMark = hasContentDescription("unFavoriteButton")
+
+    val favoriteMark = hasContentDescription("FavoriteMark")
+    val unFavoriteMark = hasContentDescription("UnfavoriteMark")
 
     val bottomSheetTemplate = hasText("Choose Category")
     val bottomSheetReadMark = hasContentDescription("Read icon")
@@ -106,9 +107,12 @@ class AboutSeriesScreenTestObj(series: SeriesModel) {
     val unreadTemplate = hasText("Unread")
     val continueReadingTemplate = hasText("Continue reading")
     val seeAllTemplate = hasText("See all") and hasClickAction()
+
     val nextReadItem = hasContentDescription("${comicExample.title}  current cover")
 
     val readItemMark = hasContentDescription("ReadIcon")
+
+    val unreadItemMark = hasContentDescription("UnreadIcon")
 
     val secondNestReadItem = hasContentDescription("${secondComicExample.title}  current cover")
 
