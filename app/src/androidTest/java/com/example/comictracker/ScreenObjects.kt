@@ -86,24 +86,45 @@ class AboutComicScreenTestObj(comic: ComicModel) {
 class AboutSeriesScreenTestObj(series: SeriesModel) {
     val titleTemplate = hasText(series.title ?: "No title")
     val dateTemplate = hasText("DATE")
-    val comicDateTemplate = hasText(series.date?:"No date")
+    val seriesDateTemplate = hasText(series.date?:"No date")
     val descTemplate  = hasText("DESCRIPTION")
+    val seeMoreTemplate = hasText("See More")
+    val seeLessTemplate = hasText("See Less")
     val seriesDescTemplate = hasText(series.desc?:"No description")
-    val markTemplate = hasText(series.readMark)
+
+    val favoriteMark = hasContentDescription("FavoriteMark")
+    val unFavoriteMark = hasContentDescription("UnfavoriteMark")
+
+    val bottomSheetTemplate = hasText("Choose Category")
+    val bottomSheetReadMark = hasContentDescription("Read icon")
+    val bottomSheetUnreadMark = hasContentDescription("Unread icon")
+    val bottomSheetCurrentlyMark = hasContentDescription("Currently reading icon")
+    val bottomSheetWillBeReadMark = hasContentDescription("Will be read icon")
+
     val readTemplate = hasText("Read")
     val willBeReadTemplate = hasText("Will be read")
     val currentlyReadingTemplate = hasText("Currently reading")
     val unreadTemplate = hasText("Unread")
     val continueReadingTemplate = hasText("Continue reading")
     val seeAllTemplate = hasText("See all") and hasClickAction()
-    val nextReadItem = hasContentDescription("current cover")
+
+    val nextReadItem = hasContentDescription("${comicExample.title}  current cover")
+
+    val readItemMark = hasContentDescription("ReadIcon")
+
+    val unreadItemMark = hasContentDescription("UnreadIcon")
+
+    val secondNestReadItem = hasContentDescription("${secondComicExample.title}  current cover")
+
     val creatorsTemplate = hasText("Creators")
-    val creatorsList = hasText("creator")
+    val creatorsList = hasContentDescription("${creatorExample.name} creator")
     val charactersTemplate = hasText("Characters")
-    val charactersList = hasText("character")
+    val charactersList = hasContentDescription("${characterExample.name} character")
     val connectedTemplate = hasText("Connected")
-    val connectedList = hasText(series.connectedSeries.first().toString())
-    val noConnectedList = hasText("No connected series")
+    val connectedList = hasContentDescription("${secondSeriesExample.title}  current cover")
+
+    val seriesScreenScroll = hasTestTag("seriesScreenScroll")
+
 }
 
 object AllScreenTestObj{
@@ -128,6 +149,15 @@ object AllScreenTestObj{
 
 object AllComicFromSeriesScreenTestObj{
     val AllTemplate = hasText("All Comics")
+    val comicListItem = hasContentDescription("${secondComicExample.title}  current cover")
+
+    val comicList = hasTestTag("all_comics_from_series")
+    val readItemMark = hasContentDescription("ReadIcon")
+
+    val secondPageItem = hasContentDescription("${comicExample.title}  current cover")
+    val unreadItemMark = hasContentDescription("UnreadIcon")
+
+    val loadMoreButton = hasTestTag("load_more")
 
 }
 

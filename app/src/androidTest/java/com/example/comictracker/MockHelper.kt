@@ -61,7 +61,6 @@ class MockHelper(
                 it.loadNextRead(series.seriesId)
             ).thenReturn(null)
         }
-
     }
 
     suspend fun mockHomeScreenSetUp(){
@@ -177,6 +176,73 @@ class MockHelper(
                 it.getAllCharacters()
             ).thenReturn(characterList)
         }
+
+    }
+
+    suspend fun mockSeriesSetUpForSeriesTest(series: SeriesModel,mark: String,favorite:Boolean,nextRead:ComicModel){
+        remoteSeriesRepository?.let {
+            Mockito.`when`(
+                it.getSeriesById(series.seriesId)
+            ).thenReturn(series)
+
+            Mockito.`when`(
+                it.getConnectedSeries(series.connectedSeries)
+            ).thenReturn(listOf(secondSeriesExample))
+        }
+
+        remoteComicsRepository?.let {
+            Mockito.`when`(
+                it.getComicsFromSeries(series.seriesId)
+            ).thenReturn(listOf(comicExample, secondComicExample))
+            Mockito.`when`(
+                it.getComicById(comicExample.comicId)
+            ).thenReturn(nextRead)
+        }
+
+        remoteCharacterRepository?.let {
+            Mockito.`when`(
+                it.getSeriesCharacters(series.seriesId)
+            ).thenReturn(listOf(characterExample))
+        }
+
+        remoteCreatorsRepository?.let {
+            Mockito.`when`(
+                it.getSeriesCreators(series.creators!!)
+            ).thenReturn(listOf(creatorExample))
+        }
+
+        localReadRepository?.let {
+            Mockito.`when`(
+                it.loadSeriesMark(series.seriesId)
+            ).thenReturn(mark)
+
+            Mockito.`when`(
+                it.loadSeriesFavoriteMark(series.seriesId)
+            ).thenReturn(favorite)
+
+            Mockito.`when`(
+                it.loadNextRead(series.seriesId)
+            ).thenReturn(comicExample.comicId)
+        }
+    }
+
+    suspend fun mockAllComicsFromSeriesScreenSetup(seriesExample: SeriesModel, comicList:List<ComicModel>,mark: String = "read"){
+        remoteComicsRepository?.let {
+            Mockito.`when`(
+                it.getComicsFromSeries(seriesExample.seriesId,0)
+            ).thenReturn(
+                comicList
+            )
+        }
+
+        localReadRepository?.let { rep ->
+            comicList.forEach { comic ->
+                Mockito.`when`(
+                    rep.loadComicMark(comic.comicId)
+                ).thenReturn(mark)
+            }
+        }
+
 
     }
 }

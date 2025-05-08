@@ -12,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.comictracker.presentation.mvi.ComicAppState
@@ -41,7 +42,7 @@ fun SeriesScreen(
                         onDismiss = { showToast = false })
                     is DataState.Loading -> CircularProgressIndicator()
                     is DataState.Success -> {
-                        Column(Modifier.verticalScroll(rememberScrollState())){
+                        Column(Modifier.verticalScroll(rememberScrollState()).testTag("seriesScreenScroll")){
                             AboutSeriesSec(state.dataState.result.series!!)
 
                             val firstIssue = if (state.dataState.result.comicList.isNotEmpty())  state.dataState.result.comicList[0] else null

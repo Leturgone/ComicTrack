@@ -18,6 +18,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -62,7 +63,7 @@ fun AllComicSeriesSec(seriesId:Int,
                         DataState.Loading -> CircularProgressIndicator()
                         is DataState.Success -> {
                             val comics = state.comicFromSeriesList.result
-                            LazyColumn{
+                            LazyColumn(modifier = Modifier.testTag("all_comics_from_series")){
                                 items(comics.size){
                                     val comic = comics[it]
                                     ComicFromSeriesCard(comic,navController){
@@ -87,7 +88,7 @@ fun AllComicSeriesSec(seriesId:Int,
                                         }
                                     }
                                     if((it == comics.size-1) and (comics.size == loadCount+50)){
-                                        Box(modifier = Modifier.fillMaxWidth(), contentAlignment = Alignment.Center){
+                                        Box(modifier = Modifier.fillMaxWidth().testTag("load_more"), contentAlignment = Alignment.Center){
                                             Button(onClick = {
                                                 navController.popBackStack()
                                                 navController.navigate("comics_from_series/$seriesId/${loadCount+50}")

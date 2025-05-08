@@ -124,13 +124,7 @@ class ComicScreenTests {
 
             mockHelper.mockComicScreenSetup(comicExample,"read")
 
-            Mockito.`when`(
-                remoteCharacterRepository.getCharacterById(characterExample.characterId)
-            ).thenReturn(characterExample)
-
-            Mockito.`when`(
-                remoteSeriesRepository.getCharacterSeries(characterExample.characterId)
-            ).thenReturn(emptyList())
+            mockHelper.mockCharacterScreen(characterExample, emptyList())
 
             val comicScreenNode =AboutComicScreenTestObj(comicExample)
 

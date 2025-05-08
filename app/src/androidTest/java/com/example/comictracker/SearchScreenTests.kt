@@ -128,6 +128,20 @@ class SearchScreenTests {
     }
 
 
+    @Test
+    fun navigateToHomeScreenTest(){
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(BottomBarTestObj.searchTemplate).assertExists()
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(BottomBarTestObj.homeTemplate).performClick()
+
+            onNode(HomeScreenTestObj.continueReadingTemplate).assertExists()
+        }
+    }
+
 
 
     @Test
