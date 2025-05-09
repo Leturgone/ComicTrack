@@ -4,10 +4,10 @@ import com.example.comictracker.data.database.dao.ComicsDao
 import com.example.comictracker.data.database.dao.SeriesDao
 import com.example.comictracker.data.database.dao.SeriesListDao
 import com.example.comictracker.data.repository.local.LocalReadRepositoryImpl
+import com.example.comictracker.domain.model.StatisticsforAll
 import com.example.comictracker.domain.repository.local.LocalReadRepository
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.mockito.Mockito
@@ -149,16 +149,38 @@ class LocalReadRepositoryTest {
     }
 
     @Test
-    fun loadStatisticsSuccessTest(){}
+    fun loadStatisticsSuccessTest() = runTest{
+        Mockito.`when`(comicsDao.getComicsCount()).thenReturn(1)
+        Mockito.`when`(seriesListDao.getReadSeriesCount()).thenReturn(2)
+        Mockito.`when`(seriesListDao.getWillBeReadSeriesCount()).thenReturn(3)
+
+        val exceptedStats = StatisticsforAll(1,1,2,2,3)
+
+        val result = localReadRepository.loadStatistics()
+
+        assertEquals(exceptedStats,result)
+    }
+
 
     @Test
-    fun loadStatisticsErrorTest(){}
+    fun loadFavoritesIdsSuccessTest() = runTest{
+        Mockito.`when`(
+            seriesListDao.getFavoriteSeriesApiIds()
+        ).thenReturn(listOf(1,2,3))
+
+        val result = localReadRepository.loadFavoritesIds()
+        assertEquals(listOf(1,2,3),result)
+    }
 
     @Test
-    fun loadFavoritesIdsSuccessTest(){}
+    fun loadFavoritesIdsErrorTest() = runTest{
+        Mockito.`when`(
+            seriesListDao.getFavoriteSeriesApiIds()
+        ).thenReturn(emptyList())
 
-    @Test
-    fun loadFavoritesIdsErrorTest(){}
+        val result = localReadRepository.loadFavoritesIds()
+        assertEquals(emptyList<Int>(),result)
+    }
 
     @Test
     fun loadComicMarkSuccessTest(){}
