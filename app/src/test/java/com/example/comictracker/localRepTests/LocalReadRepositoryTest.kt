@@ -128,10 +128,25 @@ class LocalReadRepositoryTest {
     }
 
     @Test
-    fun loadWillBeReadIdsSuccessTest(){}
+    fun loadWillBeReadIdsSuccessTest() = runTest{
+        Mockito.`when`(
+            seriesListDao.getWillBeReadSeriesApiIds(0)
+        ).thenReturn(listOf(1,2,3))
+
+        val result = localReadRepository.loadWillBeReadIds(0)
+        assertEquals(listOf(1,2,3),result)
+
+    }
 
     @Test
-    fun loadWillBeReadIdsErrorTest(){}
+    fun loadWillBeReadIdsErrorTest() = runTest {
+        Mockito.`when`(
+            seriesListDao.getWillBeReadSeriesApiIds(0)
+        ).thenReturn(emptyList())
+
+        val result = localReadRepository.loadWillBeReadIds(0)
+        assertEquals(emptyList<Int>(),result)
+    }
 
     @Test
     fun loadStatisticsSuccessTest(){}
