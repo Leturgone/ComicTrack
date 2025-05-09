@@ -51,7 +51,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
 
     private fun loadSeriesScreen(seriesId: Int)  = viewModelScope.launch {
         _state.value = ComicAppState.AboutComicScreenState(DataState.Loading)
-        val seriesDeferred = async(Dispatchers.IO){
+        val seriesDeferred = async{
             try {
                 remoteSeriesRepository.getSeriesById(seriesId)
             }catch (e:Exception){
@@ -60,7 +60,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
             }
         }
 
-        val comicListDeferred = async(Dispatchers.IO) {
+        val comicListDeferred = async {
             try{
                 remoteComicsRepository.getComicsFromSeries(seriesId)
             }catch (e:Exception){
@@ -69,7 +69,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
             }
         }
 
-        val characterListDeferred = async(Dispatchers.IO) {
+        val characterListDeferred = async {
             try{
                 remoteCharacterRepository.getSeriesCharacters(seriesId)
             }catch (e:Exception){
@@ -80,7 +80,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
 
         val series = seriesDeferred.await() // Получение series до зависимых задач.
 
-        val creatorListDeferred = async(Dispatchers.IO) {
+        val creatorListDeferred = async {
             try {
                 if (series is SeriesModel){
                     remoteCreatorsRepository.getSeriesCreators(series.creators?: emptyList())
@@ -93,7 +93,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
 
         }
 
-        val connectedSeriesListDeferred = async(Dispatchers.IO) {
+        val connectedSeriesListDeferred = async {
             try{
                 if (series is SeriesModel){
                     remoteSeriesRepository.getConnectedSeries(series.connectedSeries)
@@ -114,11 +114,14 @@ class AboutSeriesScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AboutSeriesScreenState(
             when(series){
                 is SeriesModel -> {
-                    val readMark = localReadRepository.loadSeriesMark(series.seriesId)
-                    val favoriteMark = localReadRepository.loadSeriesFavoriteMark(series.seriesId)
-                    val nextRead = localReadRepository.loadNextRead(series.seriesId)?.let {
+                    val readMarkDef = async { localReadRepository.loadSeriesMark(series.seriesId)}
+                    val favoriteMarkDef = async { localReadRepository.loadSeriesFavoriteMark(series.seriesId) }
+                    val nextReadLocDef = async {  localReadRepository.loadNextRead(series.seriesId)}
+                    val nextRead = nextReadLocDef.await()?.let {
                         remoteComicsRepository.getComicById(it)
                     }
+                    val readMark = readMarkDef.await()
+                    val favoriteMark = favoriteMarkDef.await()
                     Log.i("ViewModel",favoriteMark.toString())
                     val seriesWithMark = series.copy(readMark = readMark, favoriteMark = favoriteMark)
                     DataState.Success(
