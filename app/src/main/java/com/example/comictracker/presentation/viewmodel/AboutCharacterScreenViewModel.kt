@@ -37,7 +37,7 @@ class AboutCharacterScreenViewModel @Inject constructor(
             character = DataState.Loading,
             series = DataState.Loading
         )
-        val characterDef = async(Dispatchers.IO) {
+        val characterDef = async{
             try {
                 DataState.Success(characterRepository.getCharacterById(characterId))
             }catch (e:Exception){
@@ -47,7 +47,7 @@ class AboutCharacterScreenViewModel @Inject constructor(
 
         }
 
-        val seriesDef = async(Dispatchers.IO) {
+        val seriesDef = async {
             try{
                 DataState.Success(seriesRepository.getCharacterSeries(characterId))
             }catch (e:Exception){

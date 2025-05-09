@@ -1,5 +1,6 @@
 package com.example.comictracker.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.repository.local.LocalReadRepository
@@ -47,7 +48,6 @@ class ComicFromSeriesScreenViewModel @Inject constructor(
                                 it.copy(readMark = readMark)
                             })
                     )
-
                 )
             }
         }catch (e:Exception){
@@ -58,22 +58,31 @@ class ComicFromSeriesScreenViewModel @Inject constructor(
     }
 
     private fun markAsReadComicInList(comicApiId: Int, seriesApiId: Int, number: String, loadedCount: Int) = viewModelScope.launch{
-        val nextComicId = async {
-            remoteComicsRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
-        }.await()
+        try {
+            val nextComicId = async {
+                remoteComicsRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
+            }.await()
 
-        if (localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
-            loadComicFromSeriesScreen(seriesApiId,loadedCount)
+            if (localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
+                loadComicFromSeriesScreen(seriesApiId,loadedCount)
+            }
+        }catch (e:Exception){
+            Log.e("markAsReadComicInList",e.toString())
         }
+
     }
 
     private fun markAsUnreadComicInList(comicApiId: Int, seriesApiId: Int, number: String, loadedCount: Int)  = viewModelScope.launch{
-        val prevComicId = async {
-            remoteComicsRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
-        }.await()
+        try {
+            val prevComicId = async {
+                remoteComicsRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
+            }.await()
 
-        if (localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
-            loadComicFromSeriesScreen(seriesApiId,loadedCount)
+            if (localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
+                loadComicFromSeriesScreen(seriesApiId,loadedCount)
+            }
+        }catch (e:Exception){
+            Log.e("markAsUnreadComicInList",e.toString())
         }
     }
 }

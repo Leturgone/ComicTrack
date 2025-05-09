@@ -36,7 +36,7 @@ class SearchScreenViewModel @Inject constructor(
 
     private fun loadSearchScreen() = viewModelScope.launch {
         _state.value = ComicAppState.SearchScreenState(DataState.Loading)
-        val discoverSeriesListDef  = async(Dispatchers.IO) {
+        val discoverSeriesListDef  = async {
             try{
                 DataState.Success(remoteSeriesRepository.getAllSeries())
             }catch(e:Exception){
@@ -54,7 +54,7 @@ class SearchScreenViewModel @Inject constructor(
                 DataState.Error("Error loading May Like Series")
             }
         }
-        val characterListDef  = async(Dispatchers.IO) {
+        val characterListDef  = async {
             try{
                 DataState.Success(remoteCharacterRepository.getAllCharacters())
             }catch(e:Exception){
@@ -74,7 +74,7 @@ class SearchScreenViewModel @Inject constructor(
 
     private fun loadSearchResults(query: String) = viewModelScope.launch{
         _state.value = ComicAppState.SearchResultScreenSate(DataState.Loading)
-        val searchSeriesListDeferred = async(Dispatchers.IO) {
+        val searchSeriesListDeferred = async {
             try {
                 DataState.Success(remoteSeriesRepository.getSeriesByTitle(query))
             }catch (e:Exception){
@@ -84,7 +84,7 @@ class SearchScreenViewModel @Inject constructor(
 
         }
 
-        val searchCharacterListDeferred = async(Dispatchers.IO) {
+        val searchCharacterListDeferred = async {
             try {
                 DataState.Success(remoteCharacterRepository.getCharactersByName(query))
             }catch (e:Exception){
