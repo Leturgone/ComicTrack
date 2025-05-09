@@ -48,7 +48,6 @@ class ComicFromSeriesScreenViewModel @Inject constructor(
                                 it.copy(readMark = readMark)
                             })
                     )
-
                 )
             }
         }catch (e:Exception){
