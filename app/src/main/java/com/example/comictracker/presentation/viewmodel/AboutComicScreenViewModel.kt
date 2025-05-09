@@ -83,14 +83,18 @@ class AboutComicScreenViewModel @Inject constructor(
         _state.value = (ComicAppState.AboutComicScreenState(
             when(comic){
                 is ComicModel ->{
-                    val readMark = localReadRepository.loadComicMark(comic.comicId)
-                    val comicWithMark = comic.copy(readMark = readMark)
-                    DataState.Success(
-                        AboutComicScreenData(
-                            comic = comicWithMark, creatorList = creatorList, characterList = characterList)
-                    )
+                    try {
+                        val readMark = localReadRepository.loadComicMark(comic.comicId)
+                        val comicWithMark = comic.copy(readMark = readMark)
+                        DataState.Success(
+                            AboutComicScreenData(
+                                comic = comicWithMark, creatorList = creatorList, characterList = characterList)
+                        )
+                    }catch (e:Exception){
+                        Log.e("loadComicScreen",e.toString())
+                        DataState.Error("Error loading this series")
+                    }
                 }
-
                 else ->  DataState.Error("Error loading this series")
             }))
     }
