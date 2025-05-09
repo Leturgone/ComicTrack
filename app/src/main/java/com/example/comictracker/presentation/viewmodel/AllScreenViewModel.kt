@@ -47,7 +47,7 @@ class AllScreenViewModel @Inject constructor(
 
     private fun loadAllCharacterSeriesScreen(characterId: Int,loadedCount:Int) = viewModelScope.launch{
         _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
-        val seriesDef = async(Dispatchers.IO) {
+        val seriesDef = async {
             try{
                 DataState.Success(remoteSeriesRepository.getCharacterSeries(characterId,loadedCount))
             }catch (e:Exception){
@@ -74,7 +74,7 @@ class AllScreenViewModel @Inject constructor(
 
     private fun loadAllDiscoverSeriesScreen(loadedCount:Int) = viewModelScope.launch{
         _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
-        val seriesDef = async(Dispatchers.IO) {
+        val seriesDef = async {
             try{
                 DataState.Success(remoteSeriesRepository.getAllSeries(loadedCount))
             }catch (e:Exception){
@@ -89,7 +89,7 @@ class AllScreenViewModel @Inject constructor(
 
     private fun loadAllCharactersScreen(loadedCount: Int) = viewModelScope.launch {
         _state.value = ComicAppState.AllCharactersScreenSate(DataState.Loading)
-        val characterListDef  = async(Dispatchers.IO) {
+        val characterListDef  = async {
             try{
                 DataState.Success(remoteCharacterRepository.getAllCharacters(loadedCount))
             }catch(e:Exception){
