@@ -183,10 +183,22 @@ class LocalReadRepositoryTest {
     }
 
     @Test
-    fun loadComicMarkSuccessTest(){}
+    fun loadComicMarkSuccessTest() = runTest{
+        Mockito.`when`(
+            comicsDao.getComicMark(11)
+        ).thenReturn("read")
+        val result = localReadRepository.loadComicMark(11)
+        assertEquals("read",result)
+    }
 
     @Test
-    fun loadComicMarkErrorTest(){}
+    fun loadComicMarkErrorTest() = runTest{
+        Mockito.`when`(
+            comicsDao.getComicMark(11)
+        ).thenReturn(null)
+        val result = localReadRepository.loadComicMark(11)
+        assertEquals("unread",result)
+    }
 
     @Test
     fun loadSeriesMarkSuccessTest(){}
