@@ -48,10 +48,24 @@ class LocalReadRepositoryTest {
     }
 
     @Test
-    fun loadNextReadComicIdsSuccessTest(){}
+    fun loadNextReadComicIdsSuccessTest() = runTest{
+        Mockito.`when`(
+            seriesListDao.getNextComicsForSeries(0)
+        ).thenReturn(listOf(1,2,3))
+
+        val result = localReadRepository.loadNextReadComicIds(0)
+        assertEquals(listOf(1,2,3),result)
+    }
 
     @Test
-    fun loadNextReadComicIdsErrorTest(){}
+    fun loadNextReadComicIdsErrorTest() = runTest {
+        Mockito.`when`(
+            seriesListDao.getNextComicsForSeries(0)
+        ).thenReturn(listOf(1,null,2,null))
+
+        val result = localReadRepository.loadNextReadComicIds(0)
+        assertEquals(listOf(1,2),result)
+    }
 
     @Test
     fun loadHistorySuccessTest(){}
