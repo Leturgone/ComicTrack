@@ -114,26 +114,32 @@ class AboutSeriesScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AboutSeriesScreenState(
             when(series){
                 is SeriesModel -> {
-                    val readMarkDef = async { localReadRepository.loadSeriesMark(series.seriesId)}
-                    val favoriteMarkDef = async { localReadRepository.loadSeriesFavoriteMark(series.seriesId) }
-                    val nextReadLocDef = async {  localReadRepository.loadNextRead(series.seriesId)}
-                    val nextRead = nextReadLocDef.await()?.let {
-                        remoteComicsRepository.getComicById(it)
-                    }
-                    val readMark = readMarkDef.await()
-                    val favoriteMark = favoriteMarkDef.await()
-                    Log.i("ViewModel",favoriteMark.toString())
-                    val seriesWithMark = series.copy(readMark = readMark, favoriteMark = favoriteMark)
-                    DataState.Success(
-                        AboutSeriesScreenData(
-                            series = seriesWithMark,
-                            comicList = comicList,
-                            creatorList = creatorList,
-                            characterList = characterList,
-                            connectedSeriesList = connectedSeriesList,
-                            nextRead = nextRead?: if (comicList.isNotEmpty()) comicList[0] else null
+                    try {
+                        val readMarkDef = async { localReadRepository.loadSeriesMark(series.seriesId)}
+                        val favoriteMarkDef = async { localReadRepository.loadSeriesFavoriteMark(series.seriesId) }
+                        val nextReadLocDef = async {  localReadRepository.loadNextRead(series.seriesId)}
+                        val nextRead = nextReadLocDef.await()?.let {
+                            remoteComicsRepository.getComicById(it)
+                        }
+                        val readMark = readMarkDef.await()
+                        val favoriteMark = favoriteMarkDef.await()
+                        Log.i("ViewModel",favoriteMark.toString())
+                        val seriesWithMark = series.copy(readMark = readMark, favoriteMark = favoriteMark)
+                        DataState.Success(
+                            AboutSeriesScreenData(
+                                series = seriesWithMark,
+                                comicList = comicList,
+                                creatorList = creatorList,
+                                characterList = characterList,
+                                connectedSeriesList = connectedSeriesList,
+                                nextRead = nextRead?: if (comicList.isNotEmpty()) comicList[0] else null
+                            )
                         )
-                    )
+                    }catch (e:Exception){
+                        Log.e("loadSeriesScreen",e.toString())
+                        DataState.Error("Error loading this series ")
+                    }
+
                 }
                 else -> DataState.Error("Error loading this series ")
             }
