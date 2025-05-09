@@ -1,5 +1,6 @@
 package com.example.comictracker.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.repository.local.LocalReadRepository
@@ -32,23 +33,29 @@ class HomeScreenViewModel @Inject constructor(
     private fun loadHomeScreen() = viewModelScope.launch {
         _state.value = ComicAppState.HomeScreenState(DataState.Loading)
 
-        val loadedIdsSeriesFromBDDef = async { localReadRepository.loadCurrentReadIds(0) }
-        val loadedIdsNextReadComicFromBDDef = async {localReadRepository.loadNextReadComicIds(0)  }
+        val result = try {
+            val loadedIdsSeriesFromBDDef = async { localReadRepository.loadCurrentReadIds(0) }
+            val loadedIdsNextReadComicFromBDDef = async {localReadRepository.loadNextReadComicIds(0)  }
 
-        val loadedIdsSeriesFromBD = loadedIdsSeriesFromBDDef.await()
-        val loadedIdsNextReadComicFromBD = loadedIdsNextReadComicFromBDDef.await()
+            val loadedIdsSeriesFromBD = loadedIdsSeriesFromBDDef.await()
+            val loadedIdsNextReadComicFromBD = loadedIdsNextReadComicFromBDDef.await()
 
-        val newComicsDef = async { remoteComicsRepository.fetchUpdatesForSeries(loadedIdsSeriesFromBD) }
-        val nextComicsDef = async { remoteComicsRepository.fetchComics(loadedIdsNextReadComicFromBD) }
+            val newComicsDef = async { remoteComicsRepository.fetchUpdatesForSeries(loadedIdsSeriesFromBD) }
+            val nextComicsDef = async { remoteComicsRepository.fetchComics(loadedIdsNextReadComicFromBD) }
 
-        val newComics = newComicsDef.await()
-        val nextComics = nextComicsDef.await()
+            val newComics = newComicsDef.await()
+            val nextComics = nextComicsDef.await()
 
-        _state.value = ComicAppState.HomeScreenState(
             DataState.Success(
                 HomeScreenData(
                     newReleasesList = newComics, continueReadingList = nextComics
                 )
-            ))
+            )
+        }catch (e:Exception){
+            Log.e("loadHomeScreen",e.toString())
+            DataState.Error("Error while loading home screen")
+        }
+
+        _state.value = ComicAppState.HomeScreenState(result)
     }
 }
