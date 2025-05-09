@@ -1,5 +1,6 @@
 package com.example.comictracker.presentation.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.repository.local.LocalReadRepository
@@ -34,28 +35,29 @@ class LibraryScreenViewModel @Inject constructor(
             LibraryScreenIntent.LoadLibraryScreen -> loadLibraryScreen()
         }
     }
+
     private fun loadLibraryScreen() = viewModelScope.launch {
         _state.value = ComicAppState.MyLibraryScreenState(DataState.Loading)
 
-        val loadedStatisticsFromBDDef = async {localReadRepository.loadStatistics()}
-        val loadedFavoriteSeriesIdsFromBDDef = async {localReadRepository.loadFavoritesIds() }
-        val loadedCurrentlyReadingSeriesIdsFromBDDef = async { localReadRepository.loadCurrentReadIds(0) }
-        val loadedHistoryReadComicFromBDDef = async {localReadRepository.loadHistory(0) }
+        val result = try {
+            val loadedStatisticsFromBDDef = async {localReadRepository.loadStatistics()}
+            val loadedFavoriteSeriesIdsFromBDDef = async {localReadRepository.loadFavoritesIds() }
+            val loadedCurrentlyReadingSeriesIdsFromBDDef = async { localReadRepository.loadCurrentReadIds(0) }
+            val loadedHistoryReadComicFromBDDef = async {localReadRepository.loadHistory(0) }
 
-        val loadedStatisticsFromBD = loadedStatisticsFromBDDef.await()
-        val loadedFavoriteSeriesIdsFromBD = loadedFavoriteSeriesIdsFromBDDef.await()
-        val loadedCurrentlyReadingSeriesIdsFromBD = loadedCurrentlyReadingSeriesIdsFromBDDef.await()
-        val loadedHistoryReadComicFromBD = loadedHistoryReadComicFromBDDef.await()
+            val loadedStatisticsFromBD = loadedStatisticsFromBDDef.await()
+            val loadedFavoriteSeriesIdsFromBD = loadedFavoriteSeriesIdsFromBDDef.await()
+            val loadedCurrentlyReadingSeriesIdsFromBD = loadedCurrentlyReadingSeriesIdsFromBDDef.await()
+            val loadedHistoryReadComicFromBD = loadedHistoryReadComicFromBDDef.await()
 
-        val favoriteSeriesDef = async {remoteSeriesRepository.fetchSeries(loadedFavoriteSeriesIdsFromBD) }
-        val currentSeriesDef = async {remoteSeriesRepository.fetchSeries(loadedCurrentlyReadingSeriesIdsFromBD) }
-        val lastComicsDef = async {remoteComicsRepository.fetchComics(loadedHistoryReadComicFromBD) }
+            val favoriteSeriesDef = async {remoteSeriesRepository.fetchSeries(loadedFavoriteSeriesIdsFromBD) }
+            val currentSeriesDef = async {remoteSeriesRepository.fetchSeries(loadedCurrentlyReadingSeriesIdsFromBD) }
+            val lastComicsDef = async {remoteComicsRepository.fetchComics(loadedHistoryReadComicFromBD) }
 
-        val favoriteSeries = favoriteSeriesDef.await()
-        val currentSeries = currentSeriesDef.await()
-        val lastComics = lastComicsDef.await()
+            val favoriteSeries = favoriteSeriesDef.await()
+            val currentSeries = currentSeriesDef.await()
+            val lastComics = lastComicsDef.await()
 
-        _state.value = ComicAppState.MyLibraryScreenState(
             DataState.Success(
                 MyLibraryScreenData(
                     statistics = loadedStatisticsFromBD,
@@ -63,6 +65,12 @@ class LibraryScreenViewModel @Inject constructor(
                     currentlyReadingList = currentSeries,
                     lastUpdates = lastComics
                 )
-            ))
+            )
+        }catch (e:Exception){
+            Log.e("loadLibraryScreen",e.toString())
+            DataState.Error("Error while loading library screen")
+        }
+
+        _state.value = ComicAppState.MyLibraryScreenState(result)
     }
 }
