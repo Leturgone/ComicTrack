@@ -201,10 +201,24 @@ class LocalReadRepositoryTest {
     }
 
     @Test
-    fun loadSeriesMarkSuccessTest(){}
+    fun loadSeriesMarkSuccessTest() = runTest{
+        Mockito.`when`(
+            seriesListDao.getSeriesMark(11)
+        ).thenReturn("read")
+
+        val result = localReadRepository.loadSeriesMark(11)
+        assertEquals("read",result)
+    }
 
     @Test
-    fun loadSeriesMarkErrorTest(){}
+    fun loadSeriesMarkErrorTest() = runTest{
+        Mockito.`when`(
+            seriesListDao.getSeriesMark(11)
+        ).thenReturn(null)
+
+        val result = localReadRepository.loadSeriesMark(11)
+        assertEquals("unread",result)
+    }
 
     @Test
     fun loadSeriesFavoriteMarkSuccessTest(){}
