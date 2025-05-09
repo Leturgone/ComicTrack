@@ -138,59 +138,92 @@ class AboutSeriesScreenViewModel @Inject constructor(
     }
 
     private fun markAsCurrentlyReadingSeries(apiId:Int,firstIssueId:Int?)  = viewModelScope.launch{
-        if (localWriteRepository.addSeriesToCurrentlyRead(apiId,firstIssueId)){
-            loadSeriesScreen(apiId)
+        try {
+            if (localWriteRepository.addSeriesToCurrentlyRead(apiId,firstIssueId)){
+                loadSeriesScreen(apiId)
+            }
+        }catch (e:Exception){
+            Log.e("markAsCurrentlyReadingSeries",e.toString())
         }
     }
 
     private fun markAsReadSeries(apiId:Int) = viewModelScope.launch(Dispatchers.IO){
-        if (localWriteRepository.markSeriesRead(apiId)){
-            loadSeriesScreen(apiId)
+        try {
+            if (localWriteRepository.markSeriesRead(apiId)){
+                loadSeriesScreen(apiId)
+            }
+        }catch (e:Exception){
+            Log.e("markAsReadSeries",e.toString())
         }
     }
 
     private fun markUnreadSeries(apiId:Int)  = viewModelScope.launch{
-        if (localWriteRepository.markSeriesUnread(apiId)){
-            loadSeriesScreen(apiId)
+        try {
+            if (localWriteRepository.markSeriesUnread(apiId)){
+                loadSeriesScreen(apiId)
+            }
+        }catch (e:Exception){
+            Log.e("markUnreadSeries",e.toString())
         }
     }
 
     private fun markWillBeReadSeries(apiId:Int)  = viewModelScope.launch{
-        if(localWriteRepository.addSeriesToWillBeRead(apiId)){
-            loadSeriesScreen(apiId)
+        try {
+            if(localWriteRepository.addSeriesToWillBeRead(apiId)){
+                loadSeriesScreen(apiId)
+            }
+        }catch (e:Exception){
+            Log.e("markWillBeReadSeries",e.toString())
         }
     }
 
     private fun addSeriesToFavorite(apiId: Int) = viewModelScope.launch {
-        if(localWriteRepository.addSeriesToFavorite(apiId)){
-            loadSeriesScreen(apiId)
+        try {
+            if(localWriteRepository.addSeriesToFavorite(apiId)){
+                loadSeriesScreen(apiId)
+            }
+        }catch (e:Exception){
+            Log.e("addSeriesToFavorite",e.toString())
         }
-
     }
 
     private fun removeSeriesFromFavorites(apiId: Int)  = viewModelScope.launch{
-        if(localWriteRepository.removeSeriesFromFavorite(apiId)){
-            loadSeriesScreen(apiId)
+        try {
+            if(localWriteRepository.removeSeriesFromFavorite(apiId)){
+                loadSeriesScreen(apiId)
+            }
+        }catch (e:Exception){
+            Log.e("removeSeriesFromFavorites",e.toString())
         }
+
     }
 
     private fun markAsReadNextComic(comicApiId: Int, seriesApiId: Int, number: String) = viewModelScope.launch{
-        val nextComicId = async {
-            remoteComicsRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
-        }.await()
+        try {
+            val nextComicId = async {
+                remoteComicsRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
+            }.await()
 
-        if (localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
-            loadSeriesScreen(seriesApiId)
+            if (localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
+                loadSeriesScreen(seriesApiId)
+            }
+        }catch (e:Exception){
+            Log.e("markAsReadNextComic",e.toString())
         }
+
     }
 
     private fun markAsUnreadNextComic(comicApiId: Int, seriesApiId: Int, number: String) = viewModelScope.launch{
-        val prevComicId = async {
-            remoteComicsRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
-        }.await()
+        try {
+            val prevComicId = async {
+                remoteComicsRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
+            }.await()
 
-        if (localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
-            loadSeriesScreen(seriesApiId)
+            if (localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
+                loadSeriesScreen(seriesApiId)
+            }
+        }catch (e:Exception){
+            Log.e("markAsUnreadNextComic",e.toString())
         }
     }
 }
