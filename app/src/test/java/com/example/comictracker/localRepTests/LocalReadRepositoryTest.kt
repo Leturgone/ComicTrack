@@ -231,10 +231,24 @@ class LocalReadRepositoryTest {
     }
 
     @Test
-    fun loadNextReadSuccessTest(){}
+    fun loadNextReadSuccessTest() = runTest{
+        Mockito.`when`(
+            seriesDao.getNextRead(11)
+        ).thenReturn(1)
+
+        val result = localReadRepository.loadNextRead(11)
+        assertEquals(1,result)
+    }
 
     @Test
-    fun loadNextReadErrorTest(){}
+    fun loadNextReadErrorTest() = runTest{
+        Mockito.`when`(
+            seriesDao.getNextRead(11)
+        ).thenReturn(null)
+
+        val result = localReadRepository.loadNextRead(11)
+        assertEquals(null,result)
+    }
 
 
 
