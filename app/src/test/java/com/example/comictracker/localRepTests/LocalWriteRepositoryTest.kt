@@ -3,12 +3,19 @@ package com.example.comictracker.localRepTests
 import com.example.comictracker.data.database.dao.ComicsDao
 import com.example.comictracker.data.database.dao.SeriesDao
 import com.example.comictracker.data.database.dao.SeriesListDao
+import com.example.comictracker.data.database.enteties.SeriesEntity
 import com.example.comictracker.data.repository.local.LocalWriteRepositoryImpl
 import com.example.comictracker.domain.repository.local.LocalWriteRepository
+import kotlinx.coroutines.test.runTest
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.robolectric.RobolectricTestRunner
 
+@RunWith(RobolectricTestRunner::class)
 class LocalWriteRepositoryTest {
     private lateinit var comicsDao: ComicsDao
     private lateinit var seriesDao: SeriesDao
@@ -24,10 +31,29 @@ class LocalWriteRepositoryTest {
     }
 
     @Test
-    fun markSeriesReadSuccessTest(){}
+    fun markSeriesReadSuccessTest() = runTest{
+
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(11)
+        ).thenReturn(SeriesEntity(11))
+
+        Mockito.`when`(
+            seriesListDao.isSeriesInList(11)
+        ).thenReturn(false)
+
+        val result = localWriteRepository.markSeriesRead(11)
+        assertTrue(result)
+    }
 
     @Test
-    fun markSeriesReadErrorTest(){}
+    fun markSeriesReadErrorTest() = runTest{
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(11)
+        ).thenReturn(null)
+
+        val result = localWriteRepository.markSeriesRead(11)
+        assertFalse(result)
+    }
 
     @Test
     fun markComicReadSuccessTest(){}
