@@ -37,15 +37,23 @@ class LibraryScreenViewModel @Inject constructor(
     private fun loadLibraryScreen() = viewModelScope.launch {
         _state.value = ComicAppState.MyLibraryScreenState(DataState.Loading)
 
-        val loadedStatisticsFromBD = localReadRepository.loadStatistics()
-        val loadedFavoriteSeriesIdsFromBD = localReadRepository.loadFavoritesIds()
-        val loadedCurrentlyReadingSeriesIdsFromBD = localReadRepository.loadCurrentReadIds(0)
-        val loadedHistoryReadComicFromBD = localReadRepository.loadHistory(0)
+        val loadedStatisticsFromBDDef = async {localReadRepository.loadStatistics()}
+        val loadedFavoriteSeriesIdsFromBDDef = async {localReadRepository.loadFavoritesIds() }
+        val loadedCurrentlyReadingSeriesIdsFromBDDef = async { localReadRepository.loadCurrentReadIds(0) }
+        val loadedHistoryReadComicFromBDDef = async {localReadRepository.loadHistory(0) }
 
+        val loadedStatisticsFromBD = loadedStatisticsFromBDDef.await()
+        val loadedFavoriteSeriesIdsFromBD = loadedFavoriteSeriesIdsFromBDDef.await()
+        val loadedCurrentlyReadingSeriesIdsFromBD = loadedCurrentlyReadingSeriesIdsFromBDDef.await()
+        val loadedHistoryReadComicFromBD = loadedHistoryReadComicFromBDDef.await()
 
-        val favoriteSeries = remoteSeriesRepository.fetchSeries(loadedFavoriteSeriesIdsFromBD)
-        val currentSeries = remoteSeriesRepository.fetchSeries(loadedCurrentlyReadingSeriesIdsFromBD)
-        val lastComics = remoteComicsRepository.fetchComics(loadedHistoryReadComicFromBD)
+        val favoriteSeriesDef = async {remoteSeriesRepository.fetchSeries(loadedFavoriteSeriesIdsFromBD) }
+        val currentSeriesDef = async {remoteSeriesRepository.fetchSeries(loadedCurrentlyReadingSeriesIdsFromBD) }
+        val lastComicsDef = async {remoteComicsRepository.fetchComics(loadedHistoryReadComicFromBD) }
+
+        val favoriteSeries = favoriteSeriesDef.await()
+        val currentSeries = currentSeriesDef.await()
+        val lastComics = lastComicsDef.await()
 
         _state.value = ComicAppState.MyLibraryScreenState(
             DataState.Success(
