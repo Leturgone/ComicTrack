@@ -1,0 +1,327 @@
+{
+  "attributionHTML": "<a href=\"http://marvel.com\">Data provided by Marvel. © 2025 MARVEL</a>",
+  "attributionText": "Data provided by Marvel. © 2025 MARVEL",
+  "code": 200,
+  "copyright": "© 2025 MARVEL",
+  "data": {
+    "count": 1,
+    "limit": 20,
+    "offset": 0,
+    "results": [
+      {
+        "id": 2707,
+        "firstName": "Jeff",
+        "middleName": "",
+        "lastName": "Albrecht",
+        "suffix": "",
+        "fullName": "Jeff Albrecht",
+        "modified": "2010-11-18T13:35:05+0000",
+        "thumbnail": {
+          "path": "http://i.annihil.us/u/prod/marvel/i/mg/3/c0/4c3652d069f65",
+          "extension": "jpg"
+        },
+        "resourceURI": "https://gateway.marvel.com/v1/public/creators/2707",
+        "comics": {
+          "available": 57,
+          "collectionURI": "https://gateway.marvel.com/v1/public/creators/2707/comics",
+          "items": [
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/12653",
+              "name": "Alpha Flight (1983) #113"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/6933",
+              "name": "Avengers Annual (1967) #19"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/17774",
+              "name": "Avengers Annual (1967) #19 (Variant)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/75268",
+              "name": "Avengers Spotlight (1989) #35"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/94943",
+              "name": "Avengers West Coast Epic Collection: Darker Than Scarlet (Trade Paperback)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/8634",
+              "name": "Excalibur (1988) #51"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/8703",
+              "name": "Fantastic Four Annual (1963) #24"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/68451",
+              "name": "Green Goblin (1995) #8"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/38970",
+              "name": "GREEN GOBLIN: A LIGHTER SHADE OF GREEN (Trade Paperback)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9189",
+              "name": "Incredible Hulk (1962) #378"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9191",
+              "name": "Incredible Hulk (1962) #380"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/16873",
+              "name": "Incredible Hulk Annual (1976) #16"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/16874",
+              "name": "Incredible Hulk Annual (1976) #17"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/90306",
+              "name": "INCREDIBLE HULK BY PETER DAVID OMNIBUS VOL. 2 (Hardcover)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/60694",
+              "name": "IRON FIST: THE BOOK OF CHANGES (Trade Paperback)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9502",
+              "name": "Iron Man (1968) #257"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/10100",
+              "name": "Marvel Comics Presents (1988) #22"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/10101",
+              "name": "Marvel Comics Presents (1988) #23"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/10102",
+              "name": "Marvel Comics Presents (1988) #24"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/10105",
+              "name": "Marvel Comics Presents (1988) #27"
+            }
+          ],
+          "returned": 20
+        },
+        "series": {
+          "available": 38,
+          "collectionURI": "https://gateway.marvel.com/v1/public/creators/2707/series",
+          "items": [
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/2116",
+              "name": "Alpha Flight (1983 - 1994)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/1988",
+              "name": "Avengers Annual (1967 - 1994)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/24456",
+              "name": "Avengers Spotlight (1989 - 1991)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/32334",
+              "name": "Avengers West Coast Epic Collection: Darker Than Scarlet (2022)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/2011",
+              "name": "Excalibur (1988 - 1998)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/2012",
+              "name": "Fantastic Four Annual (1963 - 1994)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/22916",
+              "name": "Ghost Rider/Blaze: Spirits of Vengeance (1992 - 1994)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/7077",
+              "name": "Green Goblin (1995 - 1996)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/14100",
+              "name": "GREEN GOBLIN: A LIGHTER SHADE OF GREEN (2011 - Present)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/2021",
+              "name": "Incredible Hulk (1962 - 1999)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/2983",
+              "name": "Incredible Hulk Annual (1976 - 1994)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/31063",
+              "name": "INCREDIBLE HULK BY PETER DAVID OMNIBUS VOL. 2 (2020)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/22426",
+              "name": "IRON FIST: THE BOOK OF CHANGES (2017)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/2029",
+              "name": "Iron Man (1968 - 1996)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/25865",
+              "name": "Justice (1986 - 1989)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/2039",
+              "name": "Marvel Comics Presents (1988 - 1995)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/2301",
+              "name": "Marvel Super Heroes (1990 - 1993)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/23530",
+              "name": "Namor the Sub-Mariner (1990 - 1995)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/2055",
+              "name": "New Mutants (1983 - 1991)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/series/34431",
+              "name": "New Mutants Epic Collection: The End Of The Beginning (2022)"
+            }
+          ],
+          "returned": 20
+        },
+        "stories": {
+          "available": 96,
+          "collectionURI": "https://gateway.marvel.com/v1/public/creators/2707/stories",
+          "items": [
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/21131",
+              "name": "Guardian Battles Alone!",
+              "type": "cover"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/21572",
+              "name": "When the Carnival Comes To Town",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/22064",
+              "name": "Finale",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/31584",
+              "name": "Cover #31584",
+              "type": "cover"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/85523",
+              "name": "Interior #85523",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/108726",
+              "name": "story from Spider-Man: Birth of Venom (2013)",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/115876",
+              "name": "story from Marvel Super Heroes Secret Wars Aftermath (2015)",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/131398",
+              "name": "story from Spider-Man: The Complete Clone Saga Epic (2017)",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/131858",
+              "name": "story from Iron Fist: The Book of Changes (2017)",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/141363",
+              "name": "story from VENOM: CARNAGE UNLEASHED TPB (2017) #1",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/142615",
+              "name": "story from SPIDER-MAN: CLONE SAGA OMNIBUS VOL. 2 HC (2017) #2",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/143037",
+              "name": "story from Venom: Sinner Takes All (1995) #4",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/145091",
+              "name": "interior to Spider-Man: The Final Adventure (1995) #1",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/145093",
+              "name": "interior to Spider-Man: The Final Adventure (1995) #2",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/145095",
+              "name": "interior to Spider-Man: The Final Adventure (1995) #3",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/145097",
+              "name": "interior to Spider-Man: The Final Adventure (1995) #4",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/147003",
+              "name": "story from Avengers Annual (1967) #19",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/149427",
+              "name": "story from GHOST RIDER/BLAZE: SPIRITS OF VENGEANCE (1992) #14",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/149467",
+              "name": "story from Green Goblin (1995) #8",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/149956",
+              "name": "story from Incredible Hulk Annual (1976) #16",
+              "type": "interiorStory"
+            }
+          ],
+          "returned": 20
+        },
+        "events": {
+          "available": 1,
+          "collectionURI": "https://gateway.marvel.com/v1/public/creators/2707/events",
+          "items": [
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/events/116",
+              "name": "Acts of Vengeance!"
+            }
+          ],
+          "returned": 1
+        },
+        "urls": [
+          {
+            "type": "detail",
+            "url": "http://marvel.com/comics/creators/2707/jeff_albrecht?utm_campaign=apiRef&utm_source=14d8a14b31c283549128e029eb25dbba"
+          }
+        ]
+      }
+    ],
+    "total": 1
+  },"etag":"c8e29d94180722f28f978b3c48c4fae1205cedfa",
+  "status":"Ok"
+}
