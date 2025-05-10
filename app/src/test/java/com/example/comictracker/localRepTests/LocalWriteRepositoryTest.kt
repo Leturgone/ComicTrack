@@ -175,10 +175,40 @@ class LocalWriteRepositoryTest {
     }
 
     @Test
-    fun addSeriesToCurrentlyReadSuccessTest(){}
+    fun addSeriesToCurrentlyReadSuccessTest() = runTest{
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(11)
+        ).thenReturn(SeriesEntity())
+        Mockito.`when`(
+            seriesListDao.isSeriesInList(11)
+        ).thenReturn(false)
+
+        val result = localWriteRepository.addSeriesToCurrentlyRead(11,null)
+        assertTrue(result)
+    }
 
     @Test
-    fun addSeriesToCurrentlyReadErrorTest(){}
+    fun addSeriesToCurrentlyReadAlreadyTest() = runTest{
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(11)
+        ).thenReturn(SeriesEntity(id = 1))
+
+        Mockito.`when`(
+            seriesListDao.checkAlreadyCurrentlyRead(1)
+        ).thenReturn(true)
+
+        val result = localWriteRepository.addSeriesToCurrentlyRead(11,null)
+        assertFalse(result)
+    }
+
+    @Test
+    fun addSeriesToCurrentlyReadErrorTest() = runTest{
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(11)
+        ).thenReturn(null)
+        val result = localWriteRepository.addSeriesToCurrentlyRead(11,null)
+        assertFalse(result)
+    }
 
     @Test
     fun addSeriesToWillBeReadSuccessTest(){}
