@@ -175,20 +175,28 @@ class LocalWriteRepositoryImpl(
 
     override suspend fun markComicUnread(apiId: Int,seriesApiId: Int, prevComicApiId:Int?):Boolean {
         return withContext(Dispatchers.IO){
-            if (comicsDao.getComicByApiId(apiId)!==null){
-                comicsDao.removeComic(apiId)
-                val entity  = seriesDao.getSeriesByApiId(seriesApiId)
-                if(entity!=null){
-                    seriesDao.setNextRead(seriesApiId, entity.lastReadId)
-                    seriesDao.setLastRead(seriesApiId,prevComicApiId)
-                    true
+            try {
+                if (comicsDao.getComicByApiId(apiId)!==null){
+                    comicsDao.removeComic(apiId)
+                    val entity  = seriesDao.getSeriesByApiId(seriesApiId)
+                    if(entity!=null){
+                        seriesDao.setNextRead(seriesApiId, entity.lastReadId)
+                        seriesDao.setLastRead(seriesApiId,prevComicApiId)
+                        true
+                    }else{
+                        Log.e("markComicUnread(","Entity not found")
+                        false
+                    }
+
                 }else{
+                    Log.e("markComicUnread(","Series not found")
                     false
                 }
-
-            }else{
+            }catch (e:Exception){
+                Log.e("markComicUnread(",e.toString())
                 false
             }
+
         }
     }
 
