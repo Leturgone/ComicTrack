@@ -9,11 +9,21 @@ interface SeriesListDao {
     @Query("UPDATE series_list SET listType = 'currently' WHERE Series_idSeries =:seriesId")
     fun addToCurrentlyReading(seriesId:Int)
 
+
+    @Query("SELECT EXISTS(SELECT 1 FROM series_list  WHERE listType = 'currently' AND Series_idSeries = :seriesId LIMIT 1)")
+    fun checkAlreadyCurrentlyRead(seriesId: Int):Boolean
+    
     @Query("UPDATE series_list SET listType = 'will' WHERE Series_idSeries =:seriesId")
     fun addToWillBeRead(seriesId: Int)
 
+    @Query("SELECT EXISTS(SELECT 1 FROM series_list WHERE listType = 'will' AND Series_idSeries = :seriesId)")
+    fun checkAlreadyWillBeRead(seriesId: Int):Boolean
+
     @Query("INSERT INTO series_list (listType, Series_idSeries, favorite) VALUES('read', :seriesId, 0)")
     fun addToRead(seriesId: Int)
+
+    @Query("SELECT EXISTS(SELECT 1 FROM series_list WHERE listType = 'read' AND Series_idSeries = :seriesId)")
+    fun checkAlreadyRead(seriesId: Int):Boolean
 
     @Query("UPDATE series_list SET listType = 'read' WHERE Series_idSeries =:seriesId")
     fun addToReadUpdate(seriesId: Int)
