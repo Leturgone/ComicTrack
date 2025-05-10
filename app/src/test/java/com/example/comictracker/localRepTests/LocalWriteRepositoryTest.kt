@@ -254,10 +254,39 @@ class LocalWriteRepositoryTest {
     }
 
     @Test
-    fun markComicUnreadSuccessTest(){}
+    fun markComicUnreadSuccessTest() = runTest{
+        Mockito.`when`(
+            comicsDao.getComicByApiId(11)
+        ).thenReturn(ComicsEntity())
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(12)
+        ).thenReturn(SeriesEntity())
+
+        val result = localWriteRepository.markComicUnread(11,12,null)
+        assertTrue(result)
+    }
 
     @Test
-    fun markComicUnreadErrorTest(){}
+    fun markComicUnreadErrorComicNotFoundTest() = runTest{
+        Mockito.`when`(
+            comicsDao.getComicByApiId(11)
+        ).thenReturn(null)
+
+        val result = localWriteRepository.markComicUnread(11,12,null)
+        assertFalse(result)
+    }
+    @Test
+    fun markComicUnreadErrorSeriesNotFoundTest() = runTest{
+        Mockito.`when`(
+            comicsDao.getComicByApiId(11)
+        ).thenReturn(ComicsEntity())
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(12)
+        ).thenReturn(null)
+
+        val result = localWriteRepository.markComicUnread(11,12,null)
+        assertFalse(result)
+    }
 
     @Test
     fun markSeriesUnreadSuccessTest(){}
