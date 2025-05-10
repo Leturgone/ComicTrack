@@ -55,7 +55,14 @@ class RemoteCharacterRepositoryTest {
     }
 
     @Test
-    fun getCharactersByNameTest(){}
+    fun getCharactersByNameTest() = runTest{
+        Mockito.`when`(
+            api.getCharactersByName("Iron Man")
+        ).thenReturn(charactersDTO)
+
+        val result = remoteCharacterRepository.getCharactersByName("Iron Man")
+        assertEquals(listOf(character),result)
+    }
 
     @Test
     fun getSeriesCharactersTest(){}
