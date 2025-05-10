@@ -289,10 +289,24 @@ class LocalWriteRepositoryTest {
     }
 
     @Test
-    fun markSeriesUnreadSuccessTest(){}
+    fun markSeriesUnreadSuccessTest() = runTest{
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(11)
+        ).thenReturn(SeriesEntity())
+
+        val result = localWriteRepository.markSeriesUnread(11)
+        assertTrue(result)
+    }
 
     @Test
-    fun markSeriesUnreadErrorTest(){}
+    fun markSeriesUnreadErrorTest() = runTest{
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(11)
+        ).thenReturn(null)
+
+        val result = localWriteRepository.markSeriesUnread(11)
+        assertFalse(result)
+    }
 
 
 
