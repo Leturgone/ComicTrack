@@ -3,6 +3,7 @@ package com.example.comictracker.localRepTests
 import com.example.comictracker.data.database.dao.ComicsDao
 import com.example.comictracker.data.database.dao.SeriesDao
 import com.example.comictracker.data.database.dao.SeriesListDao
+import com.example.comictracker.data.database.enteties.ComicsEntity
 import com.example.comictracker.data.database.enteties.SeriesEntity
 import com.example.comictracker.data.repository.local.LocalWriteRepositoryImpl
 import com.example.comictracker.domain.repository.local.LocalWriteRepository
@@ -56,10 +57,51 @@ class LocalWriteRepositoryTest {
     }
 
     @Test
-    fun markComicReadSuccessTest(){}
+    fun markComicReadSuccessTest() = runTest{
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(11)
+        ).thenReturn(SeriesEntity())
+        var callCount = 0
+        Mockito.`when`(
+            (comicsDao.getComicByApiId(12))
+        ).thenAnswer{
+            callCount++
+            when(callCount){
+                2 -> ComicsEntity()
+                else -> {null}
+            }
+        }
+
+        val result = localWriteRepository.markComicRead(12,11,null)
+        assertTrue(result)
+    }
+
 
     @Test
-    fun markComicReadErrorTest(){}
+    fun markComicReadAlreadyExistTest() = runTest{
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(11)
+        ).thenReturn(SeriesEntity())
+        Mockito.`when`(
+            (comicsDao.getComicByApiId(12))
+        ).thenReturn(ComicsEntity())
+
+        val result = localWriteRepository.markComicRead(12,11,null)
+        assertFalse(result)
+    }
+
+    @Test
+    fun markComicReadErrorTest() = runTest{
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(11)
+        ).thenReturn(SeriesEntity())
+        Mockito.`when`(
+            (comicsDao.getComicByApiId(12))
+        ).thenReturn(null)
+
+        val result = localWriteRepository.markComicRead(12,11,null)
+        assertFalse(result)
+    }
 
     @Test
     fun addSeriesToFavoriteSuccessTest(){}
