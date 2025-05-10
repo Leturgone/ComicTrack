@@ -1,0 +1,464 @@
+{
+  "attributionHTML": "<a href=\"http://marvel.com\">Data provided by Marvel. © 2025 MARVEL</a>",
+  "attributionText": "Data provided by Marvel. © 2025 MARVEL",
+  "code": 200,
+  "copyright": "© 2025 MARVEL",
+  "data": {
+    "offset": 0,
+    "limit": 20,
+    "total": 1,
+    "count": 1,
+    "results": [
+      {
+        "id": 2029,
+        "title": "Iron Man (1968 - 1996)",
+        "description": "The Armored Avenger battles super villains as well as corporate sabotage and his own personal demons in this landmark series! See the stories that formed the basis for Tony Stark becoming a household name!",
+        "resourceURI": "https://gateway.marvel.com/v1/public/series/2029",
+        "urls": [
+          {
+            "type": "detail",
+            "url": "http://marvel.com/comics/series/2029/iron_man_1968_-_1996?utm_campaign=apiRef&utm_source=14d8a14b31c283549128e029eb25dbba"
+          }
+        ],
+        "startYear": 1968,
+        "endYear": 1996,
+        "rating": "",
+        "type": "",
+        "modified": "2016-06-29T14:54:50+0000",
+        "thumbnail": {
+          "path": "http://i.annihil.us/u/prod/marvel/i/mg/1/d0/519bad24bebcd",
+          "extension": "jpg"
+        },
+        "creators": {
+          "available": 182,
+          "collectionURI": "https://gateway.marvel.com/v1/public/series/2029/creators",
+          "items": [
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/1186",
+              "name": "Jack Abel",
+              "role": "inker"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/3389",
+              "name": "Ian Akin",
+              "role": "inker"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/2707",
+              "name": "Jeff Albrecht",
+              "role": "inker"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/1258",
+              "name": "Alfredo Alcala",
+              "role": "inker"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/263",
+              "name": "Dick Ayers",
+              "role": "inker"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/300",
+              "name": "Kyle Baker",
+              "role": "inker"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/726",
+              "name": "Tom Beland",
+              "role": "inker"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/2722",
+              "name": "Scott Benson",
+              "role": "inker"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/1107",
+              "name": "Dan Abnett",
+              "role": "writer"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/3054",
+              "name": "Allyn Brodsky",
+              "role": "writer"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/1865",
+              "name": "Diana Albers",
+              "role": "letterer"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/3626",
+              "name": "Pat Brosseau",
+              "role": "letterer"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/1950",
+              "name": "Joe Andreani",
+              "role": "colorist"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/1935",
+              "name": "Paul Becton",
+              "role": "colorist"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/1167",
+              "name": "Ross Andru",
+              "role": "penciler"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/506",
+              "name": "Joe Bennett",
+              "role": "penciler"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/1288",
+              "name": "Jerry Bingham",
+              "role": "penciler"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/211",
+              "name": "Mark Bright",
+              "role": "penciler"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/2376",
+              "name": "James Brock",
+              "role": "penciler"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/creators/4661",
+              "name": "Joe Brozowski",
+              "role": "penciler"
+            }
+          ],
+          "returned": 20
+        },
+        "characters": {
+          "available": 83,
+          "collectionURI": "https://gateway.marvel.com/v1/public/series/2029/characters",
+          "items": [
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1009144",
+              "name": "A.I.M."
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1010801",
+              "name": "Ant-Man (Scott Lang)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1009165",
+              "name": "Avengers"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1009175",
+              "name": "Beast"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1009179",
+              "name": "Beetle (Abner Jenkins)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1011907",
+              "name": "Bethany Cabe"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1009186",
+              "name": "Black Knight (Sir Percy of Scandia)"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1009189",
+              "name": "Black Widow"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1010881",
+              "name": "Blacklash"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1009198",
+              "name": "Blizzard"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1009167",
+              "name": "Bruce Banner"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1009220",
+              "name": "Captain America"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1010346",
+              "name": "Controller"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1009251",
+              "name": "Crimson Dynamo"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1009255",
+              "name": "Crystal"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1009262",
+              "name": "Daredevil"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1009270",
+              "name": "Deathbird"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1010890",
+              "name": "Deathlok"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1009273",
+              "name": "Diablo"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/characters/1009281",
+              "name": "Doctor Doom"
+            }
+          ],
+          "returned": 20
+        },
+        "stories": {
+          "available": 1204,
+          "collectionURI": "https://gateway.marvel.com/v1/public/series/2029/stories",
+          "items": [
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/19127",
+              "name": "Cover #19127",
+              "type": "cover"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/19128",
+              "name": "Alone Against AIM",
+              "type": ""
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/19129",
+              "name": "The Origin of Iron Man",
+              "type": ""
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/191546",
+              "name": "story from Iron Man (1968) #1",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/19130",
+              "name": "",
+              "type": ""
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/19131",
+              "name": "Once More, the Mandarin",
+              "type": ""
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/66484",
+              "name": "Iron Man 10 cover",
+              "type": "cover"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/191547",
+              "name": "story from Iron Man (1968) #10",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/19132",
+              "name": "Interior #19132",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/19133",
+              "name": "Ten Rings To Rule the World!",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/66485",
+              "name": "Iron Man 100 cover",
+              "type": "cover"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/191551",
+              "name": "story from Iron Man (1968) #100",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/19134",
+              "name": "Interior #19134",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/19135",
+              "name": "Then Came the Monster!",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/66486",
+              "name": "Iron Man 101 cover",
+              "type": "cover"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/191552",
+              "name": "story from Iron Man (1968) #101",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/19136",
+              "name": "Interior #19136",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/19137",
+              "name": "Dreadnight and the Daughter of Creation!",
+              "type": "interiorStory"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/96626",
+              "name": "Iron Man (1968) #102",
+              "type": "cover"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/stories/191553",
+              "name": "story from Iron Man (1968) #102",
+              "type": "interiorStory"
+            }
+          ],
+          "returned": 20
+        },
+        "comics": {
+          "available": 337,
+          "collectionURI": "https://gateway.marvel.com/v1/public/series/2029/comics",
+          "items": [
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9327",
+              "name": "Iron Man (1968) #1"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9438",
+              "name": "Iron Man (1968) #2"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9549",
+              "name": "Iron Man (1968) #3"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9593",
+              "name": "Iron Man (1968) #4"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9604",
+              "name": "Iron Man (1968) #5"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9615",
+              "name": "Iron Man (1968) #6"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9626",
+              "name": "Iron Man (1968) #7"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9637",
+              "name": "Iron Man (1968) #8"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9648",
+              "name": "Iron Man (1968) #9"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9328",
+              "name": "Iron Man (1968) #10"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9339",
+              "name": "Iron Man (1968) #11"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9350",
+              "name": "Iron Man (1968) #12"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9361",
+              "name": "Iron Man (1968) #13"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9372",
+              "name": "Iron Man (1968) #14"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9383",
+              "name": "Iron Man (1968) #15"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9394",
+              "name": "Iron Man (1968) #16"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9405",
+              "name": "Iron Man (1968) #17"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9416",
+              "name": "Iron Man (1968) #18"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9427",
+              "name": "Iron Man (1968) #19"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/comics/9439",
+              "name": "Iron Man (1968) #20"
+            }
+          ],
+          "returned": 20
+        },
+        "events": {
+          "available": 6,
+          "collectionURI": "https://gateway.marvel.com/v1/public/series/2029/events",
+          "items": [
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/events/116",
+              "name": "Acts of Vengeance!"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/events/231",
+              "name": "Armor Wars"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/events/239",
+              "name": "Crossing"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/events/154",
+              "name": "Onslaught"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/events/270",
+              "name": "Secret Wars"
+            },
+            {
+              "resourceURI": "https://gateway.marvel.com/v1/public/events/271",
+              "name": "Secret Wars II"
+            }
+          ],
+          "returned": 6
+        },
+        "next": {
+          "resourceURI": "https://gateway.marvel.com/v1/public/series/13577",
+          "name": "Iron Man (1996 - 1998)"
+        },
+        "previous": {
+          "resourceURI": "https://gateway.marvel.com/v1/public/series/2079",
+          "name": "Tales of Suspense (1959 - 1968)"
+        }
+      }
+    ]
+  },
+  "etag": "05936ccee30351f749b6644d2a2e2677a8c729a4",
+  "status": "Ok"
+}
