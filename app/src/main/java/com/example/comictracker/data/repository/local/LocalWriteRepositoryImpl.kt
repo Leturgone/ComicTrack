@@ -24,16 +24,21 @@ class LocalWriteRepositoryImpl(
                     )
                 }
                 val entity = seriesDao.getSeriesByApiId(apiId)!!
-                Log.i("Room","Get entity$entity")
+                Log.i("markSeriesRead","Get entity$entity")
                 if (seriesListDao.isSeriesInList(apiId)){
-                    seriesListDao.addToReadUpdate(entity.id)
+                    if (!seriesListDao.checkAlreadyRead(entity.id)) {
+                        seriesListDao.addToReadUpdate(entity.id)
+                    }else{
+                        Log.e("markSeriesRead","Series already read")
+                        return@withContext false
+                    }
                 }else{
                     seriesListDao.addToRead(entity.id)
                 }
-                Log.d("Room", "markSeriesRead: Series with id ${entity.id} added to 'read' list.")
+                Log.d("markSeriesRead", "markSeriesRead: Series with id ${entity.id} added to 'read' list.")
                 true
             }catch (e:Exception){
-                Log.e("Room",e.toString())
+                Log.e("markSeriesRead",e.toString())
                 false
             }
         }
@@ -57,10 +62,10 @@ class LocalWriteRepositoryImpl(
                 val comicEntity = comicsDao.getComicByApiId(apiId)
                 seriesDao.setLastRead(seriesApiId,apiId)
                 seriesDao.setNextRead(seriesApiId,nextComicApiId)
-                Log.d("Room", "markComicRead: Comic with id ${comicEntity!!.id} $nextComicApiId mark 'read'.")
+                Log.d("markComicRead", "Comic with id ${comicEntity!!.id} $nextComicApiId mark 'read'.")
                 true
             }catch (e:Exception){
-                Log.e("Room",e.toString())
+                Log.e("markComicRead",e.toString())
                 false
             }
         }
@@ -74,20 +79,20 @@ class LocalWriteRepositoryImpl(
                         SeriesEntity(seriesApiId = apiId))
                 }
                 val entity = seriesDao.getSeriesByApiId(apiId)!!
-                Log.i("Room","Get entity$entity")
+                Log.i("addSeriesToFavorite","Get entity$entity")
                 if (!seriesListDao.isSeriesInList(apiId)){
                     seriesListDao.addToRead(entity.id)
                 }
                 if (!seriesListDao.getSeriesFavoriteMark(apiId)){
                     seriesListDao.addToFavorites(entity.id)
-                    Log.d("Room", "addSeriesToFavorite: Series with id ${entity.id} added to 'favorite' list.")
+                    Log.d("addSeriesToFavorite", "addSeriesToFavorite: Series with id ${entity.id} added to 'favorite' list.")
                     true
                 }else{
                     false
                 }
 
             }catch (e:Exception){
-                Log.e("Room",e.toString())
+                Log.e("addSeriesToFavorite",e.toString())
                 false
             }
         }
@@ -95,13 +100,19 @@ class LocalWriteRepositoryImpl(
 
     override suspend fun removeSeriesFromFavorite(apiId: Int): Boolean {
         return withContext(Dispatchers.IO){
-            val entity = seriesDao.getSeriesByApiId(apiId)!!
-            if(seriesListDao.getSeriesFavoriteMark(apiId)){
-                seriesListDao.removeFromFavorites(entity.id)
-                true
-            }else{
+            try {
+                val entity = seriesDao.getSeriesByApiId(apiId)!!
+                if(seriesListDao.getSeriesFavoriteMark(apiId)){
+                    seriesListDao.removeFromFavorites(entity.id)
+                    true
+                }else{
+                    false
+                }
+            }catch (e:Exception){
+                Log.e("removeSeriesFromFavorite",e.toString())
                 false
             }
+
         }
     }
 
@@ -113,14 +124,21 @@ class LocalWriteRepositoryImpl(
                         SeriesEntity(seriesApiId = apiId))
                 }
                 val entity = seriesDao.getSeriesByApiId(apiId)!!
-                Log.i("Room","Get entity$entity")
+                Log.i("addSeriesToCurrentlyRead","Get entity$entity")
+
                 if (!seriesListDao.isSeriesInList(apiId)){
                     seriesListDao.addToRead(entity.id)
                 }
-                seriesListDao.addToCurrentlyReading(entity.id)
-                seriesDao.setNextRead(apiId,firstIssueId)
-                Log.d("Room", "addSeriesToCurrentlyRead: Series with id ${entity.id} added to 'currently' list.")
-                true
+
+                if (!seriesListDao.checkAlreadyCurrentlyRead(entity.id)){
+                    seriesListDao.addToCurrentlyReading(entity.id)
+                    seriesDao.setNextRead(apiId,firstIssueId)
+                    Log.d("Room", "addSeriesToCurrentlyRead: Series with id ${entity.id} added to 'currently' list.")
+                    true
+                }else{
+                    Log.e("addSeriesToCurrentlyRead","Series already currently read")
+                    false
+                }
             }catch (e:Exception){
                 Log.e("Room",e.toString())
                 false
@@ -138,13 +156,18 @@ class LocalWriteRepositoryImpl(
                 val entity = seriesDao.getSeriesByApiId(apiId)!!
                 Log.i("Room","Get entity$entity")
                 if (!seriesListDao.isSeriesInList(apiId)){
-                    seriesListDao.addToRead(entity.id)
+                        seriesListDao.addToRead(entity.id)
                 }
-                seriesListDao.addToWillBeRead(entity.id)
-                Log.d("Room", "addSeriesToWillBeRead: Series with id ${entity.id} added to 'will' list.")
-                true
+                if (!seriesListDao.checkAlreadyWillBeRead(entity.id)){
+                    seriesListDao.addToWillBeRead(entity.id)
+                    Log.d("addSeriesToWillBeRead", "Series with id ${entity.id} added to 'will' list.")
+                    true
+                }else{
+                    Log.e("addSeriesToWillBeRead","Series already will be read")
+                    false
+                }
             }catch (e:Exception){
-                Log.e("Room",e.toString())
+                Log.e("addSeriesToWillBeRead",e.toString())
                 false
             }
         }
