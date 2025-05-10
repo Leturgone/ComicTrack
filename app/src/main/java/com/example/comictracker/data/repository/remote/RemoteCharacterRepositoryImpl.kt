@@ -40,21 +40,21 @@ class RemoteCharacterRepositoryImpl @Inject constructor(private val api: MarvelC
 
     override suspend fun getSeriesCharacters(seriesId: Int): List<CharacterModel> {
         val characters = mutableListOf<CharacterModel>()
-        Log.i("Repository","Start get sereies characters")
+        Log.i("getSeriesCharacters","Start get sereies characters")
         api.getSeriesCharacters(seriesId.toString()).data!!
             .results.forEach {result ->
                 characters.add(result.toModel())
             }
-        Log.i("Repository","got sereies characters $characters")
+        Log.i("getSeriesCharacters","got sereies characters $characters")
         return characters
     }
 
     override suspend fun getCharacterById(characterId: Int): CharacterModel {
-        Log.i("Repository","Start get character ")
+        Log.i("getCharacterById","Start get character ")
         val result = api.getCharacterById(characterId.toString()).data!!.results[0]
-        Log.i("Repository","got character ")
+        Log.i("getCharacterById","got character ")
         val convertedRes = result.toModel()
-        Log.i("Repository","Converted $convertedRes ")
+        Log.i("getCharacterById","Converted $convertedRes ")
         return convertedRes
     }
 
