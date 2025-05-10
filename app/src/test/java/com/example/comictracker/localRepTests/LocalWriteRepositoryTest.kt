@@ -182,6 +182,9 @@ class LocalWriteRepositoryTest {
         Mockito.`when`(
             seriesListDao.isSeriesInList(11)
         ).thenReturn(false)
+        Mockito.`when`(
+            seriesListDao.checkAlreadyCurrentlyRead(1)
+        ).thenReturn(false)
 
         val result = localWriteRepository.addSeriesToCurrentlyRead(11,null)
         assertTrue(result)
@@ -211,10 +214,44 @@ class LocalWriteRepositoryTest {
     }
 
     @Test
-    fun addSeriesToWillBeReadSuccessTest(){}
+    fun addSeriesToWillBeReadSuccessTest() = runTest{
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(11)
+        ).thenReturn(SeriesEntity(id = 1))
+        Mockito.`when`(
+            seriesListDao.isSeriesInList(11)
+        ).thenReturn(false)
+        Mockito.`when`(
+            seriesListDao.checkAlreadyWillBeRead(1)
+        ).thenReturn(false)
+
+        val result = localWriteRepository.addSeriesToWillBeRead(11)
+        assertTrue(result)
+    }
+    @Test
+    fun addSeriesToWillBeReadAlreadyTest() = runTest{
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(11)
+        ).thenReturn(SeriesEntity(id = 1))
+        Mockito.`when`(
+            seriesListDao.isSeriesInList(11)
+        ).thenReturn(false)
+        Mockito.`when`(
+            seriesListDao.checkAlreadyWillBeRead(1)
+        ).thenReturn(true)
+
+        val result = localWriteRepository.addSeriesToWillBeRead(11)
+        assertFalse(result)
+    }
 
     @Test
-    fun addSeriesToWillBeReadErrorTest(){}
+    fun addSeriesToWillBeReadErrorTest() = runTest{
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(11)
+        ).thenReturn(null)
+        val result = localWriteRepository.addSeriesToWillBeRead(11)
+        assertFalse(result)
+    }
 
     @Test
     fun markComicUnreadSuccessTest(){}
