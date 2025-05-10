@@ -104,10 +104,39 @@ class LocalWriteRepositoryTest {
     }
 
     @Test
-    fun addSeriesToFavoriteSuccessTest(){}
+    fun addSeriesToFavoriteSuccessTest() = runTest{
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(11)
+        ).thenReturn(SeriesEntity())
+        Mockito.`when`(
+            seriesListDao.getSeriesFavoriteMark(11)
+        ).thenReturn(false)
+
+        val result = localWriteRepository.addSeriesToFavorite(11)
+        assertTrue(result)
+    }
+    @Test
+    fun addSeriesToFavoriteAlreadyMarkedTest() = runTest{
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(11)
+        ).thenReturn(SeriesEntity())
+        Mockito.`when`(
+            seriesListDao.getSeriesFavoriteMark(11)
+        ).thenReturn(true)
+
+        val result = localWriteRepository.addSeriesToFavorite(11)
+        assertFalse(result)
+    }
 
     @Test
-    fun addSeriesToFavoriteErrorTest(){}
+    fun addSeriesToFavoriteErrorTest() = runTest{
+        Mockito.`when`(
+            seriesDao.getSeriesByApiId(11)
+        ).thenReturn(null)
+
+        val result = localWriteRepository.addSeriesToFavorite(11)
+        assertFalse(result)
+    }
 
     @Test
     fun removeSeriesFromFavoriteSuccessTest(){}
