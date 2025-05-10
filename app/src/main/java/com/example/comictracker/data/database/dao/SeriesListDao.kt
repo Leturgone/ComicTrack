@@ -12,7 +12,7 @@ interface SeriesListDao {
 
     @Query("SELECT EXISTS(SELECT 1 FROM series_list  WHERE listType = 'currently' AND Series_idSeries = :seriesId LIMIT 1)")
     fun checkAlreadyCurrentlyRead(seriesId: Int):Boolean
-    
+
     @Query("UPDATE series_list SET listType = 'will' WHERE Series_idSeries =:seriesId")
     fun addToWillBeRead(seriesId: Int)
 
