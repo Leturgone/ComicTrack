@@ -13,7 +13,10 @@ import org.mockito.Mockito
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 import org.junit.Assert.assertEquals
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
 
+@RunWith(RobolectricTestRunner::class)
 class RemoteCharacterRepositoryTest {
     private lateinit var api:MarvelComicApi
     private lateinit var remoteCharacterRepository: RemoteCharacterRepository
@@ -65,7 +68,14 @@ class RemoteCharacterRepositoryTest {
     }
 
     @Test
-    fun getSeriesCharactersTest(){}
+    fun getSeriesCharactersTest() = runTest{
+        Mockito.`when`(
+            api.getSeriesCharacters("11")
+        ).thenReturn(charactersDTO)
+
+        val result = remoteCharacterRepository.getSeriesCharacters(11)
+        assertEquals(listOf(character),result)
+    }
 
     @Test
     fun getCharacterByIdTest(){}
