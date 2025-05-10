@@ -87,5 +87,11 @@ class RemoteCharacterRepositoryTest {
     }
 
     @Test
-    fun getComicCharactersTest(){}
+    fun getComicCharactersTest() = runTest{
+        Mockito.`when`(
+            api.getComicCharacters("11")
+        ).thenReturn(charactersDTO)
+        val result = remoteCharacterRepository.getComicCharacters(11)
+        assertEquals(listOf(character),result)
+    }
 }
