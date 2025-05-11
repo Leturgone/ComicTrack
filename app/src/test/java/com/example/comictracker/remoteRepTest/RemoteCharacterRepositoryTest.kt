@@ -26,7 +26,7 @@ class RemoteCharacterRepositoryTest {
     @Before
     fun setUp(){
         val inputStream = javaClass.classLoader?.getResourceAsStream("IronManCharacter.json")
-            ?: throw IllegalStateException("Не найден файл comic.json в test/resources")
+            ?: throw IllegalStateException("Не найден файл IronManCharacter.json в test/resources")
 
 
         val reader = InputStreamReader(inputStream, StandardCharsets.UTF_8)
