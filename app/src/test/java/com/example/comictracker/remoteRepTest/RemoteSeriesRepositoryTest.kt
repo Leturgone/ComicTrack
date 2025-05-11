@@ -85,7 +85,14 @@ class RemoteSeriesRepositoryTest {
     }
 
     @Test
-    fun getSeriesByTitleTest(){}
+    fun getSeriesByTitleTest() = runTest{
+        Mockito.`when`(
+            api.getSeriesByTitle("Iron Man")
+        ).thenReturn(seriesDTO)
+
+        val result = remoteSeriesRepository.getSeriesByTitle("Iron Man")
+        assertEquals(listOf(series),result)
+    }
 
     @Test
     fun getSeriesByIdTest(){}
