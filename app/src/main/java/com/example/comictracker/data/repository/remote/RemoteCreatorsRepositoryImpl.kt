@@ -25,7 +25,7 @@ class RemoteCreatorsRepositoryImpl @Inject constructor(private val api: MarvelCo
     }
 
     override suspend fun getSeriesCreators(creatorsRoles: List<Pair<Int, String>>):
-            List<CreatorModel>  = withContext(Dispatchers.IO) {
+            List<CreatorModel>  {
         Log.i("Repository", "Start get sereies creators")
         val creators = coroutineScope {
             creatorsRoles.map { creator ->
@@ -36,7 +36,7 @@ class RemoteCreatorsRepositoryImpl @Inject constructor(private val api: MarvelCo
             }.awaitAll() // Ждем завершения всех корутин и собираем результаты
         }
         Log.i("Repository", "creators got $creators")
-        return@withContext creators
+        return creators
     }
 
     override suspend fun getComicCreators(creatorsRoles: List<Pair<Int, String>>): List<CreatorModel> {
