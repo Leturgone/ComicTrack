@@ -56,7 +56,12 @@ class RemoteCreatorsRepositoryTest {
 
     @Test
     fun getComicCreatorsTest() = runTest{
+        Mockito.`when`(
+            api.getCreatorById("2707")
+        ).thenReturn(creatorsDTO)
 
+        val result = remoteCreatorsRepository.getComicCreators(listOf(Pair(2707,"inker")))
+        assertEquals(listOf(creator),result)
     }
 
 }
