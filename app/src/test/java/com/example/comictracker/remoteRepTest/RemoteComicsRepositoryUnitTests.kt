@@ -115,7 +115,24 @@ class RemoteComicsRepositoryUnitTests {
 
 
     @Test
-    fun getPreviousComicIdTest(){}
+    fun getPreviousComicIdTestSuccess() = runTest{
+        Mockito.`when`(
+            api.getSpecificComicsFromSeries(seriesId = "11", issueNumber = "2", offset = "0")
+        ).thenReturn(comicsDTO)
+
+        val result = remoteComicsRepository.getNextComicId(11,1)
+        assertEquals(comic.comicId,result)
+    }
+
+    @Test
+    fun getPreviousComicIdTestError() = runTest{
+        Mockito.`when`(
+            api.getSpecificComicsFromSeries(seriesId = "11", issueNumber = "2", offset = "0")
+        ).thenReturn(null)
+
+        val result = remoteComicsRepository.getNextComicId(11,1)
+        assertEquals(null,result)
+    }
 
     @Test
     fun getNextComicIdTest(){}
