@@ -156,7 +156,7 @@ interface MarvelComicApi {
 
     @GET("/v1/public/creators/{creatorId}")
     suspend fun getCreatorById(
-        @Path("creatorId")characterId:String,
+        @Path("creatorId")creatorId:String,
         @Query("apikey")apikey:String=API_KEY,
         @Query("ts")ts:String=timeStamp,
         @Query("hash")hash:String=hash()
