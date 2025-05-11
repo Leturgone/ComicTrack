@@ -105,7 +105,14 @@ class RemoteSeriesRepositoryTest {
     }
 
     @Test
-    fun getConnectedSeriesTest(){}
+    fun getConnectedSeriesTest() = runTest{
+        Mockito.`when`(
+            api.getSeriesById("11")
+        ).thenReturn(seriesDTO)
+
+        val result = remoteSeriesRepository.getConnectedSeries(listOf(11,null))
+        assertEquals(listOf(series),result)
+    }
 
     @Test
     fun loadMayLikeSeriesIdsTest(){}
