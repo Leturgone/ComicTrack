@@ -1,9 +1,7 @@
 package com.example.comictracker.remoteRepTest
 
 import com.example.comictracker.data.api.MarvelComicApi
-import com.example.comictracker.data.api.dto.charactersDTO.CharactersDTO
 import com.example.comictracker.data.api.dto.comicsDTO.ComicsDTO
-import com.example.comictracker.data.repository.remote.RemoteCharacterRepositoryImpl
 import com.example.comictracker.data.repository.remote.RemoteComicsRepositoryImpl
 import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
@@ -115,7 +113,7 @@ class RemoteComicsRepositoryUnitTests {
 
 
     @Test
-    fun getPreviousComicIdTestSuccess() = runTest{
+    fun getNextComicIdTestSuccess() = runTest{
         Mockito.`when`(
             api.getSpecificComicsFromSeries(seriesId = "11", issueNumber = "2", offset = "0")
         ).thenReturn(comicsDTO)
@@ -125,7 +123,7 @@ class RemoteComicsRepositoryUnitTests {
     }
 
     @Test
-    fun getPreviousComicIdTestError() = runTest{
+    fun getNextComicIdTestError() = runTest{
         Mockito.`when`(
             api.getSpecificComicsFromSeries(seriesId = "11", issueNumber = "2", offset = "0")
         ).thenReturn(null)
@@ -135,6 +133,23 @@ class RemoteComicsRepositoryUnitTests {
     }
 
     @Test
-    fun getNextComicIdTest(){}
+    fun getPreviousIdTestSuccess() = runTest{
+        Mockito.`when`(
+            api.getSpecificComicsFromSeries(seriesId = "11", issueNumber = "2", offset = "0")
+        ).thenReturn(comicsDTO)
+
+        val result = remoteComicsRepository.getPreviousComicId(11,3)
+        assertEquals(comic.comicId,result)
+    }
+
+    @Test
+    fun getPreviousIdTestError() = runTest{
+        Mockito.`when`(
+            api.getSpecificComicsFromSeries(seriesId = "11", issueNumber = "2", offset = "0")
+        ).thenReturn(null)
+
+        val result = remoteComicsRepository.getPreviousComicId(11,3)
+        assertEquals(null,result)
+    }
 
 }
