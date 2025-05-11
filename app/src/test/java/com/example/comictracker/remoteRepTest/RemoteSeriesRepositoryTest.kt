@@ -1,7 +1,6 @@
 package com.example.comictracker.remoteRepTest
 
 import com.example.comictracker.data.api.MarvelComicApi
-import com.example.comictracker.data.api.dto.creatorsDTO.CreatorsDTO
 import com.example.comictracker.data.api.dto.seriesDTO.SeriesDTO
 import com.example.comictracker.data.repository.remote.RemoteSeriesRepositoryImpl
 import com.example.comictracker.domain.model.SeriesModel
@@ -76,7 +75,14 @@ class RemoteSeriesRepositoryTest {
     }
 
     @Test
-    fun getAllSeriesTest(){}
+    fun getAllSeriesTest() = runTest{
+        Mockito.`when`(
+            api.getAllSeries(offset = "0")
+        ).thenReturn(seriesDTO)
+
+        val result = remoteSeriesRepository.getAllSeries(0)
+        assertEquals(listOf(series),result)
+    }
 
     @Test
     fun getSeriesByTitleTest(){}
