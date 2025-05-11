@@ -76,10 +76,19 @@ class RemoteComicsRepositoryUnitTests {
     }
 
     @Test
-    fun getComicByIdTest(){}
+    fun getComicByIdTest() = runTest{
+        Mockito.`when`(
+            api.getComicById("11")
+        ).thenReturn(comicsDTO)
+
+        val result = remoteComicsRepository.getComicById(11)
+        assertEquals(comic,result)
+    }
 
     @Test
-    fun fetchComicsTest(){}
+    fun fetchComicsTest() = runTest{
+
+    }
 
     fun fetchUpdatesForSeriesTest(){}
 
