@@ -17,7 +17,7 @@ import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 
 @RunWith(RobolectricTestRunner::class)
-class RemoteComicsRepositoryUnitTests {
+class RemoteComicsRepositoryTests {
     private lateinit var api: MarvelComicApi
     private lateinit var remoteComicsRepository: RemoteComicsRepository
     private lateinit var comicsDTO: ComicsDTO
