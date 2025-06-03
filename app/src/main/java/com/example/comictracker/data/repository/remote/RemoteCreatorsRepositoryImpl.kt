@@ -5,11 +5,9 @@ import com.example.comictracker.data.api.MarvelComicApi
 import com.example.comictracker.data.api.dto.creatorsDTO.Results
 import com.example.comictracker.domain.model.CreatorModel
 import com.example.comictracker.domain.repository.remote.RemoteCreatorsRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class RemoteCreatorsRepositoryImpl @Inject constructor(private val api: MarvelComicApi):RemoteCreatorsRepository {
@@ -25,29 +23,42 @@ class RemoteCreatorsRepositoryImpl @Inject constructor(private val api: MarvelCo
     }
 
     override suspend fun getSeriesCreators(creatorsRoles: List<Pair<Int, String>>):
-            List<CreatorModel>  {
-        Log.i("Repository", "Start get sereies creators")
-        val creators = coroutineScope {
-            creatorsRoles.map { creator ->
-                async {
-                    api.getCreatorById(creator.first.toString())
-                        .data!!.results[0].toModel(creator.second)
-                }
-            }.awaitAll() // Ждем завершения всех корутин и собираем результаты
+            Result<List<CreatorModel>>  {
+
+        return try {
+            Log.i("getSeriesCreators", "Start get sereies creators")
+            val creators = coroutineScope {
+                creatorsRoles.map { creator ->
+                    async {
+                        api.getCreatorById(creator.first.toString())
+                            .data!!.results[0].toModel(creator.second)
+                    }
+                }.awaitAll() // Ждем завершения всех корутин и собираем результаты
+            }
+            Log.i("getSeriesCreators", "creators got $creators")
+            Result.success(creators)
+        }catch (e:Exception){
+            Log.e("getSeriesCreators", e.toString())
+            Result.success(emptyList())
         }
-        Log.i("Repository", "creators got $creators")
-        return creators
     }
 
-    override suspend fun getComicCreators(creatorsRoles: List<Pair<Int, String>>): List<CreatorModel> {
-        val creators = coroutineScope {
-            creatorsRoles.map { creator ->
-                async {
-                    api.getCreatorById(creator.first.toString())
-                        .data!!.results[0].toModel(creator.second)
-                }
-            }.awaitAll() // Ждем завершения всех корутин и собираем результаты
+    override suspend fun getComicCreators(creatorsRoles: List<Pair<Int, String>>): Result<List<CreatorModel>> {
+        return try {
+            Log.i("getComicCreators", "Start get comic creators")
+            val creators = coroutineScope {
+                creatorsRoles.map { creator ->
+                    async {
+                        api.getCreatorById(creator.first.toString())
+                            .data!!.results[0].toModel(creator.second)
+                    }
+                }.awaitAll() // Ждем завершения всех корутин и собираем результаты
+            }
+            Log.i("getComicCreators", "creators got $creators")
+            Result.success(creators)
+        }catch (e:Exception){
+            Log.e("getComicCreators", e.toString())
+            Result.success(emptyList())
         }
-        return creators
     }
 }
