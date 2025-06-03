@@ -14,7 +14,6 @@ import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.mvi.intents.AboutComicScreenIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -65,16 +64,11 @@ class AboutComicScreenViewModel @Inject constructor(
 
 
         val creatorListDeferred = async {
-            try {
-                if (comic is ComicModel){
-                    remoteCreatorsRepository.getComicCreators(comic.creators)
-                } else {
-                    emptyList()
-                }
-            }catch (e:Exception){
+            if (comic is ComicModel){
+                remoteCreatorsRepository.getComicCreators(comic.creators).getOrDefault(emptyList())
+            } else {
                 emptyList()
             }
-
         }
 
         val characterList = characterListDeferred.await()
