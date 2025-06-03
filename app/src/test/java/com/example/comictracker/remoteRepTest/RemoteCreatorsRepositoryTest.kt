@@ -51,7 +51,7 @@ class RemoteCreatorsRepositoryTest {
         ).thenReturn(creatorsDTO)
 
         val result = remoteCreatorsRepository.getSeriesCreators(listOf(Pair(2707,"inker")))
-        assertEquals(listOf(creator),result)
+        assertEquals(listOf(creator),result.getOrNull())
     }
 
     @Test
@@ -61,7 +61,7 @@ class RemoteCreatorsRepositoryTest {
         ).thenReturn(creatorsDTO)
 
         val result = remoteCreatorsRepository.getComicCreators(listOf(Pair(2707,"inker")))
-        assertEquals(listOf(creator),result)
+        assertEquals(listOf(creator),result.getOrNull())
     }
 
 }

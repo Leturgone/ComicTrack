@@ -81,13 +81,11 @@ class AboutSeriesScreenViewModel @Inject constructor(
         val series = seriesDeferred.await() // Получение series до зависимых задач.
 
         val creatorListDeferred = async {
-            try {
-                if (series is SeriesModel){
-                    remoteCreatorsRepository.getSeriesCreators(series.creators?: emptyList())
-                } else {
+            if (series is SeriesModel){
+                remoteCreatorsRepository.getSeriesCreators(series.creators?: emptyList()).getOrDefault(
                     emptyList()
-                }
-            }catch (e:Exception){
+                )
+            } else {
                 emptyList()
             }
 
