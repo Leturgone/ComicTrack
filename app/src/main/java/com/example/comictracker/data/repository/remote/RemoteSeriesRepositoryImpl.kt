@@ -40,82 +40,126 @@ class RemoteSeriesRepositoryImpl @Inject constructor(private val api: MarvelComi
         )
     }
 
-    override suspend fun getCharacterSeries(characterId: Int, offset: Int): List<SeriesModel> {
-        val characterSeries = mutableListOf<SeriesModel>()
-        Log.i("Repository","Start get Character sereies")
 
-        val res = api.getCharacterSeries(characterId.toString(), offset = offset.toString()).data!!.results
-        res.forEach {
-                result -> characterSeries.add(result.toModel())
-        }
-        Log.i("Repository","gоt Character sereies: $characterSeries")
-        return characterSeries
-    }
-
-    override suspend fun getAllSeries(loadedCount: Int): List<SeriesModel> {
-        val allSeries = mutableListOf<SeriesModel>()
-        api.getAllSeries(offset = loadedCount.toString()).data?.results?.forEach {
-                result -> allSeries.add(result.toModel())
-        }
-        return allSeries
-    }
-
-    override suspend fun getSeriesByTitle(title: String): List<SeriesModel> {
-        val series = mutableListOf<SeriesModel>()
-        api.getSeriesByTitle(title).data?.results?.forEach {
-                results ->   series.add(results.toModel())
-        }
-        return series
-    }
-
-    override suspend fun getSeriesById(id: Int): SeriesModel {
-        Log.i("Repository","Start get sereies")
-        val result = api.getSeriesById(id.toString()).data!!.results[0]
-        Log.i("Repository","Series got")
-        val convertedRes = result.toModel()
-        Log.i("Repository","Coverted $convertedRes")
-        return convertedRes
-    }
-
-    override suspend fun getConnectedSeries(connectedSeriesId: List<Int?>): List<SeriesModel> {
-        val series = mutableListOf<SeriesModel>()
-        Log.i("Repository","Start get connected sereies ")
-        connectedSeriesId.filterNotNull().forEach {
-            series.add(api.getSeriesById(it.toString()).data!!.results[0].toModel())
-        }
-        Log.i("Repository","Start get connected got ")
-        return series
-    }
-
-    override suspend fun loadMayLikeSeriesIds(loadedIdsSeriesFromBD: List<Int>): List<Int> {
-        val mayLikeSeries = mutableListOf<Int>()
-        val series = coroutineScope {
-            loadedIdsSeriesFromBD.map { id ->
-                async {
-                    getSeriesById(id)
-                }
+    override suspend fun getCharacterSeries(characterId: Int, offset: Int): Result<List<SeriesModel>> {
+        return try {
+            val characterSeries = mutableListOf<SeriesModel>()
+            Log.i("getCharacterSeries","Start get Character series")
+            val res = api.getCharacterSeries(characterId.toString(), offset = offset.toString()).data!!.results
+            res.forEach {
+                    result -> characterSeries.add(result.toModel())
             }
-        }.awaitAll()
-
-        series.forEach {
-            val connected = it.connectedSeries.filterNotNull()
-            mayLikeSeries.addAll(connected)
+            Log.i("getCharacterSeries","gоt Character series: $characterSeries")
+            Result.success(characterSeries)
+        }catch (e:Exception){
+            Log.e("getCharacterSeries",e.toString())
+            Result.failure(e)
         }
-        return mayLikeSeries
     }
 
-    override suspend fun fetchSeries(ids: List<Int>): List<SeriesModel> {
-        val seriesDef = ids.map { id ->
-            withContext(Dispatchers.IO){
-                async {
-                    try {
-                        getSeriesById(id)
-                    } catch (e: Exception) {
-                        null
+
+    override suspend fun getAllSeries(loadedCount: Int): Result<List<SeriesModel>> {
+        return try {
+            val allSeries = mutableListOf<SeriesModel>()
+            api.getAllSeries(offset = loadedCount.toString()).data?.results?.forEach {
+                    result -> allSeries.add(result.toModel())
+            }
+            Result.success(allSeries)
+        }catch (e:Exception){
+            Log.e("getAllSeries",e.toString())
+            Result.failure(e)
+        }
+    }
+
+
+    override suspend fun getSeriesByTitle(title: String): Result<List<SeriesModel>> {
+        return try {
+            val series = mutableListOf<SeriesModel>()
+            api.getSeriesByTitle(title).data?.results?.forEach {
+                    results ->   series.add(results.toModel())
+            }
+            Result.success(series)
+        }catch (e:Exception){
+            Log.e("getSeriesByTitle",e.toString())
+            Result.failure(e)
+        }
+    }
+
+
+    override suspend fun getSeriesById(id: Int): Result<SeriesModel> {
+        return try {
+            Log.i("getSeriesById","Start get series")
+            val result = api.getSeriesById(id.toString()).data!!.results[0]
+            Log.i("getSeriesById","Series got")
+            val convertedRes = result.toModel()
+            Log.i("getSeriesById","Converted $convertedRes")
+            Result.success(convertedRes)
+        }catch (e:Exception){
+            Log.e("getSeriesById",e.toString())
+            Result.failure(e)
+        }
+    }
+
+
+    override suspend fun getConnectedSeries(connectedSeriesId: List<Int?>): Result<List<SeriesModel>> {
+        return try {
+            val series = mutableListOf<SeriesModel>()
+            Log.i("getConnectedSeries","Start get connected series ")
+            connectedSeriesId.filterNotNull().forEach {
+                series.add(api.getSeriesById(it.toString()).data!!.results[0].toModel())
+            }
+            Log.i("getConnectedSeries","Start get connected got ")
+            Result.success(series)
+        }catch (e:Exception){
+            Log.e("getConnectedSeries",e.toString())
+            Result.failure(e)
+        }
+    }
+
+
+    override suspend fun loadMayLikeSeriesIds(loadedIdsSeriesFromBD: List<Int>): Result<List<Int>> {
+        return try {
+            val mayLikeSeries = mutableListOf<Int>()
+            val series = coroutineScope {
+                loadedIdsSeriesFromBD.map { id ->
+                    async {
+                        getSeriesById(id).fold(
+                            onSuccess = {it},
+                            onFailure = {null}
+                        )
+                    }
+                }
+            }.awaitAll()
+
+            series.forEach {
+                val connected = (it?.connectedSeries?: emptyList()).filterNotNull()
+                mayLikeSeries.addAll(connected)
+            }
+            Result.success(mayLikeSeries)
+        }catch (e:Exception){
+            Log.e("loadMayLikeSeriesIds",e.toString())
+            Result.failure(e)
+        }
+    }
+
+
+    override suspend fun fetchSeries(ids: List<Int>): Result<List<SeriesModel>> {
+        return try {
+            val seriesDef = ids.map { id ->
+                withContext(Dispatchers.IO){
+                    async {
+                        getSeriesById(id).fold(
+                            onFailure = {null},
+                            onSuccess = {it}
+                        )
                     }
                 }
             }
+            val series =  seriesDef.awaitAll().filterNotNull()
+            Result.success(series)
+        }catch (e:Exception){
+            Log.e("fetchSeries",e.toString())
+            Result.failure(e)
         }
-        return seriesDef.awaitAll().filterNotNull()
     }
 }
