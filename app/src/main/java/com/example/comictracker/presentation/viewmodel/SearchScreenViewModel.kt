@@ -37,22 +37,22 @@ class SearchScreenViewModel @Inject constructor(
     private fun loadSearchScreen() = viewModelScope.launch {
         _state.value = ComicAppState.SearchScreenState(DataState.Loading)
         val discoverSeriesListDef  = async {
-            try{
-                DataState.Success(remoteSeriesRepository.getAllSeries())
-            }catch(e:Exception){
-                Log.e("ViewModel","$e")
-                DataState.Error("Error loading Discover Series")
-            }
+            remoteSeriesRepository.getAllSeries().fold(
+                onSuccess = {DataState.Success(it)},
+                onFailure = {DataState.Error("Error loading Discover Series")}
+            )
         }
         val mayLikeSeriesListDef  = async(Dispatchers.IO) {
-            try{
-                val loadedIdsSeriesFromBD = localReadRepository.loadAllReadSeriesIds(0)
-                val mayLikeSeries= remoteSeriesRepository.loadMayLikeSeriesIds(loadedIdsSeriesFromBD)
-                DataState.Success(remoteSeriesRepository.fetchSeries(mayLikeSeries))
-            }catch(e:Exception){
-                Log.e("ViewModel","$e")
-                DataState.Error("Error loading May Like Series")
-            }
+            val loadedIdsSeriesFromBD = localReadRepository.loadAllReadSeriesIds(0)
+            remoteSeriesRepository.loadMayLikeSeriesIds(loadedIdsSeriesFromBD).fold(
+                onSuccess = { ids ->
+                    remoteSeriesRepository.fetchSeries(ids).fold(
+                        onSuccess = {DataState.Success(it)},
+                        onFailure = {DataState.Error("Error loading May Like Series")}
+                    )
+                },
+                onFailure = {DataState.Error("Error loading May Like Series")}
+            )
         }
         val characterListDef  = async {
             try{
@@ -75,13 +75,10 @@ class SearchScreenViewModel @Inject constructor(
     private fun loadSearchResults(query: String) = viewModelScope.launch{
         _state.value = ComicAppState.SearchResultScreenSate(DataState.Loading)
         val searchSeriesListDeferred = async {
-            try {
-                DataState.Success(remoteSeriesRepository.getSeriesByTitle(query))
-            }catch (e:Exception){
-                Log.e("ViewModel","$e")
-                DataState.Error("Error loading results series")
-            }
-
+            remoteSeriesRepository.getSeriesByTitle(query).fold(
+                onSuccess = {DataState.Success(it)},
+                onFailure = {DataState.Error("Error loading results series")}
+            )
         }
 
         val searchCharacterListDeferred = async {
