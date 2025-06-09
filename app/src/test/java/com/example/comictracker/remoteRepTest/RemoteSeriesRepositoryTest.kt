@@ -71,7 +71,7 @@ class RemoteSeriesRepositoryTest {
         ).thenReturn(seriesDTO)
 
         val result = remoteSeriesRepository.getCharacterSeries(11,0)
-        assertEquals(listOf(series),result)
+        assertEquals(listOf(series),result.getOrNull())
     }
 
     @Test
@@ -81,7 +81,7 @@ class RemoteSeriesRepositoryTest {
         ).thenReturn(seriesDTO)
 
         val result = remoteSeriesRepository.getAllSeries(0)
-        assertEquals(listOf(series),result)
+        assertEquals(listOf(series),result.getOrNull())
     }
 
     @Test
@@ -91,7 +91,7 @@ class RemoteSeriesRepositoryTest {
         ).thenReturn(seriesDTO)
 
         val result = remoteSeriesRepository.getSeriesByTitle("Iron Man")
-        assertEquals(listOf(series),result)
+        assertEquals(listOf(series),result.getOrNull())
     }
 
     @Test
@@ -101,7 +101,7 @@ class RemoteSeriesRepositoryTest {
         ).thenReturn(seriesDTO)
 
         val result = remoteSeriesRepository.getSeriesById(11)
-        assertEquals(series,result)
+        assertEquals(series,result.getOrNull())
     }
 
     @Test
@@ -111,7 +111,7 @@ class RemoteSeriesRepositoryTest {
         ).thenReturn(seriesDTO)
 
         val result = remoteSeriesRepository.getConnectedSeries(listOf(11,null))
-        assertEquals(listOf(series),result)
+        assertEquals(listOf(series),result.getOrNull())
     }
 
     @Test
@@ -121,7 +121,7 @@ class RemoteSeriesRepositoryTest {
         ).thenReturn(seriesDTO)
 
         val result = remoteSeriesRepository.loadMayLikeSeriesIds(listOf(11))
-        assertEquals(series.connectedSeries,result)
+        assertEquals(series.connectedSeries,result.getOrNull())
     }
 
     @Test
@@ -131,6 +131,6 @@ class RemoteSeriesRepositoryTest {
         ).thenReturn(seriesDTO)
 
         val result = remoteSeriesRepository.fetchSeries(listOf(11,12))
-        assertEquals(listOf(series),result)
+        assertEquals(listOf(series),result.getOrNull())
     }
 }

@@ -83,7 +83,7 @@ class SearchScreenTests {
         //Discover list mock
         Mockito.`when`(
             remoteSeriesRepository.getAllSeries()
-        ).thenReturn(discoverSeriesList)
+        ).thenReturn(Result.success(discoverSeriesList))
 
         //MayLike list mock
         Mockito.`when`(
@@ -92,12 +92,12 @@ class SearchScreenTests {
 
         Mockito.`when`(
             remoteSeriesRepository.loadMayLikeSeriesIds(listOf(1,2,3))
-        ).thenReturn(listOf(1))
+        ).thenReturn(Result.success(listOf(1)))
 
 
         Mockito.`when`(
             remoteSeriesRepository.fetchSeries(listOf(1))
-        ).thenReturn(mayLikeSeriesList)
+        ).thenReturn(Result.success(mayLikeSeriesList))
 
         //Character list mock
         Mockito.`when`(
@@ -216,7 +216,7 @@ class SearchScreenTests {
 
             Mockito.`when`(
                 remoteSeriesRepository.fetchSeries(listOf(1))
-            ).thenReturn(emptyList())
+            ).thenReturn(Result.success(emptyList()))
 
             onNode(BottomBarTestObj.searchTemplate).assertExists()
             onNode(BottomBarTestObj.searchTemplate).performClick()
@@ -227,7 +227,7 @@ class SearchScreenTests {
 
             Mockito.`when`(
                 remoteSeriesRepository.getCharacterSeries(characterExample.characterId)
-            ).thenReturn(emptyList())
+            ).thenReturn(Result.success(emptyList()))
 
             onNode(SearchScreenTestObj.characterList).performClick()
 
@@ -244,7 +244,7 @@ class SearchScreenTests {
             setContent { MainScreen() }
             Mockito.`when`(
                 remoteSeriesRepository.fetchSeries(listOf(1))
-            ).thenReturn(emptyList())
+            ).thenReturn(Result.success(emptyList()))
 
             onNode(BottomBarTestObj.searchTemplate).assertExists()
             onNode(BottomBarTestObj.searchTemplate).performClick()
@@ -268,7 +268,7 @@ class SearchScreenTests {
 
             Mockito.`when`(
                 remoteSeriesRepository.getSeriesByTitle("Daredevil")
-            ).thenReturn(listOf(seriesExample))
+            ).thenReturn(Result.success(listOf(seriesExample)))
 
             onNode(BottomBarTestObj.searchTemplate).assertExists()
             onNode(BottomBarTestObj.searchTemplate).performClick()
@@ -296,7 +296,7 @@ class SearchScreenTests {
 
             Mockito.`when`(
                 remoteSeriesRepository.getSeriesByTitle("Daredevil")
-            ).thenReturn(listOf(seriesExample))
+            ).thenReturn(Result.success(listOf(seriesExample)))
 
             onNode(BottomBarTestObj.searchTemplate).assertExists()
             onNode(BottomBarTestObj.searchTemplate).performClick()
@@ -324,7 +324,7 @@ class SearchScreenTests {
 
             Mockito.`when`(
                 remoteSeriesRepository.getSeriesByTitle("")
-            ).thenThrow(RuntimeException("Simulated error"))
+            ).thenReturn(Result.failure(Exception("Simulated error")))
 
             onNode(BottomBarTestObj.searchTemplate).assertExists()
             onNode(BottomBarTestObj.searchTemplate).performClick()
@@ -355,7 +355,7 @@ class SearchScreenTests {
 
             Mockito.`when`(
                 remoteSeriesRepository.getCharacterSeries(characterExample.characterId)
-            ).thenReturn(emptyList())
+            ).thenReturn(Result.success(emptyList()))
 
             Mockito.`when`(
                 remoteCharacterRepository.getCharactersByName("Daredevil")
@@ -363,7 +363,7 @@ class SearchScreenTests {
 
             Mockito.`when`(
                 remoteSeriesRepository.getSeriesByTitle("Daredevil")
-            ).thenReturn(listOf(seriesExample))
+            ).thenReturn(Result.success(listOf(seriesExample)))
 
             onNode(BottomBarTestObj.searchTemplate).assertExists()
             onNode(BottomBarTestObj.searchTemplate).performClick()
@@ -393,7 +393,7 @@ class SearchScreenTests {
 
             Mockito.`when`(
                 remoteSeriesRepository.getSeriesByTitle("Daredevil")
-            ).thenReturn(listOf(seriesExample))
+            ).thenReturn(Result.success(listOf(seriesExample)))
 
 
             onNode(BottomBarTestObj.searchTemplate).assertExists()

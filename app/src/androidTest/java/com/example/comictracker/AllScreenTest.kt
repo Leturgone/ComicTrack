@@ -105,7 +105,7 @@ class AllScreenTest {
 
             Mockito.`when`(
                 remoteSeriesRepository.getAllSeries()
-            ).thenReturn(emptyList())
+            ).thenReturn(Result.success(emptyList()))
 
             setContent { MainScreen() }
             onNode(BottomBarTestObj.searchTemplate).performClick()
@@ -209,7 +209,7 @@ class AllScreenTest {
 
             Mockito.`when`(
                 remoteSeriesRepository.getAllSeries()
-            ).thenReturn(emptyList())
+            ).thenReturn(Result.success(emptyList()))
 
             mockHelper.mockCharacterScreen(characterExample, emptyList())
 
@@ -235,7 +235,7 @@ class AllScreenTest {
 
             Mockito.`when`(
                 remoteSeriesRepository.getAllSeries(9)
-            ).thenReturn(listOf(secondSeriesExample))
+            ).thenReturn(Result.success(listOf(secondSeriesExample)))
 
             onNode(BottomBarTestObj.searchTemplate).performClick()
 
@@ -258,7 +258,7 @@ class AllScreenTest {
 
             Mockito.`when`(
                 remoteSeriesRepository.getAllSeries(9)
-            ).thenReturn(listOf(secondSeriesExample))
+            ).thenReturn(Result.success(listOf(secondSeriesExample)))
 
             onNode(BottomBarTestObj.searchTemplate).performClick()
 
@@ -285,7 +285,7 @@ class AllScreenTest {
 
             Mockito.`when`(
                 remoteSeriesRepository.getAllSeries()
-            ).thenReturn(emptyList())
+            ).thenReturn(Result.success(emptyList()))
 
             Mockito.`when`(
                 remoteCharacterRepository.getAllCharacters(9)
@@ -312,7 +312,7 @@ class AllScreenTest {
 
             Mockito.`when`(
                 remoteSeriesRepository.getAllSeries()
-            ).thenReturn(emptyList())
+            ).thenReturn(Result.success(emptyList()))
 
             Mockito.`when`(
                 remoteCharacterRepository.getAllCharacters(9)
