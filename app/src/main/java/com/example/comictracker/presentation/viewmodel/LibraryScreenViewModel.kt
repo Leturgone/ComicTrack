@@ -50,8 +50,16 @@ class LibraryScreenViewModel @Inject constructor(
             val loadedCurrentlyReadingSeriesIdsFromBD = loadedCurrentlyReadingSeriesIdsFromBDDef.await()
             val loadedHistoryReadComicFromBD = loadedHistoryReadComicFromBDDef.await()
 
-            val favoriteSeriesDef = async {remoteSeriesRepository.fetchSeries(loadedFavoriteSeriesIdsFromBD) }
-            val currentSeriesDef = async {remoteSeriesRepository.fetchSeries(loadedCurrentlyReadingSeriesIdsFromBD) }
+            val favoriteSeriesDef = async {
+                remoteSeriesRepository.fetchSeries(loadedFavoriteSeriesIdsFromBD).fold(
+                    onSuccess = {it},
+                    onFailure = { emptyList() }
+                )
+            }
+            val currentSeriesDef = async {remoteSeriesRepository.fetchSeries(loadedCurrentlyReadingSeriesIdsFromBD).fold(
+                onSuccess = {it},
+                onFailure = { emptyList() }
+            ) }
             val lastComicsDef = async {remoteComicsRepository.fetchComics(loadedHistoryReadComicFromBD) }
 
             val favoriteSeries = favoriteSeriesDef.await()
