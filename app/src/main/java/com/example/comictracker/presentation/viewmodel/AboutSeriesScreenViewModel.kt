@@ -52,15 +52,14 @@ class AboutSeriesScreenViewModel @Inject constructor(
     private fun loadSeriesScreen(seriesId: Int)  = viewModelScope.launch {
         _state.value = ComicAppState.AboutComicScreenState(DataState.Loading)
         val seriesDeferred = async{
-            try {
-                remoteSeriesRepository.getSeriesById(seriesId)
-            }catch (e:Exception){
-                Log.e("ViewModel","$e")
-                emptyList<SeriesModel>()
-            }
+            remoteSeriesRepository.getSeriesById(seriesId).fold(
+                onSuccess = {it},
+                onFailure = { emptyList<SeriesModel>()}
+            )
         }
 
         val comicListDeferred = async {
+            remoteComicsRepository.getComicsFromSeries(seriesId)
             try{
                 remoteComicsRepository.getComicsFromSeries(seriesId)
             }catch (e:Exception){
@@ -92,13 +91,12 @@ class AboutSeriesScreenViewModel @Inject constructor(
         }
 
         val connectedSeriesListDeferred = async {
-            try{
-                if (series is SeriesModel){
-                    remoteSeriesRepository.getConnectedSeries(series.connectedSeries)
-                }else{
-                    emptyList()
-                }
-            }catch (e:Exception){
+            if (series is SeriesModel){
+                remoteSeriesRepository.getConnectedSeries(series.connectedSeries).fold(
+                    onSuccess = {it},
+                    onFailure = { emptyList() }
+                )
+            }else{
                 emptyList()
             }
 
