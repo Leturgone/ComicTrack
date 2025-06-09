@@ -73,7 +73,7 @@ class CharacterUiTest {
 
         Mockito.`when`(
             remoteSeriesRepository.getCharacterSeries(characterExample.characterId)
-        ).thenReturn(listOf(seriesExample))
+        ).thenReturn(Result.success(listOf(seriesExample)))
     }
 
     @Test

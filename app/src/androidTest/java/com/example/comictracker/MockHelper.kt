@@ -23,11 +23,11 @@ class MockHelper(
         remoteSeriesRepository?.let {
             Mockito.`when`(
                 it.getSeriesById(series.seriesId)
-            ).thenReturn(series)
+            ).thenReturn(Result.success(series))
 
             Mockito.`when`(
                 it.getConnectedSeries(series.connectedSeries)
-            ).thenReturn(emptyList())
+            ).thenReturn(Result.failure(Exception()))
         }
 
         remoteComicsRepository?.let {
@@ -97,7 +97,7 @@ class MockHelper(
         remoteSeriesRepository?.let {
             Mockito.`when`(
                 it.getCharacterSeries(characterExample.characterId)
-            ).thenReturn(list)
+            ).thenReturn(Result.success(list))
         }
 
 
@@ -150,15 +150,15 @@ class MockHelper(
             //Discover list mock
             Mockito.`when`(
                 it.getAllSeries()
-            ).thenReturn(discoverSeriesList)
+            ).thenReturn(Result.success(discoverSeriesList))
 
             Mockito.`when`(
                 it.loadMayLikeSeriesIds(listOf(1,2,3))
-            ).thenReturn(listOf(1))
+            ).thenReturn(Result.success(listOf(1)))
 
             Mockito.`when`(
                 it.fetchSeries(listOf(1))
-            ).thenReturn(mayLikeSeriesList)
+            ).thenReturn(Result.success(mayLikeSeriesList))
 
         }
 
@@ -183,11 +183,11 @@ class MockHelper(
         remoteSeriesRepository?.let {
             Mockito.`when`(
                 it.getSeriesById(series.seriesId)
-            ).thenReturn(series)
+            ).thenReturn(Result.success(series))
 
             Mockito.`when`(
                 it.getConnectedSeries(series.connectedSeries)
-            ).thenReturn(listOf(secondSeriesExample))
+            ).thenReturn(Result.success(listOf(secondSeriesExample)))
         }
 
         remoteComicsRepository?.let {

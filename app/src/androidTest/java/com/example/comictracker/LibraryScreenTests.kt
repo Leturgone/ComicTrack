@@ -80,11 +80,11 @@ class LibraryScreenTests {
 
         Mockito.`when`(
             remoteSeriesRepository.fetchSeries(listOf(1))
-        ).thenReturn(listOf(secondSeriesExample))
+        ).thenReturn(Result.success(listOf(secondSeriesExample)))
 
         Mockito.`when`(
             remoteSeriesRepository.fetchSeries(listOf(1,2,3))
-        ).thenReturn(listOf(seriesExample))
+        ).thenReturn(Result.success(listOf(seriesExample)))
 
         Mockito.`when`(
             remoteComicRepository.fetchComics(listOf(25))
@@ -151,7 +151,7 @@ class LibraryScreenTests {
 
             Mockito.`when`(
                 remoteSeriesRepository.fetchSeries(listOf(5))
-            ).thenReturn(listOf(secondSeriesExample))
+            ).thenReturn(Result.success(listOf(secondSeriesExample)))
 
             onNode(BottomBarTestObj.libraryTemplate).assertExists()
             onNode(BottomBarTestObj.libraryTemplate).performClick()
@@ -174,7 +174,7 @@ class LibraryScreenTests {
 
             Mockito.`when`(
                 remoteSeriesRepository.fetchSeries(listOf(7))
-            ).thenReturn(listOf(seriesExample))
+            ).thenReturn(Result.success(listOf(seriesExample)))
 
             onNode(BottomBarTestObj.libraryTemplate).assertExists()
             onNode(BottomBarTestObj.libraryTemplate).performClick()
@@ -239,7 +239,7 @@ class LibraryScreenTests {
 
             Mockito.`when`(
                 remoteSeriesRepository.fetchSeries(listOf(1))
-            ).thenReturn(emptyList())
+            ).thenReturn(Result.success(emptyList()))
 
 
 
@@ -261,7 +261,7 @@ class LibraryScreenTests {
 
             Mockito.`when`(
                 remoteSeriesRepository.fetchSeries(listOf(1))
-            ).thenReturn(emptyList())
+            ).thenReturn(Result.success(emptyList()))
 
             onNode(BottomBarTestObj.libraryTemplate).assertExists()
             onNode(BottomBarTestObj.libraryTemplate).performClick()
