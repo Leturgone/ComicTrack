@@ -12,6 +12,7 @@ import com.example.comictracker.presentation.mvi.intents.ComicFromSeriesScreenIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -36,53 +37,71 @@ class ComicFromSeriesScreenViewModel @Inject constructor(
         }
     }
 
+//    private fun loadComicFromSeriesScreen(seriesId: Int,loadedCount: Int)  = viewModelScope.launch{
+//        _state.value = ComicAppState.AllComicSeriesScreenState(DataState.Loading)
+//        try {
+//            withContext(Dispatchers.IO){
+//                _state.emit(
+//                    ComicAppState.AllComicSeriesScreenState(
+//                        DataState.Success(
+//                            remoteComicsRepository.getComicsFromSeries(seriesId,loadedCount).getOrNull()!!.map {
+//                                val readMark = localReadRepository.loadComicMark(it.comicId)
+//                                it.copy(readMark = readMark)
+//                            })
+//                    )
+//                )
+//            }
+//        }catch (e:Exception){
+//            _state.value = ComicAppState.AllComicSeriesScreenState(
+//                DataState.Error("Error loading comic from this series : $e"))
+//        }
+//
+//    }
+
     private fun loadComicFromSeriesScreen(seriesId: Int,loadedCount: Int)  = viewModelScope.launch{
         _state.value = ComicAppState.AllComicSeriesScreenState(DataState.Loading)
-        try {
-            withContext(Dispatchers.IO){
-                _state.emit(
-                    ComicAppState.AllComicSeriesScreenState(
-                        DataState.Success(
-                            remoteComicsRepository.getComicsFromSeries(seriesId,loadedCount).map {
-                                val readMark = localReadRepository.loadComicMark(it.comicId)
-                                it.copy(readMark = readMark)
-                            })
-                    )
-                )
-            }
-        }catch (e:Exception){
-            _state.value = ComicAppState.AllComicSeriesScreenState(
-                DataState.Error("Error loading comic from this series : $e"))
+        withContext(Dispatchers.IO){
+            _state.emit(remoteComicsRepository.getComicsFromSeries(seriesId,loadedCount).fold(
+                onSuccess = {
+                    val comicsWithReadMarks = it.map { comic ->
+                        async {
+                            val readMark = localReadRepository.loadComicMark(comic.comicId)
+                            Log.i("ReadMarK", "${comic.number} $readMark")
+                            comic.copy(readMark = readMark)
+                        }
+                    }.awaitAll()
+                    ComicAppState.AllComicSeriesScreenState(DataState.Success(comicsWithReadMarks))
+                },
+                onFailure = { ComicAppState.AllComicSeriesScreenState(
+                    DataState.Error("Error loading comic from this series"))}
+            )
+            )
         }
-
     }
 
     private fun markAsReadComicInList(comicApiId: Int, seriesApiId: Int, number: String, loadedCount: Int) = viewModelScope.launch{
-        try {
-            val nextComicId = async {
-                remoteComicsRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
-            }.await()
-
-            if (localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
-                loadComicFromSeriesScreen(seriesApiId,loadedCount)
-            }
-        }catch (e:Exception){
-            Log.e("markAsReadComicInList",e.toString())
+        val nextComicId = async {
+            remoteComicsRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
+        }.await().fold(
+            onSuccess = {it},
+            onFailure = {null}
+        )
+        if (localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
+            loadComicFromSeriesScreen(seriesApiId,loadedCount)
         }
 
     }
 
     private fun markAsUnreadComicInList(comicApiId: Int, seriesApiId: Int, number: String, loadedCount: Int)  = viewModelScope.launch{
-        try {
-            val prevComicId = async {
-                remoteComicsRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
-            }.await()
+        val prevComicId = async {
+            remoteComicsRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
+        }.await().fold(
+            onSuccess = {it},
+            onFailure = {null}
+        )
 
-            if (localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
-                loadComicFromSeriesScreen(seriesApiId,loadedCount)
-            }
-        }catch (e:Exception){
-            Log.e("markAsUnreadComicInList",e.toString())
+        if (localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
+            loadComicFromSeriesScreen(seriesApiId,loadedCount)
         }
     }
 }
