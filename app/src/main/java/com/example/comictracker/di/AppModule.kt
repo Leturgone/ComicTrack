@@ -122,7 +122,4 @@ class AppModule {
         return LocalWriteRepositoryImpl(comicsDao, seriesDao, seriesListDao)
     }
 
-
-
-
 }
