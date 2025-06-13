@@ -43,12 +43,7 @@ class AboutComicScreenViewModel @Inject constructor(
     private fun loadComicScreen(comicId: Int) = viewModelScope.launch {
         _state.value = ComicAppState.AboutComicScreenState(DataState.Loading)
         val comicDeferred = async {
-            try {
-                remoteComicsRepository.getComicById(comicId)
-            }catch (e:Exception){
-                emptyList<ComicModel>()
-            }
-
+            remoteComicsRepository.getComicById(comicId)
         }
 
         val characterListDeferred = async {
@@ -60,7 +55,10 @@ class AboutComicScreenViewModel @Inject constructor(
 
         }
 
-        val comic = comicDeferred.await()
+        val comic = comicDeferred.await().fold(
+            onSuccess = {it},
+            onFailure = {emptyList<ComicModel>()}
+        )
 
 
         val creatorListDeferred = async {
@@ -94,30 +92,21 @@ class AboutComicScreenViewModel @Inject constructor(
     }
 
     private fun markAsReadComic(comicApiId: Int, seriesApiId: Int,number:String)  = viewModelScope.launch{
-        try {
-            val nextComicId = async {
-                remoteComicsRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
-            }.await()
-
+        async {
+            remoteComicsRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
+        }.await().onSuccess {nextComicId ->
             if(localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
                 loadComicScreen(comicApiId)
             }
-        }catch (e:Exception){
-            Log.e("markAsReadComic",e.toString())
         }
-
     }
     private fun markAsUnreadComic(comicApiId: Int, seriesApiId: Int,number:String) = viewModelScope.launch {
-        try {
-            val prevComicId = async {
-                remoteComicsRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
-            }.await()
+        async {
+            remoteComicsRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
+        }.await().onSuccess {prevComicId ->
             if(localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
                 loadComicScreen(comicApiId)
             }
-        }catch (e:Exception){
-            Log.e("markAsUnreadComic",e.toString())
         }
-
     }
 }
