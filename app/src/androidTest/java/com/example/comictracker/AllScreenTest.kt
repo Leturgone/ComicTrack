@@ -130,7 +130,7 @@ class AllScreenTest {
 
             Mockito.`when`(
                 remoteComicRepository.fetchUpdatesForSeries(listOf(455))
-            ).thenReturn(listOf(secondComicExample))
+            ).thenReturn(Result.success(listOf(secondComicExample)))
 
             onNode(AllScreenTestObj.AllTemplate).assertExists()
             onNode(AllScreenTestObj.newReleasesCard).assertExists()
@@ -151,7 +151,7 @@ class AllScreenTest {
 
             Mockito.`when`(
                 remoteComicRepository.fetchUpdatesForSeries(listOf(455))
-            ).thenReturn(listOf(secondComicExample))
+            ).thenReturn(Result.success(listOf(secondComicExample)))
 
             onNode(AllScreenTestObj.AllTemplate).assertExists()
             onNode(AllScreenTestObj.newReleasesCard).assertExists()
