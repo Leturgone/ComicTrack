@@ -16,7 +16,6 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
-import org.mockito.Mock
 import org.mockito.Mockito
 import javax.inject.Inject
 
@@ -88,7 +87,7 @@ class LibraryScreenTests {
 
         Mockito.`when`(
             remoteComicRepository.fetchComics(listOf(25))
-        ).thenReturn(listOf(comicExample))
+        ).thenReturn(Result.success(listOf(comicExample)))
 
     }
 
@@ -128,7 +127,7 @@ class LibraryScreenTests {
 
             Mockito.`when`(
                 remoteComicRepository.fetchComics(listOf(6))
-            ).thenReturn(listOf(secondComicExample))
+            ).thenReturn(Result.success(listOf(secondComicExample)))
 
             onNode(BottomBarTestObj.libraryTemplate).assertExists()
             onNode(BottomBarTestObj.libraryTemplate).performClick()

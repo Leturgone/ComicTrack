@@ -43,8 +43,14 @@ class HomeScreenViewModel @Inject constructor(
             val newComicsDef = async { remoteComicsRepository.fetchUpdatesForSeries(loadedIdsSeriesFromBD) }
             val nextComicsDef = async { remoteComicsRepository.fetchComics(loadedIdsNextReadComicFromBD) }
 
-            val newComics = newComicsDef.await()
-            val nextComics = nextComicsDef.await()
+            val newComics = newComicsDef.await().fold(
+                onSuccess = {it},
+                onFailure = { emptyList() }
+            )
+            val nextComics = nextComicsDef.await().fold(
+                onSuccess = {it},
+                onFailure = { emptyList() }
+            )
 
             DataState.Success(
                 HomeScreenData(

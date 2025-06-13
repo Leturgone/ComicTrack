@@ -52,20 +52,11 @@ class AboutSeriesScreenViewModel @Inject constructor(
     private fun loadSeriesScreen(seriesId: Int)  = viewModelScope.launch {
         _state.value = ComicAppState.AboutComicScreenState(DataState.Loading)
         val seriesDeferred = async{
-            remoteSeriesRepository.getSeriesById(seriesId).fold(
-                onSuccess = {it},
-                onFailure = { emptyList<SeriesModel>()}
-            )
+            remoteSeriesRepository.getSeriesById(seriesId)
         }
 
         val comicListDeferred = async {
             remoteComicsRepository.getComicsFromSeries(seriesId)
-            try{
-                remoteComicsRepository.getComicsFromSeries(seriesId)
-            }catch (e:Exception){
-                Log.e("ViewModel","$e")
-                emptyList()
-            }
         }
 
         val characterListDeferred = async {
@@ -77,7 +68,10 @@ class AboutSeriesScreenViewModel @Inject constructor(
             }
         }
 
-        val series = seriesDeferred.await() // Получение series до зависимых задач.
+        val series = seriesDeferred.await().fold(
+            onSuccess = {it},
+            onFailure = { emptyList<SeriesModel>()}
+        ) // Получение series до зависимых задач.
 
         val creatorListDeferred = async {
             if (series is SeriesModel){
@@ -102,7 +96,10 @@ class AboutSeriesScreenViewModel @Inject constructor(
 
         }
 
-        val comicList = comicListDeferred.await()
+        val comicList = comicListDeferred.await().fold(
+            onSuccess = {it},
+            onFailure = { emptyList() }
+        )
         val characterList = characterListDeferred.await()
         val creatorList = creatorListDeferred.await()
         val connectedSeriesList = connectedSeriesListDeferred.await()
@@ -114,8 +111,11 @@ class AboutSeriesScreenViewModel @Inject constructor(
                         val readMarkDef = async { localReadRepository.loadSeriesMark(series.seriesId)}
                         val favoriteMarkDef = async { localReadRepository.loadSeriesFavoriteMark(series.seriesId) }
                         val nextReadLocDef = async {  localReadRepository.loadNextRead(series.seriesId)}
-                        val nextRead = nextReadLocDef.await()?.let {
-                            remoteComicsRepository.getComicById(it)
+                        val nextRead = nextReadLocDef.await()?.let { nextComicId ->
+                            remoteComicsRepository.getComicById(nextComicId).fold(
+                                onSuccess = {it},
+                                onFailure = {null}
+                            )
                         }
                         val readMark = readMarkDef.await()
                         val favoriteMark = favoriteMarkDef.await()
@@ -204,31 +204,22 @@ class AboutSeriesScreenViewModel @Inject constructor(
     }
 
     private fun markAsReadNextComic(comicApiId: Int, seriesApiId: Int, number: String) = viewModelScope.launch{
-        try {
-            val nextComicId = async {
-                remoteComicsRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
-            }.await()
-
+        async {
+            remoteComicsRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
+        }.await().onSuccess { nextComicId ->
             if (localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
                 loadSeriesScreen(seriesApiId)
             }
-        }catch (e:Exception){
-            Log.e("markAsReadNextComic",e.toString())
         }
-
     }
 
     private fun markAsUnreadNextComic(comicApiId: Int, seriesApiId: Int, number: String) = viewModelScope.launch{
-        try {
-            val prevComicId = async {
-                remoteComicsRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
-            }.await()
-
+        async {
+            remoteComicsRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
+        }.await().onSuccess {prevComicId ->
             if (localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
                 loadSeriesScreen(seriesApiId)
             }
-        }catch (e:Exception){
-            Log.e("markAsUnreadNextComic",e.toString())
         }
     }
 }
