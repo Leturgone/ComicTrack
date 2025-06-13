@@ -49,86 +49,122 @@ class RemoteComicsRepositoryImpl @Inject constructor(private val api: MarvelComi
             readMark = "unread"
         )
     }
-    override suspend fun getSeriesLastReleasesById(id: Int): List<ComicModel> {
-        val seriesLastReleases = mutableListOf<ComicModel>()
-        api.getSeriesLastReleasesById(series = id.toString()).data?.results?.forEach {
-                results ->  seriesLastReleases.add(results.toModel())
+    override suspend fun getSeriesLastReleasesById(id: Int): Result<List<ComicModel>> {
+        return try {
+            val seriesLastReleases = mutableListOf<ComicModel>()
+            api.getSeriesLastReleasesById(series = id.toString()).data?.results?.forEach {
+                    results ->  seriesLastReleases.add(results.toModel())
+            }
+            Result.success(seriesLastReleases)
+        }catch (e:Exception){
+            Log.e("getSeriesLastReleasesById", e.toString())
+            Result.failure(e)
         }
-        return seriesLastReleases
     }
 
-    override suspend fun getComicsFromSeries(seriesId: Int,loadedCount: Int): List<ComicModel> {
-        val comics = mutableListOf<ComicModel>()
-        api.getComicsFromSeries(seriesId.toString(), offset = loadedCount.toString()).data!!.results.forEach {
-                result ->  comics.add(result.toModel())
+    override suspend fun getComicsFromSeries(seriesId: Int,loadedCount: Int): Result<List<ComicModel>> {
+        return try {
+            val comics = mutableListOf<ComicModel>()
+            api.getComicsFromSeries(seriesId.toString(), offset = loadedCount.toString()).data!!.results.forEach {
+                    result ->  comics.add(result.toModel())
+            }
+            Result.success(comics)
+        }catch (e:Exception){
+            Log.e("getComicsFromSeries", e.toString())
+            Result.failure(e)
         }
-        return comics
     }
 
-    override suspend fun getComicById(comicId: Int): ComicModel {
-        Log.i("Repository","Start get comic ")
-        val result = api.getComicById(comicId.toString()).data!!.results[0]
-        Log.i("Repository","got comic ")
-        val convertedRes = result.toModel()
-        Log.i("Repository","Converted $convertedRes ")
-        return convertedRes
+    override suspend fun getComicById(comicId: Int): Result<ComicModel> {
+        return try {
+            Log.i("getComicById","Start get comic ")
+            val result = api.getComicById(comicId.toString()).data!!.results[0]
+            val convertedRes = result.toModel()
+            Log.i("getComicById","Converted $convertedRes ")
+            Result.success(convertedRes)
+        }catch (e:Exception){
+            Log.e("getComicById", e.toString())
+            Result.failure(e)
+        }
     }
 
-    override suspend fun fetchComics(ids: List<Int>): List<ComicModel> {
-        val comicsDef = ids.map { id ->
-            withContext(Dispatchers.IO){
-                async {
-                    try {
-                        getComicById(id)
-                    } catch (e: Exception) {
-                        null
+    override suspend fun fetchComics(ids: List<Int>): Result<List<ComicModel>> {
+        return try{
+            val comicsDef = ids.map { id ->
+                withContext(Dispatchers.IO){
+                    async {
+                        getComicById(id).fold(
+                            onSuccess = {it},
+                            onFailure = {null}
+                        )
                     }
                 }
             }
+            val filteredComic = comicsDef.awaitAll().filterNotNull()
+            Result.success(filteredComic)
+        }catch (e:Exception){
+            Log.e("fetchComics", e.toString())
+            Result.failure(e)
         }
-        return comicsDef.awaitAll().filterNotNull()
     }
 
-    override suspend fun fetchUpdatesForSeries(ids: List<Int>): List<ComicModel> {
-        val newComicsDef = ids.map { id ->
-            withContext(Dispatchers.IO){
-                async {
-                    try {
-                        getSeriesLastReleasesById(id)
-                    } catch (e: Exception) {
-                        emptyList()
+    override suspend fun fetchUpdatesForSeries(ids: List<Int>): Result<List<ComicModel>> {
+        return try {
+            val newComicsDef = ids.map { id ->
+                withContext(Dispatchers.IO){
+                    async {
+                        getSeriesLastReleasesById(id).fold(
+                            onSuccess = {it},
+                            onFailure = { emptyList() }
+                        )
                     }
                 }
             }
-        }
-        return newComicsDef.awaitAll().flatten()
-    }
-
-    override suspend fun getPreviousComicId(seriesId: Int, number: Int): Int? {
-        Log.i("PREV",seriesId.toString())
-        val nextComic =api.getSpecificComicsFromSeries(
-            seriesId = seriesId.toString(),
-            issueNumber = (number-1).toString(),
-            offset = "0"
-        )
-        return try {
-            nextComic.data?.let { it.results[0].id.toIntOrNull() }
+            val flattenComics = newComicsDef.awaitAll().flatten()
+            Result.success(flattenComics)
         }catch (e:Exception){
-            null
+            Log.e("fetchUpdatesForSeries", e.toString())
+            Result.failure(e)
         }
     }
 
-    override suspend fun getNextComicId(seriesId: Int, number: Int): Int? {
-        Log.i("NEXT",seriesId.toString())
-        val nextComic =api.getSpecificComicsFromSeries(
-            seriesId = seriesId.toString(),
-            issueNumber = (number+1).toString(),
-            offset = "0"
-        )
+    override suspend fun getPreviousComicId(seriesId: Int, number: Int): Result<Int?> {
         return try {
-            nextComic.data?.let { it.results[0].id.toIntOrNull() }
+            Log.i("getPreviousComicId",seriesId.toString())
+            val nextComic =api.getSpecificComicsFromSeries(
+                seriesId = seriesId.toString(),
+                issueNumber = (number-1).toString(),
+                offset = "0"
+            )
+            try {
+                val prevComicId = nextComic.data?.let { it.results[0].id.toIntOrNull() }
+                Result.success(prevComicId)
+            }catch (e:Exception){
+                Result.success(null)
+            }
         }catch (e:Exception){
-            null
+            Log.e("getPreviousComicId", e.toString())
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getNextComicId(seriesId: Int, number: Int): Result<Int?> {
+        return try {
+            Log.i("NEXT",seriesId.toString())
+            val nextComic =api.getSpecificComicsFromSeries(
+                seriesId = seriesId.toString(),
+                issueNumber = (number+1).toString(),
+                offset = "0"
+            )
+            try {
+                val nextComicId = nextComic.data?.let { it.results[0].id.toIntOrNull() }
+                Result.success(nextComicId)
+            }catch (e:Exception){
+                Result.success(null)
+            }
+        }catch (e:Exception){
+            Log.e("getNextComicId", e.toString())
+            Result.failure(e)
         }
     }
 }
