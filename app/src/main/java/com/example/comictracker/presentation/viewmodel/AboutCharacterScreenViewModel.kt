@@ -48,10 +48,7 @@ class AboutCharacterScreenViewModel @Inject constructor(
         }
 
         val seriesDef = async {
-            seriesRepository.getCharacterSeries(characterId).fold(
-                onSuccess = {DataState.Success(it)},
-                onFailure = {DataState.Error("Error loading comics with this character")}
-            )
+            seriesRepository.getCharacterSeries(characterId)
         }
 
         val character = characterDef.await()
@@ -60,10 +57,14 @@ class AboutCharacterScreenViewModel @Inject constructor(
             character =  character,
             series = DataState.Loading
         )
+        val series = seriesDef.await().fold(
+            onSuccess = {DataState.Success(it)},
+            onFailure = {DataState.Error("Error loading comics with this character")}
+        )
 
         _state.value = ComicAppState.AboutCharacterScreenState(
             character =  character,
-            series = seriesDef.await()
+            series = series
         )
     }
 
