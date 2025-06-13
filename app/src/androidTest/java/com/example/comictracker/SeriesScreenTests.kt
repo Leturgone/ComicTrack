@@ -334,7 +334,7 @@ class SeriesScreenTests {
                 remoteComicRepository.getNextComicId(
                     comicExample.seriesId,
                     comicExample.number.toFloat().toInt())
-            ).thenReturn(secondComicExample.comicId)
+            ).thenReturn(Result.success(secondComicExample.comicId))
 
             Mockito.`when`(
                 localWriteRepository.markComicRead(
@@ -374,7 +374,7 @@ class SeriesScreenTests {
                 remoteComicRepository.getPreviousComicId(
                     secondComicExample.seriesId,
                     secondComicExample.number.toFloat().toInt())
-            ).thenReturn(comicExample.comicId)
+            ).thenReturn(Result.success(comicExample.comicId))
 
             Mockito.`when`(
                 localWriteRepository.markComicUnread(
@@ -583,7 +583,7 @@ class SeriesScreenTests {
             Mockito.`when`(
                 remoteComicRepository.getComicsFromSeries(seriesExample.seriesId,50)
             ).thenReturn(
-                listOf(comicExample)
+                Result.success(listOf(comicExample))
             )
             onNode(aboutSeriesNode.seeAllTemplate).assertExists()
             onNode(aboutSeriesNode.seeAllTemplate).performClick()
