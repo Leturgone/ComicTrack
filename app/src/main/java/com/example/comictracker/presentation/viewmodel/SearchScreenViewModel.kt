@@ -37,10 +37,7 @@ class SearchScreenViewModel @Inject constructor(
     private fun loadSearchScreen() = viewModelScope.launch {
         _state.value = ComicAppState.SearchScreenState(DataState.Loading)
         val discoverSeriesListDef  = async {
-            remoteSeriesRepository.getAllSeries().fold(
-                onSuccess = {DataState.Success(it)},
-                onFailure = {DataState.Error("Error loading Discover Series")}
-            )
+            remoteSeriesRepository.getAllSeries()
         }
         val mayLikeSeriesListDef  = async(Dispatchers.IO) {
             val loadedIdsSeriesFromBD = localReadRepository.loadAllReadSeriesIds(0)
@@ -63,7 +60,10 @@ class SearchScreenViewModel @Inject constructor(
             }
         }
 
-        val dseries = discoverSeriesListDef.await()
+        val dseries = discoverSeriesListDef.await().fold(
+            onSuccess = {DataState.Success(it)},
+            onFailure = {DataState.Error("Error loading Discover Series")}
+        )
         val mlsreis = mayLikeSeriesListDef.await()
         val characters = characterListDef.await()
 
