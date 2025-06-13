@@ -60,7 +60,7 @@ class RemoteComicsRepositoryTests {
         ).thenReturn(comicsDTO)
 
         val result = remoteComicsRepository.getSeriesLastReleasesById(11)
-        assertEquals(listOf(comic),result)
+        assertEquals(listOf(comic),result.getOrNull())
     }
 
     @Test
@@ -70,7 +70,7 @@ class RemoteComicsRepositoryTests {
         ).thenReturn(comicsDTO)
 
         val result = remoteComicsRepository.getComicsFromSeries(11,0)
-        assertEquals(listOf(comic),result)
+        assertEquals(listOf(comic),result.getOrNull())
     }
 
     @Test
@@ -80,7 +80,7 @@ class RemoteComicsRepositoryTests {
         ).thenReturn(comicsDTO)
 
         val result = remoteComicsRepository.getComicById(11)
-        assertEquals(comic,result)
+        assertEquals(comic,result.getOrNull())
     }
 
     @Test
@@ -94,7 +94,7 @@ class RemoteComicsRepositoryTests {
         ).thenThrow(RuntimeException("Exception"))
 
         val result = remoteComicsRepository.fetchComics(listOf(11,12))
-        assertEquals(listOf(comic),result)
+        assertEquals(listOf(comic),result.getOrNull())
     }
 
     @Test
@@ -108,7 +108,7 @@ class RemoteComicsRepositoryTests {
         ).thenThrow(RuntimeException("Exception"))
 
         val result = remoteComicsRepository.fetchUpdatesForSeries(listOf(11,12))
-        assertEquals(listOf(comic),result)
+        assertEquals(listOf(comic),result.getOrNull())
     }
 
 
@@ -119,7 +119,7 @@ class RemoteComicsRepositoryTests {
         ).thenReturn(comicsDTO)
 
         val result = remoteComicsRepository.getNextComicId(11,1)
-        assertEquals(comic.comicId,result)
+        assertEquals(comic.comicId,result.getOrNull())
     }
 
     @Test
@@ -129,7 +129,7 @@ class RemoteComicsRepositoryTests {
         ).thenReturn(null)
 
         val result = remoteComicsRepository.getNextComicId(11,1)
-        assertEquals(null,result)
+        assertEquals(null,result.getOrNull())
     }
 
     @Test
@@ -139,7 +139,7 @@ class RemoteComicsRepositoryTests {
         ).thenReturn(comicsDTO)
 
         val result = remoteComicsRepository.getPreviousComicId(11,3)
-        assertEquals(comic.comicId,result)
+        assertEquals(comic.comicId,result.getOrNull())
     }
 
     @Test
@@ -149,7 +149,7 @@ class RemoteComicsRepositoryTests {
         ).thenReturn(null)
 
         val result = remoteComicsRepository.getPreviousComicId(11,3)
-        assertEquals(null,result)
+        assertEquals(null,result.getOrNull())
     }
 
 }
