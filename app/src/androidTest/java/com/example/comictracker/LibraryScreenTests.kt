@@ -88,7 +88,7 @@ class LibraryScreenTests {
 
         Mockito.`when`(
             remoteComicRepository.fetchComics(listOf(25))
-        ).thenReturn(listOf(comicExample))
+        ).thenReturn(Result.success(listOf(comicExample)))
 
     }
 
@@ -128,7 +128,7 @@ class LibraryScreenTests {
 
             Mockito.`when`(
                 remoteComicRepository.fetchComics(listOf(6))
-            ).thenReturn(listOf(secondComicExample))
+            ).thenReturn(Result.success(listOf(secondComicExample)))
 
             onNode(BottomBarTestObj.libraryTemplate).assertExists()
             onNode(BottomBarTestObj.libraryTemplate).performClick()
