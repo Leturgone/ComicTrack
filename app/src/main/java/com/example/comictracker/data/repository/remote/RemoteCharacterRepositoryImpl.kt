@@ -22,47 +22,71 @@ class RemoteCharacterRepositoryImpl @Inject constructor(private val api: MarvelC
         )
     }
 
-    override suspend fun getAllCharacters(loadedCount: Int): List<CharacterModel> {
-        val allCharacters = mutableListOf<CharacterModel>()
-        api.getAllCharacters(offset = loadedCount.toString()).data?.results?.forEach {
-                result -> allCharacters.add(result.toModel())
+    override suspend fun getAllCharacters(loadedCount: Int): Result<List<CharacterModel>> {
+        return  try {
+            val allCharacters = mutableListOf<CharacterModel>()
+            api.getAllCharacters(offset = loadedCount.toString()).data?.results?.forEach {
+                    result -> allCharacters.add(result.toModel())
+            }
+            Result.success(allCharacters)
+        }catch (e:Exception){
+            Log.e("getAllCharacters", e.toString())
+            Result.failure(e)
         }
-        return  allCharacters
     }
 
-    override suspend fun getCharactersByName(name: String): List<CharacterModel> {
-        val characters = mutableListOf<CharacterModel>()
-        api.getCharactersByName(name).data?.results?.forEach {
-                result -> characters.add(result.toModel())
+    override suspend fun getCharactersByName(name: String): Result<List<CharacterModel>> {
+        return try {
+            val characters = mutableListOf<CharacterModel>()
+            api.getCharactersByName(name).data?.results?.forEach {
+                    result -> characters.add(result.toModel())
+            }
+            Result.success(characters)
+        }catch (e:Exception){
+            Log.e("getCharactersByName", e.toString())
+            Result.failure(e)
         }
-        return characters
     }
 
-    override suspend fun getSeriesCharacters(seriesId: Int): List<CharacterModel> {
-        val characters = mutableListOf<CharacterModel>()
-        Log.i("getSeriesCharacters","Start get sereies characters")
-        api.getSeriesCharacters(seriesId.toString()).data!!
-            .results.forEach {result ->
+    override suspend fun getSeriesCharacters(seriesId: Int): Result<List<CharacterModel>> {
+        return try {
+            val characters = mutableListOf<CharacterModel>()
+            api.getSeriesCharacters(seriesId.toString()).data!!
+                .results.forEach {result ->
+                    characters.add(result.toModel())
+                }
+            Log.i("getSeriesCharacters","got series characters $characters")
+            Result.success(characters)
+        }catch (e:Exception){
+            Log.e("getSeriesCharacters", e.toString())
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getCharacterById(characterId: Int): Result<CharacterModel> {
+        return try {
+            Log.i("getCharacterById","Start get character ")
+            val result = api.getCharacterById(characterId.toString()).data!!.results[0]
+            Log.i("getCharacterById","got character ")
+            val convertedRes = result.toModel()
+            Log.i("getCharacterById","Converted $convertedRes ")
+            Result.success(convertedRes)
+        }catch (e:Exception){
+            Log.e("getCharacterById", e.toString())
+            Result.failure(e)
+        }
+    }
+
+    override suspend fun getComicCharacters(comicId: Int): Result<List<CharacterModel>> {
+        return try {
+            val characters = mutableListOf<CharacterModel>()
+            api.getComicCharacters(comicId.toString()).data!!.results.forEach {result ->
                 characters.add(result.toModel())
             }
-        Log.i("getSeriesCharacters","got sereies characters $characters")
-        return characters
-    }
-
-    override suspend fun getCharacterById(characterId: Int): CharacterModel {
-        Log.i("getCharacterById","Start get character ")
-        val result = api.getCharacterById(characterId.toString()).data!!.results[0]
-        Log.i("getCharacterById","got character ")
-        val convertedRes = result.toModel()
-        Log.i("getCharacterById","Converted $convertedRes ")
-        return convertedRes
-    }
-
-    override suspend fun getComicCharacters(comicId: Int): List<CharacterModel> {
-        val characters = mutableListOf<CharacterModel>()
-        api.getComicCharacters(comicId.toString()).data!!.results.forEach {result ->
-            characters.add(result.toModel())
+            Result.success(characters)
+        }catch (e:Exception){
+            Log.e("getComicCharacters", e.toString())
+            Result.failure(e)
         }
-        return characters
     }
 }

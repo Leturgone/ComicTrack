@@ -60,12 +60,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
         }
 
         val characterListDeferred = async {
-            try{
-                remoteCharacterRepository.getSeriesCharacters(seriesId)
-            }catch (e:Exception){
-                Log.e("ViewModel","$e")
-                emptyList()
-            }
+            remoteCharacterRepository.getSeriesCharacters(seriesId)
         }
 
         val series = seriesDeferred.await().fold(
@@ -100,7 +95,10 @@ class AboutSeriesScreenViewModel @Inject constructor(
             onSuccess = {it},
             onFailure = { emptyList() }
         )
-        val characterList = characterListDeferred.await()
+        val characterList = characterListDeferred.await().fold(
+            onSuccess = {it},
+            onFailure = { emptyList() }
+        )
         val creatorList = creatorListDeferred.await()
         val connectedSeriesList = connectedSeriesListDeferred.await()
 

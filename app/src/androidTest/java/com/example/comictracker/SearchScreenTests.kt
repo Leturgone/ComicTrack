@@ -3,9 +3,7 @@ package com.example.comictracker
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import com.example.comictracker.data.database.enteties.SeriesEntity
 import com.example.comictracker.di.AppModule
-import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.domain.repository.local.LocalReadRepository
 import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
 import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
@@ -14,14 +12,11 @@ import com.example.comictracker.domain.repository.remote.RemoteSeriesRepository
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dagger.hilt.android.testing.UninstallModules
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
-import org.mockito.kotlin.doThrow
-import java.lang.Exception
 import javax.inject.Inject
 
 
@@ -102,7 +97,7 @@ class SearchScreenTests {
         //Character list mock
         Mockito.`when`(
             remoteCharacterRepository.getAllCharacters()
-        ).thenReturn(characterList)
+        ).thenReturn(Result.success(characterList))
     }
 
     @Test
@@ -223,7 +218,7 @@ class SearchScreenTests {
 
             Mockito.`when`(
                 remoteCharacterRepository.getCharacterById(characterExample.characterId)
-            ).thenReturn(characterExample)
+            ).thenReturn(Result.success(characterExample))
 
             Mockito.`when`(
                 remoteSeriesRepository.getCharacterSeries(characterExample.characterId)
@@ -264,7 +259,7 @@ class SearchScreenTests {
 
             Mockito.`when`(
                 remoteCharacterRepository.getCharactersByName("Daredevil")
-            ).thenReturn(listOf(characterExample))
+            ).thenReturn(Result.success(listOf(characterExample)))
 
             Mockito.`when`(
                 remoteSeriesRepository.getSeriesByTitle("Daredevil")
@@ -292,7 +287,7 @@ class SearchScreenTests {
 
             Mockito.`when`(
                 remoteCharacterRepository.getCharactersByName("Daredevil")
-            ).thenReturn(emptyList())
+            ).thenReturn(Result.success(emptyList()))
 
             Mockito.`when`(
                 remoteSeriesRepository.getSeriesByTitle("Daredevil")
@@ -320,7 +315,7 @@ class SearchScreenTests {
 
             Mockito.`when`(
                 remoteCharacterRepository.getCharactersByName("")
-            ).thenThrow(RuntimeException("Simulated error"))
+            ).thenReturn(Result.failure(Exception("Simulated error")))
 
             Mockito.`when`(
                 remoteSeriesRepository.getSeriesByTitle("")
@@ -351,7 +346,7 @@ class SearchScreenTests {
 
             Mockito.`when`(
                 remoteCharacterRepository.getCharacterById(characterExample.characterId)
-            ).thenReturn(characterExample)
+            ).thenReturn(Result.success(characterExample))
 
             Mockito.`when`(
                 remoteSeriesRepository.getCharacterSeries(characterExample.characterId)
@@ -359,7 +354,7 @@ class SearchScreenTests {
 
             Mockito.`when`(
                 remoteCharacterRepository.getCharactersByName("Daredevil")
-            ).thenReturn(listOf(characterExample))
+            ).thenReturn(Result.success(listOf(characterExample)))
 
             Mockito.`when`(
                 remoteSeriesRepository.getSeriesByTitle("Daredevil")
@@ -389,7 +384,7 @@ class SearchScreenTests {
 
             Mockito.`when`(
                 remoteCharacterRepository.getCharactersByName("Daredevil")
-            ).thenReturn(listOf(characterExample))
+            ).thenReturn(Result.success(listOf(characterExample)))
 
             Mockito.`when`(
                 remoteSeriesRepository.getSeriesByTitle("Daredevil")

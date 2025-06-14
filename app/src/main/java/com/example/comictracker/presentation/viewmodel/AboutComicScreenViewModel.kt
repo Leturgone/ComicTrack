@@ -3,6 +3,7 @@ package com.example.comictracker.presentation.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.comictracker.domain.model.CharacterModel
 import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.domain.repository.local.LocalReadRepository
 import com.example.comictracker.domain.repository.local.LocalWriteRepository
@@ -42,17 +43,13 @@ class AboutComicScreenViewModel @Inject constructor(
 
     private fun loadComicScreen(comicId: Int) = viewModelScope.launch {
         _state.value = ComicAppState.AboutComicScreenState(DataState.Loading)
+
         val comicDeferred = async {
             remoteComicsRepository.getComicById(comicId)
         }
 
         val characterListDeferred = async {
-            try {
-                remoteCharacterRepository.getComicCharacters(comicId)
-            }catch (e:Exception){
-                emptyList()
-            }
-
+            remoteCharacterRepository.getComicCharacters(comicId)
         }
 
         val comic = comicDeferred.await().fold(
@@ -69,7 +66,10 @@ class AboutComicScreenViewModel @Inject constructor(
             }
         }
 
-        val characterList = characterListDeferred.await()
+        val characterList = characterListDeferred.await().fold(
+            onSuccess = {it},
+            onFailure = {emptyList()}
+        )
         val creatorList = creatorListDeferred.await()
 
         _state.value = (ComicAppState.AboutComicScreenState(

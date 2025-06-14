@@ -289,7 +289,7 @@ class AllScreenTest {
 
             Mockito.`when`(
                 remoteCharacterRepository.getAllCharacters(9)
-            ).thenReturn(listOf(characterExample.copy(name = "ch12")))
+            ).thenReturn(Result.success(listOf(characterExample.copy(name = "ch12"))))
 
             setContent { MainScreen() }
             onNode(BottomBarTestObj.searchTemplate).performClick()
@@ -316,7 +316,7 @@ class AllScreenTest {
 
             Mockito.`when`(
                 remoteCharacterRepository.getAllCharacters(9)
-            ).thenReturn(listOf(characterExample.copy(name = "ch12")))
+            ).thenReturn(Result.success(listOf(characterExample.copy(name = "ch12"))))
 
             setContent { MainScreen() }
             onNode(BottomBarTestObj.searchTemplate).performClick()

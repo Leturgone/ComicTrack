@@ -1,6 +1,5 @@
 package com.example.comictracker.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
@@ -9,7 +8,6 @@ import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.mvi.intents.AboutCharacterScreenIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -38,20 +36,17 @@ class AboutCharacterScreenViewModel @Inject constructor(
             series = DataState.Loading
         )
         val characterDef = async{
-            try {
-                DataState.Success(characterRepository.getCharacterById(characterId))
-            }catch (e:Exception){
-                Log.e("ViewModel","$e")
-                DataState.Error("Error loading character")
-            }
-
+            characterRepository.getCharacterById(characterId)
         }
 
         val seriesDef = async {
             seriesRepository.getCharacterSeries(characterId)
         }
 
-        val character = characterDef.await()
+        val character = characterDef.await().fold(
+            onSuccess = {DataState.Success(it)},
+            onFailure = {DataState.Error("Error loading character")}
+        )
 
         _state.value = ComicAppState.AboutCharacterScreenState(
             character =  character,

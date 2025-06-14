@@ -54,7 +54,7 @@ class RemoteCharacterRepositoryTest {
         ).thenReturn(charactersDTO)
 
         val result = remoteCharacterRepository.getAllCharacters(0)
-        assertEquals(listOf(character),result)
+        assertEquals(listOf(character),result.getOrNull())
     }
 
     @Test
@@ -64,7 +64,7 @@ class RemoteCharacterRepositoryTest {
         ).thenReturn(charactersDTO)
 
         val result = remoteCharacterRepository.getCharactersByName("Iron Man")
-        assertEquals(listOf(character),result)
+        assertEquals(listOf(character),result.getOrNull())
     }
 
     @Test
@@ -74,7 +74,7 @@ class RemoteCharacterRepositoryTest {
         ).thenReturn(charactersDTO)
 
         val result = remoteCharacterRepository.getSeriesCharacters(11)
-        assertEquals(listOf(character),result)
+        assertEquals(listOf(character),result.getOrNull())
     }
 
     @Test
@@ -83,7 +83,7 @@ class RemoteCharacterRepositoryTest {
             api.getCharacterById("11")
         ).thenReturn(charactersDTO)
         val result = remoteCharacterRepository.getCharacterById(11)
-        assertEquals(character,result)
+        assertEquals(character,result.getOrNull())
     }
 
     @Test
@@ -92,6 +92,6 @@ class RemoteCharacterRepositoryTest {
             api.getComicCharacters("11")
         ).thenReturn(charactersDTO)
         val result = remoteCharacterRepository.getComicCharacters(11)
-        assertEquals(listOf(character),result)
+        assertEquals(listOf(character),result.getOrNull())
     }
 }
