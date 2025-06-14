@@ -39,7 +39,7 @@ class MockHelper(
         remoteCharacterRepository?.let {
             Mockito.`when`(
                 it.getSeriesCharacters(series.seriesId)
-            ).thenReturn(emptyList())
+            ).thenReturn(Result.failure(Exception()))
         }
 
         remoteCreatorsRepository?.let {
@@ -91,7 +91,7 @@ class MockHelper(
         remoteCharacterRepository?.let {
             Mockito.`when`(
                 it.getCharacterById(characterExample.characterId)
-            ).thenReturn(characterExample)
+            ).thenReturn(Result.success(characterExample))
         }
 
         remoteSeriesRepository?.let {
@@ -114,7 +114,7 @@ class MockHelper(
         remoteCharacterRepository?.let {
             Mockito.`when`(
                 it.getComicCharacters(comic.comicId)
-            ).thenReturn(listOf(characterExample))
+            ).thenReturn(Result.success(listOf(characterExample)))
         }
 
         remoteCreatorsRepository?.let {
@@ -174,7 +174,7 @@ class MockHelper(
             //Character list mock
             Mockito.`when`(
                 it.getAllCharacters()
-            ).thenReturn(characterList)
+            ).thenReturn(Result.success(characterList))
         }
 
     }
@@ -202,7 +202,7 @@ class MockHelper(
         remoteCharacterRepository?.let {
             Mockito.`when`(
                 it.getSeriesCharacters(series.seriesId)
-            ).thenReturn(listOf(characterExample))
+            ).thenReturn(Result.success(listOf(characterExample)))
         }
 
         remoteCreatorsRepository?.let {
