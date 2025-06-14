@@ -37,26 +37,6 @@ class ComicFromSeriesScreenViewModel @Inject constructor(
         }
     }
 
-//    private fun loadComicFromSeriesScreen(seriesId: Int,loadedCount: Int)  = viewModelScope.launch{
-//        _state.value = ComicAppState.AllComicSeriesScreenState(DataState.Loading)
-//        try {
-//            withContext(Dispatchers.IO){
-//                _state.emit(
-//                    ComicAppState.AllComicSeriesScreenState(
-//                        DataState.Success(
-//                            remoteComicsRepository.getComicsFromSeries(seriesId,loadedCount).getOrNull()!!.map {
-//                                val readMark = localReadRepository.loadComicMark(it.comicId)
-//                                it.copy(readMark = readMark)
-//                            })
-//                    )
-//                )
-//            }
-//        }catch (e:Exception){
-//            _state.value = ComicAppState.AllComicSeriesScreenState(
-//                DataState.Error("Error loading comic from this series : $e"))
-//        }
-//
-//    }
 
     private fun loadComicFromSeriesScreen(seriesId: Int,loadedCount: Int)  = viewModelScope.launch{
         _state.value = ComicAppState.AllComicSeriesScreenState(DataState.Loading)
