@@ -1,6 +1,5 @@
 package com.example.comictracker.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.repository.local.LocalReadRepository
@@ -52,12 +51,7 @@ class SearchScreenViewModel @Inject constructor(
             )
         }
         val characterListDef  = async {
-            try{
-                DataState.Success(remoteCharacterRepository.getAllCharacters())
-            }catch(e:Exception){
-                Log.e("ViewModel","$e")
-                DataState.Error("Error loading characters")
-            }
+            remoteCharacterRepository.getAllCharacters()
         }
 
         val dseries = discoverSeriesListDef.await().fold(
@@ -65,7 +59,10 @@ class SearchScreenViewModel @Inject constructor(
             onFailure = {DataState.Error("Error loading Discover Series")}
         )
         val mlsreis = mayLikeSeriesListDef.await()
-        val characters = characterListDef.await()
+        val characters = characterListDef.await().fold(
+            onSuccess = {DataState.Success(it)},
+            onFailure = {DataState.Error("Error loading characters")}
+        )
 
         _state.value = ComicAppState.SearchScreenState(
             mlsreis,dseries,characters
@@ -75,24 +72,21 @@ class SearchScreenViewModel @Inject constructor(
     private fun loadSearchResults(query: String) = viewModelScope.launch{
         _state.value = ComicAppState.SearchResultScreenSate(DataState.Loading)
         val searchSeriesListDeferred = async {
-            remoteSeriesRepository.getSeriesByTitle(query).fold(
-                onSuccess = {DataState.Success(it)},
-                onFailure = {DataState.Error("Error loading results series")}
-            )
+            remoteSeriesRepository.getSeriesByTitle(query)
         }
 
         val searchCharacterListDeferred = async {
-            try {
-                DataState.Success(remoteCharacterRepository.getCharactersByName(query))
-            }catch (e:Exception){
-                Log.e("ViewModel","$e")
-                DataState.Error("Error loading results characters")
-            }
-
+            remoteCharacterRepository.getCharactersByName(query)
         }
 
-        val seriesList = searchSeriesListDeferred.await()
-        val characterList = searchCharacterListDeferred.await()
+        val seriesList = searchSeriesListDeferred.await().fold(
+            onSuccess = {DataState.Success(it)},
+            onFailure = {DataState.Error("Error loading results series")}
+        )
+        val characterList = searchCharacterListDeferred.await().fold(
+            onSuccess = {DataState.Success(it)},
+            onFailure = {DataState.Error("Error loading results characters")}
+        )
 
         _state.value = ComicAppState.SearchResultScreenSate(characterList,seriesList)
     }
