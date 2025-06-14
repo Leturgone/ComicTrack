@@ -82,14 +82,12 @@ class AllScreenViewModel @Inject constructor(
     private fun loadAllCharactersScreen(loadedCount: Int) = viewModelScope.launch {
         _state.value = ComicAppState.AllCharactersScreenSate(DataState.Loading)
         val characterListDef  = async {
-            try{
-                DataState.Success(remoteCharacterRepository.getAllCharacters(loadedCount))
-            }catch(e:Exception){
-                Log.e("ViewModel","$e")
-                DataState.Error("Error loading characters")
-            }
+            remoteCharacterRepository.getAllCharacters(loadedCount)
         }
-        val characters = characterListDef.await()
+        val characters = characterListDef.await().fold(
+            onSuccess = {DataState.Success(it)},
+            onFailure = {DataState.Error("Error loading characters")}
+        )
         _state.value = ComicAppState.AllCharactersScreenSate(characters)
     }
 
