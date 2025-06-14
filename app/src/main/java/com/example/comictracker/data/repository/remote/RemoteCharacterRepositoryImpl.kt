@@ -22,6 +22,7 @@ class RemoteCharacterRepositoryImpl @Inject constructor(private val api: MarvelC
         )
     }
 
+
     override suspend fun getAllCharacters(loadedCount: Int): Result<List<CharacterModel>> {
         return  try {
             val allCharacters = mutableListOf<CharacterModel>()
@@ -35,6 +36,7 @@ class RemoteCharacterRepositoryImpl @Inject constructor(private val api: MarvelC
         }
     }
 
+
     override suspend fun getCharactersByName(name: String): Result<List<CharacterModel>> {
         return try {
             val characters = mutableListOf<CharacterModel>()
@@ -47,6 +49,7 @@ class RemoteCharacterRepositoryImpl @Inject constructor(private val api: MarvelC
             Result.failure(e)
         }
     }
+
 
     override suspend fun getSeriesCharacters(seriesId: Int): Result<List<CharacterModel>> {
         return try {
@@ -62,6 +65,7 @@ class RemoteCharacterRepositoryImpl @Inject constructor(private val api: MarvelC
             Result.failure(e)
         }
     }
+
 
     override suspend fun getCharacterById(characterId: Int): Result<CharacterModel> {
         return try {
