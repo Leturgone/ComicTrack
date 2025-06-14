@@ -4,14 +4,14 @@ import com.example.comictracker.domain.model.CharacterModel
 
 interface RemoteCharacterRepository {
 
-    suspend fun getAllCharacters(loadedCount: Int = 0) :List<CharacterModel>
+    suspend fun getAllCharacters(loadedCount: Int = 0): Result<List<CharacterModel>>
 
-    suspend fun getCharactersByName(name: String): List<CharacterModel>
+    suspend fun getCharactersByName(name: String): Result<List<CharacterModel>>
 
-    suspend fun getSeriesCharacters(seriesId: Int):List<CharacterModel>
+    suspend fun getSeriesCharacters(seriesId: Int): Result<List<CharacterModel>>
 
-    suspend fun getCharacterById(characterId: Int): CharacterModel
+    suspend fun getCharacterById(characterId: Int): Result<CharacterModel>
 
-    suspend fun getComicCharacters(comicId: Int):List<CharacterModel>
+    suspend fun getComicCharacters(comicId: Int): Result<List<CharacterModel>>
 
 }
