@@ -56,8 +56,7 @@ class AllScreenTest {
             remoteComicsRepository = remoteComicRepository,
             remoteCharacterRepository = remoteCharacterRepository,
             remoteCreatorsRepository = remoteCreatorsRepository,
-            localReadRepository = localReadRepository,
-            localWriteRepository = localWriteRepository
+            localReadRepository = localReadRepository
         )
 
         //HomeScreen

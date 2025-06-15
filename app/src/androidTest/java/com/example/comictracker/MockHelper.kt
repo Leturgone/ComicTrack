@@ -4,7 +4,6 @@ import com.example.comictracker.domain.model.CharacterModel
 import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.domain.repository.local.LocalReadRepository
-import com.example.comictracker.domain.repository.local.LocalWriteRepository
 import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
 import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
 import com.example.comictracker.domain.repository.remote.RemoteCreatorsRepository
@@ -16,7 +15,6 @@ class MockHelper(
     private val remoteComicsRepository: RemoteComicsRepository? = null,
     private val remoteCharacterRepository: RemoteCharacterRepository? = null,
     private val remoteCreatorsRepository: RemoteCreatorsRepository? = null,
-    private val localWriteRepository: LocalWriteRepository? = null,
     private val localReadRepository: LocalReadRepository? = null
 ){
     suspend fun mockSeriesSetUp(series: SeriesModel){

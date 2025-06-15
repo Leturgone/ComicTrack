@@ -15,7 +15,7 @@ class LocalWriteRepositoryImpl(
     private val seriesDao: SeriesDao,
     private val seriesListDao: SeriesListDao
 ): LocalWriteRepository {
-    override suspend fun markSeriesRead(apiId: Int):Boolean {
+    override suspend fun markSeriesRead(apiId: Int): Result<Unit> {
         return withContext(Dispatchers.IO){
             try {
                 if(seriesDao.getSeriesByApiId(apiId)==null){
@@ -30,21 +30,21 @@ class LocalWriteRepositoryImpl(
                         seriesListDao.addToReadUpdate(entity.id)
                     }else{
                         Log.e("markSeriesRead","Series already read")
-                        return@withContext false
+                        return@withContext Result.failure(Exception("Series already read"))
                     }
                 }else{
                     seriesListDao.addToRead(entity.id)
                 }
-                Log.d("markSeriesRead", "markSeriesRead: Series with id ${entity.id} added to 'read' list.")
-                true
+                Result.success(Unit)
             }catch (e:Exception){
                 Log.e("markSeriesRead",e.toString())
-                false
+                Result.failure(e)
             }
         }
     }
 
-    override suspend fun markComicRead(apiId: Int,seriesApiId:Int,nextComicApiId:Int?):Boolean {
+
+    override suspend fun markComicRead(apiId: Int,seriesApiId:Int,nextComicApiId:Int?): Result<Unit> {
         return withContext(Dispatchers.IO){
             try {
                 var entity = seriesDao.getSeriesByApiId(seriesApiId)
@@ -52,26 +52,35 @@ class LocalWriteRepositoryImpl(
                     addSeriesToCurrentlyRead(seriesApiId,nextComicApiId)
                     entity = seriesDao.getSeriesByApiId(seriesApiId)
                 }
-                if (comicsDao.getComicByApiId(apiId)!=null) return@withContext false
+                if (comicsDao.getComicByApiId(apiId)!=null) throw AlreadyMarkedException()
                 comicsDao.addComic(
                     ComicsEntity(comicApiId = apiId,
                         mark = "read",
                         Series_idSeries = entity!!.id
                     )
                 )
-                val comicEntity = comicsDao.getComicByApiId(apiId)
+                comicsDao.getComicByApiId(apiId)?:throw ComicNotFoundException()
                 seriesDao.setLastRead(seriesApiId,apiId)
                 seriesDao.setNextRead(seriesApiId,nextComicApiId)
-                Log.d("markComicRead", "Comic with id ${comicEntity!!.id} $nextComicApiId mark 'read'.")
-                true
-            }catch (e:Exception){
+                Result.success(Unit)
+            }
+            catch (e:AlreadyMarkedException){
+                Log.e("addSeriesToCurrentlyRead","Comic already read")
+                Result.failure(e)
+            }
+            catch (e:ComicNotFoundException){
+                Log.e("addSeriesToCurrentlyRead","Error while adding comic")
+                Result.failure(e)
+            }
+            catch (e:Exception){
                 Log.e("markComicRead",e.toString())
-                false
+                Result.failure(e)
             }
         }
     }
 
-    override suspend fun addSeriesToFavorite(apiId: Int):Boolean {
+
+    override suspend fun addSeriesToFavorite(apiId: Int): Result<Unit> {
         return withContext(Dispatchers.IO){
             try {
                 if(seriesDao.getSeriesByApiId(apiId)==null){
@@ -85,38 +94,39 @@ class LocalWriteRepositoryImpl(
                 }
                 if (!seriesListDao.getSeriesFavoriteMark(apiId)){
                     seriesListDao.addToFavorites(entity.id)
-                    Log.d("addSeriesToFavorite", "addSeriesToFavorite: Series with id ${entity.id} added to 'favorite' list.")
-                    true
+                    Result.success(Unit)
                 }else{
-                    false
+                    Result.failure(Exception())
                 }
 
             }catch (e:Exception){
                 Log.e("addSeriesToFavorite",e.toString())
-                false
+                Result.failure(Exception())
             }
         }
     }
 
-    override suspend fun removeSeriesFromFavorite(apiId: Int): Boolean {
+
+    override suspend fun removeSeriesFromFavorite(apiId: Int): Result<Unit> {
         return withContext(Dispatchers.IO){
             try {
                 val entity = seriesDao.getSeriesByApiId(apiId)!!
                 if(seriesListDao.getSeriesFavoriteMark(apiId)){
                     seriesListDao.removeFromFavorites(entity.id)
-                    true
+                    Result.success(Unit)
                 }else{
-                    false
+                    Result.failure(Exception())
                 }
             }catch (e:Exception){
                 Log.e("removeSeriesFromFavorite",e.toString())
-                false
+                Result.failure(e)
             }
 
         }
     }
 
-    override suspend fun addSeriesToCurrentlyRead(apiId: Int,firstIssueId:Int?):Boolean {
+
+    override suspend fun addSeriesToCurrentlyRead(apiId: Int,firstIssueId:Int?):Result<Unit> {
         return withContext(Dispatchers.IO){
             try {
                 if(seriesDao.getSeriesByApiId(apiId)==null){
@@ -133,20 +143,24 @@ class LocalWriteRepositoryImpl(
                 if (!seriesListDao.checkAlreadyCurrentlyRead(entity.id)){
                     seriesListDao.addToCurrentlyReading(entity.id)
                     seriesDao.setNextRead(apiId,firstIssueId)
-                    Log.d("Room", "addSeriesToCurrentlyRead: Series with id ${entity.id} added to 'currently' list.")
-                    true
+                    Result.success(Unit)
                 }else{
-                    Log.e("addSeriesToCurrentlyRead","Series already currently read")
-                    false
+                    throw AlreadyMarkedException()
                 }
-            }catch (e:Exception){
-                Log.e("Room",e.toString())
-                false
+            }
+            catch (e:AlreadyMarkedException){
+                Log.e("addSeriesToCurrentlyRead","Series already currently read")
+                Result.failure(e)
+            }
+            catch (e:Exception){
+                Log.e("addSeriesToCurrentlyRead",e.toString())
+                Result.failure(e)
             }
         }
     }
 
-    override suspend fun addSeriesToWillBeRead(apiId: Int):Boolean {
+
+    override suspend fun addSeriesToWillBeRead(apiId: Int):Result<Unit> {
         return withContext(Dispatchers.IO){
             try {
                 if(seriesDao.getSeriesByApiId(apiId)==null){
@@ -154,67 +168,71 @@ class LocalWriteRepositoryImpl(
                         SeriesEntity(seriesApiId = apiId))
                 }
                 val entity = seriesDao.getSeriesByApiId(apiId)!!
-                Log.i("Room","Get entity$entity")
+                Log.i("addSeriesToWillBeRead","Get entity $entity")
                 if (!seriesListDao.isSeriesInList(apiId)){
                         seriesListDao.addToRead(entity.id)
                 }
                 if (!seriesListDao.checkAlreadyWillBeRead(entity.id)){
                     seriesListDao.addToWillBeRead(entity.id)
                     Log.d("addSeriesToWillBeRead", "Series with id ${entity.id} added to 'will' list.")
-                    true
+                    Result.success(Unit)
                 }else{
-                    Log.e("addSeriesToWillBeRead","Series already will be read")
-                    false
+                    throw AlreadyMarkedException()
                 }
-            }catch (e:Exception){
+            }
+            catch (e:AlreadyMarkedException){
+                Log.e("addSeriesToWillBeRead","Series already will be read")
+                Result.failure(e)
+            }
+            catch (e:Exception){
                 Log.e("addSeriesToWillBeRead",e.toString())
-                false
+                Result.failure(e)
             }
         }
     }
 
-    override suspend fun markComicUnread(apiId: Int,seriesApiId: Int, prevComicApiId:Int?):Boolean {
+
+    override suspend fun markComicUnread(apiId: Int,seriesApiId: Int, prevComicApiId:Int?): Result<Unit> {
         return withContext(Dispatchers.IO){
             try {
-                if (comicsDao.getComicByApiId(apiId)!==null){
-                    comicsDao.removeComic(apiId)
-                    val entity  = seriesDao.getSeriesByApiId(seriesApiId)
-                    if(entity!=null){
-                        seriesDao.setNextRead(seriesApiId, entity.lastReadId)
-                        seriesDao.setLastRead(seriesApiId,prevComicApiId)
-                        true
-                    }else{
-                        Log.e("markComicUnread","Entity not found")
-                        false
-                    }
-
-                }else{
-                    Log.e("markComicUnread","Series not found")
-                    false
-                }
-            }catch (e:Exception){
+                comicsDao.getComicByApiId(apiId)?:throw SeriesNotFoundException()
+                comicsDao.removeComic(apiId)
+                val entity  = seriesDao.getSeriesByApiId(seriesApiId)?:throw EntityNotFoundException()
+                seriesDao.setNextRead(seriesApiId, entity.lastReadId)
+                seriesDao.setLastRead(seriesApiId,prevComicApiId)
+                Result.success(Unit)
+            }
+            catch (e:SeriesNotFoundException){
+                Log.e("markComicUnread","Series not found")
+                Result.failure(e)
+            }
+            catch (e:EntityNotFoundException){
+                Log.e("markComicUnread","Entity not found")
+                Result.failure(e)
+            }
+            catch (e:Exception){
                 Log.e("markComicUnread",e.toString())
-                false
+                Result.failure(e)
             }
-
         }
     }
 
-    override suspend fun markSeriesUnread(apiId: Int):Boolean {
+
+    override suspend fun markSeriesUnread(apiId: Int): Result<Unit> {
         return withContext(Dispatchers.IO){
             try {
-                if (seriesDao.getSeriesByApiId(apiId)!==null){
-                    seriesDao.removeSeries(apiId)
-                    true
-                }else{
-                    Log.e("markSeriesUnread","Series not found")
-                    false
-                }
-            }catch (e:Exception){
-                Log.e("markSeriesUnread",e.toString())
-                false
-            }
+                seriesDao.getSeriesByApiId(apiId)?:throw SeriesNotFoundException()
+                seriesDao.removeSeries(apiId)
+                Result.success(Unit)
 
+            }catch (e:SeriesNotFoundException){
+                Log.e("markSeriesUnread","Series not found")
+                Result.failure(e)
+            }
+            catch (e:Exception){
+                Log.e("markSeriesUnread",e.toString())
+                Result.failure(e)
+            }
         }
     }
 

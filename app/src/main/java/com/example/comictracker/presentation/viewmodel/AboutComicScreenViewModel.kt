@@ -95,7 +95,7 @@ class AboutComicScreenViewModel @Inject constructor(
         async {
             remoteComicsRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
         }.await().onSuccess {nextComicId ->
-            if(localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
+            localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId).onSuccess {
                 loadComicScreen(comicApiId)
             }
         }
@@ -104,7 +104,7 @@ class AboutComicScreenViewModel @Inject constructor(
         async {
             remoteComicsRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
         }.await().onSuccess {prevComicId ->
-            if(localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
+            localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId).onSuccess {
                 loadComicScreen(comicApiId)
             }
         }

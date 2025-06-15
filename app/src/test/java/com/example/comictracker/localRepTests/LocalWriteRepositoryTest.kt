@@ -8,7 +8,6 @@ import com.example.comictracker.data.database.enteties.SeriesEntity
 import com.example.comictracker.data.repository.local.LocalWriteRepositoryImpl
 import com.example.comictracker.domain.repository.local.LocalWriteRepository
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
@@ -43,7 +42,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(false)
 
         val result = localWriteRepository.markSeriesRead(11)
-        assertTrue(result)
+        assertTrue(result.isSuccess)
     }
 
     @Test
@@ -53,7 +52,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(null)
 
         val result = localWriteRepository.markSeriesRead(11)
-        assertFalse(result)
+        assertTrue(result.isFailure)
     }
 
     @Test
@@ -73,7 +72,7 @@ class LocalWriteRepositoryTest {
         }
 
         val result = localWriteRepository.markComicRead(12,11,null)
-        assertTrue(result)
+        assertTrue(result.isSuccess)
     }
 
 
@@ -87,7 +86,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(ComicsEntity())
 
         val result = localWriteRepository.markComicRead(12,11,null)
-        assertFalse(result)
+        assertTrue(result.isFailure)
     }
 
     @Test
@@ -100,7 +99,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(null)
 
         val result = localWriteRepository.markComicRead(12,11,null)
-        assertFalse(result)
+        assertTrue(result.isFailure)
     }
 
     @Test
@@ -113,7 +112,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(false)
 
         val result = localWriteRepository.addSeriesToFavorite(11)
-        assertTrue(result)
+        assertTrue(result.isSuccess)
     }
     @Test
     fun addSeriesToFavoriteAlreadyMarkedTest() = runTest{
@@ -125,7 +124,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(true)
 
         val result = localWriteRepository.addSeriesToFavorite(11)
-        assertFalse(result)
+        assertTrue(result.isFailure)
     }
 
     @Test
@@ -135,7 +134,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(null)
 
         val result = localWriteRepository.addSeriesToFavorite(11)
-        assertFalse(result)
+        assertTrue(result.isFailure)
     }
 
     @Test
@@ -148,7 +147,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(true)
 
         val result = localWriteRepository.removeSeriesFromFavorite(11)
-        assertTrue(result)
+        assertTrue(result.isSuccess)
     }
 
     @Test
@@ -161,7 +160,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(false)
 
         val result = localWriteRepository.removeSeriesFromFavorite(11)
-        assertFalse(result)
+        assertTrue(result.isFailure)
     }
 
     @Test
@@ -171,7 +170,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(null)
 
         val result = localWriteRepository.removeSeriesFromFavorite(11)
-        assertFalse(result)
+        assertTrue(result.isFailure)
     }
 
     @Test
@@ -187,7 +186,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(false)
 
         val result = localWriteRepository.addSeriesToCurrentlyRead(11,null)
-        assertTrue(result)
+        assertTrue(result.isSuccess)
     }
 
     @Test
@@ -201,7 +200,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(true)
 
         val result = localWriteRepository.addSeriesToCurrentlyRead(11,null)
-        assertFalse(result)
+        assertTrue(result.isFailure)
     }
 
     @Test
@@ -210,7 +209,7 @@ class LocalWriteRepositoryTest {
             seriesDao.getSeriesByApiId(11)
         ).thenReturn(null)
         val result = localWriteRepository.addSeriesToCurrentlyRead(11,null)
-        assertFalse(result)
+        assertTrue(result.isFailure)
     }
 
     @Test
@@ -226,7 +225,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(false)
 
         val result = localWriteRepository.addSeriesToWillBeRead(11)
-        assertTrue(result)
+        assertTrue(result.isSuccess)
     }
     @Test
     fun addSeriesToWillBeReadAlreadyTest() = runTest{
@@ -241,7 +240,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(true)
 
         val result = localWriteRepository.addSeriesToWillBeRead(11)
-        assertFalse(result)
+        assertTrue(result.isFailure)
     }
 
     @Test
@@ -250,7 +249,7 @@ class LocalWriteRepositoryTest {
             seriesDao.getSeriesByApiId(11)
         ).thenReturn(null)
         val result = localWriteRepository.addSeriesToWillBeRead(11)
-        assertFalse(result)
+        assertTrue(result.isFailure)
     }
 
     @Test
@@ -263,7 +262,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(SeriesEntity())
 
         val result = localWriteRepository.markComicUnread(11,12,null)
-        assertTrue(result)
+        assertTrue(result.isSuccess)
     }
 
     @Test
@@ -273,7 +272,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(null)
 
         val result = localWriteRepository.markComicUnread(11,12,null)
-        assertFalse(result)
+        assertTrue(result.isFailure)
     }
     @Test
     fun markComicUnreadErrorSeriesNotFoundTest() = runTest{
@@ -285,7 +284,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(null)
 
         val result = localWriteRepository.markComicUnread(11,12,null)
-        assertFalse(result)
+        assertTrue(result.isFailure)
     }
 
     @Test
@@ -295,7 +294,7 @@ class LocalWriteRepositoryTest {
         ).thenReturn(SeriesEntity())
 
         val result = localWriteRepository.markSeriesUnread(11)
-        assertTrue(result)
+        assertTrue(result.isSuccess)
     }
 
     @Test
@@ -305,9 +304,6 @@ class LocalWriteRepositoryTest {
         ).thenReturn(null)
 
         val result = localWriteRepository.markSeriesUnread(11)
-        assertFalse(result)
+        assertTrue(result.isFailure)
     }
-
-
-
 }

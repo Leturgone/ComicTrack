@@ -28,6 +28,7 @@ class RemoteComicsRepositoryImpl @Inject constructor(private val api: MarvelComi
         }
     }
 
+
     //Маппер
     private fun Results.toModel():ComicModel{
         return ComicModel(
@@ -49,6 +50,8 @@ class RemoteComicsRepositoryImpl @Inject constructor(private val api: MarvelComi
             readMark = "unread"
         )
     }
+
+
     override suspend fun getSeriesLastReleasesById(id: Int): Result<List<ComicModel>> {
         return try {
             val seriesLastReleases = mutableListOf<ComicModel>()
@@ -61,6 +64,7 @@ class RemoteComicsRepositoryImpl @Inject constructor(private val api: MarvelComi
             Result.failure(e)
         }
     }
+
 
     override suspend fun getComicsFromSeries(seriesId: Int,loadedCount: Int): Result<List<ComicModel>> {
         return try {
@@ -75,6 +79,7 @@ class RemoteComicsRepositoryImpl @Inject constructor(private val api: MarvelComi
         }
     }
 
+
     override suspend fun getComicById(comicId: Int): Result<ComicModel> {
         return try {
             Log.i("getComicById","Start get comic ")
@@ -87,6 +92,7 @@ class RemoteComicsRepositoryImpl @Inject constructor(private val api: MarvelComi
             Result.failure(e)
         }
     }
+
 
     override suspend fun fetchComics(ids: List<Int>): Result<List<ComicModel>> {
         return try{
@@ -108,6 +114,7 @@ class RemoteComicsRepositoryImpl @Inject constructor(private val api: MarvelComi
         }
     }
 
+
     override suspend fun fetchUpdatesForSeries(ids: List<Int>): Result<List<ComicModel>> {
         return try {
             val newComicsDef = ids.map { id ->
@@ -127,6 +134,7 @@ class RemoteComicsRepositoryImpl @Inject constructor(private val api: MarvelComi
             Result.failure(e)
         }
     }
+
 
     override suspend fun getPreviousComicId(seriesId: Int, number: Int): Result<Int?> {
         return try {

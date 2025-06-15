@@ -22,6 +22,7 @@ class RemoteCreatorsRepositoryImpl @Inject constructor(private val api: MarvelCo
         )
     }
 
+
     override suspend fun getSeriesCreators(creatorsRoles: List<Pair<Int, String>>):
             Result<List<CreatorModel>>  {
 
@@ -42,6 +43,7 @@ class RemoteCreatorsRepositoryImpl @Inject constructor(private val api: MarvelCo
             Result.success(emptyList())
         }
     }
+
 
     override suspend fun getComicCreators(creatorsRoles: List<Pair<Int, String>>): Result<List<CreatorModel>> {
         return try {
