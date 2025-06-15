@@ -39,11 +39,15 @@ class SearchScreenViewModel @Inject constructor(
             remoteSeriesRepository.getAllSeries()
         }
         val mayLikeSeriesListDef  = async(Dispatchers.IO) {
-            val loadedIdsSeriesFromBD = localReadRepository.loadAllReadSeriesIds(0)
-            remoteSeriesRepository.loadMayLikeSeriesIds(loadedIdsSeriesFromBD).fold(
-                onSuccess = { ids ->
-                    remoteSeriesRepository.fetchSeries(ids).fold(
-                        onSuccess = {DataState.Success(it)},
+            localReadRepository.loadAllReadSeriesIds(0).fold(
+                onSuccess = {loadedIdsSeriesFromBD ->
+                    remoteSeriesRepository.loadMayLikeSeriesIds(loadedIdsSeriesFromBD).fold(
+                        onSuccess = { ids ->
+                            remoteSeriesRepository.fetchSeries(ids).fold(
+                                onSuccess = {DataState.Success(it)},
+                                onFailure = {DataState.Error("Error loading May Like Series")}
+                            )
+                        },
                         onFailure = {DataState.Error("Error loading May Like Series")}
                     )
                 },
