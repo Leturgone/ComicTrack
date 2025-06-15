@@ -60,8 +60,7 @@ class SeriesScreenTests {
             remoteComicsRepository = remoteComicRepository,
             remoteCharacterRepository = remoteCharacterRepository,
             remoteCreatorsRepository = remoteCreatorsRepository,
-            localReadRepository = localReadRepository,
-            localWriteRepository = localWriteRepository
+            localReadRepository = localReadRepository
         )
         mockHelper.mockHomeScreenSetUp()
         mockHelper.mockSearchScreenSetup()
@@ -154,7 +153,7 @@ class SeriesScreenTests {
 
             Mockito.`when`(
                 localWriteRepository.markSeriesRead(seriesExample.seriesId)
-            ).thenReturn(true)
+            ).thenReturn(Result.success(Unit))
 
             onNode(aboutSeriesNode.bottomSheetTemplate).assertExists()
             onNode(aboutSeriesNode.bottomSheetReadMark).performClick()
@@ -186,7 +185,7 @@ class SeriesScreenTests {
 
             Mockito.`when`(
                 localWriteRepository.markSeriesUnread(seriesExample.seriesId)
-            ).thenReturn(true)
+            ).thenReturn(Result.success(Unit))
 
             onNode(aboutSeriesNode.bottomSheetTemplate).assertExists()
             onNode(aboutSeriesNode.bottomSheetUnreadMark).performClick()
@@ -217,7 +216,7 @@ class SeriesScreenTests {
 
             Mockito.`when`(
                 localWriteRepository.addSeriesToWillBeRead(seriesExample.seriesId)
-            ).thenReturn(true)
+            ).thenReturn(Result.success(Unit))
 
             onNode(aboutSeriesNode.bottomSheetTemplate).assertExists()
             onNode(aboutSeriesNode.bottomSheetWillBeReadMark).performClick()
@@ -247,7 +246,7 @@ class SeriesScreenTests {
 
             Mockito.`when`(
                 localWriteRepository.addSeriesToCurrentlyRead(seriesExample.seriesId, comicExample.comicId)
-            ).thenReturn(true)
+            ).thenReturn(Result.success(Unit))
 
             onNode(aboutSeriesNode.bottomSheetTemplate).assertExists()
             onNode(aboutSeriesNode.bottomSheetCurrentlyMark).performClick()
@@ -271,7 +270,7 @@ class SeriesScreenTests {
             val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
             Mockito.`when`(
                 localWriteRepository.addSeriesToFavorite(seriesExample.seriesId)
-            ).thenReturn(true)
+            ).thenReturn(Result.success(Unit))
 
 
             onNode(aboutSeriesNode.favoriteMark).assertDoesNotExist()
@@ -300,7 +299,7 @@ class SeriesScreenTests {
             val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
             Mockito.`when`(
                 localWriteRepository.removeSeriesFromFavorite(seriesExample.seriesId)
-            ).thenReturn(true)
+            ).thenReturn(Result.success(Unit))
 
 
             onNode(aboutSeriesNode.unFavoriteMark).assertDoesNotExist()
@@ -341,7 +340,7 @@ class SeriesScreenTests {
                     comicExample.comicId,
                     comicExample.seriesId,
                     secondComicExample.comicId)
-            ).thenReturn(true)
+            ).thenReturn(Result.success(Unit))
 
 
 
@@ -381,7 +380,7 @@ class SeriesScreenTests {
                     secondComicExample.comicId,
                     seriesExample.seriesId,
                     comicExample.comicId)
-            ).thenReturn(true)
+            ).thenReturn(Result.success(Unit))
 
             mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "read", true, comicExample)
 
@@ -453,7 +452,7 @@ class SeriesScreenTests {
                     secondComicExample.comicId,
                     secondComicExample.seriesId,
                     null)
-            ).thenReturn(true)
+            ).thenReturn(Result.success(Unit))
 
 
             mockHelper.mockAllComicsFromSeriesScreenSetup(
@@ -506,7 +505,7 @@ class SeriesScreenTests {
                     secondComicExample.comicId,
                     seriesExample.seriesId,
                     null)
-            ).thenReturn(true)
+            ).thenReturn(Result.success(Unit))
 
 
             mockHelper.mockAllComicsFromSeriesScreenSetup(
