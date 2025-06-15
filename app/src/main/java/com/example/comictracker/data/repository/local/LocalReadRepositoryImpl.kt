@@ -1,5 +1,6 @@
 package com.example.comictracker.data.repository.local
 
+import android.util.Log
 import com.example.comictracker.data.database.dao.ComicsDao
 import com.example.comictracker.data.database.dao.SeriesDao
 import com.example.comictracker.data.database.dao.SeriesListDao
@@ -14,91 +15,163 @@ class LocalReadRepositoryImpl(
     private val seriesDao: SeriesDao,
     private val seriesListDao: SeriesListDao
 ): LocalReadRepository {
-    override suspend fun loadCurrentReadIds(offset:Int): List<Int> {
+    override suspend fun loadCurrentReadIds(offset:Int): Result<List<Int>> {
         return withContext(Dispatchers.IO){
-            seriesListDao.getCurrentlyReadingSeriesApiIds(offset)
+            try {
+                val result = seriesListDao.getCurrentlyReadingSeriesApiIds(offset)
+                Result.success(result)
+            }catch (e:Exception){
+                Log.e("loadCurrentReadIds",e.toString())
+                Result.failure(e)
+            }
         }
     }
 
-    override suspend fun loadNextReadComicIds(offset:Int): List<Int> {
+    override suspend fun loadNextReadComicIds(offset:Int): Result<List<Int>> {
         return withContext(Dispatchers.IO){
-            seriesListDao.getNextComicsForSeries(offset).filterNotNull()
+            try {
+                val result = seriesListDao.getNextComicsForSeries(offset).filterNotNull()
+                Result.success(result)
+            }catch (e:Exception){
+                Log.e("loadNextReadComicIds",e.toString())
+                Result.failure(e)
+            }
         }
     }
 
 
-    override suspend fun loadHistory(offset:Int): List<Int> {
+    override suspend fun loadHistory(offset:Int): Result<List<Int>> {
         return withContext(Dispatchers.IO){
-            comicsDao.getHistory(offset).filterNotNull()
+            try {
+                val result = comicsDao.getHistory(offset).filterNotNull()
+                Result.success(result)
+            }catch (e:Exception){
+                Log.e("loadHistory",e.toString())
+                Result.failure(e)
+            }
         }
     }
 
-    override suspend fun loadAllReadComicIds(offset:Int): List<Int> {
+    override suspend fun loadAllReadComicIds(offset:Int): Result<List<Int>> {
         return withContext(Dispatchers.IO){
-            comicsDao.getReadComicApiIds(offset)
+            try {
+                val result = comicsDao.getReadComicApiIds(offset)
+                Result.success(result)
+            }catch (e:Exception){
+                Log.e("loadAllReadComicIds",e.toString())
+                Result.failure(e)
+            }
         }
     }
 
-    override suspend fun loadAllReadSeriesIds(offset:Int): List<Int> {
+    override suspend fun loadAllReadSeriesIds(offset:Int): Result<List<Int>> {
         return withContext(Dispatchers.IO){
-            seriesListDao.getReadSeriesApiIds(offset)
+            try {
+                val result = seriesListDao.getReadSeriesApiIds(offset)
+                Result.success(result)
+            }catch (e:Exception){
+                Log.e("loadAllReadSeriesIds",e.toString())
+                Result.failure(e)
+            }
         }
     }
 
-    override suspend fun loadWillBeReadIds(offset:Int): List<Int> {
-        return  withContext(Dispatchers.IO){
-            seriesListDao.getWillBeReadSeriesApiIds(offset)
+    override suspend fun loadWillBeReadIds(offset:Int): Result<List<Int>> {
+        return withContext(Dispatchers.IO){
+            try {
+                val result = seriesListDao.getWillBeReadSeriesApiIds(offset)
+                Result.success(result)
+            }catch (e:Exception){
+                Log.e("loadWillBeReadIds",e.toString())
+                Result.failure(e)
+            }
         }
     }
 
-    override suspend fun loadStatistics(): StatisticsforAll {
+    override suspend fun loadStatistics(): Result<StatisticsforAll> {
         return withContext(Dispatchers.IO) {
-            val comicCountDef = async { comicsDao.getComicsCount() }
-            val seriesListCountDef = async { seriesListDao.getReadSeriesCount() }
-            val readlistCountDef = async { seriesListDao.getWillBeReadSeriesCount() }
+            try {
+                val comicCountDef = async { comicsDao.getComicsCount() }
+                val seriesListCountDef = async { seriesListDao.getReadSeriesCount() }
+                val readlistCountDef = async { seriesListDao.getWillBeReadSeriesCount() }
 
-            val comicCount = comicCountDef.await()
-            val seriesListCount = seriesListCountDef.await()
-            val readlistCount = readlistCountDef.await()
+                val comicCount = comicCountDef.await()
+                val seriesListCount = seriesListCountDef.await()
+                val readlistCount = readlistCountDef.await()
 
-            StatisticsforAll(
-                comicCount =  comicCount,
-                comicCountThisYear = comicCount,
-                seriesCount = seriesListCount,
-                seriesCountThisYear = seriesListCount,
-                readlistCount = readlistCount
-            )
+                val result = StatisticsforAll(
+                    comicCount =  comicCount,
+                    comicCountThisYear = comicCount,
+                    seriesCount = seriesListCount,
+                    seriesCountThisYear = seriesListCount,
+                    readlistCount = readlistCount
+                )
+                Result.success(result)
+            }catch (e:Exception){
+                Log.e("loadStatistic",e.toString())
+                Result.failure(e)
+            }
         }
     }
 
-    override suspend fun loadFavoritesIds(): List<Int> {
+    override suspend fun loadFavoritesIds(): Result<List<Int>> {
         return withContext(Dispatchers.IO){
-            seriesListDao.getFavoriteSeriesApiIds()
+            try {
+                val result = seriesListDao.getFavoriteSeriesApiIds()
+                Result.success(result)
+            }catch (e:Exception){
+                Log.e("loadFavoritesIds",e.toString())
+                Result.failure(e)
+            }
         }
     }
 
-    override suspend fun loadComicMark(apiId: Int): String {
+    override suspend fun loadComicMark(apiId: Int): Result<String> {
         return withContext(Dispatchers.IO){
-            comicsDao.getComicMark(apiId)?:"unread"
+            try {
+                val result = comicsDao.getComicMark(apiId)?:"unread"
+                Result.success(result)
+            }catch (e:Exception){
+                Log.e("loadComicMark",e.toString())
+                Result.failure(e)
+            }
         }
     }
 
-    override suspend fun loadSeriesMark(apiId: Int): String {
+    override suspend fun loadSeriesMark(apiId: Int): Result<String> {
         return withContext(Dispatchers.IO){
-            seriesListDao.getSeriesMark(apiId)?:"unread"
+            try {
+                val result = seriesListDao.getSeriesMark(apiId)?:"unread"
+                Result.success(result)
+            }catch (e:Exception){
+                Log.e("loadSeriesMark",e.toString())
+                Result.failure(e)
+            }
         }
     }
 
-    override suspend fun loadSeriesFavoriteMark(apiId: Int): Boolean {
+    override suspend fun loadSeriesFavoriteMark(apiId: Int): Result<Boolean> {
         return withContext(Dispatchers.IO){
-            val mark = seriesListDao.getSeriesFavoriteMark(apiId)
-            mark
+            try {
+                val mark = seriesListDao.getSeriesFavoriteMark(apiId)
+                Result.success(mark)
+            }catch (e:Exception){
+                Log.e("loadSeriesFavoriteMark",e.toString())
+                Result.failure(e)
+            }
         }
     }
 
-    override suspend fun loadNextRead(seriesApiId: Int): Int? {
+
+    override suspend fun loadNextRead(seriesApiId: Int): Result<Int?> {
         return withContext(Dispatchers.IO){
-            seriesDao.getNextRead(seriesApiId)
+            try {
+                val result = seriesDao.getNextRead(seriesApiId)
+                Result.success(result)
+            }catch (e:Exception){
+                Log.e("loadNextRead",e.toString())
+                Result.failure(e)
+            }
         }
     }
 }
