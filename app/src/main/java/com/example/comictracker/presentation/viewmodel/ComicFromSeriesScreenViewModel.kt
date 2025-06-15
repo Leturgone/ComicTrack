@@ -59,6 +59,7 @@ class ComicFromSeriesScreenViewModel @Inject constructor(
         }
     }
 
+
     private fun markAsReadComicInList(comicApiId: Int, seriesApiId: Int, number: String, loadedCount: Int) = viewModelScope.launch{
         val nextComicId = async {
             remoteComicsRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
@@ -66,11 +67,11 @@ class ComicFromSeriesScreenViewModel @Inject constructor(
             onSuccess = {it},
             onFailure = {null}
         )
-        if (localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
+        localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId).onSuccess {
             loadComicFromSeriesScreen(seriesApiId,loadedCount)
         }
-
     }
+
 
     private fun markAsUnreadComicInList(comicApiId: Int, seriesApiId: Int, number: String, loadedCount: Int)  = viewModelScope.launch{
         val prevComicId = async {
@@ -79,8 +80,7 @@ class ComicFromSeriesScreenViewModel @Inject constructor(
             onSuccess = {it},
             onFailure = {null}
         )
-
-        if (localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
+        localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId).onSuccess {
             loadComicFromSeriesScreen(seriesApiId,loadedCount)
         }
     }
