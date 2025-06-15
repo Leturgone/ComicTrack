@@ -1,6 +1,5 @@
 package com.example.comictracker.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.model.SeriesModel
@@ -105,19 +104,30 @@ class AboutSeriesScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AboutSeriesScreenState(
             when(series){
                 is SeriesModel -> {
-                    try {
-                        val readMarkDef = async { localReadRepository.loadSeriesMark(series.seriesId)}
-                        val favoriteMarkDef = async { localReadRepository.loadSeriesFavoriteMark(series.seriesId) }
-                        val nextReadLocDef = async {  localReadRepository.loadNextRead(series.seriesId)}
-                        val nextRead = nextReadLocDef.await()?.let { nextComicId ->
-                            remoteComicsRepository.getComicById(nextComicId).fold(
-                                onSuccess = {it},
-                                onFailure = {null}
-                            )
-                        }
-                        val readMark = readMarkDef.await()
-                        val favoriteMark = favoriteMarkDef.await()
-                        Log.i("ViewModel",favoriteMark.toString())
+                    val readMarkDef = async { localReadRepository.loadSeriesMark(series.seriesId)}
+                    val favoriteMarkDef = async { localReadRepository.loadSeriesFavoriteMark(series.seriesId) }
+                    val nextReadLocDef = async {  localReadRepository.loadNextRead(series.seriesId)}
+                    val nextReadComicId = nextReadLocDef.await().fold(
+                        onSuccess = {it},
+                        onFailure = {null}
+                    )
+                    val nextRead = nextReadComicId?.let { nextComicId ->
+                        remoteComicsRepository.getComicById(nextComicId).fold(
+                            onSuccess = {it},
+                            onFailure = {null}
+                        )
+                    }
+                    val readMark = readMarkDef.await().fold(
+                        onSuccess ={it},
+                        onFailure = {null}
+                    )
+                    val favoriteMark = favoriteMarkDef.await().fold(
+                        onSuccess ={it},
+                        onFailure = {null}
+                    )
+                    if (readMark == null || favoriteMark == null){
+                        DataState.Error("Error loading this series ")
+                    }else{
                         val seriesWithMark = series.copy(readMark = readMark, favoriteMark = favoriteMark)
                         DataState.Success(
                             AboutSeriesScreenData(
@@ -129,11 +139,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
                                 nextRead = nextRead?: if (comicList.isNotEmpty()) comicList[0] else null
                             )
                         )
-                    }catch (e:Exception){
-                        Log.e("loadSeriesScreen",e.toString())
-                        DataState.Error("Error loading this series ")
                     }
-
                 }
                 else -> DataState.Error("Error loading this series ")
             }
