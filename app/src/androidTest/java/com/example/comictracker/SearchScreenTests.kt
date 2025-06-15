@@ -83,7 +83,7 @@ class SearchScreenTests {
         //MayLike list mock
         Mockito.`when`(
             localReadRepository.loadAllReadSeriesIds(0)
-        ).thenReturn(listOf(1,2,3))
+        ).thenReturn(Result.success(listOf(1,2,3)))
 
         Mockito.`when`(
             remoteSeriesRepository.loadMayLikeSeriesIds(listOf(1,2,3))
