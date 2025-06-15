@@ -45,9 +45,16 @@ class ComicFromSeriesScreenViewModel @Inject constructor(
                 onSuccess = {
                     val comicsWithReadMarks = it.map { comic ->
                         async {
-                            val readMark = localReadRepository.loadComicMark(comic.comicId)
-                            Log.i("ReadMarK", "${comic.number} $readMark")
-                            comic.copy(readMark = readMark)
+                            localReadRepository.loadComicMark(comic.comicId).fold(
+                                onSuccess =  {readMark ->
+                                    Log.i("ReadMarK", "${comic.number} $readMark")
+                                    comic.copy(readMark = readMark)
+                                },
+                                onFailure = {
+                                    Log.e("ReadMarK", "${comic.number} ")
+                                    comic
+                                }
+                            )
                         }
                     }.awaitAll()
                     ComicAppState.AllComicSeriesScreenState(DataState.Success(comicsWithReadMarks))

@@ -49,27 +49,28 @@ class MockHelper(
         localReadRepository?.let {
             Mockito.`when`(
                 it.loadSeriesMark(series.seriesId)
-            ).thenReturn("unread")
+            ).thenReturn(Result.success("unread"))
 
             Mockito.`when`(
                 it.loadSeriesFavoriteMark(series.seriesId)
-            ).thenReturn(false)
+            ).thenReturn(Result.success(false))
 
             Mockito.`when`(
                 it.loadNextRead(series.seriesId)
-            ).thenReturn(null)
+            ).thenReturn(Result.success(null))
         }
     }
+
 
     suspend fun mockHomeScreenSetUp(){
         localReadRepository?.let {
             Mockito.`when`(
                 localReadRepository.loadCurrentReadIds(0)
-            ).thenReturn(listOf(1, 2, 3))
+            ).thenReturn(Result.success(listOf(1, 2, 3)))
 
             Mockito.`when`(
                 localReadRepository.loadNextReadComicIds(0)
-            ).thenReturn(listOf(1, 2, 3))
+            ).thenReturn(Result.success(listOf(1, 2, 3)))
         }
 
         remoteComicsRepository?.let {
@@ -83,6 +84,7 @@ class MockHelper(
         }
 
     }
+
 
     suspend fun mockCharacterScreen(characterExample:CharacterModel,list: List<SeriesModel>){
 
@@ -100,6 +102,7 @@ class MockHelper(
 
 
     }
+
 
     suspend fun mockComicScreenSetup(comic: ComicModel,mark:String){
 
@@ -124,10 +127,11 @@ class MockHelper(
         localReadRepository?.let {
             Mockito.`when`(
                 localReadRepository.loadComicMark(comic.comicId)
-            ).thenReturn(mark)
+            ).thenReturn(Result.success(mark))
         }
 
     }
+
 
     suspend fun mockSearchScreenSetup(){
 
@@ -164,7 +168,7 @@ class MockHelper(
             //MayLike list mock
             Mockito.`when`(
                 it.loadAllReadSeriesIds(0)
-            ).thenReturn(listOf(1,2,3))
+            ).thenReturn(Result.success(listOf(1,2,3)))
         }
 
 
@@ -176,6 +180,7 @@ class MockHelper(
         }
 
     }
+
 
     suspend fun mockSeriesSetUpForSeriesTest(series: SeriesModel,mark: String,favorite:Boolean,nextRead:ComicModel){
         remoteSeriesRepository?.let {
@@ -212,17 +217,18 @@ class MockHelper(
         localReadRepository?.let {
             Mockito.`when`(
                 it.loadSeriesMark(series.seriesId)
-            ).thenReturn(mark)
+            ).thenReturn(Result.success(mark))
 
             Mockito.`when`(
                 it.loadSeriesFavoriteMark(series.seriesId)
-            ).thenReturn(favorite)
+            ).thenReturn(Result.success(favorite))
 
             Mockito.`when`(
                 it.loadNextRead(series.seriesId)
-            ).thenReturn(comicExample.comicId)
+            ).thenReturn(Result.success(comicExample.comicId))
         }
     }
+
 
     suspend fun mockAllComicsFromSeriesScreenSetup(seriesExample: SeriesModel, comicList:List<ComicModel>,mark: String = "read"){
         remoteComicsRepository?.let {
@@ -237,10 +243,8 @@ class MockHelper(
             comicList.forEach { comic ->
                 Mockito.`when`(
                     rep.loadComicMark(comic.comicId)
-                ).thenReturn(mark)
+                ).thenReturn(Result.success(mark))
             }
         }
-
-
     }
 }

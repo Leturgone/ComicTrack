@@ -1,6 +1,5 @@
 package com.example.comictracker.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.repository.local.LocalReadRepository
@@ -44,6 +43,7 @@ class AllScreenViewModel @Inject constructor(
         }
     }
 
+
     private fun loadAllCharacterSeriesScreen(characterId: Int,loadedCount:Int) = viewModelScope.launch{
         _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
         val seriesDef = async {
@@ -56,15 +56,21 @@ class AllScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AllSeriesScreenSate(series)
     }
 
+
     private fun loadAllCurrentReadingSeriesScreen(loadedCount:Int) = viewModelScope.launch {
         _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
-        val currentSeriesFromBD = localReadRepository.loadCurrentReadIds(loadedCount)
-        val currentSeries = remoteSeriesRepository.fetchSeries(currentSeriesFromBD).fold(
-            onSuccess = {DataState.Success(it)},
+        val state = localReadRepository.loadCurrentReadIds(loadedCount).fold(
+            onSuccess = {currentSeriesFromBD ->
+                remoteSeriesRepository.fetchSeries(currentSeriesFromBD).fold(
+                    onSuccess = {DataState.Success(it)},
+                    onFailure = {DataState.Error("Error while loading all current reading")}
+                )
+            },
             onFailure = {DataState.Error("Error while loading all current reading")}
         )
-        _state.value = ComicAppState.AllSeriesScreenSate(currentSeries)
+        _state.value = ComicAppState.AllSeriesScreenSate(state)
     }
+
 
     private fun loadAllDiscoverSeriesScreen(loadedCount:Int) = viewModelScope.launch{
         _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
@@ -91,79 +97,113 @@ class AllScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AllCharactersScreenSate(characters)
     }
 
+
     private fun loadAllLastComicScreen(loadedCount:Int) = viewModelScope.launch {
         _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
-        val lastComicsFromBD = localReadRepository.loadHistory(loadedCount)
-        val lastComicsResult = remoteComicsRepository.fetchComics(lastComicsFromBD).fold(
-            onSuccess = {DataState.Success(it)},
+        val state = localReadRepository.loadHistory(loadedCount).fold(
+            onSuccess = {lastComicsFromBD ->
+                remoteComicsRepository.fetchComics(lastComicsFromBD).fold(
+                    onSuccess = {DataState.Success(it)},
+                    onFailure = {DataState.Error("Error while loading last comics")}
+                )
+            },
             onFailure = {DataState.Error("Error while loading last comics")}
         )
-        _state.value = ComicAppState.AllComicScreenSate(lastComicsResult)
+
+        _state.value = ComicAppState.AllComicScreenSate(state)
 
     }
 
     private fun loadAllLibComicScreen(loadedCount:Int) = viewModelScope.launch {
         _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
-        val allComicsFromBD = localReadRepository.loadAllReadComicIds(loadedCount)
-        val allComicsResult = remoteComicsRepository.fetchComics(allComicsFromBD).fold(
-            onSuccess = {DataState.Success(it)},
+        val state = localReadRepository.loadAllReadComicIds(loadedCount).fold(
+            onSuccess = {allComicsFromBD ->
+                remoteComicsRepository.fetchComics(allComicsFromBD).fold(
+                    onSuccess = {DataState.Success(it)},
+                    onFailure = {DataState.Error("Error while loading all comics from lib")}
+                )
+            },
             onFailure = {DataState.Error("Error while loading all comics from lib")}
         )
-        _state.value = ComicAppState.AllComicScreenSate(allComicsResult)
+        _state.value = ComicAppState.AllComicScreenSate(state)
     }
 
     private fun loadAllLibSeriesScreen(loadedCount:Int) = viewModelScope.launch {
         _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
-        val allSeriesFromBD = localReadRepository.loadAllReadSeriesIds(loadedCount)
-        val allSeriesResult = remoteSeriesRepository.fetchSeries(allSeriesFromBD).fold(
-            onSuccess = {DataState.Success(it)},
+        val state = localReadRepository.loadAllReadSeriesIds(loadedCount).fold(
+            onSuccess = {allSeriesFromBD ->
+                remoteSeriesRepository.fetchSeries(allSeriesFromBD).fold(
+                    onSuccess = {DataState.Success(it)},
+                    onFailure = {DataState.Error("Error while loading all series from lib")}
+                )
+            },
             onFailure = {DataState.Error("Error while loading all series from lib")}
         )
-        _state.value = ComicAppState.AllSeriesScreenSate(allSeriesResult)
+        _state.value = ComicAppState.AllSeriesScreenSate(state)
     }
 
     private fun loadAllMayLikeSeriesScreen(loadedCount:Int) = viewModelScope.launch {
         _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
-        val loadedIdsSeriesFromBD = localReadRepository.loadAllReadSeriesIds(loadedCount)
-        val mayLikeSeriesResult = remoteSeriesRepository.loadMayLikeSeriesIds(loadedIdsSeriesFromBD).fold(
-            onSuccess = { ids ->
-                remoteSeriesRepository.fetchSeries(ids).fold(
-                    onSuccess = {DataState.Success(it)},
+        val state = localReadRepository.loadAllReadSeriesIds(loadedCount).fold(
+            onSuccess = {loadedIdsSeriesFromBD ->
+                remoteSeriesRepository.loadMayLikeSeriesIds(loadedIdsSeriesFromBD).fold(
+                    onSuccess = { ids ->
+                        remoteSeriesRepository.fetchSeries(ids).fold(
+                            onSuccess = {DataState.Success(it)},
+                            onFailure = {DataState.Error("Error while loading all may like series")}
+                        )
+                    },
                     onFailure = {DataState.Error("Error while loading all may like series")}
                 )
             },
             onFailure = {DataState.Error("Error while loading all may like series")}
         )
-        _state.value = ComicAppState.AllSeriesScreenSate(mayLikeSeriesResult)
+        _state.value = ComicAppState.AllSeriesScreenSate(state)
     }
 
     private fun loadAllNewComicScreen(loadedCount:Int) = viewModelScope.launch {
         _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
-        val loadedIdsSeriesFromBD = localReadRepository.loadCurrentReadIds(loadedCount)
-        val newComicsResult = remoteComicsRepository.fetchUpdatesForSeries(loadedIdsSeriesFromBD).fold(
-            onSuccess = {DataState.Success(it)},
-            onFailure = {DataState.Error("Error while loading all new comics")}
+        val state = localReadRepository.loadCurrentReadIds(loadedCount).fold(
+            onSuccess = {loadedIdsSeriesFromBD ->
+                remoteComicsRepository.fetchUpdatesForSeries(loadedIdsSeriesFromBD).fold(
+                    onSuccess = {DataState.Success(it)},
+                    onFailure = {DataState.Error("Error while loading all new comics")}
+                )
+            },
+            onFailure = {
+                DataState.Error("Error while loading all new comics")
+            }
         )
-        _state.value = ComicAppState.AllComicScreenSate(newComicsResult)
+        _state.value = ComicAppState.AllComicScreenSate(state)
     }
 
     private fun loadAllNextComicScreen(loadedCount:Int) = viewModelScope.launch {
         _state.value = ComicAppState.AllComicScreenSate(DataState.Loading)
-        val loadedIdsNextReadComicFromBD = localReadRepository.loadNextReadComicIds(loadedCount)
-        val nextComicsResult = remoteComicsRepository.fetchComics(loadedIdsNextReadComicFromBD).fold(
-            onSuccess = {DataState.Success(it)},
-            onFailure = {DataState.Error("Error while loading all next comics")}
+        val state = localReadRepository.loadNextReadComicIds(loadedCount).fold(
+            onSuccess = { loadedIdsNextReadComicFromBD ->
+                remoteComicsRepository.fetchComics(loadedIdsNextReadComicFromBD).fold(
+                    onSuccess = {DataState.Success(it)},
+                    onFailure = {DataState.Error("Error while loading all next comics")}
+                )
+            },
+            onFailure = {
+                DataState.Error("Error while loading all next comics")
+            }
         )
-        _state.value = ComicAppState.AllComicScreenSate(nextComicsResult)
+        _state.value = ComicAppState.AllComicScreenSate(state)
     }
 
     private fun loadReadListScreen(loadedCount:Int) = viewModelScope.launch {
         _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
-        val readlistFromBD = localReadRepository.loadWillBeReadIds(loadedCount)
-        val readlistResult = remoteSeriesRepository.fetchSeries(readlistFromBD).fold(
-            onSuccess = {DataState.Success(it)},
+        val state = localReadRepository.loadWillBeReadIds(loadedCount).fold(
+            onSuccess = {readlistFromBD->
+                remoteSeriesRepository.fetchSeries(readlistFromBD).fold(
+                    onSuccess = {DataState.Success(it)},
+                    onFailure = {DataState.Error("Error while loading all readlist")}
+                )
+            },
             onFailure = {DataState.Error("Error while loading all readlist")}
         )
-        _state.value = ComicAppState.AllSeriesScreenSate(readlistResult)
+        _state.value = ComicAppState.AllSeriesScreenSate(state)
     }
 }

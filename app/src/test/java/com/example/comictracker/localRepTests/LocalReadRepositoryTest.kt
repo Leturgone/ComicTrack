@@ -34,7 +34,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(listOf(1,2,3))
 
         val result = localReadRepository.loadCurrentReadIds(0)
-        assertEquals(listOf(1,2,3),result)
+        assertEquals(listOf(1,2,3),result.getOrNull())
     }
 
     @Test
@@ -44,7 +44,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(emptyList())
 
         val result = localReadRepository.loadCurrentReadIds(0)
-        assertEquals(emptyList<Int>(),result)
+        assertEquals(emptyList<Int>(),result.getOrNull())
     }
 
     @Test
@@ -54,7 +54,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(listOf(1,2,3))
 
         val result = localReadRepository.loadNextReadComicIds(0)
-        assertEquals(listOf(1,2,3),result)
+        assertEquals(listOf(1,2,3),result.getOrNull())
     }
 
     @Test
@@ -64,7 +64,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(listOf(1,null,2,null))
 
         val result = localReadRepository.loadNextReadComicIds(0)
-        assertEquals(listOf(1,2),result)
+        assertEquals(listOf(1,2),result.getOrNull())
     }
 
     @Test
@@ -74,7 +74,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(listOf(1,2,3))
 
         val result = localReadRepository.loadHistory(0)
-        assertEquals(listOf(1,2,3),result)
+        assertEquals(listOf(1,2,3),result.getOrNull())
     }
 
     @Test
@@ -84,7 +84,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(listOf(null,null))
 
         val result = localReadRepository.loadHistory(0)
-        assertEquals(emptyList<Int>(),result)
+        assertEquals(emptyList<Int>(),result.getOrNull())
     }
 
     @Test
@@ -94,7 +94,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(listOf(1,2,3))
 
         val result = localReadRepository.loadAllReadComicIds(0)
-        assertEquals(listOf(1,2,3),result)
+        assertEquals(listOf(1,2,3),result.getOrNull())
     }
 
     @Test
@@ -104,7 +104,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(emptyList())
 
         val result = localReadRepository.loadAllReadComicIds(0)
-        assertEquals(emptyList<Int>(),result)
+        assertEquals(emptyList<Int>(),result.getOrNull())
     }
 
     @Test
@@ -114,7 +114,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(listOf(1,2,3))
 
         val result = localReadRepository.loadAllReadSeriesIds(0)
-        assertEquals(listOf(1,2,3),result)
+        assertEquals(listOf(1,2,3),result.getOrNull())
     }
 
     @Test
@@ -124,7 +124,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(emptyList())
 
         val result = localReadRepository.loadAllReadSeriesIds(0)
-        assertEquals(emptyList<Int>(),result)
+        assertEquals(emptyList<Int>(),result.getOrNull())
     }
 
     @Test
@@ -134,7 +134,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(listOf(1,2,3))
 
         val result = localReadRepository.loadWillBeReadIds(0)
-        assertEquals(listOf(1,2,3),result)
+        assertEquals(listOf(1,2,3),result.getOrNull())
 
     }
 
@@ -145,7 +145,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(emptyList())
 
         val result = localReadRepository.loadWillBeReadIds(0)
-        assertEquals(emptyList<Int>(),result)
+        assertEquals(emptyList<Int>(),result.getOrNull())
     }
 
     @Test
@@ -158,7 +158,7 @@ class LocalReadRepositoryTest {
 
         val result = localReadRepository.loadStatistics()
 
-        assertEquals(exceptedStats,result)
+        assertEquals(exceptedStats,result.getOrNull())
     }
 
 
@@ -169,7 +169,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(listOf(1,2,3))
 
         val result = localReadRepository.loadFavoritesIds()
-        assertEquals(listOf(1,2,3),result)
+        assertEquals(listOf(1,2,3),result.getOrNull())
     }
 
     @Test
@@ -179,7 +179,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(emptyList())
 
         val result = localReadRepository.loadFavoritesIds()
-        assertEquals(emptyList<Int>(),result)
+        assertEquals(emptyList<Int>(),result.getOrNull())
     }
 
     @Test
@@ -188,7 +188,7 @@ class LocalReadRepositoryTest {
             comicsDao.getComicMark(11)
         ).thenReturn("read")
         val result = localReadRepository.loadComicMark(11)
-        assertEquals("read",result)
+        assertEquals("read",result.getOrNull())
     }
 
     @Test
@@ -197,7 +197,7 @@ class LocalReadRepositoryTest {
             comicsDao.getComicMark(11)
         ).thenReturn(null)
         val result = localReadRepository.loadComicMark(11)
-        assertEquals("unread",result)
+        assertEquals("unread",result.getOrNull())
     }
 
     @Test
@@ -207,7 +207,7 @@ class LocalReadRepositoryTest {
         ).thenReturn("read")
 
         val result = localReadRepository.loadSeriesMark(11)
-        assertEquals("read",result)
+        assertEquals("read",result.getOrNull())
     }
 
     @Test
@@ -217,7 +217,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(null)
 
         val result = localReadRepository.loadSeriesMark(11)
-        assertEquals("unread",result)
+        assertEquals("unread",result.getOrNull())
     }
 
     @Test
@@ -227,7 +227,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(true)
 
         val result = localReadRepository.loadSeriesFavoriteMark(11)
-        assertEquals(true,result)
+        assertEquals(true,result.getOrNull())
     }
 
     @Test
@@ -237,7 +237,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(1)
 
         val result = localReadRepository.loadNextRead(11)
-        assertEquals(1,result)
+        assertEquals(1,result.getOrNull())
     }
 
     @Test
@@ -247,7 +247,7 @@ class LocalReadRepositoryTest {
         ).thenReturn(null)
 
         val result = localReadRepository.loadNextRead(11)
-        assertEquals(null,result)
+        assertEquals(null,result.getOrNull())
     }
 
 

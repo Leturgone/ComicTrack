@@ -125,7 +125,7 @@ class AllScreenTest {
 
             Mockito.`when`(
                 localReadRepository.loadCurrentReadIds(9)
-            ).thenReturn(listOf(455))
+            ).thenReturn(Result.success(listOf(455)))
 
             Mockito.`when`(
                 remoteComicRepository.fetchUpdatesForSeries(listOf(455))
@@ -146,7 +146,7 @@ class AllScreenTest {
 
             Mockito.`when`(
                 localReadRepository.loadCurrentReadIds(9)
-            ).thenReturn(listOf(455))
+            ).thenReturn(Result.success(listOf(455)))
 
             Mockito.`when`(
                 remoteComicRepository.fetchUpdatesForSeries(listOf(455))

@@ -1,9 +1,7 @@
 package com.example.comictracker.presentation.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.comictracker.domain.model.CharacterModel
 import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.domain.repository.local.LocalReadRepository
 import com.example.comictracker.domain.repository.local.LocalWriteRepository
@@ -75,17 +73,18 @@ class AboutComicScreenViewModel @Inject constructor(
         _state.value = (ComicAppState.AboutComicScreenState(
             when(comic){
                 is ComicModel ->{
-                    try {
-                        val readMark = localReadRepository.loadComicMark(comic.comicId)
-                        val comicWithMark = comic.copy(readMark = readMark)
-                        DataState.Success(
-                            AboutComicScreenData(
-                                comic = comicWithMark, creatorList = creatorList, characterList = characterList)
-                        )
-                    }catch (e:Exception){
-                        Log.e("loadComicScreen",e.toString())
-                        DataState.Error("Error loading this series")
-                    }
+                    localReadRepository.loadComicMark(comic.comicId).fold(
+                        onSuccess = {
+                            val comicWithMark = comic.copy(readMark = it)
+                            DataState.Success(
+                                AboutComicScreenData(
+                                    comic = comicWithMark, creatorList = creatorList, characterList = characterList)
+                            )
+                        },
+                        onFailure = {
+                            DataState.Error("Error loading this series")
+                        }
+                    )
                 }
                 else ->  DataState.Error("Error loading this series")
             }))
