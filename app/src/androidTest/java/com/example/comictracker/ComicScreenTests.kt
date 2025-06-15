@@ -17,7 +17,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
-import org.mockito.kotlin.any
 import javax.inject.Inject
 
 
@@ -59,8 +58,7 @@ class ComicScreenTests {
             remoteComicsRepository = remoteComicRepository,
             remoteCharacterRepository = remoteCharacterRepository,
             remoteCreatorsRepository = remoteCreatorsRepository,
-            localReadRepository = localReadRepository,
-            localWriteRepository = localWriteRepository
+            localReadRepository = localReadRepository
         )
 
         //HomeScreen
@@ -155,11 +153,11 @@ class ComicScreenTests {
 
             Mockito.`when`(
                 remoteComicRepository.getNextComicId(comicExample.seriesId, 1)
-            ).thenReturn(null)
+            ).thenReturn(Result.success(null))
 
             Mockito.`when`(
                 localWriteRepository.markComicRead(comicExample.comicId, comicExample.seriesId,null)
-            ).thenReturn(true)
+            ).thenReturn(Result.success(Unit))
 
             mockHelper.mockComicScreenSetup(comicExample,"read")
             onNode(comicScreenNode.markReadTemplates).performClick()
@@ -185,11 +183,11 @@ class ComicScreenTests {
 
             Mockito.`when`(
                 remoteComicRepository.getPreviousComicId(comicExample.seriesId, 1)
-            ).thenReturn(null)
+            ).thenReturn(Result.success(null))
 
             Mockito.`when`(
                 localWriteRepository.markComicUnread(comicExample.comicId, comicExample.seriesId,null)
-            ).thenReturn(true)
+            ).thenReturn(Result.success(Unit))
 
             mockHelper.mockComicScreenSetup(comicExample,"unread")
             onNode(comicScreenNode.markUnreadTemplate).performClick()
@@ -214,11 +212,11 @@ class ComicScreenTests {
 
             Mockito.`when`(
                 remoteComicRepository.getPreviousComicId(comicExample.seriesId, 1)
-            ).thenReturn(null)
+            ).thenReturn(Result.success(null))
 
             Mockito.`when`(
                 localWriteRepository.markComicUnread(comicExample.comicId, comicExample.seriesId,null)
-            ).thenReturn(false)
+            ).thenReturn(Result.failure(Exception()))
 
             onNode(comicScreenNode.markUnreadTemplate).performClick()
 
