@@ -101,7 +101,7 @@ class LocalWriteRepositoryImpl(
 
             }catch (e:Exception){
                 Log.e("addSeriesToFavorite",e.toString())
-                Result.failure(Exception())
+                Result.failure(e)
             }
         }
     }
