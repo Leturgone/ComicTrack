@@ -65,17 +65,18 @@ class LibraryScreenTests {
         Mockito.`when`(
             localReadRepository.loadStatistics()
         ).thenReturn(
-            StatisticsforAll(1,2,3,4,5)
+            Result.success(
+            StatisticsforAll(1,2,3,4,5))
         )
 
 
         Mockito.`when`(
             localReadRepository.loadFavoritesIds()
-        ).thenReturn(listOf(1))
+        ).thenReturn(Result.success(listOf(1)))
 
         Mockito.`when`(
             localReadRepository.loadHistory(0)
-        ).thenReturn(listOf(25))
+        ).thenReturn(Result.success(listOf(25)))
 
         Mockito.`when`(
             remoteSeriesRepository.fetchSeries(listOf(1))
@@ -123,7 +124,7 @@ class LibraryScreenTests {
 
             Mockito.`when`(
                 localReadRepository.loadAllReadComicIds(0)
-            ).thenReturn(listOf(6))
+            ).thenReturn(Result.success(listOf(6)))
 
             Mockito.`when`(
                 remoteComicRepository.fetchComics(listOf(6))
@@ -146,7 +147,7 @@ class LibraryScreenTests {
 
             Mockito.`when`(
                 localReadRepository.loadAllReadSeriesIds(0)
-            ).thenReturn(listOf(5))
+            ).thenReturn(Result.success(listOf(5)))
 
             Mockito.`when`(
                 remoteSeriesRepository.fetchSeries(listOf(5))
@@ -169,7 +170,7 @@ class LibraryScreenTests {
 
             Mockito.`when`(
                 localReadRepository.loadWillBeReadIds(0)
-            ).thenReturn(listOf(7))
+            ).thenReturn(Result.success(listOf(7)))
 
             Mockito.`when`(
                 remoteSeriesRepository.fetchSeries(listOf(7))
