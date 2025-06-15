@@ -141,62 +141,38 @@ class AboutSeriesScreenViewModel @Inject constructor(
     }
 
     private fun markAsCurrentlyReadingSeries(apiId:Int,firstIssueId:Int?)  = viewModelScope.launch{
-        try {
-            if (localWriteRepository.addSeriesToCurrentlyRead(apiId,firstIssueId)){
-                loadSeriesScreen(apiId)
-            }
-        }catch (e:Exception){
-            Log.e("markAsCurrentlyReadingSeries",e.toString())
+        localWriteRepository.addSeriesToCurrentlyRead(apiId,firstIssueId).onSuccess {
+            loadSeriesScreen(apiId)
         }
     }
 
     private fun markAsReadSeries(apiId:Int) = viewModelScope.launch(Dispatchers.IO){
-        try {
-            if (localWriteRepository.markSeriesRead(apiId)){
-                loadSeriesScreen(apiId)
-            }
-        }catch (e:Exception){
-            Log.e("markAsReadSeries",e.toString())
+        localWriteRepository.markSeriesRead(apiId).onSuccess {
+            loadSeriesScreen(apiId)
         }
     }
 
     private fun markUnreadSeries(apiId:Int)  = viewModelScope.launch{
-        try {
-            if (localWriteRepository.markSeriesUnread(apiId)){
-                loadSeriesScreen(apiId)
-            }
-        }catch (e:Exception){
-            Log.e("markUnreadSeries",e.toString())
+        localWriteRepository.markSeriesUnread(apiId).onSuccess {
+            loadSeriesScreen(apiId)
         }
     }
 
     private fun markWillBeReadSeries(apiId:Int)  = viewModelScope.launch{
-        try {
-            if(localWriteRepository.addSeriesToWillBeRead(apiId)){
-                loadSeriesScreen(apiId)
-            }
-        }catch (e:Exception){
-            Log.e("markWillBeReadSeries",e.toString())
+        localWriteRepository.addSeriesToWillBeRead(apiId).onSuccess {
+            loadSeriesScreen(apiId)
         }
     }
 
     private fun addSeriesToFavorite(apiId: Int) = viewModelScope.launch {
-        try {
-            if(localWriteRepository.addSeriesToFavorite(apiId)){
-                loadSeriesScreen(apiId)
-            }
-        }catch (e:Exception){
-            Log.e("addSeriesToFavorite",e.toString())
+        localWriteRepository.addSeriesToFavorite(apiId).onSuccess {
+            loadSeriesScreen(apiId)
         }
     }
 
     private fun removeSeriesFromFavorites(apiId: Int)  = viewModelScope.launch{
-        try {
-            if(localWriteRepository.removeSeriesFromFavorite(apiId)){
-                loadSeriesScreen(apiId)
-            }
-        }catch (e:Exception){
-            Log.e("removeSeriesFromFavorites",e.toString())
+        localWriteRepository.removeSeriesFromFavorite(apiId).onSuccess {
+            loadSeriesScreen(apiId)
         }
 
     }
@@ -205,7 +181,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
         async {
             remoteComicsRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
         }.await().onSuccess { nextComicId ->
-            if (localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId)){
+            localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId).onSuccess {
                 loadSeriesScreen(seriesApiId)
             }
         }
@@ -215,7 +191,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
         async {
             remoteComicsRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
         }.await().onSuccess {prevComicId ->
-            if (localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId)){
+            localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId).onSuccess {
                 loadSeriesScreen(seriesApiId)
             }
         }
