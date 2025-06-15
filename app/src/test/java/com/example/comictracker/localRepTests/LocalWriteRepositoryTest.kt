@@ -8,7 +8,6 @@ import com.example.comictracker.data.database.enteties.SeriesEntity
 import com.example.comictracker.data.repository.local.LocalWriteRepositoryImpl
 import com.example.comictracker.domain.repository.local.LocalWriteRepository
 import kotlinx.coroutines.test.runTest
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
