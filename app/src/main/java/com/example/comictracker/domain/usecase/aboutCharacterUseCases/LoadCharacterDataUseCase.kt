@@ -1,9 +1,7 @@
-package com.example.comictracker.domain.usecase.characterUseCases
+package com.example.comictracker.domain.usecase.aboutCharacterUseCases
 
 import com.example.comictracker.domain.model.CharacterModel
 import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
-import com.example.comictracker.domain.repository.remote.RemoteSeriesRepository
-import kotlinx.coroutines.async
 
 class LoadCharacterDataUseCase(
     private val characterRepository: RemoteCharacterRepository
