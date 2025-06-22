@@ -27,6 +27,13 @@ class LoadNextComicInSeriesUseCase(
             }
         }
 
-        nextReadDef.await()?: if (comicList.isNotEmpty()) comicList[0] else null
+        val res = nextReadDef.await()?: if (comicList.isNotEmpty()) comicList[0] else null
+
+        if (res==null){
+            Result.failure(Exception())
+        }
+        else{
+            Result.success(res)
+        }
     }
 }
