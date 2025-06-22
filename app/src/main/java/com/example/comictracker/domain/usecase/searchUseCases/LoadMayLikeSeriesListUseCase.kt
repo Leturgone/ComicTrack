@@ -8,6 +8,7 @@ class LoadMayLikeSeriesListUseCase(
     private val remoteSeriesRepository: RemoteSeriesRepository,
     private val localReadRepository: LocalReadRepository
 ) {
+
     suspend operator fun invoke(): Result<List<SeriesModel>>{
         val loadedIdsSeriesFromBD  = localReadRepository.loadAllReadSeriesIds(0)
         return loadedIdsSeriesFromBD.fold(
