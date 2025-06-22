@@ -1,4 +1,4 @@
-package com.example.comictracker.domain.usecase.comicFromSeriesUseCase
+package com.example.comictracker.domain.usecase.comicFromSeriesUseCases
 
 import android.util.Log
 import com.example.comictracker.domain.repository.local.LocalReadRepository
