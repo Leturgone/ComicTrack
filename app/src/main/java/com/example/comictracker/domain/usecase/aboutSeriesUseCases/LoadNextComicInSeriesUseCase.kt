@@ -1,4 +1,4 @@
-package com.example.comictracker.domain.usecase.aboutSeriesUseCase
+package com.example.comictracker.domain.usecase.aboutSeriesUseCases
 
 import com.example.comictracker.domain.model.ComicModel
 import com.example.comictracker.domain.repository.local.LocalReadRepository
