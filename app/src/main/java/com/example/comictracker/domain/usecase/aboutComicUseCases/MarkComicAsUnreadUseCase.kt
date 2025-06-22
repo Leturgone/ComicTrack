@@ -3,7 +3,7 @@ package com.example.comictracker.domain.usecase.aboutComicUseCases
 import com.example.comictracker.domain.repository.local.LocalWriteRepository
 import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
 
-class MarkComicUnreadUseCase(
+class MarkComicAsUnreadUseCase(
     private val remoteComicsRepository: RemoteComicsRepository,
     private val localWriteRepository: LocalWriteRepository
 ) {
