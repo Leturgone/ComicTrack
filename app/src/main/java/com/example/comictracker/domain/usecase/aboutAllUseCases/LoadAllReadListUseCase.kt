@@ -4,7 +4,7 @@ import com.example.comictracker.domain.repository.local.LocalReadRepository
 import com.example.comictracker.domain.repository.remote.RemoteSeriesRepository
 import com.example.comictracker.presentation.mvi.DataState
 
-class LoadReadListUseCase(
+class LoadAllReadListUseCase(
     private val remoteSeriesRepository: RemoteSeriesRepository,
     private val localReadRepository: LocalReadRepository
 ) {
