@@ -5,5 +5,6 @@ import com.example.comictracker.domain.repository.remote.RemoteCharacterReposito
 class LoadCharacterDataUseCase(
     private val characterRepository: RemoteCharacterRepository
 ) {
+
     suspend operator fun invoke(characterId:Int) = characterRepository.getCharacterById(characterId)
 }
