@@ -5,5 +5,6 @@ import com.example.comictracker.domain.repository.remote.RemoteCharacterReposito
 class LoadComicCharactersUseCase(
     private val remoteCharacterRepository: RemoteCharacterRepository
 ) {
+
     suspend operator fun invoke(comicId:Int) = remoteCharacterRepository.getComicCharacters(comicId)
 }

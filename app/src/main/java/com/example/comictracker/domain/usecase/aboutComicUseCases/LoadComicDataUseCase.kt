@@ -8,6 +8,7 @@ class LoadComicDataUseCase(
     private val remoteComicsRepository: RemoteComicsRepository,
     private val localReadRepository: LocalReadRepository
 ) {
+
     suspend operator fun invoke(comicId: Int):Result<ComicModel>{
         val  comicResult = remoteComicsRepository.getComicById(comicId)
         return comicResult.fold(
