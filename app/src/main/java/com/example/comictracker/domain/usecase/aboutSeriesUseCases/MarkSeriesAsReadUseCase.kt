@@ -2,9 +2,9 @@ package com.example.comictracker.domain.usecase.aboutSeriesUseCases
 
 import com.example.comictracker.domain.repository.local.LocalWriteRepository
 
-class MarkSeriesAsCurrentlyReadingUseCase(
+class MarkSeriesAsReadUseCase(
     private val localWriteRepository: LocalWriteRepository
 ) {
 
-    suspend operator fun  invoke(apiId:Int,firstIssueId:Int?) = localWriteRepository.addSeriesToCurrentlyRead(apiId,firstIssueId)
+    suspend operator fun invoke(apiId:Int) =  localWriteRepository.markSeriesRead(apiId)
 }
