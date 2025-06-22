@@ -8,6 +8,7 @@ class LoadFavoriteSeriesUseCase(
     private val remoteSeriesRepository: RemoteSeriesRepository,
     private val localReadRepository: LocalReadRepository
 ) {
+
     suspend operator fun invoke(): Result<List<SeriesModel>>{
         val loadedFavoriteSeriesIdsFromBD = localReadRepository.loadFavoritesIds()
         return loadedFavoriteSeriesIdsFromBD.fold(

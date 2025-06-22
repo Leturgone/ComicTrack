@@ -8,6 +8,7 @@ class LoadCurrentlyReadingSeriesUseCase(
     private val remoteSeriesRepository: RemoteSeriesRepository,
     private val localReadRepository: LocalReadRepository
 ) {
+
     suspend operator fun invoke(): Result<List<SeriesModel>>{
         val loadedCurrentlyReadingSeriesIdsFromBD = localReadRepository.loadCurrentReadIds(0)
         return loadedCurrentlyReadingSeriesIdsFromBD.fold(
