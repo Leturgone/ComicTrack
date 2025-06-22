@@ -1,4 +1,4 @@
-package com.example.comictracker.domain.usecase.libraryUseCase
+package com.example.comictracker.domain.usecase.libraryUseCases
 
 import com.example.comictracker.domain.repository.local.LocalReadRepository
 
