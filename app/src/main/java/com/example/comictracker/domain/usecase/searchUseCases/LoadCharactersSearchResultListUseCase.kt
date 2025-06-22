@@ -1,4 +1,4 @@
-package com.example.comictracker.domain.usecase.searchUseCase
+package com.example.comictracker.domain.usecase.searchUseCases
 
 import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
 
