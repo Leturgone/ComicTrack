@@ -2,7 +2,6 @@ package com.example.comictracker.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.comictracker.domain.model.SeriesModel
 import com.example.comictracker.domain.usecase.aboutSeriesUseCases.AboutSeriesUseCases
 import com.example.comictracker.presentation.mvi.AboutSeriesScreenData
 import com.example.comictracker.presentation.mvi.ComicAppState
