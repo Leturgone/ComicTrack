@@ -6,5 +6,13 @@ data class AboutSeriesUseCases(
     val loadNextComicInSeriesUseCase: LoadNextComicInSeriesUseCase,
     val loadSeriesCharactersUseCase: LoadSeriesCharactersUseCase,
     val loadSeriesCreatorsUseCase: LoadSeriesCreatorsUseCase,
-    val loadSeriesDataUseCase: LoadSeriesDataUseCase
+    val loadSeriesDataUseCase: LoadSeriesDataUseCase,
+    val markSeriesAsCurrentlyReadingUseCase: MarkSeriesAsCurrentlyReadingUseCase,
+    val markSeriesAsReadUseCase: MarkSeriesAsReadUseCase,
+    val markSeriesAsUnreadUseCase: MarkSeriesAsUnreadUseCase,
+    val markSeriesAsWillBeReadUseCase: MarkSeriesAsWillBeReadUseCase,
+    val addSeriesToFavoritesUseCase: AddSeriesToFavoritesUseCase,
+    val removeSeriesFromFavoritesUseCase: RemoveSeriesFromFavoritesUseCase,
+    val markNextComicAsReadUseCase: MarkNextComicAsReadUseCase,
+    val markNextComicAsUnreadUseCase: MarkNextComicAsUnreadUseCase
 )
