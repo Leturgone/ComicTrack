@@ -2,8 +2,7 @@ package com.example.comictracker.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
-import com.example.comictracker.domain.repository.remote.RemoteSeriesRepository
+import com.example.comictracker.domain.usecase.aboutCharacterUseCases.AboutCharacterUseCases
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.mvi.intents.AboutCharacterScreenIntent
@@ -16,8 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AboutCharacterScreenViewModel @Inject constructor(
-    private val characterRepository: RemoteCharacterRepository,
-    private val seriesRepository: RemoteSeriesRepository,
+    private val aboutCharacterUseCases: AboutCharacterUseCases
 ): ViewModel() {
 
     private val _state = MutableStateFlow<ComicAppState>(ComicAppState.HomeScreenState())
@@ -36,11 +34,11 @@ class AboutCharacterScreenViewModel @Inject constructor(
             series = DataState.Loading
         )
         val characterDef = async{
-            characterRepository.getCharacterById(characterId)
+            aboutCharacterUseCases.loadCharacterDataUseCase(characterId)
         }
 
         val seriesDef = async {
-            seriesRepository.getCharacterSeries(characterId)
+            aboutCharacterUseCases.loadSeriesWithCharacterUseCase(characterId)
         }
 
         val character = characterDef.await().fold(
