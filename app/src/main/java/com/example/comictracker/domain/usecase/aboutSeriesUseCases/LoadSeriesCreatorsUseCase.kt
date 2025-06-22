@@ -6,5 +6,6 @@ import com.example.comictracker.domain.repository.remote.RemoteCreatorsRepositor
 class LoadSeriesCreatorsUseCase(
     private val remoteCreatorsRepository: RemoteCreatorsRepository
 ) {
+
     suspend operator fun invoke(series: SeriesModel) = remoteCreatorsRepository.getSeriesCreators(series.creators?: emptyList())
 }

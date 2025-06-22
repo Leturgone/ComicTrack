@@ -10,6 +10,7 @@ class LoadNextComicInSeriesUseCase(
     private val remoteComicsRepository: RemoteComicsRepository,
     private val localReadRepository: LocalReadRepository
 ) {
+
     suspend operator fun invoke(comicList:List<ComicModel>, seriesId:Int) = coroutineScope {
         val nextReadLocDef = async {  localReadRepository.loadNextRead(seriesId)}
 

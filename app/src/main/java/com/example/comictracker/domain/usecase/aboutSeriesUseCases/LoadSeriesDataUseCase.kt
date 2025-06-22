@@ -9,6 +9,7 @@ class LoadSeriesDataUseCase(
     private val remoteSeriesRepository: RemoteSeriesRepository,
     private val localReadRepository: LocalReadRepository
 ) {
+
     suspend operator fun invoke(seriesId:Int) = coroutineScope{
         val seriesDeferred = async{
             remoteSeriesRepository.getSeriesById(seriesId)
