@@ -4,6 +4,6 @@ data class SearchUseCases(
     val loadCharactersListUseCase: LoadCharactersListUseCase,
     val loadCharactersSearchResultListUseCase: LoadCharactersSearchResultListUseCase,
     val loadMayLikeSeriesListUseCase: LoadMayLikeSeriesListUseCase,
-    val loadNewSeriesListUseCase: LoadMayLikeSeriesListUseCase,
+    val loadNewSeriesListUseCase: LoadNewSeriesListUseCase,
     val loadSeriesSearchResultListUseCase: LoadSeriesSearchResultListUseCase
 )
