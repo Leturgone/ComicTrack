@@ -2,7 +2,10 @@ package com.example.comictracker
 
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
-import com.example.comictracker.di.AppModule
+import com.example.comictracker.di.DatabaseModule
+import com.example.comictracker.di.NetworkModule
+import com.example.comictracker.di.RepositoryModule
+import com.example.comictracker.di.TestUseCasesModule
 import com.example.comictracker.domain.repository.local.LocalReadRepository
 import com.example.comictracker.domain.repository.local.LocalWriteRepository
 import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
@@ -21,7 +24,11 @@ import javax.inject.Inject
 
 
 @HiltAndroidTest
-@UninstallModules(AppModule::class)
+@UninstallModules(
+    DatabaseModule::class,
+    NetworkModule::class,
+    RepositoryModule::class,
+    TestUseCasesModule::class)
 class ComicScreenTests {
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
