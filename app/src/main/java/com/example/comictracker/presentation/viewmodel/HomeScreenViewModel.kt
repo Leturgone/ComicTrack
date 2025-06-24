@@ -2,8 +2,6 @@ package com.example.comictracker.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.comictracker.domain.repository.local.LocalReadRepository
-import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
 import com.example.comictracker.domain.usecase.homeUseCases.HomeUseCases
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
