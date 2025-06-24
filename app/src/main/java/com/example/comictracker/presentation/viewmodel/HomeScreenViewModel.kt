@@ -2,8 +2,7 @@ package com.example.comictracker.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.comictracker.domain.repository.local.LocalReadRepository
-import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
+import com.example.comictracker.domain.usecase.homeUseCases.HomeUseCases
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.mvi.HomeScreenData
@@ -17,8 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeScreenViewModel @Inject constructor(
-    private val remoteComicsRepository: RemoteComicsRepository,
-    private val localReadRepository: LocalReadRepository
+    private val homeUseCases: HomeUseCases
 ): ViewModel() {
     private val _state = MutableStateFlow<ComicAppState>(ComicAppState.HomeScreenState())
     val state: StateFlow<ComicAppState> = _state
@@ -32,33 +30,18 @@ class HomeScreenViewModel @Inject constructor(
     private fun loadHomeScreen() = viewModelScope.launch {
         _state.value = ComicAppState.HomeScreenState(DataState.Loading)
 
-        val loadedIdsSeriesFromBDDef = async { localReadRepository.loadCurrentReadIds(0) }
-        val loadedIdsNextReadComicFromBDDef = async {localReadRepository.loadNextReadComicIds(0)  }
+        val newComicsDef = async { homeUseCases.loadNewComicsUseCase() }
+        val nextComicsDef = async { homeUseCases.loadCurrentNextComicUseCase()}
 
-        val loadedIdsSeriesFromBD = loadedIdsSeriesFromBDDef.await().fold(
+        val newComics = newComicsDef.await().fold(
             onSuccess = {it},
-            onFailure = {null}
+            onFailure = { emptyList() }
         )
-        val loadedIdsNextReadComicFromBD = loadedIdsNextReadComicFromBDDef.await().fold(
+        val nextComics = nextComicsDef.await().fold(
             onSuccess = {it},
-            onFailure = {null}
+            onFailure = { emptyList() }
         )
-        val result = if (loadedIdsSeriesFromBD == null || loadedIdsNextReadComicFromBD == null){
-            DataState.Error("Error while loading home screen")
-        }else{
-            val newComicsDef = async { remoteComicsRepository.fetchUpdatesForSeries(loadedIdsSeriesFromBD) }
-            val nextComicsDef = async { remoteComicsRepository.fetchComics(loadedIdsNextReadComicFromBD) }
-
-            val newComics = newComicsDef.await().fold(
-                onSuccess = {it},
-                onFailure = { emptyList() }
-            )
-            val nextComics = nextComicsDef.await().fold(
-                onSuccess = {it},
-                onFailure = { emptyList() }
-            )
-            DataState.Success(HomeScreenData(newReleasesList = newComics, continueReadingList = nextComics))
-        }
+        val result = DataState.Success(HomeScreenData(newReleasesList = newComics, continueReadingList = nextComics))
 
         _state.value = ComicAppState.HomeScreenState(result)
     }

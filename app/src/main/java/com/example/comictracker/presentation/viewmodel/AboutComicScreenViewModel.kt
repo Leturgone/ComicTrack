@@ -2,12 +2,7 @@ package com.example.comictracker.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.comictracker.domain.model.ComicModel
-import com.example.comictracker.domain.repository.local.LocalReadRepository
-import com.example.comictracker.domain.repository.local.LocalWriteRepository
-import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
-import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
-import com.example.comictracker.domain.repository.remote.RemoteCreatorsRepository
+import com.example.comictracker.domain.usecase.aboutComicUseCases.AboutComicUseCases
 import com.example.comictracker.presentation.mvi.AboutComicScreenData
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
@@ -21,11 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class AboutComicScreenViewModel @Inject constructor(
-    private val remoteComicsRepository: RemoteComicsRepository,
-    private val remoteCharacterRepository: RemoteCharacterRepository,
-    private val remoteCreatorsRepository: RemoteCreatorsRepository,
-    private val localWriteRepository: LocalWriteRepository,
-    private val localReadRepository: LocalReadRepository
+    private val aboutComicUseCases: AboutComicUseCases
 ): ViewModel(){
 
     private val _state = MutableStateFlow<ComicAppState>(ComicAppState.HomeScreenState())
@@ -43,69 +34,45 @@ class AboutComicScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AboutComicScreenState(DataState.Loading)
 
         val comicDeferred = async {
-            remoteComicsRepository.getComicById(comicId)
+            aboutComicUseCases.loadComicDataUseCase(comicId)
         }
 
         val characterListDeferred = async {
-            remoteCharacterRepository.getComicCharacters(comicId)
-        }
-
-        val comic = comicDeferred.await().fold(
-            onSuccess = {it},
-            onFailure = {emptyList<ComicModel>()}
-        )
-
-
-        val creatorListDeferred = async {
-            if (comic is ComicModel){
-                remoteCreatorsRepository.getComicCreators(comic.creators).getOrDefault(emptyList())
-            } else {
-                emptyList()
-            }
+            aboutComicUseCases.loadComicCharactersUseCase(comicId)
         }
 
         val characterList = characterListDeferred.await().fold(
             onSuccess = {it},
             onFailure = {emptyList()}
         )
-        val creatorList = creatorListDeferred.await()
 
-        _state.value = (ComicAppState.AboutComicScreenState(
-            when(comic){
-                is ComicModel ->{
-                    localReadRepository.loadComicMark(comic.comicId).fold(
-                        onSuccess = {
-                            val comicWithMark = comic.copy(readMark = it)
-                            DataState.Success(
-                                AboutComicScreenData(
-                                    comic = comicWithMark, creatorList = creatorList, characterList = characterList)
-                            )
-                        },
-                        onFailure = {
-                            DataState.Error("Error loading this series")
-                        }
-                    )
-                }
-                else ->  DataState.Error("Error loading this series")
-            }))
+        val comicResult = comicDeferred.await().fold(
+            onSuccess = {it},
+            onFailure = {null}
+        )
+        if (comicResult!=null){
+            val creatorList = aboutComicUseCases.loadComicCreatorsUseCase(comicResult).fold(
+                onSuccess = {it},
+                onFailure = { emptyList() }
+            )
+            _state.value = ComicAppState.AboutComicScreenState(DataState.Success(
+                AboutComicScreenData(
+                    comic = comicResult, creatorList = creatorList, characterList = characterList)
+            ))
+        }
+        else{
+            _state.value = ComicAppState.AboutComicScreenState(DataState.Error("Error loading this comic"))
+        }
     }
 
     private fun markAsReadComic(comicApiId: Int, seriesApiId: Int,number:String)  = viewModelScope.launch{
-        async {
-            remoteComicsRepository.getNextComicId(seriesApiId,number.toFloat().toInt())
-        }.await().onSuccess {nextComicId ->
-            localWriteRepository.markComicRead(comicApiId,seriesApiId,nextComicId).onSuccess {
-                loadComicScreen(comicApiId)
-            }
+        aboutComicUseCases.markComicAsReadUseCase(comicApiId, seriesApiId, number).onSuccess {
+            loadComicScreen(comicApiId)
         }
     }
     private fun markAsUnreadComic(comicApiId: Int, seriesApiId: Int,number:String) = viewModelScope.launch {
-        async {
-            remoteComicsRepository.getPreviousComicId(seriesApiId, number.toFloat().toInt())
-        }.await().onSuccess {prevComicId ->
-            localWriteRepository.markComicUnread(comicApiId,seriesApiId,prevComicId).onSuccess {
-                loadComicScreen(comicApiId)
-            }
+        aboutComicUseCases.markComicAsUnreadUseCase(comicApiId, seriesApiId, number).onSuccess {
+            loadComicScreen(comicApiId)
         }
     }
 }

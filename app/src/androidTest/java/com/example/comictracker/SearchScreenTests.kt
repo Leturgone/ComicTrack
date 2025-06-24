@@ -3,7 +3,10 @@ package com.example.comictracker
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
-import com.example.comictracker.di.AppModule
+import com.example.comictracker.di.DatabaseModule
+import com.example.comictracker.di.NetworkModule
+import com.example.comictracker.di.RepositoryModule
+import com.example.comictracker.di.TestUseCasesModule
 import com.example.comictracker.domain.repository.local.LocalReadRepository
 import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
 import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
@@ -21,7 +24,11 @@ import javax.inject.Inject
 
 
 @HiltAndroidTest
-@UninstallModules(AppModule::class)
+@UninstallModules(
+    DatabaseModule::class,
+    NetworkModule::class,
+    RepositoryModule::class,
+    TestUseCasesModule::class)
 class SearchScreenTests {
 
     @get:Rule(order = 0)
