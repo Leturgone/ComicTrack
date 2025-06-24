@@ -15,7 +15,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-class TestAppModule {
+object TestRepositoryModule {
     @Provides
     @Singleton
     fun provideRemoteComicsRepository(): RemoteComicsRepository {
