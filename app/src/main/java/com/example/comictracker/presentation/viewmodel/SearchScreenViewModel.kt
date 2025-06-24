@@ -2,14 +2,11 @@ package com.example.comictracker.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.comictracker.domain.repository.local.LocalReadRepository
-import com.example.comictracker.domain.repository.remote.RemoteCharacterRepository
-import com.example.comictracker.domain.repository.remote.RemoteSeriesRepository
+import com.example.comictracker.domain.usecase.searchUseCases.SearchUseCases
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
 import com.example.comictracker.presentation.mvi.intents.SearchScreenIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,9 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchScreenViewModel @Inject constructor(
-    private val remoteSeriesRepository: RemoteSeriesRepository,
-    private val remoteCharacterRepository: RemoteCharacterRepository,
-    private val localReadRepository: LocalReadRepository
+    private val searchUseCases: SearchUseCases
 ): ViewModel() {
     private val _state = MutableStateFlow<ComicAppState>(ComicAppState.HomeScreenState())
 
@@ -35,52 +30,37 @@ class SearchScreenViewModel @Inject constructor(
 
     private fun loadSearchScreen() = viewModelScope.launch {
         _state.value = ComicAppState.SearchScreenState(DataState.Loading)
-        val discoverSeriesListDef  = async {
-            remoteSeriesRepository.getAllSeries()
-        }
-        val mayLikeSeriesListDef  = async(Dispatchers.IO) {
-            localReadRepository.loadAllReadSeriesIds(0).fold(
-                onSuccess = {loadedIdsSeriesFromBD ->
-                    remoteSeriesRepository.loadMayLikeSeriesIds(loadedIdsSeriesFromBD).fold(
-                        onSuccess = { ids ->
-                            remoteSeriesRepository.fetchSeries(ids).fold(
-                                onSuccess = {DataState.Success(it)},
-                                onFailure = {DataState.Error("Error loading May Like Series")}
-                            )
-                        },
-                        onFailure = {DataState.Error("Error loading May Like Series")}
-                    )
-                },
-                onFailure = {DataState.Error("Error loading May Like Series")}
-            )
-        }
-        val characterListDef  = async {
-            remoteCharacterRepository.getAllCharacters()
-        }
 
-        val dseries = discoverSeriesListDef.await().fold(
+        val discoverSeriesListDef  = async { searchUseCases.loadNewSeriesListUseCase() }
+        val mayLikeSeriesListDef  = async { searchUseCases.loadMayLikeSeriesListUseCase() }
+        val characterListDef  = async { searchUseCases.loadCharactersListUseCase() }
+
+        val discoverSeries = discoverSeriesListDef.await().fold(
             onSuccess = {DataState.Success(it)},
             onFailure = {DataState.Error("Error loading Discover Series")}
         )
-        val mlsreis = mayLikeSeriesListDef.await()
+        val mayLikeSeries = mayLikeSeriesListDef.await().fold(
+            onSuccess = {DataState.Success(it)},
+            onFailure = {DataState.Error("Error loading May Like Series")}
+        )
         val characters = characterListDef.await().fold(
             onSuccess = {DataState.Success(it)},
             onFailure = {DataState.Error("Error loading characters")}
         )
 
         _state.value = ComicAppState.SearchScreenState(
-            mlsreis,dseries,characters
+            mayLikeSeries,discoverSeries,characters
         )
     }
 
     private fun loadSearchResults(query: String) = viewModelScope.launch{
         _state.value = ComicAppState.SearchResultScreenSate(DataState.Loading)
         val searchSeriesListDeferred = async {
-            remoteSeriesRepository.getSeriesByTitle(query)
+            searchUseCases.loadSeriesSearchResultListUseCase(query)
         }
 
         val searchCharacterListDeferred = async {
-            remoteCharacterRepository.getCharactersByName(query)
+            searchUseCases.loadCharactersSearchResultListUseCase(query)
         }
 
         val seriesList = searchSeriesListDeferred.await().fold(
