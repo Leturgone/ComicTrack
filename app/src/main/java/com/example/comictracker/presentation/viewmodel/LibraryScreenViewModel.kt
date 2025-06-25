@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.usecase.libraryUseCases.LibraryUseCases
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
-import com.example.comictracker.presentation.mvi.MyLibraryScreenData
 import com.example.comictracker.presentation.mvi.intents.LibraryScreenIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
