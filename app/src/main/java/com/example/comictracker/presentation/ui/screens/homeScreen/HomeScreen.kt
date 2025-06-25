@@ -1,5 +1,6 @@
 package com.example.comictracker.presentation.ui.screens.homeScreen
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -24,33 +25,59 @@ import com.example.comictracker.presentation.viewmodel.HomeScreenViewModel
 @Composable
 fun HomeScreen(navController: NavHostController,viewModel: HomeScreenViewModel = hiltViewModel()){
     val uiState by viewModel.state.collectAsState()
-    var showToast by remember { mutableStateOf(false) }
+    var newReleasesShowToast by remember { mutableStateOf(false) }
+    var newReleasesErrorMessage by remember { mutableStateOf("") }
+    var continueReadingLShowToast by remember { mutableStateOf(false) }
+    var continueReadingErrorMessage by remember { mutableStateOf("") }
 
     LaunchedEffect(key1 = "homeScreen") {
         viewModel.processIntent(HomeScreenIntent.LoadHomeScreen)
     }
-    Column {
-        uiState.let {state->
-            when(state){
-                is ComicAppState.HomeScreenState ->{
-                    when(state.dataState){
-                        is DataState.Error -> CustomToastMessage(
-                            message = state.dataState.errorMessage,
-                            isVisible = showToast,
-                            onDismiss = { showToast = false })
-                        DataState.Loading -> CircularProgressIndicator()
-                        is DataState.Success -> {
-                            NewComicListSec(state.dataState.result.newReleasesList,
-                                navController)
-                            Spacer(modifier = Modifier.height(12.dp))
-                            CurrentReadComicListSec(state.dataState.result.continueReadingList,
-                                navController)
+    Box {
+        Column {
+            CustomToastMessage(
+                message = newReleasesErrorMessage,
+                isVisible = newReleasesShowToast,
+                onDismiss = { newReleasesShowToast = false })
+            Spacer(modifier = Modifier.height(12.dp))
+            CustomToastMessage(
+                message = continueReadingErrorMessage,
+                isVisible = continueReadingLShowToast,
+                onDismiss = { continueReadingLShowToast= false })
+        }
+        Column {
+            uiState.let {state->
+                when(state){
+                    is ComicAppState.HomeScreenState ->{
+                        when(state.newReleasesList){
+                            is DataState.Error -> LaunchedEffect(Unit){
+                                newReleasesErrorMessage = state.newReleasesList.errorMessage
+                                newReleasesShowToast = true
+                            }
+                            DataState.Loading -> CircularProgressIndicator()
+                            is DataState.Success -> {
+                                NewComicListSec(state.newReleasesList.result,
+                                    navController)
+                                Spacer(modifier = Modifier.height(12.dp))
+                            }
+                        }
+                        when(state.continueReadingList){
+                            is DataState.Error -> LaunchedEffect(Unit){
+                                continueReadingErrorMessage = state.continueReadingList.errorMessage
+                                continueReadingLShowToast = true
+                            }
+                            DataState.Loading -> CircularProgressIndicator()
+                            is DataState.Success -> {
+                                CurrentReadComicListSec(state.continueReadingList.result,
+                                    navController)
+                            }
                         }
                     }
+                    else -> CircularProgressIndicator()
                 }
-                else -> CircularProgressIndicator()
             }
-        }
 
+        }
     }
+
 }
