@@ -125,14 +125,14 @@ class RemoteSeriesRepositoryImpl @Inject constructor(private val api: MarvelComi
                     async {
                         getSeriesById(id).fold(
                             onSuccess = {it},
-                            onFailure = {null}
+                            onFailure = {throw Exception()}
                         )
                     }
                 }
             }.awaitAll()
-
+            if (loadedIdsSeriesFromBD.isNotEmpty() && series.isEmpty()) throw Exception("Error while fetching")
             series.forEach {
-                val connected = (it?.connectedSeries?: emptyList()).filterNotNull()
+                val connected = it.connectedSeries.filterNotNull()
                 mayLikeSeries.addAll(connected)
             }
             Result.success(mayLikeSeries)
@@ -149,13 +149,14 @@ class RemoteSeriesRepositoryImpl @Inject constructor(private val api: MarvelComi
                 withContext(Dispatchers.IO){
                     async {
                         getSeriesById(id).fold(
-                            onFailure = {null},
+                            onFailure = { null },
                             onSuccess = {it}
                         )
                     }
                 }
             }
-            val series =  seriesDef.awaitAll().filterNotNull()
+            val series = seriesDef.awaitAll().filterNotNull()
+            if (ids.isNotEmpty() && series.isEmpty()) throw Exception("Error while fetching")
             Result.success(series)
         }catch (e:Exception){
             Log.e("fetchSeries",e.toString())
