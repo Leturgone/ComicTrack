@@ -280,4 +280,67 @@ class LibraryScreenTests {
         
     }
 
+    @Test
+    fun errorStatisticsTest() = runTest {
+
+        Mockito.`when`(
+            localReadRepository.loadStatistics()
+        ).thenReturn(Result.failure(Exception()))
+
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(BottomBarTestObj.libraryTemplate).assertExists()
+            onNode(BottomBarTestObj.libraryTemplate).performClick()
+            onNode(LibraryScreenTestObj.statisticsError).assertExists()
+        }
+    }
+
+    @Test
+    fun errorHistoryTest() = runTest {
+
+        Mockito.`when`(
+            remoteComicRepository.fetchComics(listOf(25))
+        ).thenReturn(Result.failure(Exception()))
+
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(BottomBarTestObj.libraryTemplate).assertExists()
+            onNode(BottomBarTestObj.libraryTemplate).performClick()
+            onNode(LibraryScreenTestObj.historyError).assertExists()
+        }
+    }
+
+    @Test
+    fun errorFavoriteTest() = runTest {
+
+        Mockito.`when`(
+            remoteSeriesRepository.fetchSeries(listOf(1))
+        ).thenReturn(Result.failure(Exception()))
+
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(BottomBarTestObj.libraryTemplate).assertExists()
+            onNode(BottomBarTestObj.libraryTemplate).performClick()
+            onNode(LibraryScreenTestObj.favoriteError).assertExists()
+        }
+    }
+
+    @Test
+    fun errorCurrentTest() = runTest {
+
+        Mockito.`when`(
+            remoteSeriesRepository.fetchSeries(listOf(1,2,3))
+        ).thenReturn(Result.failure(Exception()))
+
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(BottomBarTestObj.libraryTemplate).assertExists()
+            onNode(BottomBarTestObj.libraryTemplate).performClick()
+            onNode(LibraryScreenTestObj.currentError).assertExists()
+        }
+    }
 }
