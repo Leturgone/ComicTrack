@@ -8,6 +8,7 @@ import com.example.comictracker.domain.repository.remote.RemoteComicsRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -98,6 +99,20 @@ class RemoteComicsRepositoryTests {
     }
 
     @Test
+    fun fetchComicsTestError() = runTest{
+        Mockito.`when`(
+            api.getComicById("11")
+        ).thenThrow(RuntimeException("Exception"))
+
+        Mockito.`when`(
+            api.getComicById("12")
+        ).thenThrow(RuntimeException("Exception"))
+
+        val result = remoteComicsRepository.fetchComics(listOf(11,12))
+        assertTrue(result.isFailure)
+    }
+
+    @Test
     fun fetchUpdatesForSeriesTest() = runTest{
         Mockito.`when`(
             api.getSeriesLastReleasesById(series = "11")
@@ -110,7 +125,6 @@ class RemoteComicsRepositoryTests {
         val result = remoteComicsRepository.fetchUpdatesForSeries(listOf(11,12))
         assertEquals(listOf(comic),result.getOrNull())
     }
-
 
     @Test
     fun getNextComicIdTestSuccess() = runTest{
