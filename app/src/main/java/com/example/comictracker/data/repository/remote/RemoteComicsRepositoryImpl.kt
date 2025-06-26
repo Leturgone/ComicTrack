@@ -13,7 +13,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 import javax.inject.Inject
 
-class RemoteComicsRepositoryImpl @Inject constructor(private val api: MarvelComicApi):RemoteComicsRepository {
+class RemoteComicsRepositoryImpl @Inject constructor(private val api: MarvelComicApi): RemoteComicsRepository {
 
     private fun formatDate(dateString: String): String {
         return try {
@@ -107,6 +107,7 @@ class RemoteComicsRepositoryImpl @Inject constructor(private val api: MarvelComi
                 }
             }
             val filteredComic = comicsDef.awaitAll().filterNotNull()
+            if (ids.isNotEmpty() && filteredComic.isEmpty()) throw Exception("Error while fetching")
             Result.success(filteredComic)
         }catch (e:Exception){
             Log.e("fetchComics", e.toString())
@@ -122,12 +123,12 @@ class RemoteComicsRepositoryImpl @Inject constructor(private val api: MarvelComi
                     async {
                         getSeriesLastReleasesById(id).fold(
                             onSuccess = {it},
-                            onFailure = { emptyList() }
+                            onFailure = {null}
                         )
                     }
                 }
             }
-            val flattenComics = newComicsDef.awaitAll().flatten()
+            val flattenComics = newComicsDef.awaitAll().filterNotNull().flatten()
             Result.success(flattenComics)
         }catch (e:Exception){
             Log.e("fetchUpdatesForSeries", e.toString())
