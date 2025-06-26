@@ -133,18 +133,27 @@ class HomeScreenTests {
     }
 
     @Test
-    fun errorLoadNextAndNewTest() = runTest {
+    fun errorLoadNewTest() = runTest {
 
         Mockito.`when`(
             remoteComicRepository.fetchUpdatesForSeries(listOf(1, 2, 3))
         ).thenReturn(Result.failure(Exception()))
+
+        composeTestRule.run {
+            setContent { MainScreen()}
+            onNode(HomeScreenTestObj.newComicError).assertExists()
+        }
+    }
+
+    @Test
+    fun errorLoadNextTest() = runTest {
+
         Mockito.`when`(
             remoteComicRepository.fetchComics(listOf(1, 2, 3))
         ).thenReturn(Result.failure(Exception()))
 
         composeTestRule.run {
             setContent { MainScreen()}
-            onNode(HomeScreenTestObj.newComicError).assertExists()
             onNode(HomeScreenTestObj.nextComicError).assertExists()
         }
     }
