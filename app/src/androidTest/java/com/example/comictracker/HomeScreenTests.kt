@@ -17,6 +17,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mockito
 import javax.inject.Inject
 
 @HiltAndroidTest
@@ -128,6 +129,23 @@ class HomeScreenTests {
 
             onNode(AllScreenTestObj.AllTemplate).assertExists()
             onNode(AllScreenTestObj.continueReadingCard).assertExists()
+        }
+    }
+
+    @Test
+    fun errorLoadNextAndNewTest() = runTest {
+
+        Mockito.`when`(
+            remoteComicRepository.fetchUpdatesForSeries(listOf(1, 2, 3))
+        ).thenReturn(Result.failure(Exception()))
+        Mockito.`when`(
+            remoteComicRepository.fetchComics(listOf(1, 2, 3))
+        ).thenReturn(Result.failure(Exception()))
+
+        composeTestRule.run {
+            setContent { MainScreen()}
+            onNode(HomeScreenTestObj.newComicError).assertExists()
+            onNode(HomeScreenTestObj.nextComicError).assertExists()
         }
     }
 
