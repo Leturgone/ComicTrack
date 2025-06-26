@@ -8,6 +8,7 @@ import com.example.comictracker.domain.repository.remote.RemoteSeriesRepository
 import com.google.gson.Gson
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -125,6 +126,16 @@ class RemoteSeriesRepositoryTest {
     }
 
     @Test
+    fun loadMayLikeSeriesIdsTestError() = runTest{
+        Mockito.`when`(
+            api.getSeriesById("11")
+        ).thenThrow(RuntimeException("Exception"))
+
+        val result = remoteSeriesRepository.loadMayLikeSeriesIds(listOf(11))
+        assertTrue(result.isFailure)
+    }
+
+    @Test
     fun fetchSeriesTest() = runTest{
         Mockito.`when`(
             api.getSeriesById("11")
@@ -132,5 +143,18 @@ class RemoteSeriesRepositoryTest {
 
         val result = remoteSeriesRepository.fetchSeries(listOf(11,12))
         assertEquals(listOf(series),result.getOrNull())
+    }
+
+    @Test
+    fun fetchSeriesTestError() = runTest{
+        Mockito.`when`(
+            api.getSeriesById("11")
+        ).thenThrow(RuntimeException("Exception"))
+        Mockito.`when`(
+            api.getSeriesById("12")
+        ).thenThrow(RuntimeException("Exception"))
+
+        val result = remoteSeriesRepository.fetchSeries(listOf(11,12))
+        assertTrue(result.isFailure)
     }
 }
