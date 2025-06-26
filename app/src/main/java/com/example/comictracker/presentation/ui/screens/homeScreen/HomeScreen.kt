@@ -35,17 +35,6 @@ fun HomeScreen(navController: NavHostController,viewModel: HomeScreenViewModel =
     }
     Box {
         Column {
-            CustomToastMessage(
-                message = newReleasesErrorMessage,
-                isVisible = newReleasesShowToast,
-                onDismiss = { newReleasesShowToast = false })
-            Spacer(modifier = Modifier.height(12.dp))
-            CustomToastMessage(
-                message = continueReadingErrorMessage,
-                isVisible = continueReadingLShowToast,
-                onDismiss = { continueReadingLShowToast= false })
-        }
-        Column {
             uiState.let {state->
                 when(state){
                     is ComicAppState.HomeScreenState ->{
@@ -77,6 +66,17 @@ fun HomeScreen(navController: NavHostController,viewModel: HomeScreenViewModel =
                 }
             }
 
+        }
+        Column {
+            CustomToastMessage(
+                message = newReleasesErrorMessage,
+                isVisible = newReleasesShowToast,
+                onDismiss = { newReleasesShowToast = false })
+            Spacer(modifier = Modifier.height(12.dp))
+            CustomToastMessage(
+                message = continueReadingErrorMessage,
+                isVisible = continueReadingLShowToast,
+                onDismiss = { continueReadingLShowToast= false })
         }
     }
 
