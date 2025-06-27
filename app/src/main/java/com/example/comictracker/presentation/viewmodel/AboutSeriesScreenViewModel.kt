@@ -109,7 +109,7 @@ class AboutSeriesScreenViewModel @Inject constructor(
         }
         else {
             _state.value = ComicAppState.AboutSeriesScreenState(
-                DataState.Error("Error loading this series ")
+                DataState.Error("Error while loading this series")
             )
         }
     }
