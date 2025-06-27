@@ -18,6 +18,8 @@ object HomeScreenTestObj{
     val continueReadingList = hasContentDescription("${secondComicExample.title}  current cover")
     val seeAllNewTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeAllNew")
     val seeAllContinueTemplate = (hasText("See all")) and hasClickAction() and hasTestTag("seeAllContinueReading")
+    val newComicError = hasText("Error while loading new comics")
+    val nextComicError = hasText("Error while loading next comics")
 }
 
 object BottomBarTestObj{
@@ -39,6 +41,9 @@ object SearchScreenTestObj{
     val charactersTemplate = (hasText("Characters")) and hasNoClickAction()
     val seeAllCharactersTemplate = hasTestTag("seeAllCharacters")
     val characterList = hasContentDescription("${characterExample.name} character")
+    val discoverSeriesError = hasText("Error while loading Discover Series")
+    val mayLikeSeriesError = hasText("Error while loading May Like Series")
+    val characterListError = hasText("Error while loading characters")
 }
 
 object LibraryScreenTestObj{
@@ -54,9 +59,10 @@ object LibraryScreenTestObj{
     val lastUpdatesList = hasContentDescription("${comicExample.title}  current cover")
     val seeAllCurrentTemplate =  (hasText("See all")) and hasClickAction() and hasTestTag("seeAllCurrent")
     val seeAllLastTemplate =  (hasText("See all")) and hasClickAction() and hasTestTag("seeAllLast")
-
-
-
+    val favoriteError = hasText("Error while loading favorite series")
+    val currentError = hasText("Error while loading current read series")
+    val historyError = hasText("Error while loading comics")
+    val statisticsError = hasText("Error while loading statistics")
 }
 
 class AboutCharacterScreenTestObj(character:CharacterModel){
@@ -66,6 +72,8 @@ class AboutCharacterScreenTestObj(character:CharacterModel){
     val allTemplate = hasText("All")
     val seeAllTemplate = hasText("See all") and hasClickAction()
     val characterSeriesCard = hasContentDescription("${seriesExample.title}  current cover")
+    val characterDataError = hasText("Error while loading character")
+    val seriesError = hasText("Error while loading series with this character")
 
 }
 
@@ -81,6 +89,7 @@ class AboutComicScreenTestObj(comic: ComicModel) {
     val creatorsList = hasContentDescription("${creatorExample.name} creator")
     val charactersTemplate = hasText("Characters")
     val charactersList = hasContentDescription("${characterExample.name} character")
+    val comicError = hasText("Error while loading this comic")
 }
 
 class AboutSeriesScreenTestObj(series: SeriesModel) {
@@ -124,7 +133,7 @@ class AboutSeriesScreenTestObj(series: SeriesModel) {
     val connectedList = hasContentDescription("${secondSeriesExample.title}  current cover")
 
     val seriesScreenScroll = hasTestTag("seriesScreenScroll")
-
+    val seriesError = hasText("Error while loading this series")
 }
 
 object AllScreenTestObj{
@@ -145,6 +154,19 @@ object AllScreenTestObj{
     val newReleasesNextButtonCard = hasContentDescription("${secondComicExample.title}  current cover")
     val discoverSeriesNextButtonCard = hasContentDescription("${secondSeriesExample.title}  current cover")
     val charactersNextButtonCard = hasContentDescription("ch12 character")
+    val newComicsErrorMessage = hasText("Error while loading all new comics")
+    val allCharacterErrorMessage = hasText("Error while loading comics with this character")
+    val allCurrentReadingSeriesErrorMessage = hasText("Error while loading all current reading")
+    val allDiscoverSeriesErrorMessage = hasText("Error while loading series")
+    val allCharactersErrorMessage = hasText("Error while loading characters")
+    val allLastComicsErrorMessage = hasText("Error while loading last comics")
+    val allLibComicErrorMessage = hasText("Error while loading all comics from lib")
+    val allLibSeriesErrorMessage = hasText("Error while loading all series from lib")
+    val allMayLikeSeriesErrorMessage = hasText("Error while loading all may like series")
+    val allNewComicErrorMessage = hasText("Error while loading all new comics")
+    val allNextComicErrorMessage = hasText("Error while loading all next comics")
+    val allReadListErrorMessage = hasText("Error while loading all readlist")
+
 }
 
 object AllComicFromSeriesScreenTestObj{
@@ -158,6 +180,7 @@ object AllComicFromSeriesScreenTestObj{
     val unreadItemMark = hasContentDescription("UnreadIcon")
 
     val loadMoreButton = hasTestTag("load_more")
+    val loadComicErrorMessage = hasText("Error while loading comic from this series")
 
 }
 
