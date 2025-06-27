@@ -61,7 +61,7 @@ class AboutComicScreenViewModel @Inject constructor(
             ))
         }
         else{
-            _state.value = ComicAppState.AboutComicScreenState(DataState.Error("Error loading this comic"))
+            _state.value = ComicAppState.AboutComicScreenState(DataState.Error("Error while loading this comic"))
         }
     }
 
