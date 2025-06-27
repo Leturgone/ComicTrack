@@ -147,7 +147,7 @@ class SearchScreenTests {
 
 
     @Test
-    fun navigateToMayLikeTest() = runTest(){
+    fun navigateToMayLikeTest() = runTest{
         composeTestRule.run {
             setContent { MainScreen() }
 
@@ -174,6 +174,25 @@ class SearchScreenTests {
 
             onNode(AllScreenTestObj.AllTemplate).assertExists()
             onNode(AllScreenTestObj.mayLikeSeriesCard).assertExists()
+
+        }
+    }
+
+    @Test
+    fun errorWhileNavigateToAllMayLikeTest() = runTest {
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(BottomBarTestObj.searchTemplate).assertExists()
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.seeAllMayLikeTemplate).performClick()
+
+            Mockito.`when`(
+                remoteSeriesRepository.loadMayLikeSeriesIds(listOf(1,2,3))
+            ).thenReturn(Result.failure(Exception()))
+
+            onNode(AllScreenTestObj.allMayLikeSeriesErrorMessage).assertExists()
 
         }
     }
@@ -206,6 +225,25 @@ class SearchScreenTests {
 
             onNode(AllScreenTestObj.AllTemplate).assertExists()
             onNode(AllScreenTestObj.discoverSeriesCard).assertExists()
+
+        }
+    }
+
+    @Test
+    fun errorWhileNavigateToAllDiscoverTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(BottomBarTestObj.searchTemplate).assertExists()
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.seeAllDiscoverTemplate).performClick()
+
+            Mockito.`when`(
+                remoteSeriesRepository.getAllSeries()
+            ).thenReturn(Result.failure(Exception()))
+
+            onNode(AllScreenTestObj.allDiscoverSeriesErrorMessage).assertExists()
 
         }
     }
