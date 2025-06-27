@@ -339,4 +339,49 @@ class AllScreenTest {
         }
 
     }
+
+    @Test
+    fun navigateToNewComicsErrorTest() = runTest(){
+        composeTestRule.run {
+            setContent { MainScreen() }
+            onNode(HomeScreenTestObj.seeAllNewTemplate).performClick()
+
+            Mockito.`when`(
+                localReadRepository.loadCurrentReadIds(0)
+            ).thenReturn(Result.success(listOf(455)))
+
+            Mockito.`when`(
+                remoteComicRepository.fetchUpdatesForSeries(listOf(455))
+            ).thenReturn(Result.failure(Exception()))
+
+            onNode(AllScreenTestObj.AllTemplate).assertExists()
+            onNode(AllScreenTestObj.newReleasesCard).assertDoesNotExist()
+            onNode(AllScreenTestObj.newComicsErrorMessage).assertExists()
+        }
+    }
+
+    @Test
+    fun navigateToAllCharacterErrorTest() = runTest(){
+
+        composeTestRule.run {
+
+            //SearchScreen
+            mockHelper.mockSearchScreenSetup()
+
+            Mockito.`when`(
+                remoteSeriesRepository.getAllSeries()
+            ).thenReturn(Result.success(emptyList()))
+
+            setContent { MainScreen() }
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.seeAllCharactersTemplate).performClick()
+
+            Mockito.`when`(
+                remoteCharacterRepository.getAllCharacters()
+            ).thenReturn(Result.failure(Exception()))
+
+            onNode(AllScreenTestObj.allCharactersErrorMessage).assertExists()
+        }
+    }
 }
