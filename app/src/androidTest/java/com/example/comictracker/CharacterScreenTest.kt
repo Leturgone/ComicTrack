@@ -28,7 +28,7 @@ import javax.inject.Inject
     NetworkModule::class,
     RepositoryModule::class,
     TestUseCasesModule::class)
-class CharacterUiTest {
+class CharacterScreenTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
