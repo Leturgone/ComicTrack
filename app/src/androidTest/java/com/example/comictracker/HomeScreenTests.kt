@@ -92,6 +92,22 @@ class HomeScreenTests {
     }
 
     @Test
+    fun errorWhileNavigationToAllNewTest() = runTest {
+
+        composeTestRule.run {
+            setContent { MainScreen()}
+            onNode(HomeScreenTestObj.seeAllNewTemplate).performClick()
+
+            Mockito.`when`(
+                remoteComicRepository.fetchUpdatesForSeries(listOf(1, 2, 3))
+            ).thenReturn(Result.failure(Exception()))
+
+            onNode(AllScreenTestObj.allNewComicErrorMessage).assertExists()
+        }
+
+    }
+
+    @Test
     fun navigationToNewTest() = runTest {
 
         composeTestRule.run {
@@ -133,6 +149,20 @@ class HomeScreenTests {
     }
 
     @Test
+    fun errorWhileNavigationToAllNextTest() = runTest{
+
+        composeTestRule.run {
+            setContent { MainScreen()}
+            onNode(HomeScreenTestObj.seeAllContinueTemplate).performClick()
+            Mockito.`when`(
+                remoteComicRepository.fetchComics(listOf(1, 2, 3))
+            ).thenReturn(Result.failure(Exception()))
+
+            onNode(AllScreenTestObj.allNextComicErrorMessage).assertExists()
+        }
+    }
+
+    @Test
     fun errorLoadNewTest() = runTest {
 
         Mockito.`when`(
@@ -147,7 +177,6 @@ class HomeScreenTests {
 
     @Test
     fun errorLoadNextTest() = runTest {
-
         Mockito.`when`(
             remoteComicRepository.fetchComics(listOf(1, 2, 3))
         ).thenReturn(Result.failure(Exception()))
