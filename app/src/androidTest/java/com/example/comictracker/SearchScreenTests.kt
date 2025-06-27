@@ -414,5 +414,52 @@ class SearchScreenTests {
         }
     }
 
+    @Test
+    fun discoverListErrorTest() = runTest {
 
+        //Discover list mock
+        Mockito.`when`(
+            remoteSeriesRepository.getAllSeries()
+        ).thenReturn(Result.failure(Exception()))
+
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(BottomBarTestObj.searchTemplate).assertExists()
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+            onNode(SearchScreenTestObj.discoverSeriesError).assertExists()
+        }
+    }
+    @Test
+    fun mayLikeListErrorTest() = runTest {
+
+        Mockito.`when`(
+            remoteSeriesRepository.loadMayLikeSeriesIds(listOf(1,2,3))
+        ).thenReturn(Result.failure(Exception()))
+
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(BottomBarTestObj.searchTemplate).assertExists()
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+            onNode(SearchScreenTestObj.mayLikeSeriesError).assertExists()
+        }
+    }
+
+    @Test
+    fun characterErrorTest() = runTest {
+
+        //Character list mock
+        Mockito.`when`(
+            remoteCharacterRepository.getAllCharacters()
+        ).thenReturn(Result.failure(Exception()))
+
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(BottomBarTestObj.searchTemplate).assertExists()
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+            onNode(SearchScreenTestObj.characterListError).assertExists()
+        }
+    }
 }
