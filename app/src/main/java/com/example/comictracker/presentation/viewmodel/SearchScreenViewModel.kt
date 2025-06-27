@@ -37,15 +37,15 @@ class SearchScreenViewModel @Inject constructor(
 
         val discoverSeries = discoverSeriesListDef.await().fold(
             onSuccess = {DataState.Success(it)},
-            onFailure = {DataState.Error("Error loading Discover Series")}
+            onFailure = {DataState.Error("Error while loading Discover Series")}
         )
         val mayLikeSeries = mayLikeSeriesListDef.await().fold(
             onSuccess = {DataState.Success(it)},
-            onFailure = {DataState.Error("Error loading May Like Series")}
+            onFailure = {DataState.Error("Error while loading May Like Series")}
         )
         val characters = characterListDef.await().fold(
             onSuccess = {DataState.Success(it)},
-            onFailure = {DataState.Error("Error loading characters")}
+            onFailure = {DataState.Error("Error while loading characters")}
         )
 
         _state.value = ComicAppState.SearchScreenState(
@@ -65,11 +65,11 @@ class SearchScreenViewModel @Inject constructor(
 
         val seriesList = searchSeriesListDeferred.await().fold(
             onSuccess = {DataState.Success(it)},
-            onFailure = {DataState.Error("Error loading results series")}
+            onFailure = {DataState.Error("Error while loading results series")}
         )
         val characterList = searchCharacterListDeferred.await().fold(
             onSuccess = {DataState.Success(it)},
-            onFailure = {DataState.Error("Error loading results characters")}
+            onFailure = {DataState.Error("Error while loading results characters")}
         )
 
         _state.value = ComicAppState.SearchResultScreenSate(characterList,seriesList)

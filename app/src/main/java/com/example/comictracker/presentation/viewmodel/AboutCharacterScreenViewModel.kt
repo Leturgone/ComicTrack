@@ -43,7 +43,7 @@ class AboutCharacterScreenViewModel @Inject constructor(
 
         val character = characterDef.await().fold(
             onSuccess = {DataState.Success(it)},
-            onFailure = {DataState.Error("Error loading character")}
+            onFailure = {DataState.Error("Error while loading character")}
         )
 
         _state.value = ComicAppState.AboutCharacterScreenState(
@@ -52,7 +52,7 @@ class AboutCharacterScreenViewModel @Inject constructor(
         )
         val series = seriesDef.await().fold(
             onSuccess = {DataState.Success(it)},
-            onFailure = {DataState.Error("Error loading series with this character")}
+            onFailure = {DataState.Error("Error while loading series with this character")}
         )
 
         _state.value = ComicAppState.AboutCharacterScreenState(
