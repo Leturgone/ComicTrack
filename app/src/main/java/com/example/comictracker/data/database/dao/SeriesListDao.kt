@@ -28,6 +28,9 @@ interface SeriesListDao {
     @Query("UPDATE series_list SET listType = 'read' WHERE Series_idSeries =:seriesId")
     fun addToReadUpdate(seriesId: Int)
 
+    @Query("SELECT COUNT(*) FROM series_list WHERE favorite = 1")
+    fun getFavoritesCount(): Int
+
     @Query("UPDATE series_list SET favorite = 1 WHERE Series_idSeries =:seriesId ")
     fun addToFavorites(seriesId:Int)
 

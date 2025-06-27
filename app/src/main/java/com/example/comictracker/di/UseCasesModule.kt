@@ -147,7 +147,7 @@ object UseCasesModule {
             markSeriesAsReadUseCase = MarkSeriesAsReadUseCase(localWriteRepository),
             markSeriesAsUnreadUseCase = MarkSeriesAsUnreadUseCase(localWriteRepository),
             markSeriesAsWillBeReadUseCase = MarkSeriesAsWillBeReadUseCase(localWriteRepository),
-            addSeriesToFavoritesUseCase = AddSeriesToFavoritesUseCase(localWriteRepository),
+            addSeriesToFavoritesUseCase = AddSeriesToFavoritesUseCase(localWriteRepository,localReadRepository),
             removeSeriesFromFavoritesUseCase = RemoveSeriesFromFavoritesUseCase(localWriteRepository),
             markNextComicAsReadUseCase = MarkNextComicAsReadUseCase(remoteComicsRepository, localWriteRepository),
             markNextComicAsUnreadUseCase = MarkNextComicAsUnreadUseCase(remoteComicsRepository, localWriteRepository)

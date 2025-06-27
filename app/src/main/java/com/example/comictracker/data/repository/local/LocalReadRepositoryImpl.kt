@@ -174,4 +174,17 @@ class LocalReadRepositoryImpl(
             }
         }
     }
+
+
+    override suspend fun loadFavoritesCount(): Result<Int> {
+        return withContext(Dispatchers.IO){
+            try {
+                val result = seriesListDao.getFavoritesCount()
+                Result.success(result)
+            }catch (e:Exception){
+                Log.e("loadFavoritesCount",e.toString())
+                Result.failure(e)
+            }
+        }
+    }
 }

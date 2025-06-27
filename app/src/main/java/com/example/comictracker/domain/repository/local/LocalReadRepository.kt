@@ -28,4 +28,6 @@ interface LocalReadRepository {
 
     suspend fun loadNextRead(seriesApiId: Int): Result<Int?>
 
+    suspend fun loadFavoritesCount():Result<Int>
+
 }

@@ -276,6 +276,9 @@ class SeriesScreenTests {
 
             val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
             Mockito.`when`(
+                localReadRepository.loadFavoritesCount()
+            ).thenReturn(Result.success(3))
+            Mockito.`when`(
                 localWriteRepository.addSeriesToFavorite(seriesExample.seriesId)
             ).thenReturn(Result.success(Unit))
 
@@ -288,6 +291,36 @@ class SeriesScreenTests {
             onNode(aboutSeriesNode.unFavoriteMark).performClick()
 
             onNode(aboutSeriesNode.favoriteMark).assertExists()
+
+        }
+    }
+
+
+    @Test
+    fun errorWithMaxCountWhileMarkAsFavoriteTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "read", false, comicExample)
+
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.discoverList).performClick()
+
+            val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
+            Mockito.`when`(
+                localReadRepository.loadFavoritesCount()
+            ).thenReturn(Result.success(4))
+            Mockito.`when`(
+                localWriteRepository.addSeriesToFavorite(seriesExample.seriesId)
+            ).thenReturn(Result.success(Unit))
+
+
+            onNode(aboutSeriesNode.favoriteMark).assertDoesNotExist()
+
+            onNode(aboutSeriesNode.unFavoriteMark).performClick()
+
+            onNode(aboutSeriesNode.favoriteMark).assertDoesNotExist()
 
         }
     }

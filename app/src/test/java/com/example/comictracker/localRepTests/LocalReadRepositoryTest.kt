@@ -251,5 +251,15 @@ class LocalReadRepositoryTest {
     }
 
 
+    @Test
+    fun loadFavoritesCountSuccessTest() = runTest{
+        Mockito.`when`(
+            seriesListDao.getFavoritesCount()
+        ).thenReturn(3)
+
+        val result = localReadRepository.loadFavoritesCount()
+        assertEquals(3,result.getOrNull())
+    }
+
 
 }
