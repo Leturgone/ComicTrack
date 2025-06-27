@@ -147,6 +147,29 @@ class CharacterScreenTest {
         }
     }
 
+
+    @Test
+    fun errorWhileNavigateToAllCharacterSeriesTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+            onNode(HomeScreenTestObj.newReleasesCard).performClick()
+
+            val comicScreenNode =AboutComicScreenTestObj(comicExample)
+
+            val characterScreenNode = AboutCharacterScreenTestObj(characterExample)
+
+            onNode(comicScreenNode.charactersList).performClick()
+
+            onNode(characterScreenNode.seeAllTemplate).performClick()
+
+            Mockito.`when`(
+                remoteSeriesRepository.getCharacterSeries(characterExample.characterId)
+            ).thenReturn(Result.failure(Exception()))
+
+            onNode(AllScreenTestObj.allCharacterErrorMessage).assertExists()
+        }
+    }
+
     @Test
     fun errorWhileLoadingCharacterDataTest() = runTest {
 
