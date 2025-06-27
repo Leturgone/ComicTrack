@@ -1,5 +1,6 @@
 package com.example.comictracker.presentation.ui.screens.aboutScreens.aboutComic
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -28,36 +29,44 @@ fun  ComicScreen(comicId: Int,
 
     val uiState by viewModel.state.collectAsState()
     var showToast by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
 
     LaunchedEffect(key1 = comicId) {
         viewModel.processIntent(AboutComicScreenIntent.LoadComicScreen(comicId))
     }
-
-    uiState.let {state ->
-        when(state){
-            is ComicAppState.AboutComicScreenState ->{
-                when(state.dataState){
-                    is DataState.Error -> CustomToastMessage(
-                        message = state.dataState.errorMessage,
-                        isVisible = showToast,
-                        onDismiss = { showToast = false })
-                    DataState.Loading -> CircularProgressIndicator()
-                    is DataState.Success -> {
-                        Column(Modifier.verticalScroll(rememberScrollState())) {
-                            AboutComicSec(state.dataState.result.comic!!,navController)
-                            UsersComicMarkSec(comicId,
-                                state.dataState.result.comic.readMark,
-                                state.dataState.result.comic.seriesId,
-                                state.dataState.result.comic.number)
-                            AboutCreatorsAndCharactersSec(state.dataState.result.creatorList,
-                                state.dataState.result.characterList, navController)
+    Box {
+        uiState.let {state ->
+            when(state){
+                is ComicAppState.AboutComicScreenState ->{
+                    when(state.dataState){
+                        is DataState.Error -> LaunchedEffect(Unit){
+                            errorMessage = state.dataState.errorMessage
+                            showToast = true
+                        }
+                        DataState.Loading -> CircularProgressIndicator()
+                        is DataState.Success -> {
+                            Column(Modifier.verticalScroll(rememberScrollState())) {
+                                AboutComicSec(state.dataState.result.comic!!,navController)
+                                UsersComicMarkSec(comicId,
+                                    state.dataState.result.comic.readMark,
+                                    state.dataState.result.comic.seriesId,
+                                    state.dataState.result.comic.number)
+                                AboutCreatorsAndCharactersSec(state.dataState.result.creatorList,
+                                    state.dataState.result.characterList, navController)
+                            }
                         }
                     }
                 }
-            }
 
-            else -> {CircularProgressIndicator()}
+                else -> {CircularProgressIndicator()}
+            }
+        }
+        Column {
+            CustomToastMessage(
+                message = errorMessage,
+                isVisible = showToast,
+                onDismiss = { showToast = false })
         }
     }
-    
+
 }

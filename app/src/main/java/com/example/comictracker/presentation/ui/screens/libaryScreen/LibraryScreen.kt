@@ -1,7 +1,9 @@
 package com.example.comictracker.presentation.ui.screens.libaryScreen
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -34,45 +36,102 @@ fun LibraryScreen(navController: NavHostController,
                   viewModel: LibraryScreenViewModel = hiltViewModel()
 ){
     val uiState by viewModel.state.collectAsState()
-    var showToast by remember { mutableStateOf(false) }
+    var statShowToast by remember { mutableStateOf(false) }
+    var statErrorMessage by remember { mutableStateOf("") }
+    var favoriteShowToast by remember { mutableStateOf(false) }
+    var favoriteErrorMessage by remember { mutableStateOf("") }
+    var currentlyReadingShowToast by remember { mutableStateOf(false) }
+    var currentlyReadingErrorMessage by remember { mutableStateOf("") }
+    var lastUpadtesShowToast by remember { mutableStateOf(false) }
+    var lastUpadtesErrorMessage by remember { mutableStateOf("") }
 
 
     LaunchedEffect(key1 = "libaryscreen") {
         viewModel.processIntent(LibraryScreenIntent.LoadLibraryScreen)
     }
-    Column {
-        Text(text = stringResource(id = R.string.my_library),
-            fontSize = 24.sp,
-            color = MaterialTheme.colorScheme.onBackground,
-            fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(16.dp))
-        Column(Modifier.verticalScroll(rememberScrollState())) {
-            uiState.let {state ->
-                when(state){
-                    is ComicAppState.MyLibraryScreenState ->{
-                        when(state.dataState){
-                            is DataState.Error -> CustomToastMessage(
-                                message = state.dataState.errorMessage,
-                                isVisible = showToast,
-                                onDismiss = { showToast = false })
-                            DataState.Loading -> CircularProgressIndicator()
-                            is DataState.Success -> {
-                                MicroSectionsSec(state.dataState.result.statistics,navController)
-                                FavoriteSec(state.dataState.result.favoritesList,navController)
-                                CurrentReadingSec(state.dataState.result.currentlyReadingList,navController)
-                                LatestReadingSec(state.dataState.result.lastUpdates,navController)
-                                Spacer(modifier = Modifier.padding(bottom = 40.dp))
+    Box{
+        Column {
+            Text(text = stringResource(id = R.string.my_library),
+                fontSize = 24.sp,
+                color = MaterialTheme.colorScheme.onBackground,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(16.dp))
+            Column(Modifier.verticalScroll(rememberScrollState())) {
+                uiState.let {state ->
+                    when(state){
+                        is ComicAppState.MyLibraryScreenState ->{
+                            when(state.statistics){
+                                is DataState.Error -> LaunchedEffect(Unit){
+                                    statErrorMessage = state.statistics.errorMessage
+                                    statShowToast = true
+                                }
+                                DataState.Loading -> CircularProgressIndicator()
+                                is DataState.Success -> {
+                                    MicroSectionsSec(state.statistics.result,navController)
+                                }
+                            }
+                            when(state.favoritesList){
+                                is DataState.Error -> LaunchedEffect(Unit){
+                                    favoriteErrorMessage = state.favoritesList.errorMessage
+                                    favoriteShowToast = true
+                                }
+                                DataState.Loading -> CircularProgressIndicator()
+                                is DataState.Success -> {
+                                    FavoriteSec(state.favoritesList.result,navController)
+                                }
+                            }
+                            when(state.currentlyReadingList){
+                                is DataState.Error -> LaunchedEffect(Unit){
+                                    currentlyReadingErrorMessage = state.currentlyReadingList.errorMessage
+                                    currentlyReadingShowToast = true
+                                }
+                                DataState.Loading -> CircularProgressIndicator()
+                                is DataState.Success -> {
+                                    CurrentReadingSec(state.currentlyReadingList.result,navController)
+                                }
+                            }
+                            when(state.lastUpdates){
+                                is DataState.Error -> LaunchedEffect(Unit){
+                                    lastUpadtesErrorMessage = state.lastUpdates.errorMessage
+                                    lastUpadtesShowToast = true
+                                }
+                                DataState.Loading -> CircularProgressIndicator()
+                                is DataState.Success -> {
+                                    LatestReadingSec(state.lastUpdates.result,navController)
+                                    Spacer(modifier = Modifier.padding(bottom = 40.dp))
+                                }
                             }
                         }
-                    }
 
-                    else -> {
-                        CircularProgressIndicator()}
+                        else -> {
+                            CircularProgressIndicator()}
+                    }
                 }
+
             }
 
         }
+        Column {
+            CustomToastMessage(
+                message = statErrorMessage,
+                isVisible = statShowToast,
+                onDismiss = { statShowToast= false })
+            Spacer(modifier = Modifier.height(12.dp))
+            CustomToastMessage(
+                message = favoriteErrorMessage ,
+                isVisible = favoriteShowToast ,
+                onDismiss = { favoriteShowToast  = false })
+            Spacer(modifier = Modifier.height(12.dp))
+            CustomToastMessage(
+                message = currentlyReadingErrorMessage,
+                isVisible = currentlyReadingShowToast,
+                onDismiss = { currentlyReadingShowToast = false })
+            Spacer(modifier = Modifier.height(12.dp))
+            CustomToastMessage(
+                message = lastUpadtesErrorMessage,
+                isVisible = lastUpadtesShowToast,
+                onDismiss = { lastUpadtesShowToast = false })
+        }
 
     }
-
 }

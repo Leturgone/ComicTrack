@@ -45,6 +45,7 @@ fun  AllCharactersScreen(loadCount: Int, navController: NavHostController,
 
     val uiState by viewModel.state.collectAsState()
     var showToast by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
 
     LaunchedEffect(key1 = "allcharscreen") {
         viewModel.processIntent(AllScreenIntent.LoadAllCharactersScreen(loadCount))
@@ -61,10 +62,10 @@ fun  AllCharactersScreen(loadCount: Int, navController: NavHostController,
                 when(state){
                     is ComicAppState.AllCharactersScreenSate ->{
                         when(state.character){
-                            is DataState.Error -> CustomToastMessage(
-                                message = state.character.errorMessage,
-                                isVisible = showToast,
-                                onDismiss = { showToast = false })
+                            is DataState.Error -> LaunchedEffect(Unit){
+                                errorMessage = state.character.errorMessage
+                                showToast = true
+                            }
                             DataState.Loading -> CircularProgressIndicator()
                             is DataState.Success -> {
                                 LazyVerticalGrid(columns = GridCells.Fixed(2), contentPadding = PaddingValues(16.dp),
@@ -123,6 +124,11 @@ fun  AllCharactersScreen(loadCount: Int, navController: NavHostController,
                 }
             }
         }
+
+        CustomToastMessage(
+            message = errorMessage,
+            isVisible = showToast,
+            onDismiss = { showToast = false })
 
     }
 

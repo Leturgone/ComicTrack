@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.usecase.homeUseCases.HomeUseCases
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
-import com.example.comictracker.presentation.mvi.HomeScreenData
 import com.example.comictracker.presentation.mvi.intents.HomeScreenIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -34,15 +33,14 @@ class HomeScreenViewModel @Inject constructor(
         val nextComicsDef = async { homeUseCases.loadCurrentNextComicUseCase()}
 
         val newComics = newComicsDef.await().fold(
-            onSuccess = {it},
-            onFailure = { emptyList() }
+            onSuccess = {DataState.Success(it)},
+            onFailure = { DataState.Error("Error while loading new comics") }
         )
         val nextComics = nextComicsDef.await().fold(
-            onSuccess = {it},
-            onFailure = { emptyList() }
+            onSuccess = {DataState.Success(it)},
+            onFailure = { DataState.Error("Error while loading next comics") }
         )
-        val result = DataState.Success(HomeScreenData(newReleasesList = newComics, continueReadingList = nextComics))
 
-        _state.value = ComicAppState.HomeScreenState(result)
+        _state.value = ComicAppState.HomeScreenState(newComics,nextComics)
     }
 }

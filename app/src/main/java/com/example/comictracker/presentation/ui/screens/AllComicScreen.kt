@@ -54,6 +54,7 @@ fun AllComicScreen(sourceId:Int,sourceCategory:String, loadCount:Int,
 
     val uiState by viewModel.state.collectAsState()
     var showToast by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
 
     LaunchedEffect(key1 = sourceId) {
         when(sourceCategory){
@@ -71,6 +72,7 @@ fun AllComicScreen(sourceId:Int,sourceCategory:String, loadCount:Int,
     }
 
     Box {
+
         Column {
             Text(text = stringResource(id = R.string.all),
                 fontSize = 24.sp,
@@ -81,10 +83,10 @@ fun AllComicScreen(sourceId:Int,sourceCategory:String, loadCount:Int,
                 when(state){
                     is ComicAppState.AllComicScreenSate ->{
                         when(state.comics){
-                            is DataState.Error -> CustomToastMessage(
-                                message = state.comics.errorMessage,
-                                isVisible = showToast,
-                                onDismiss = { showToast = false })
+                            is DataState.Error -> LaunchedEffect(Unit){
+                                errorMessage = state.comics.errorMessage
+                                showToast = true
+                            }
                             DataState.Loading -> CircularProgressIndicator()
                             is DataState.Success -> {
                                 ComicGridSec(comicList = state.comics.result,
@@ -95,10 +97,10 @@ fun AllComicScreen(sourceId:Int,sourceCategory:String, loadCount:Int,
                     }
                     is ComicAppState.AllSeriesScreenSate ->{
                         when(state.series){
-                            is DataState.Error -> CustomToastMessage(
-                                message = state.series.errorMessage,
-                                isVisible = showToast,
-                                onDismiss = { showToast = true })
+                            is DataState.Error -> LaunchedEffect(Unit){
+                                errorMessage = state.series.errorMessage
+                                showToast = true
+                            }
                             DataState.Loading -> CircularProgressIndicator()
                             is DataState.Success -> {
                                 SeriesGridSec(seriesList = state.series.result,
@@ -150,6 +152,10 @@ fun AllComicScreen(sourceId:Int,sourceCategory:String, loadCount:Int,
                 }
             }
         }
+        CustomToastMessage(
+            message = errorMessage,
+            isVisible = showToast,
+            onDismiss = { showToast = false })
     }
 
 }

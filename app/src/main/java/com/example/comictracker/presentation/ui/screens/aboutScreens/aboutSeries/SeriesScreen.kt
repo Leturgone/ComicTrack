@@ -1,5 +1,6 @@
 package com.example.comictracker.presentation.ui.screens.aboutScreens.aboutSeries
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -29,51 +30,63 @@ fun SeriesScreen(
     viewModel: AboutSeriesScreenViewModel = hiltViewModel()) {
     val uiState by viewModel.state.collectAsState()
     var showToast by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf("") }
+
     LaunchedEffect(key1 = seriesId) {
         viewModel.processIntent(AboutSeriesScreenIntent.LoadSeriesScreen(seriesId))
     }
-    uiState.let { state ->
-        when(state){
-            is ComicAppState.AboutSeriesScreenState -> {
-                when(state.dataState){
-                    is DataState.Error -> CustomToastMessage(
-                        message = state.dataState.errorMessage,
-                        isVisible = showToast,
-                        onDismiss = { showToast = false })
-                    is DataState.Loading -> CircularProgressIndicator()
-                    is DataState.Success -> {
-                        Column(Modifier.verticalScroll(rememberScrollState()).testTag("seriesScreenScroll")){
-                            AboutSeriesSec(state.dataState.result.series!!)
+    Box(){
+        uiState.let { state ->
+            when(state){
+                is ComicAppState.AboutSeriesScreenState -> {
+                    when(state.dataState){
+                        is DataState.Error -> LaunchedEffect(Unit){
+                            errorMessage = state.dataState.errorMessage
+                            showToast = true
+                        }
+                        is DataState.Loading -> CircularProgressIndicator()
+                        is DataState.Success -> {
+                            Column(
+                                Modifier
+                                    .verticalScroll(rememberScrollState())
+                                    .testTag("seriesScreenScroll")){
+                                AboutSeriesSec(state.dataState.result.series!!)
 
-                            val firstIssue = if (state.dataState.result.comicList.isNotEmpty())  state.dataState.result.comicList[0] else null
+                                val firstIssue = if (state.dataState.result.comicList.isNotEmpty())  state.dataState.result.comicList[0] else null
 
-                            UsersSeriesMarkSec(seriesId,
-                                state.dataState.result.series.readMark,
-                                state.dataState.result.series.favoriteMark,
-                                firstIssue?.comicId)
+                                UsersSeriesMarkSec(seriesId,
+                                    state.dataState.result.series.readMark,
+                                    state.dataState.result.series.favoriteMark,
+                                    firstIssue?.comicId)
 
 
 
-                            if (state.dataState.result.nextRead!=null) {
-                                NextComicSec(state.dataState.result.nextRead, navController)
-                            }else{
-                                NextComicSec(firstIssue, navController)
+                                if (state.dataState.result.nextRead!=null) {
+                                    NextComicSec(state.dataState.result.nextRead, navController)
+                                }else{
+                                    NextComicSec(firstIssue, navController)
+                                }
+
+                                AboutCreatorsAndCharactersSec(
+                                    state.dataState.result.creatorList,
+                                    state.dataState.result.characterList,
+                                    navController)
+                                RelatedSec(state.dataState.result.connectedSeriesList,navController)
                             }
-
-                            AboutCreatorsAndCharactersSec(
-                                state.dataState.result.creatorList,
-                                state.dataState.result.characterList,
-                                navController)
-                            RelatedSec(state.dataState.result.connectedSeriesList,navController)
                         }
                     }
                 }
-            }
-            else -> {
-                CircularProgressIndicator()
+                else -> {
+                    CircularProgressIndicator()
+                }
             }
         }
+        Column {
+            CustomToastMessage(
+                message = errorMessage,
+                isVisible = showToast,
+                onDismiss = { showToast = false })
+        }
     }
-
 
 }

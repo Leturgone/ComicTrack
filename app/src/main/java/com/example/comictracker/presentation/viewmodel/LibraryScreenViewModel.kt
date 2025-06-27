@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.comictracker.domain.usecase.libraryUseCases.LibraryUseCases
 import com.example.comictracker.presentation.mvi.ComicAppState
 import com.example.comictracker.presentation.mvi.DataState
-import com.example.comictracker.presentation.mvi.MyLibraryScreenData
 import com.example.comictracker.presentation.mvi.intents.LibraryScreenIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -38,35 +37,29 @@ class LibraryScreenViewModel @Inject constructor(
         val lastComicsDef = async {libraryUseCases.loadHistoryReadComicUseCase() }
 
         val favoriteSeries = favoriteSeriesDef.await().fold(
-            onSuccess = {it},
-            onFailure = { emptyList() }
+            onSuccess = {DataState.Success(it)},
+            onFailure = { DataState.Error("Error while loading favorite series") }
         )
         val currentSeries = currentSeriesDef.await().fold(
-            onSuccess = {it},
-            onFailure = { emptyList() }
+            onSuccess = {DataState.Success(it)},
+            onFailure = { DataState.Error("Error while loading current read series") }
         )
         val lastComics = lastComicsDef.await().fold(
-            onSuccess = {it},
-            onFailure = { emptyList() }
+            onSuccess = {DataState.Success(it)},
+            onFailure = { DataState.Error("Error while loading comics") }
         )
         val loadedStatisticsFromBD = loadedStatisticsFromBDDef.await().fold(
-            onSuccess = {it},
-            onFailure = {null}
+            onSuccess = {DataState.Success(it)},
+            onFailure = { DataState.Error("Error while loading statistics") }
         )
 
-        val result = if(loadedStatisticsFromBD == null) {
-            DataState.Error("Error while loading library screen")
-        }else {
-            DataState.Success(
-                MyLibraryScreenData(
-                    statistics = loadedStatisticsFromBD,
-                    favoritesList = favoriteSeries,
-                    currentlyReadingList = currentSeries,
-                    lastUpdates = lastComics
-                )
-            )
-        }
+        val result = ComicAppState.MyLibraryScreenState(
+            statistics = loadedStatisticsFromBD,
+            favoritesList = favoriteSeries,
+            currentlyReadingList = currentSeries,
+            lastUpdates = lastComics
+        )
 
-        _state.value = ComicAppState.MyLibraryScreenState(result)
+        _state.value = result
     }
 }

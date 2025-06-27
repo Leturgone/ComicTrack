@@ -41,7 +41,7 @@ class AllScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
         val series = aboutAllUseCases.loadAllCharacterSeriesUseCase(characterId, loadedCount).fold(
             onSuccess = {DataState.Success(it)},
-            onFailure = {DataState.Error("Error loading comics with this character")}
+            onFailure = {DataState.Error("Error while loading comics with this character")}
         )
         _state.value = ComicAppState.AllSeriesScreenSate(series)
     }
@@ -61,7 +61,7 @@ class AllScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AllSeriesScreenSate(DataState.Loading)
         val series = aboutAllUseCases.loadAllDiscoverSeriesUseCase(loadedCount).fold(
             onSuccess = {DataState.Success(it)},
-            onFailure = {DataState.Error("Error loading series")}
+            onFailure = {DataState.Error("Error while loading series")}
         )
         _state.value = ComicAppState.AllSeriesScreenSate(series)
     }
@@ -71,7 +71,7 @@ class AllScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AllCharactersScreenSate(DataState.Loading)
         val characters = aboutAllUseCases.loadAllCharactersUseCase(loadedCount).fold(
             onSuccess = {DataState.Success(it)},
-            onFailure = {DataState.Error("Error loading characters")}
+            onFailure = {DataState.Error("Error while loading characters")}
         )
         _state.value = ComicAppState.AllCharactersScreenSate(characters)
     }

@@ -33,7 +33,7 @@ class ComicFromSeriesScreenViewModel @Inject constructor(
         _state.value = ComicAppState.AllComicSeriesScreenState(DataState.Loading)
         val result = comicFromSeriesUseCases.loadComicListFromSeriesWithMarksUseCase(seriesId,loadedCount).fold(
             onSuccess = { DataState.Success(it) },
-            onFailure = { DataState.Error("Error loading comic from this series")}
+            onFailure = { DataState.Error("Error while loading comic from this series")}
         )
         _state.value = ComicAppState.AllComicSeriesScreenState(result)
     }

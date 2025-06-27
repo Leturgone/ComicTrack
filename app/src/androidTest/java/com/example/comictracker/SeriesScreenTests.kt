@@ -560,6 +560,35 @@ class SeriesScreenTests {
     }
 
     @Test
+    fun errorWhileNavigateToComicFromAllComicsTest() = runTest {
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample, "read", false, comicExample)
+
+            onNode(BottomBarTestObj.searchTemplate).performClick()
+
+            onNode(SearchScreenTestObj.discoverList).performClick()
+
+            val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
+
+            mockHelper.mockAllComicsFromSeriesScreenSetup(seriesExample, listOf(comicExample,
+                secondComicExample))
+
+            Mockito.`when`(
+                remoteComicRepository.getComicsFromSeries(seriesExample.seriesId,0)
+            ).thenReturn(
+                Result.failure(Exception())
+            )
+
+            onNode(aboutSeriesNode.seeAllTemplate).assertExists()
+            onNode(aboutSeriesNode.seeAllTemplate).performClick()
+
+            onNode(AllComicFromSeriesScreenTestObj.loadComicErrorMessage).assertExists()
+        }
+    }
+
+    @Test
     fun loadMoreComicsInListTest() = runTest{
         composeTestRule.run {
             setContent { MainScreen() }
@@ -674,7 +703,25 @@ class SeriesScreenTests {
 
     }
 
+    @Test
+    fun loadSeriesErrorTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
 
+            mockHelper.mockSeriesSetUpForSeriesTest(seriesExample,"unread",false, comicExample)
 
+            onNode(BottomBarTestObj.searchTemplate).performClick()
 
+            onNode(SearchScreenTestObj.discoverList).performClick()
+
+            Mockito.`when`(
+                remoteSeriesRepository.getSeriesById(seriesExample.seriesId)
+            ).thenReturn(Result.failure(Exception()))
+
+            val aboutSeriesNode = AboutSeriesScreenTestObj(seriesExample)
+
+            onNode(aboutSeriesNode.seriesError).assertExists()
+
+        }
+    }
 }

@@ -231,4 +231,20 @@ class ComicScreenTests {
         }
     }
 
+    @Test
+    fun errorWhileLoadingComic() = runTest {
+        composeTestRule.run {
+            setContent { MainScreen() }
+
+            onNode(HomeScreenTestObj.newReleasesCard).performClick()
+
+            Mockito.`when`(
+                remoteComicRepository.getComicById(comicExample.comicId)
+            ).thenReturn(Result.failure(Exception()))
+
+            val comicScreenNode =AboutComicScreenTestObj(comicExample)
+            onNode(comicScreenNode.comicError).assertExists()
+        }
+    }
+
 }

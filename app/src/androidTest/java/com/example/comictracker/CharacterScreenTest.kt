@@ -28,7 +28,7 @@ import javax.inject.Inject
     NetworkModule::class,
     RepositoryModule::class,
     TestUseCasesModule::class)
-class CharacterUiTest {
+class CharacterScreenTest {
 
     @get:Rule(order = 0)
     val hiltRule = HiltAndroidRule(this)
@@ -80,6 +80,7 @@ class CharacterUiTest {
         Mockito.`when`(
             remoteSeriesRepository.getCharacterSeries(characterExample.characterId)
         ).thenReturn(Result.success(listOf(seriesExample)))
+
     }
 
     @Test
@@ -127,7 +128,7 @@ class CharacterUiTest {
     }
 
     @Test
-    fun navigateToAllCharacterSeries(){
+    fun navigateToAllCharacterSeriesTest() = runTest{
         composeTestRule.run {
             setContent { MainScreen() }
             onNode(HomeScreenTestObj.newReleasesCard).performClick()
@@ -143,6 +144,77 @@ class CharacterUiTest {
             onNode(AllScreenTestObj.AllTemplate).assertExists()
             onNode(characterScreenNode.characterTemplate).assertDoesNotExist()
             onNode(AllScreenTestObj.allCharacterSeriesCard).assertExists()
+        }
+    }
+
+
+    @Test
+    fun errorWhileNavigateToAllCharacterSeriesTest() = runTest{
+        composeTestRule.run {
+            setContent { MainScreen() }
+            onNode(HomeScreenTestObj.newReleasesCard).performClick()
+
+            val comicScreenNode =AboutComicScreenTestObj(comicExample)
+
+            val characterScreenNode = AboutCharacterScreenTestObj(characterExample)
+
+            onNode(comicScreenNode.charactersList).performClick()
+
+            onNode(characterScreenNode.seeAllTemplate).performClick()
+
+            Mockito.`when`(
+                remoteSeriesRepository.getCharacterSeries(characterExample.characterId)
+            ).thenReturn(Result.failure(Exception()))
+
+            onNode(AllScreenTestObj.allCharacterErrorMessage).assertExists()
+        }
+    }
+
+    @Test
+    fun errorWhileLoadingCharacterDataTest() = runTest {
+
+        Mockito.`when`(
+            remoteCharacterRepository.getCharacterById(characterExample.characterId)
+        ).thenReturn(Result.failure(Exception()))
+
+
+
+        composeTestRule.run {
+            setContent { MainScreen() }
+            onNode(HomeScreenTestObj.newReleasesCard).performClick()
+
+            val comicScreenNode =AboutComicScreenTestObj(comicExample)
+
+            val characterScreenNode = AboutCharacterScreenTestObj(characterExample)
+
+            onNode(comicScreenNode.titleTemplate).assertExists()
+            onNode(comicScreenNode.charactersList).assertExists()
+            onNode(comicScreenNode.charactersList).performClick()
+
+            onNode(characterScreenNode.characterDataError).assertExists()
+        }
+    }
+
+    @Test
+    fun errorWhileLoadingCharacterSeriesTest() = runTest {
+
+        Mockito.`when`(
+            remoteSeriesRepository.getCharacterSeries(characterExample.characterId)
+        ).thenReturn(Result.failure(Exception()))
+
+        composeTestRule.run {
+            setContent { MainScreen() }
+            onNode(HomeScreenTestObj.newReleasesCard).performClick()
+
+            val comicScreenNode =AboutComicScreenTestObj(comicExample)
+
+            val characterScreenNode = AboutCharacterScreenTestObj(characterExample)
+
+            onNode(comicScreenNode.titleTemplate).assertExists()
+            onNode(comicScreenNode.charactersList).assertExists()
+            onNode(comicScreenNode.charactersList).performClick()
+
+            onNode(characterScreenNode.seriesError).assertExists()
         }
     }
 }
