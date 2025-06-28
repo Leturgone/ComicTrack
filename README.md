@@ -3,7 +3,7 @@
 [<img src="app/src/main/ic_launcher-playstore.png" align="left"
 width="200" hspace="10" vspace="10">](app/src/main/ic_launcher-playstore.png)
 
-[![rus](https://img.shields.io/badge/lang-ru-green.svg)]()
+[![rus](https://img.shields.io/badge/lang-ru-green.svg)](https://github.com/Leturgone/ComicTracker/blob/readmeDev/README.md)
 [![en](https://img.shields.io/badge/lang-en-red.svg)]()
 
 ComicTrack это мобильное приложение для Android написанное на языке Kotlin, позволяющее упростить ведение личного учета прочитанных комиксов, а также поиск новых серий для прочтения.<br>
